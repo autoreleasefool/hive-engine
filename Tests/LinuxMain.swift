@@ -9,8 +9,11 @@
 import XCTest
 import HiveEngineTests
 
-var tests = [XCTestCaseEntry]()
-tests += CollectionExtensionTests.allTests()
-tests += PositionTests.allTests()
-tests += MovementTests.allTests()
+let tests: [XCTestCaseEntry] =
+	CollectionExtensionTests.allTests() +
+	MovementTests.allTests() +
+	PlayerTests.allTests() +
+	PositionTests.allTests()
+]
+
 XCTMain(tests)

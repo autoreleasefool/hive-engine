@@ -29,22 +29,22 @@ final class MovementTests: XCTestCase {
 
 		let expectation = """
 		{
-		  "move" : {
-			"to" : {
-			  "inPlay" : {
-				"x" : 1,
-				"y" : -1,
-				"z" : 0
-			  }
-			},
-			"unit" : {
-			  "class" : "Ant",
-			  "owner" : "white",
-			  "identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+			"move" : {
+				"to" : {
+					"inPlay" : {
+						"x" : 1,
+						"y" : -1,
+						"z" : 0
+					}
+				},
+				"unit" : {
+					"class" : "Ant",
+					"owner" : "white",
+					"identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+				}
 			}
-		  }
 		}
-		"""
+		""".replacingOccurrences(of: "\t", with: "  ", options: .regularExpression)
 		XCTAssertEqual(expectation, String.init(data: data, encoding: .utf8)!)
 
 		let decoder = JSONDecoder()
@@ -64,27 +64,27 @@ final class MovementTests: XCTestCase {
 
 		let expectation = """
 		{
-		  "yoink" : {
-			"pillBug" : {
-			  "class" : "Pill Bug",
-			  "owner" : "black",
-			  "identifier" : "97957797-CC2B-4673-A079-2C75C378361F"
-			},
-			"to" : {
-			  "inPlay" : {
-				"x" : 1,
-				"y" : -1,
-				"z" : 0
-			  }
-			},
-			"unit" : {
-			  "class" : "Ant",
-			  "owner" : "white",
-			  "identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+			"yoink" : {
+				"pillBug" : {
+					"class" : "Pill Bug",
+					"owner" : "black",
+					"identifier" : "97957797-CC2B-4673-A079-2C75C378361F"
+				},
+				"to" : {
+					"inPlay" : {
+						"x" : 1,
+						"y" : -1,
+						"z" : 0
+					}
+				},
+				"unit" : {
+					"class" : "Ant",
+					"owner" : "white",
+					"identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+				}
 			}
-		  }
 		}
-		"""
+		""".replacingOccurrences(of: "\t", with: "  ", options: .regularExpression)
 		XCTAssertEqual(expectation, String.init(data: data, encoding: .utf8)!)
 
 		let decoder = JSONDecoder()
@@ -103,22 +103,22 @@ final class MovementTests: XCTestCase {
 
 		let expectation = """
 		{
-		  "place" : {
-			"to" : {
-			  "inPlay" : {
-				"x" : 1,
-				"y" : -1,
-				"z" : 0
-			  }
-			},
-			"unit" : {
-			  "class" : "Ant",
-			  "owner" : "white",
-			  "identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+			"place" : {
+				"to" : {
+					"inPlay" : {
+						"x" : 1,
+						"y" : -1,
+						"z" : 0
+					}
+				},
+				"unit" : {
+					"class" : "Ant",
+					"owner" : "white",
+					"identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+				}
 			}
-		  }
 		}
-		"""
+		""".replacingOccurrences(of: "\t", with: "  ", options: .regularExpression)
 		XCTAssertEqual(expectation, String.init(data: data, encoding: .utf8)!)
 
 		let decoder = JSONDecoder()

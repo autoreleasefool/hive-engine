@@ -17,8 +17,8 @@ final class CollectionExtensionTests: XCTestCase {
 
 	func testCollectionIsNotEmpty() {
 		var collection: [String] = []
-		XCTAssert(collection.isNotEmpty == false)
+		XCTAssertFalse(collection.isNotEmpty)
 		collection.append("Hello, world!")
-		XCTAssert(collection.isNotEmpty == true)
+		XCTAssertTrue(collection.isNotEmpty)
 	}
 }

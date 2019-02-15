@@ -26,13 +26,13 @@ final class PositionTests: XCTestCase {
 
 		let expectation = """
 		{
-		  "inPlay" : {
-			"x" : 1,
-			"y" : -1,
-			"z" : 0
-		  }
+			"inPlay" : {
+				"x" : 1,
+				"y" : -1,
+				"z" : 0
+			}
 		}
-		"""
+		""".replacingOccurrences(of: "\t", with: "  ", options: .regularExpression)
 		XCTAssertEqual(expectation, String.init(data: data, encoding: .utf8)!)
 
 		let decoder = JSONDecoder()
@@ -49,9 +49,9 @@ final class PositionTests: XCTestCase {
 
 		let expectation = """
 		{
-		  "inHand" : true
+			"inHand" : true
 		}
-		"""
+		""".replacingOccurrences(of: "\t", with: "  ", options: .regularExpression)
 		XCTAssertEqual(expectation, String.init(data: data, encoding: .utf8)!)
 
 		let decoder = JSONDecoder()
