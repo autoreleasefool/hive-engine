@@ -11,14 +11,14 @@ import XCTest
 
 final class CollectionExtensionTests: HiveEngineTestCase {
 
-	static var allTests = [
-		("testCollectionIsNotEmpty", testCollectionIsNotEmpty)
-	]
-
 	func testCollectionIsNotEmpty() {
 		var collection: [String] = []
 		XCTAssertFalse(collection.isNotEmpty)
 		collection.append("Hello, world!")
 		XCTAssertTrue(collection.isNotEmpty)
 	}
+
+	static var allTests = [
+		("testCollectionIsNotEmpty", testCollectionIsNotEmpty)
+	]
 }

@@ -39,7 +39,7 @@ public enum Position: Hashable, Equatable {
 				.inPlay(x: x, y: y + 1, z: z - 1),
 				.inPlay(x: x + 1, y: y, z: z - 1),
 				.inPlay(x: x + 1, y: y - 1, z: z),
-				.inPlay(x: x, y: y - 1, z: z),
+				.inPlay(x: x, y: y - 1, z: z + 1),
 				.inPlay(x: x - 1, y: y, z: z + 1),
 				.inPlay(x: x - 1, y: y + 1, z: z)
 			]

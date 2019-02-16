@@ -12,16 +12,10 @@ import XCTest
 
 final class MovementTests: HiveEngineTestCase {
 
-	static var allTests = [
-		("testCodingMoveMovement", testCodingMoveMovement),
-		("testCodingYoinkMovement", testCodingYoinkMovement),
-		("testCodingPlaceMovement", testCodingPlaceMovement)
-	]
-
 	func testCodingMoveMovement() {
 		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
-		let position = Position.inPlay(x: 1, y: -1, z: 0)
-		let movement = Movement.move(unit: unit, to: position)
+		let position: Position = .inPlay(x: 1, y: -1, z: 0)
+		let movement: Movement = .move(unit: unit, to: position)
 		XCTAssertEncodable(movement)
 		XCTAssertDecodable(movement)
 	}
@@ -42,4 +36,10 @@ final class MovementTests: HiveEngineTestCase {
 		XCTAssertEncodable(movement)
 		XCTAssertDecodable(movement)
 	}
+
+	static var allTests = [
+		("testCodingMoveMovement", testCodingMoveMovement),
+		("testCodingYoinkMovement", testCodingYoinkMovement),
+		("testCodingPlaceMovement", testCodingPlaceMovement)
+	]
 }
