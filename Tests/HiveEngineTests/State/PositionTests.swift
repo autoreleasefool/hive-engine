@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import HiveEngine
 
-final class PositionTests: XCTestCase {
+final class PositionTests: HiveEngineTestCase {
 
 	static var allTests = [
 		("testCodingInPlayPosition", testCodingInPlayPosition),
@@ -18,44 +18,14 @@ final class PositionTests: XCTestCase {
 	]
 
 	func testCodingInPlayPosition() throws {
-		let encoder = JSONEncoder()
-		encoder.outputFormatting = .prettyPrinted
-
 		let position: Position = .inPlay(x: 1, y: -1, z: 0)
-		let data = try encoder.encode(position)
-
-		let expectation = """
-		{
-			"inPlay" : {
-				"x" : 1,
-				"y" : -1,
-				"z" : 0
-			}
-		}
-		""".replacingOccurrences(of: "\t", with: "  ", options: .regularExpression)
-		XCTAssertEqual(expectation, String.init(data: data, encoding: .utf8)!)
-
-		let decoder = JSONDecoder()
-		let decodedPosition: Position = try decoder.decode(Position.self, from: data)
-		XCTAssertEqual(position, decodedPosition)
+		XCTAssertEncodable(position)
+		XCTAssertDecodable(position)
 	}
 
 	func testCodingInHandPosition() throws {
-		let encoder = JSONEncoder()
-		encoder.outputFormatting = .prettyPrinted
-
 		let position: Position = .inHand
-		let data = try encoder.encode(position)
-
-		let expectation = """
-		{
-			"inHand" : true
-		}
-		""".replacingOccurrences(of: "\t", with: "  ", options: .regularExpression)
-		XCTAssertEqual(expectation, String.init(data: data, encoding: .utf8)!)
-
-		let decoder = JSONDecoder()
-		let decodedPosition: Position = try decoder.decode(Position.self, from: data)
-		XCTAssertEqual(position, decodedPosition)
+		XCTAssertEncodable(position)
+		XCTAssertDecodable(position)
 	}
 }

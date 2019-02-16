@@ -1,0 +1,21 @@
+{
+  "yoink" : {
+    "pillBug" : {
+      "class" : "Pill Bug",
+      "owner" : "black",
+      "identifier" : "97957797-CC2B-4673-A079-2C75C378361F"
+    },
+    "to" : {
+      "inPlay" : {
+        "x" : 1,
+        "y" : -1,
+        "z" : 0
+      }
+    },
+    "unit" : {
+      "class" : "Ant",
+      "owner" : "white",
+      "identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+    }
+  }
+}

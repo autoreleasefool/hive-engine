@@ -9,7 +9,7 @@
 import XCTest
 @testable import HiveEngine
 
-final class CollectionExtensionTests: XCTestCase {
+final class CollectionExtensionTests: HiveEngineTestCase {
 
 	static var allTests = [
 		("testCollectionIsNotEmpty", testCollectionIsNotEmpty)

@@ -1,0 +1,16 @@
+{
+  "place" : {
+    "to" : {
+      "inPlay" : {
+        "x" : 1,
+        "y" : -1,
+        "z" : 0
+      }
+    },
+    "unit" : {
+      "class" : "Ant",
+      "owner" : "white",
+      "identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+    }
+  }
+}
