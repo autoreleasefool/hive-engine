@@ -20,6 +20,7 @@ extension Unit {
 		var visited = Set<Position>()
 		var toVisit = [startPosition]
 		var distance: [Position: Int] = [:]
+		distance[startPosition] = 0
 
 		while toVisit.isNotEmpty {
 			let currentPosition = toVisit.popLast()!
