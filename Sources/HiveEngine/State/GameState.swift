@@ -184,3 +184,21 @@ public class GameState: Codable {
 		return found == allPositions
 	}
 }
+
+extension GameState: Equatable {
+	public static func == (lhs: GameState, rhs: GameState) -> Bool {
+		return lhs.units == rhs.units &&
+			lhs.stacks == rhs.stacks &&
+			lhs.move == rhs.move &&
+			lhs.currentPlayer == rhs.currentPlayer
+	}
+}
+
+extension GameState: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(units)
+		hasher.combine(stacks)
+		hasher.combine(move)
+		hasher.combine(currentPlayer)
+	}
+}
