@@ -28,7 +28,7 @@ extension Unit {
 			// Only consider valid playable positions that can be reached
 			currentPosition.adjacent()
 				// Target position is adjacent to another piece
-				.filter { state.playableSpaces.contains($0) }
+				.filter { state.playableSpaces(excluding: self).contains($0) }
 				// Unit can freely move to the target position
 				.filter { currentPosition.freedomOfMovement(to: $0, in: state) }
 				// Unit cannot backtrack

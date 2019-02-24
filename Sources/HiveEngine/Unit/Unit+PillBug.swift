@@ -15,7 +15,7 @@ extension Unit {
 		guard let position = state.units[self], position != .inHand else { return [] }
 
 		var specialAbilityMovements = Set<Movement>()
-		let adjacentPlayablePositions = position.adjacent().intersection(state.playableSpaces)
+		let adjacentPlayablePositions = position.adjacent().intersection(state.playableSpaces())
 
 		position.adjacent()
 			.compactMap {

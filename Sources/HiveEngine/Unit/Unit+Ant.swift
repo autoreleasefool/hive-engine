@@ -25,7 +25,7 @@ extension Unit {
 			// Only consider valid playable positions that can be reached
 			currentPosition.adjacent()
 				// Is adjacent to another piece
-				.filter { state.playableSpaces.contains($0) }
+				.filter { state.playableSpaces(excluding: self).contains($0) }
 				// The piece can freely move to the new position
 				.filter { currentPosition.freedomOfMovement(to: $0, in: state) }
 				// The position has not already been explored

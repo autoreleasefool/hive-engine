@@ -19,11 +19,6 @@ public class GameState: Codable {
 		return Set(units.filter { $0.value != .inHand }.keys)
 	}()
 
-	/// Positions which are adjacent to another piece and are not filled.
-	public lazy var playableSpaces: Set<Position> = {
-		return Set(units.filter { unitsInPlay.contains($0.key) }.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
-	}()
-
 	/// Stacks of units at a certain position
 	private(set) public var stacks: [Position: [Unit]]
 
@@ -89,11 +84,11 @@ public class GameState: Codable {
 
 		if (currentPlayer == .white && move == 6) || (currentPlayer == .black && move == 7),
 			let queen = availablePieces(for: currentPlayer).filter({ $0.class == .queen }).first {
-			return playableSpaces.map { .place(unit: queen, at: $0) }
+			return playableSpaces().map { .place(unit: queen, at: $0) }
 		}
 
 		let placePieceMovements: [Movement] = availablePieces(for: currentPlayer).flatMap { unit in
-			return playableSpaces.map { .place(unit: unit, at: $0) }
+			return playableSpaces().map { .place(unit: unit, at: $0) }
 		}
 
 		var movePieceMovements: [Movement] = []
@@ -156,6 +151,24 @@ public class GameState: Codable {
 			return stack.last
 		})
 	}
+
+	/// Positions which are adjacent to another piece and are not filled.
+	///
+	/// - Parameters:
+	///  - excludedUnit: optionally exclude a unit when determining if the space is playable
+	public func playableSpaces(excluding excludedUnit: Unit? = nil) -> Set<Position> {
+		var includedUnits = unitsInPlay
+		if let excluded = excludedUnit {
+			includedUnits.remove(excluded)
+		}
+
+		return Set(units.filter { includedUnits.contains($0.key) }.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
+	}
+
+	/// Positions which are adjacent to another piece and are not filled.
+	public lazy var playableSpaces: Set<Position> = {
+		return Set(units.filter { unitsInPlay.contains($0.key) }.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
+	}()
 
 	// MARK: - Validation
 
