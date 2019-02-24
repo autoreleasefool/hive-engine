@@ -12,6 +12,22 @@ public enum Movement: Hashable, Equatable {
 	case move(unit: Unit, to: Position)
 	case yoink(pillBug: Unit, unit: Unit, to: Position)
 	case place(unit: Unit, at: Position)
+
+	public var movedUnit: Unit {
+		switch self {
+		case .move(let unit, _): return unit
+		case .yoink(_, let unit, _): return unit
+		case .place(let unit, _): return unit
+		}
+	}
+
+	public var targetPosition: Position {
+		switch self {
+		case .move(_, let position): return position
+		case .yoink(_, _, let position): return position
+		case .place(_, let position): return position
+		}
+	}
 }
 
 // MARK: - Codable

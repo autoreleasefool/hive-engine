@@ -37,9 +37,39 @@ final class MovementTests: HiveEngineTestCase {
 		XCTAssertDecodable(movement)
 	}
 
+	func testMovedUnit_IsCorrect() {
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let position: Position = .inPlay(x: 1, y: -1, z: 0)
+
+		var movement: Movement = .place(unit: unit, at: position)
+		XCTAssertEqual(unit, movement.movedUnit)
+
+		movement = .move(unit: unit, to: position)
+		XCTAssertEqual(unit, movement.movedUnit)
+
+		movement = .yoink(pillBug: unit, unit: unit, to: position)
+		XCTAssertEqual(unit, movement.movedUnit)
+	}
+
+	func testTargetPosition_IsCorrect() {
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let position: Position = .inPlay(x: 1, y: -1, z: 0)
+
+		var movement: Movement = .place(unit: unit, at: position)
+		XCTAssertEqual(position, movement.targetPosition)
+
+		movement = .move(unit: unit, to: position)
+		XCTAssertEqual(position, movement.targetPosition)
+
+		movement = .yoink(pillBug: unit, unit: unit, to: position)
+		XCTAssertEqual(position, movement.targetPosition)
+	}
+
 	static var allTests = [
 		("testCodingMoveMovement", testCodingMoveMovement),
 		("testCodingYoinkMovement", testCodingYoinkMovement),
-		("testCodingPlaceMovement", testCodingPlaceMovement)
+		("testCodingPlaceMovement", testCodingPlaceMovement),
+		("testMovedUnit_IsCorrect", testMovedUnit_IsCorrect),
+		("testTargetPosition_IsCorrect", testTargetPosition_IsCorrect)
 	]
 }
