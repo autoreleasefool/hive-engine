@@ -81,12 +81,10 @@ public class GameState: Codable {
 
 	/// List the available movements from a GameState.
 	public lazy var availableMoves: [Movement] = {
+		guard isEndGame == false else { return [] }
+
 		if move == 0 {
 			return availablePieces(for: currentPlayer).map { .place(unit: $0, at: .inPlay(x: 0, y: 0, z: 0)) }
-		}
-
-		if winner.count > 0 {
-			return []
 		}
 
 		if (currentPlayer == .white && move == 6) || (currentPlayer == .black && move == 7),
