@@ -33,9 +33,6 @@ public class GameState: Codable {
 	/// The current move number
 	private(set) public var move: Int
 
-	/// The previous state
-	private(set) public var previousState: GameState?
-
 	public var isEndGame: Bool {
 		return winner.isNotEmpty
 	}
@@ -62,7 +59,6 @@ public class GameState: Codable {
 		self.currentPlayer = .white
 		self.stacks = [:]
 		self.move = 0
-		self.previousState = nil
 
 		let whiteUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .white) }
 		let blackUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .black) }
@@ -79,7 +75,6 @@ public class GameState: Codable {
 		self.move = other.move + 1
 		self.units = other.units
 		self.stacks = other.stacks
-		self.previousState = other
 	}
 
 	// MARK: - Updates
