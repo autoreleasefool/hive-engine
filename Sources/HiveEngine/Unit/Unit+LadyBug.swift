@@ -10,6 +10,7 @@ import Foundation
 
 extension Unit {
 	func movesAsLadyBug(in state: GameState) -> Set<Movement> {
+		guard self.canMove(in: state) else { return [] }
 		guard self.canMove(as: .ladyBug, in: state) else { return [] }
 		guard let startPosition = state.units[self], startPosition != .inHand else { return [] }
 

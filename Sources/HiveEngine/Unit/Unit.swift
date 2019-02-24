@@ -79,6 +79,11 @@ public struct Unit: Codable {
 		}
 	}
 
+	/// Returns false if this piece cannot move due to fundamental rules of the game.
+	func canMove(in state: GameState) -> Bool {
+		return state.oneHive(excluding: self) && self.isTopOfStack(in: state)
+	}
+
 	/// Returns true if this unit can move as the given class.
 	public func canMove(as givenClass: Class, in state: GameState) -> Bool {
 		if self.class == givenClass {
@@ -119,11 +124,21 @@ public struct Unit: Codable {
 	public func stackPosition(in state: GameState) -> Int? {
 		guard let position = state.units[self],
 			let stack = state.stacks[position] else {
-				return nil
+			return nil
 		}
 
 		guard let height = stack.firstIndex(of: self) else { return nil }
 		return height + 1
+	}
+
+	/// Determine if this unit is at the top of its stack.
+	public func isTopOfStack(in state: GameState) -> Bool {
+		guard let position = state.units[self],
+			let stack = state.stacks[position] else {
+			return false
+		}
+
+		return stack.last == self
 	}
 
 	/// Returns true if this unit is surrounded on all 6 sides.

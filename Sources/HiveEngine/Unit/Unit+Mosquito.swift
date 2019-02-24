@@ -10,6 +10,7 @@ import Foundation
 
 extension Unit {
 	func movesAsMosquito(in state: GameState) -> Set<Movement> {
+		guard self.canMove(in: state) else { return [] }
 		guard self.canMove(as: .mosquito, in: state) else { return [] }
 		var moves = Set<Movement>()
 
