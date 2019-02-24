@@ -90,7 +90,7 @@ public struct Unit: Codable {
 			return true
 		} else if self.class == .mosquito {
 			// Mosquitos can only move as beetles when on top of the hive
-			if stackPosition(in: state) ?? 0 > 0 {
+			if stackPosition(in: state) ?? 1 > 1 {
 				return givenClass == .beetle
 			}
 
