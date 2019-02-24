@@ -18,6 +18,7 @@ extension Unit {
 		var visited = Set<Position>()
 		var toVisit = [startPosition]
 		var distance: [Position: Int] = [:]
+		distance[startPosition] = 0
 
 		let distanceOnHive = 2
 
@@ -42,18 +43,16 @@ extension Unit {
 				}.forEach { hivePosition in
 					let distanceToRoot = distance[currentPosition]! + 1
 					if distanceToRoot == distanceOnHive {
-						// Lady Bug moves exactly 2 spaces on top of hive
+						// Lady Bug moves exactly 2 spaces on top of hive, then must come down
 						hivePosition.adjacent().filter { downPosition in
-							guard let hiveStack = state.stacks[hivePosition],
-								let downStack = state.stacks[downPosition] else {
-								return false
-							}
+							guard let hiveStack = state.stacks[hivePosition] else { return false }
+							let downStack = state.stacks[downPosition]
 
-							return state.playableSpaces.contains(downPosition) &&
+							return state.playableSpaces(excluding: self).contains(downPosition) &&
 								hivePosition.freedomOfMovement(
 									to: downPosition,
 									startingHeight: hiveStack.endIndex,
-									endingHeight: downStack.endIndex,
+									endingHeight: downStack?.endIndex ?? 1,
 									in: state
 								)
 							}.forEach { downPosition in moves.insert(.move(unit: self, to: downPosition)) }
