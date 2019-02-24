@@ -30,7 +30,7 @@ public struct Unit: Codable {
 				.mosquito,
 				.pillBug,
 				.queen,
-				.spider, .spider, .spider
+				.spider, .spider
 			]
 		}
 	}
