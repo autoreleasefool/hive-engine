@@ -164,23 +164,23 @@ public class GameState: Codable {
 	/// - Parameters:
 	///   - unit: optionally exclude a unit when determining if the rule is met
 	public func oneHive(excluding excludedUnit: Unit? = nil) -> Bool {
-		let positions = Set(units.filter { $0.key != excludedUnit }.compactMap { $0.value })
-		guard let startPosition = positions.first else { return true }
+		let allPositions = Set(units.filter { $0.key != excludedUnit }.compactMap { $0.value })
+		guard let startPosition = allPositions.first else { return true }
 
 		var found = Set([startPosition])
 		var stack = [startPosition]
 
 		// DFS through pieces and their adjacent positions to determine graph connectivity
-		while stack.isNotEmpty {
+		while stack.isNotEmpty{
 			let position = stack.popLast()!
 			for adjacent in position.adjacent() {
-				if found.contains(adjacent) == false {
+				if allPositions.contains(adjacent) && found.contains(adjacent) == false {
 					found.insert(adjacent)
 					stack.append(adjacent)
 				}
 			}
 		}
 
-		return found == positions
+		return found == allPositions
 	}
 }
