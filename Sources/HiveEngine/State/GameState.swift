@@ -92,10 +92,17 @@ public class GameState: Codable {
 		}
 
 		var movePieceMovements: [Movement] = []
-		units.filter { $0.value != .inHand }
+		// Iterate over all pieces on the board
+		units.filter {  $0.value != .inHand }
+			// Only the current player can move
 			.filter { $0.key.owner == currentPlayer }
+			// Moving the piece must not break the hive
 			.filter { oneHive(excluding: $0.key) }
-			.forEach { movePieceMovements.append(contentsOf: $0.key.availableMoves(in: self)) }
+			// Append moves available for the piece
+			.forEach {
+				let moves = $0.key.availableMoves(in: self)
+				movePieceMovements.append(contentsOf: moves)
+			}
 
 		return placePieceMovements + movePieceMovements
 	}()
@@ -103,15 +110,18 @@ public class GameState: Codable {
 	/// Applies the movement to this game state (if it is valid) and returns
 	/// the updated game state.
 	public func apply(_ move: Movement) -> GameState {
-		let update = GameState(from: self)
-
 		// Ensure only valid moves are played
-		guard availableMoves.contains(move) else { return update }
+		guard availableMoves.contains(move) else { return self }
+		let update = GameState(from: self)
 
 		switch move {
 		case .move(let unit, let position):
 			// Move a piece from its previous stack to a new position
-			_ = update.stacks[update.units[unit]!]?.popLast()
+			let startPosition = update.units[unit]!
+			_ = update.stacks[startPosition]?.popLast()
+			if (update.stacks[startPosition]?.count ?? -1) == 0 {
+				update.stacks[startPosition] = nil
+			}
 			if update.stacks[position] == nil {
 				update.stacks[position] = []
 			}
@@ -175,9 +185,9 @@ public class GameState: Codable {
 	/// Determine if this game state meets the "One Hive" rule.
 	///
 	/// - Parameters:
-	///   - unit: optionally exclude a unit when determining if the rule is met
+	///   - excludedUnit: optionally exclude a unit when determining if the rule is met
 	public func oneHive(excluding excludedUnit: Unit? = nil) -> Bool {
-		let allPositions = Set(units.filter { $0.key != excludedUnit }.compactMap { $0.value })
+		let allPositions = Set(units.filter { $0.key != excludedUnit && $0.value != .inHand }.compactMap { $0.value })
 		guard let startPosition = allPositions.first else { return true }
 
 		var found = Set([startPosition])
