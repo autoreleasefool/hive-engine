@@ -12,9 +12,11 @@ import XCTest
 public func allTests() -> [XCTestCaseEntry] {
 	return [
 		testCase(CollectionExtensionTests.allTests),
+		testCase(GameStateTests.allTests),
 		testCase(MovementTests.allTests),
 		testCase(PlayerTests.allTests),
-		testCase(PositionTests.allTests)
+		testCase(PositionTests.allTests),
+		testCase(UnitTests.allTests)
 	]
 }
 #endif
