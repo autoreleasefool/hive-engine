@@ -54,7 +54,9 @@ public enum Position: Hashable, Equatable {
 		in state: GameState
 	) -> Bool {
 		// Can't move to anywhere but the top of a stack
-		guard let otherStack = state.stacks[other], endingHeight == otherStack.endIndex else { return false }
+		if let otherStack = state.stacks[other], endingHeight != otherStack.endIndex {
+			return false
+		}
 
 		// Find the positions/stacks separating the two positions
 		let difference = other.subtracting(self)
