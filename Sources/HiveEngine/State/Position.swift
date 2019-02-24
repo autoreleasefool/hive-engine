@@ -112,6 +112,15 @@ public enum Position: Hashable, Equatable {
 	}
 }
 
+extension Position: CustomStringConvertible {
+	public var description: String {
+		switch self {
+		case .inHand: return "In Hand"
+		case .inPlay(let x, let y, let z): return "(\(x), \(y), \(z))"
+		}
+	}
+}
+
 // MARK: - Codable
 
 extension Position: Codable {

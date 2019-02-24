@@ -147,6 +147,14 @@ public struct Unit: Codable {
 	}
 }
 
+// MARK: - CustomStringConvertible
+
+extension Unit: CustomStringConvertible {
+	public var description: String {
+		return "\(self.owner.rawValue) \(self.class.rawValue)"
+	}
+}
+
 // MARK: - Hashable
 
 extension Unit: Hashable {

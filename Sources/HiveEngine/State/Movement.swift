@@ -30,6 +30,16 @@ public enum Movement: Hashable, Equatable {
 	}
 }
 
+extension Movement: CustomStringConvertible {
+	public var description: String {
+		switch self {
+		case .move(let unit, let to): return "Move \(unit) to \(to)"
+		case .place(let unit, let at): return "Place \(unit) at \(at)"
+		case .yoink(_, let unit, let to): return "Yoink \(unit) to \(to)"
+		}
+	}
+}
+
 // MARK: - Codable
 
 extension Movement: Codable {
