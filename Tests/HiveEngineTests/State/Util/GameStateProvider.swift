@@ -84,7 +84,7 @@ class GameStateProvider {
 			Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),		// 12
 			Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),		// 13
 			Movement.move(unit: blackMosquito, to: Position.inPlay(x: 2, y: -1, z: -1)),	// 14
-			Movement.place(unit: whiteMosquito, at: Position.inPlay(x: -1, y: 0, z: -1)),	// 15
+			Movement.place(unit: whiteMosquito, at: Position.inPlay(x: -1, y: 0, z: 1)),	// 15
 			Movement.place(unit: blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),		// 16
 			Movement.move(unit: whiteMosquito, to: Position.inPlay(x: -1, y: 1, z: 0)),		// 17
 			Movement.move(unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),		// 18
@@ -134,11 +134,11 @@ class GameStateProvider {
 	private lazy var tiedStateMoves: [Movement] = {
 		return [
 			Movement.move(unit: blackAnt, to: Position.inPlay(x: 1, y: 3, z: -4)),		// 34
-			Movement.move(unit: whiteMosquito, to: Position.inPlay(x: 0, y: 2, z: -2)),	// 35
+			Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),	// 35
 			Movement.move(unit: blackLadyBug, to: Position.inPlay(x: 1, y: -1, z: 0)),	// 36
 			Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 1, y: 2, z: -3)),	// 37
 			Movement.move(unit: blackAnt, to: Position.inPlay(x: 2, y: -1, z: -1)),		// 38
-			Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),	// 39
+			Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),	// 39
 			Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))	// 40
 			// Game ends in a tie
 		]
@@ -148,7 +148,7 @@ class GameStateProvider {
 	lazy var tiedGameState: GameState = {
 		var state = gameState(after: partialStateMoves.count - 1)
 		tiedStateMoves.forEach {
-			assert(state != state.apply($0), "Move \($0) was not a valid move.")
+			assert(state != state.apply($0), "\($0) was not a valid move.")
 			state = state.apply($0)
 		}
 		return state
