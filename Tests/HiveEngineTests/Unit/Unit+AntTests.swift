@@ -25,8 +25,19 @@ final class UnitAntTests: HiveEngineTestCase {
 		XCTFail("Not implemented")
 	}
 
+	func testAntMoves_AreCorrect() {
+		XCTFail("Not implemented")
+	}
+
+	func testAnt_FreedomOfMovement_IsCorrect() {
+		XCTFail("Not implemented")
+	}
+
 	static var allTests = [
 		("testAnt_CanMoveAsAnt_IsTrue", testAnt_CanMoveAsAnt_IsTrue),
-		("testAnt_CanMoveAsOtherBug_IsFalse", testAnt_CanMoveAsOtherBug_IsFalse)
+		("testAnt_CanMoveAsOtherBug_IsFalse", testAnt_CanMoveAsOtherBug_IsFalse),
+
+		("testAntMoves_AreCorrect", testAntMoves_AreCorrect),
+		("testAnt_FreedomOfMovement_IsCorrect", testAnt_FreedomOfMovement_IsCorrect)
 	]
 }

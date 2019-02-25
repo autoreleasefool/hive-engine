@@ -25,8 +25,18 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 		XCTFail("Not implemented")
 	}
 
+	func testLadyBugMoves_AreCorrect() {
+		XCTFail("Not implemented")
+	}
+
+	func testLadyBug_WithoutFreedomOfMovement_CannotMove() {
+		XCTFail("Not implemented")
+	}
+
 	static var allTests = [
 		("testLadyBug_CanMoveAsLadyBug_IsTrue", testLadyBug_CanMoveAsLadyBug_IsTrue),
-		("testLadyBug_CanMoveAsOtherBug_IsFalse", testLadyBug_CanMoveAsOtherBug_IsFalse)
+		("testLadyBug_CanMoveAsOtherBug_IsFalse", testLadyBug_CanMoveAsOtherBug_IsFalse),
+
+		("testLadyBugMoves_AreCorrect", testLadyBugMoves_AreCorrect)
 	]
 }

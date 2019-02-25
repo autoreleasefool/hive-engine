@@ -37,12 +37,18 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		XCTFail("Not implemented")
 	}
 
+	func testMosquito_OnTopOfHive_IsBeetle() {
+		XCTFail("Not implemented")
+	}
+
 	static var allTests = [
 		("testMosquito_CanMoveAsAdjacentBugs_IsTrue", testMosquito_CanMoveAsAdjacentBugs_IsTrue),
 		("testMosquito_CanMoveAsNonAdjacentBugs_IsFalse", testMosquito_CanMoveAsNonAdjacentBugs_IsFalse),
 		("testAnt_CanMoveAsOtherBug_IsFalse", testAnt_CanMoveAsOtherBug_IsFalse),
 
 		("testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue", testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue),
-		("testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse", testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse)
+		("testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse", testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse),
+
+		("testMosquito_OnTopOfHive_IsBeetle", testMosquito_OnTopOfHive_IsBeetle)
 	]
 }

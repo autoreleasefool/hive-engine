@@ -25,8 +25,14 @@ final class UnitHopperTests: HiveEngineTestCase {
 		XCTFail("Not implemented")
 	}
 
+	func testHopperMoves_AreCorrect() {
+		XCTFail("Not implemented")
+	}
+
 	static var allTests = [
 		("testHopper_CanMoveAsHopper_IsTrue", testHopper_CanMoveAsHopper_IsTrue),
-		("testHopper_CanMoveAsOtherBug_IsFalse", testHopper_CanMoveAsOtherBug_IsFalse)
+		("testHopper_CanMoveAsOtherBug_IsFalse", testHopper_CanMoveAsOtherBug_IsFalse),
+
+		("testHopperMoves_AreCorrect", testHopperMoves_AreCorrect)
 	]
 }

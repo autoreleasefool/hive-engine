@@ -25,8 +25,19 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		XCTFail("Not implemented")
 	}
 
+	func testSpiderMoves_AreCorrect() {
+		XCTFail("Not implemented")
+	}
+
+	func testSpider_FreedomOfMovement_IsCorrect() {
+		XCTFail("Not implemented")
+	}
+
 	static var allTests = [
 		("testSpider_CanMoveAsSpider_IsTrue", testSpider_CanMoveAsSpider_IsTrue),
-		("testSpider_CanMoveAsOtherBug_IsFalse", testSpider_CanMoveAsOtherBug_IsFalse)
+		("testSpider_CanMoveAsOtherBug_IsFalse", testSpider_CanMoveAsOtherBug_IsFalse),
+
+		("testSpiderMoves_AreCorrect", testSpiderMoves_AreCorrect),
+		("testSpider_FreedomOfMovement_IsCorrect", testSpider_FreedomOfMovement_IsCorrect)
 	]
 }
