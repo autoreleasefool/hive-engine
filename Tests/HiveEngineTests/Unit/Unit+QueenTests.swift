@@ -41,4 +41,3 @@ final class UnitQueenTests: HiveEngineTestCase {
 		("testQueen_FreedomOfMovement_IsCorrect", testQueen_FreedomOfMovement_IsCorrect)
 	]
 }
-

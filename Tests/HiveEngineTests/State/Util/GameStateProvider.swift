@@ -70,40 +70,40 @@ class GameStateProvider {
 
 	private lazy var partialStateMoves: [Movement] = {
 		return [
-			Movement.place(unit: whiteSpider, at: Position.inPlay(x: 0, y: 0, z: 0)),		// 1
-			Movement.place(unit: blackSpider, at: Position.inPlay(x: 0, y: 1, z: -1)),		// 2
-			Movement.place(unit: whiteAnt, at: Position.inPlay(x: -1, y: 0, z: 1)),			// 3
-			Movement.place(unit: blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),		// 4
-			Movement.place(unit: whitePillBug, at: Position.inPlay(x: 0, y: -1, z: 1)),		// 5
-			Movement.place(unit: blackHopper, at: Position.inPlay(x: -1, y: 2, z: -1)),		// 6
-			Movement.place(unit: whiteQueen, at: Position.inPlay(x: 1, y: -1, z: 0)),		// 7
-			Movement.place(unit: blackQueen, at: Position.inPlay(x: 0, y: 2, z: -2)),		// 8
-			Movement.move(unit: whiteAnt, to: Position.inPlay(x: 0, y: 3, z: -3)),			// 9
-			Movement.place(unit: blackMosquito, at: Position.inPlay(x: 2, y: 1, z: -3)),	// 10
-			Movement.place(unit: whiteBeetle, at: Position.inPlay(x: -1, y: 0, z: 1)),		// 11
-			Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),		// 12
-			Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),		// 13
-			Movement.move(unit: blackMosquito, to: Position.inPlay(x: 2, y: -1, z: -1)),	// 14
-			Movement.place(unit: whiteMosquito, at: Position.inPlay(x: -1, y: 0, z: 1)),	// 15
-			Movement.place(unit: blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),		// 16
-			Movement.move(unit: whiteMosquito, to: Position.inPlay(x: -1, y: 1, z: 0)),		// 17
-			Movement.move(unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),		// 18
-			Movement.place(unit: whiteHopper, at: Position.inPlay(x: 1, y: -2, z: 1)),		// 19
-			Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),		// 20
-			Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),	// 21
-			Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2)),		// 22
-			Movement.move(unit: whiteMosquito, to: Position.inPlay(x: -1, y: 2, z: -1)),	// 23
-			Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0)),		// 24
-			Movement.place(unit: whiteLadyBug, at: Position.inPlay(x: -1, y: 4, z: -3)),	// 25
-			Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -2, z: 1)),		// 26
-			Movement.move(unit: whiteQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),		// 27
-			Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 0, z: -1)),		// 28
-			Movement.move(unit: whiteLadyBug, to: Position.inPlay(x: -1, y: 3, z: -2)),		// 29
-			Movement.place(unit: blackPillBug, at: Position.inPlay(x: 2, y: 0, z: -2)),		// 30
-			Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 1, z: -1)),		// 31
-			Movement.place(unit: blackAnt, at: Position.inPlay(x: 2, y: -1, z: -1)),		// 32
-			Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 2, z: -2)),		// 33
-			Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0))		// 34
+			/* 1  */ Movement.place(unit: whiteSpider, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			/* 2  */ Movement.place(unit: blackSpider, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			/* 3  */ Movement.place(unit: whiteAnt, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 4  */ Movement.place(unit: blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			/* 5  */ Movement.place(unit: whitePillBug, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			/* 6  */ Movement.place(unit: blackHopper, at: Position.inPlay(x: -1, y: 2, z: -1)),
+			/* 7  */ Movement.place(unit: whiteQueen, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			/* 8  */ Movement.place(unit: blackQueen, at: Position.inPlay(x: 0, y: 2, z: -2)),
+			/* 9  */ Movement.move(unit: whiteAnt, to: Position.inPlay(x: 0, y: 3, z: -3)),
+			/* 10 */ Movement.place(unit: blackMosquito, at: Position.inPlay(x: 2, y: 1, z: -3)),
+			/* 11 */ Movement.place(unit: whiteBeetle, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 12 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			/* 13 */ Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
+			/* 14 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 2, y: -1, z: -1)),
+			/* 15 */ Movement.place(unit: whiteMosquito, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 16 */ Movement.place(unit: blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),
+			/* 17 */ Movement.move(unit: whiteMosquito, to: Position.inPlay(x: -1, y: 1, z: 0)),
+			/* 18 */ Movement.move(unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 19 */ Movement.place(unit: whiteHopper, at: Position.inPlay(x: 1, y: -2, z: 1)),
+			/* 20 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			/* 21 */ Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),
+			/* 22 */ Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2)),
+			/* 23 */ Movement.move(unit: whiteMosquito, to: Position.inPlay(x: -1, y: 2, z: -1)),
+			/* 24 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0)),
+			/* 25 */ Movement.place(unit: whiteLadyBug, at: Position.inPlay(x: -1, y: 4, z: -3)),
+			/* 26 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -2, z: 1)),
+			/* 27 */ Movement.move(unit: whiteQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			/* 28 */ Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			/* 29 */ Movement.move(unit: whiteLadyBug, to: Position.inPlay(x: -1, y: 3, z: -2)),
+			/* 30 */ Movement.place(unit: blackPillBug, at: Position.inPlay(x: 2, y: 0, z: -2)),
+			/* 31 */ Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 1, z: -1)),
+			/* 32 */ Movement.place(unit: blackAnt, at: Position.inPlay(x: 2, y: -1, z: -1)),
+			/* 33 */ Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 2, z: -2)),
+			/* 34 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0))
 			// Game won by black
 		]
 	}()
@@ -133,13 +133,13 @@ class GameStateProvider {
 	/// A game state with two winners
 	private lazy var tiedStateMoves: [Movement] = {
 		return [
-			Movement.move(unit: blackAnt, to: Position.inPlay(x: 1, y: 3, z: -4)),		// 34
-			Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),	// 35
-			Movement.move(unit: blackLadyBug, to: Position.inPlay(x: 1, y: -1, z: 0)),	// 36
-			Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 1, y: 2, z: -3)),	// 37
-			Movement.move(unit: blackAnt, to: Position.inPlay(x: 2, y: -1, z: -1)),		// 38
-			Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),	// 39
-			Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))	// 40
+			/* 34 */ Movement.move(unit: blackAnt, to: Position.inPlay(x: 1, y: 3, z: -4)),
+			/* 35 */ Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 36 */ Movement.move(unit: blackLadyBug, to: Position.inPlay(x: 1, y: -1, z: 0)),
+			/* 37 */ Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 1, y: 2, z: -3)),
+			/* 38 */ Movement.move(unit: blackAnt, to: Position.inPlay(x: 2, y: -1, z: -1)),
+			/* 39 */ Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),
+			/* 40 */ Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))
 			// Game ends in a tie
 		]
 	}()

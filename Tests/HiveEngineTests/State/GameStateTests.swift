@@ -123,7 +123,7 @@ final class GameStateTests: HiveEngineTestCase {
 			.inPlay(x: 0, y: -2, z: 2), .inPlay(x: -1, y: -1, z: 2),
 			.inPlay(x: -2, y: 0, z: 2), .inPlay(x: -2, y: 1, z: 1),
 			.inPlay(x: -1, y: 1, z: 0), .inPlay(x: -2, y: 2, z: 0),
-			.inPlay(x: -2, y: 3, z: -1), .inPlay(x: -1, y: 3, z: -2),
+			.inPlay(x: -2, y: 3, z: -1), .inPlay(x: -1, y: 3, z: -2)
 			])
 
 		XCTAssertEqual(playableSpaces, state.playableSpaces())

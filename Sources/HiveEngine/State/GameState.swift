@@ -190,7 +190,7 @@ public class GameState: Codable {
 		var stack = [startPosition]
 
 		// DFS through pieces and their adjacent positions to determine graph connectivity
-		while stack.isNotEmpty{
+		while stack.isNotEmpty {
 			let position = stack.popLast()!
 			for adjacent in position.adjacent() {
 				if allPositions.contains(adjacent) && found.contains(adjacent) == false {
