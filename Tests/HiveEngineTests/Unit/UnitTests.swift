@@ -11,8 +11,17 @@ import XCTest
 
 final class UnitTests: HiveEngineTestCase {
 
+	var stateProvider: GameStateProvider!
+
+	override func setUp() {
+		super.setUp()
+		stateProvider = GameStateProvider()
+	}
+
+	// MARK: - Unit
+
 	func testGetMovementToPositionInPlay_IsCorrect() {
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let unit = stateProvider.initialGameState.whiteAnt
 		let position: Position = .inPlay(x: 0, y: 2, z: -2)
 		let expectedMovement: Movement = .move(unit: unit, to: position)
 
@@ -20,7 +29,7 @@ final class UnitTests: HiveEngineTestCase {
 	}
 
 	func testGetMovementToPositionInHand_IsNil() {
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let unit = stateProvider.initialGameState.whiteAnt
 		let position: Position = .inHand
 
 		XCTAssertNil(unit.movement(to: position))
