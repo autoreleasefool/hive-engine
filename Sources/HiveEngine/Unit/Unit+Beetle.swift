@@ -19,12 +19,8 @@ extension Unit {
 			return []
 		}
 
-		let movesOntoStack = Set(
+		let moves = Set(
 			position.adjacent()
-				.filter {
-					// Filter to positions which contain other units, since we want to move onto those stacks
-					return state.stacks[$0] != nil
-				}
 				.filter {
 					// Filter to positions that the piece can freely move to
 					let endHeight = state.stacks[$0]?.endIndex ?? 1
@@ -33,6 +29,6 @@ extension Unit {
 					movement(to: $0)
 				})
 
-		return self.movesAsQueen(in: state).union(movesOntoStack)
+		return self.movesAsQueen(in: state).union(moves)
 	}
 }
