@@ -95,7 +95,11 @@ public struct Unit: Codable {
 			}
 
 			// Mosquitos can otherwise move as any piece they're adjacent to
-			return state.units(adjacentTo: self).filter { $0.class == givenClass }.count > 0
+			return state.units(adjacentTo: self)
+				.filter {
+					return $0.class == givenClass ||
+						(($0.class == .pillBug || $0.class == .beetle) && givenClass == .queen)
+				}.count > 0
 		} else if (self.class == .pillBug || self.class == .beetle) && givenClass == .queen {
 			// Beetles and pill bugs have movements similar to queens
 			return true

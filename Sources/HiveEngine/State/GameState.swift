@@ -97,13 +97,9 @@ public class GameState: Codable {
 			// Only the current player can move
 			.filter { $0.key.owner == currentPlayer }
 			// Moving the piece must not break the hive
-			.filter { oneHive(excluding: $0.key) }
+			.filter { $0.key.class == .pillBug || oneHive(excluding: $0.key) }
 			// Append moves available for the piece
-			.forEach {
-				let moves = $0.key.availableMoves(in: self)
-				movePieceMovements.append(contentsOf: moves)
-			}
-
+			.forEach { movePieceMovements.append(contentsOf: $0.key.availableMoves(in: self)) }
 		return placePieceMovements + movePieceMovements
 	}()
 
