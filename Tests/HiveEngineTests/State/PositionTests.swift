@@ -12,8 +12,6 @@ import XCTest
 
 final class PositionTests: HiveEngineTestCase {
 
-	// TODO: add testing for freedomOfMovement
-
 	func testAdjacentPositions_InPlay_IsCorrect() {
 		let position: Position = .inPlay(x: 22, y: 11, z: -13)
 
@@ -104,6 +102,30 @@ final class PositionTests: HiveEngineTestCase {
 		XCTAssertDecodable(position)
 	}
 
+	func testWhenMovingAcross_EqualOnBothSides_FreedomOfMovement_IsFalse() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenMovingAcross__FreeOnOneSide_FreedomOfMovement_IsTrue() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenMovingDown_HigherOnBothSides_FreedomOfMovement_IsFalse() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenMovingDown_HigherOnOneSide_FreedomOfMovement_IsTrue() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenMovingUp_HigherOnBothSides_FreedomOfMovement_IsFalse() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenMovingUp_HigherOnOneSide_FreedomOfMovement_IsTrue() {
+		XCTFail("Not implemented")
+	}
+
 	static var allTests = [
 		("testAdjacentPositions_InPlay_IsCorrect", testAdjacentPositions_InPlay_IsCorrect),
 		("testAdjacentPositions_InHand_IsEmpty", testAdjacentPositions_InHand_IsEmpty),
@@ -119,6 +141,13 @@ final class PositionTests: HiveEngineTestCase {
 		("testSubtractingInPlayFromInPlay_IsCorrect", testSubtractingInPlayFromInPlay_IsCorrect),
 
 		("testCodingInPlayPosition", testCodingInPlayPosition),
-		("testCodingInHandPosition", testCodingInHandPosition)
+		("testCodingInHandPosition", testCodingInHandPosition),
+
+		("testWhenMovingAcross_EqualOnBothSides_FreedomOfMovement_IsFalse", testWhenMovingAcross_EqualOnBothSides_FreedomOfMovement_IsFalse),
+		("testWhenMovingAcross__FreeOnOneSide_FreedomOfMovement_IsTrue", testWhenMovingAcross__FreeOnOneSide_FreedomOfMovement_IsTrue),
+		("testWhenMovingDown_HigherOnBothSides_FreedomOfMovement_IsFalse", testWhenMovingDown_HigherOnBothSides_FreedomOfMovement_IsFalse),
+		("testWhenMovingDown_HigherOnOneSide_FreedomOfMovement_IsTrue", testWhenMovingDown_HigherOnOneSide_FreedomOfMovement_IsTrue),
+		("testWhenMovingUp_HigherOnBothSides_FreedomOfMovement_IsFalse", testWhenMovingUp_HigherOnBothSides_FreedomOfMovement_IsFalse),
+		("testWhenMovingUp_HigherOnOneSide_FreedomOfMovement_IsTrue", testWhenMovingUp_HigherOnOneSide_FreedomOfMovement_IsTrue)
 	]
 }

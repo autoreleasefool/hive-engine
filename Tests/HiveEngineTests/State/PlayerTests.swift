@@ -11,12 +11,12 @@ import XCTest
 
 final class PlayerTests: HiveEngineTestCase {
 
-	func testPlayerNextPlayer() {
+	func testPlayer_NextPlayer_IsCorrect() {
 		XCTAssertEqual(Player.black, Player.white.next)
 		XCTAssertEqual(Player.white, Player.black.next)
 	}
 
 	static var allTests = [
-		("testPlayerNextPlayer", testPlayerNextPlayer)
+		("testPlayer_NextPlayer_IsCorrect", testPlayer_NextPlayer_IsCorrect)
 	]
 }

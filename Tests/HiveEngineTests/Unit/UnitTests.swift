@@ -26,8 +26,57 @@ final class UnitTests: HiveEngineTestCase {
 		XCTAssertNil(unit.movement(to: position))
 	}
 
+	func testWhenSurrounded_IsSurrounded_IsTrue() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenNotSurrounded_IsSurrounded_IsFalse() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenTopOfStack_IsTopOfStack_IsTrue() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenBottomOfStack_IsTopOfStack_IsFalse() {
+		XCTFail("Not implemented")
+	}
+
+	func testStackPosition_IsCorrect() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenTopOfStackNotOneHive_CanMove_IsFalse() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenBottomOfStackOneHive_CanMove_IsFalse() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenBottomOfStackNotOneHive_CanMove_IsFalse() {
+		XCTFail("Not implemented")
+	}
+
+	func testWhenTopOfStackOneHive_CanMove_IsTrue() {
+		XCTFail("Not implemented")
+	}
+
 	static var allTests = [
 		("testGetMovementToPositionInPlay_IsCorrect", testGetMovementToPositionInPlay_IsCorrect),
-		("testGetMovementToPositionInHand_IsNil", testGetMovementToPositionInHand_IsNil)
+		("testGetMovementToPositionInHand_IsNil", testGetMovementToPositionInHand_IsNil),
+
+		("testWhenSurrounded_IsSurrounded_IsTrue", testWhenSurrounded_IsSurrounded_IsTrue),
+		("testWhenNotSurrounded_IsSurrounded_IsFalse", testWhenNotSurrounded_IsSurrounded_IsFalse),
+
+		("testWhenTopOfStack_IsTopOfStack_IsTrue", testWhenTopOfStack_IsTopOfStack_IsTrue),
+		("testWhenBottomOfStack_IsTopOfStack_IsFalse", testWhenBottomOfStack_IsTopOfStack_IsFalse),
+
+		("testStackPosition_IsCorrect", testStackPosition_IsCorrect),
+
+		("testWhenTopOfStackNotOneHive_CanMove_IsFalse", testWhenTopOfStackNotOneHive_CanMove_IsFalse),
+		("testWhenBottomOfStackOneHive_CanMove_IsFalse", testWhenBottomOfStackOneHive_CanMove_IsFalse),
+		("testWhenBottomOfStackNotOneHive_CanMove_IsFalse", testWhenBottomOfStackNotOneHive_CanMove_IsFalse),
+		("testWhenTopOfStackOneHive_CanMove_IsTrue", testWhenTopOfStackOneHive_CanMove_IsTrue)
 	]
 }

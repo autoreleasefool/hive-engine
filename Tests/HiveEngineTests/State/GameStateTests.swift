@@ -225,6 +225,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testInitialGameState_HasNoWinner", testInitialGameState_HasNoWinner),
 		("testInitialGameState_HasNoStacks", testInitialGameState_HasNoStacks),
 		("testInitialGameState_OnlyHasPlaceMovesAvailable", testInitialGameState_OnlyHasPlaceMovesAvailable),
+
 		("testPartialGameState_Move_IncrementsCorrectly", testPartialGameState_Move_IncrementsCorrectly),
 		("testPartialGameState_MustPlayQueenInFirstFourMoves", testPartialGameState_MustPlayQueenInFirstFourMoves),
 		("testPartialGameState_PlayableSpaces_AreCorrect", testPartialGameState_PlayableSpaces_AreCorrect),
@@ -236,10 +237,12 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_AdjacentUnits_ToPosition_IsCorrect", testPartialGameState_AdjacentUnits_ToPosition_IsCorrect),
 		("testPartialGameState_OneHive_IsCorrect", testPartialGameState_OneHive_IsCorrect),
 		("testPartialGameState_OneHive_ExcludingUnit_IsCorrect", testPartialGameState_OneHive_ExcludingUnit_IsCorrect),
+
 		("testFinishedGameState_HasOneWinner", testFinishedGameState_HasOneWinner),
 		("testFinishedGameState_HasNoMoves", testFinishedGameState_HasNoMoves),
 		("testFinishedGameState_IsEndGame", testFinishedGameState_IsEndGame),
 		("testFinishedGameState_ApplyMovement_ReturnsSelf", testFinishedGameState_ApplyMovement_ReturnsSelf),
+
 		("testTiedGameState_HasTwoWinners", testTiedGameState_HasTwoWinners)
 	]
 }

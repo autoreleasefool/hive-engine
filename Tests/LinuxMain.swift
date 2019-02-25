@@ -15,7 +15,15 @@ let tests: [XCTestCaseEntry] =
 	MovementTests.allTests() +
 	PlayerTests.allTests() +
 	PositionTests.allTests() +
-	UnitTests.allTests()
+	UnitTests.allTests() +
+	UnitAntTests.allTests() +
+	UnitBeetleTests.allTests() +
+	UnitHopperTests.allTests() +
+	UnitLadyBugTests.allTests() +
+	UnitMosquitoTests.allTests() +
+	UnitPillBugTests.allTests() +
+	UnitQueenTests.allTests() +
+	UnitSpiderTests.allTests() +
 ]
 
 XCTMain(tests)
