@@ -17,7 +17,7 @@ class GameStateProvider {
 
 	/// A game state with a single winner
 	var wonGameState: GameState {
-		return gameState(after: partialStateMoves.count - 1)
+		return gameState(after: partialStateMoves.count)
 	}
 
 	private var whiteAnt: Unit!
@@ -112,7 +112,7 @@ class GameStateProvider {
 	/// Caches partially built states for faster testing.
 	func gameState(after move: Int) -> GameState {
 		precondition(move >= 0, "Cannot provide a negative number of moves.")
-		precondition(move < partialStateMoves.count, "Must provide a value less than \(partialStateMoves.count)")
+		precondition(move <= partialStateMoves.count, "Must provide a value less than or equal to \(partialStateMoves.count)")
 
 		if let cachedState = cache[move] {
 			return cachedState
