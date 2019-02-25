@@ -2,7 +2,7 @@
   "yoink" : {
     "pillBug" : {
       "class" : "Pill Bug",
-      "owner" : "black",
+      "owner" : "Black",
       "identifier" : "97957797-CC2B-4673-A079-2C75C378361F"
     },
     "to" : {
@@ -14,7 +14,7 @@
     },
     "unit" : {
       "class" : "Ant",
-      "owner" : "white",
+      "owner" : "White",
       "identifier" : "AACA052C-280E-4925-8488-518770A2A912"
     }
   }
