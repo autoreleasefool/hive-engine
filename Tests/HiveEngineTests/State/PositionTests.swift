@@ -12,6 +12,13 @@ import XCTest
 
 final class PositionTests: HiveEngineTestCase {
 
+	var stateProvider: GameStateProvider!
+
+	override func setUp() {
+		super.setUp()
+		stateProvider = GameStateProvider()
+	}
+
 	func testAdjacentPositions_InPlay_IsCorrect() {
 		let position: Position = .inPlay(x: 22, y: 11, z: -13)
 
@@ -103,27 +110,106 @@ final class PositionTests: HiveEngineTestCase {
 	}
 
 	func testWhenMovingAcross_EqualOnBothSides_FreedomOfMovement_IsFalse() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 2, y: -1, z: -1))
+			]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let startPosition: Position = .inPlay(x: 2, y: 0, z: -2)
+		let endPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		XCTAssertFalse(startPosition.freedomOfMovement(to: endPosition, in: state))
 	}
 
 	func testWhenMovingAcross__FreeOnOneSide_FreedomOfMovement_IsTrue() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let startPosition: Position = .inPlay(x: 2, y: 0, z: -2)
+		let endPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		XCTAssertTrue(startPosition.freedomOfMovement(to: endPosition, in: state))
 	}
 
 	func testWhenMovingDown_HigherOnBothSides_FreedomOfMovement_IsFalse() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let startPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let startHeight = 1
+		let endPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let endHeight = 2
+		XCTAssertFalse(startPosition.freedomOfMovement(to: endPosition, startingHeight: startHeight, endingHeight: endHeight, in: state))
 	}
 
 	func testWhenMovingDown_HigherOnOneSide_FreedomOfMovement_IsTrue() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let startPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let startHeight = 2
+		let endPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let endHeight = 1
+		XCTAssertTrue(startPosition.freedomOfMovement(to: endPosition, startingHeight: startHeight, endingHeight: endHeight, in: state))
 	}
 
 	func testWhenMovingUp_HigherOnBothSides_FreedomOfMovement_IsFalse() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))
+			]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let startPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let startHeight = 1
+		let endPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let endHeight = 2
+		XCTAssertFalse(startPosition.freedomOfMovement(to: endPosition, startingHeight: startHeight, endingHeight: endHeight, in: state))
 	}
 
 	func testWhenMovingUp_HigherOnOneSide_FreedomOfMovement_IsTrue() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0))
+			]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let startPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let startHeight = 1
+		let endPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let endHeight = 2
+		XCTAssertTrue(startPosition.freedomOfMovement(to: endPosition, startingHeight: startHeight, endingHeight: endHeight, in: state))
 	}
 
 	static var allTests = [

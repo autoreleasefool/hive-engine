@@ -83,7 +83,7 @@ public enum Position: Hashable, Equatable {
 			let secondStack = state.stacks[self.adding(secondModifier)] else { return true }
 
 		if startingHeight > endingHeight {
-			return firstStack.endIndex <= startingHeight || secondStack.endIndex <= startingHeight
+			return firstStack.endIndex < startingHeight || secondStack.endIndex < startingHeight
 		} else {
 			return endingHeight > firstStack.endIndex || endingHeight > secondStack.endIndex
 		}
