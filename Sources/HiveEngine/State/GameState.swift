@@ -78,6 +78,8 @@ public class GameState: Codable {
 	public lazy var availableMoves: [Movement] = {
 		guard isEndGame == false else { return [] }
 
+		// Only available moves at the start of the game are to place a piece at (0, 0, 0)
+		// or to place a piece next to the original piece
 		if move == 0 {
 			return availablePieces(for: currentPlayer).map { .place(unit: $0, at: .inPlay(x: 0, y: 0, z: 0)) }
 		} else if move == 1 {
@@ -88,11 +90,13 @@ public class GameState: Codable {
 			}
 		}
 
+		// Queen must be played in player's first 4 moves
 		if (currentPlayer == .white && move == 6) || (currentPlayer == .black && move == 7),
 			let queen = availablePieces(for: currentPlayer).filter({ $0.class == .queen }).first {
 			return playableSpaces(for: currentPlayer).map { .place(unit: queen, at: $0) }
 		}
 
+		// Get placeable and moveable pieces
 		let placePieceMovements: [Movement] = availablePieces(for: currentPlayer).flatMap { unit in
 			return playableSpaces(for: currentPlayer).map { .place(unit: unit, at: $0) }
 		}
