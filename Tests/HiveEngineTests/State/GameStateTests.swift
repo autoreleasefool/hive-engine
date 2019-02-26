@@ -184,6 +184,32 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_OneHive_ExcludingUnit_IsCorrect() {
 		let state = stateProvider.gameState(after: 8)
 		XCTAssertFalse(state.oneHive(excluding: state.whiteSpider))
+		XCTAssertTrue(state.oneHive(excluding: state.whiteQueen))
+	}
+
+	func testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits() {
+		let state = stateProvider.gameState(after: 3)
+		let expectedPositions: Set<Position> = [
+			.inPlay(x: -1, y: 2, z: -1),
+			.inPlay(x: 0, y: 2, z: -2),
+			.inPlay(x: 1, y: 1, z: -2)
+		]
+
+		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
+	}
+
+	func testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits() {
+		let state = stateProvider.gameState(after: 1)
+		let expectedPositions: Set<Position> = [
+			.inPlay(x: 0, y: 1, z: -1),
+			.inPlay(x: 1, y: 0, z: -1),
+			.inPlay(x: 1, y: -1, z: 0),
+			.inPlay(x: 0, y: -1, z: 1),
+			.inPlay(x: -1, y: 0, z: 1),
+			.inPlay(x: -1, y: 1, z: 0)
+		]
+
+		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
 	}
 
 	// MARK: - Won Game State
@@ -237,6 +263,8 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_AdjacentUnits_ToPosition_IsCorrect", testPartialGameState_AdjacentUnits_ToPosition_IsCorrect),
 		("testPartialGameState_OneHive_IsCorrect", testPartialGameState_OneHive_IsCorrect),
 		("testPartialGameState_OneHive_ExcludingUnit_IsCorrect", testPartialGameState_OneHive_ExcludingUnit_IsCorrect),
+		("testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits", testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits),
+		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits", testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
 
 		("testFinishedGameState_HasOneWinner", testFinishedGameState_HasOneWinner),
 		("testFinishedGameState_HasNoMoves", testFinishedGameState_HasNoMoves),

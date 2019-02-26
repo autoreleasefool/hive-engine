@@ -82,12 +82,6 @@ public class GameState: Codable {
 		// or to place a piece next to the original piece
 		if move == 0 {
 			return availablePieces(for: currentPlayer).map { .place(unit: $0, at: .inPlay(x: 0, y: 0, z: 0)) }
-		} else if move == 1 {
-			let pieces = availablePieces(for: currentPlayer)
-			let positions = playableSpaces()
-			return pieces.flatMap { piece in
-				return positions.map { Movement.place(unit: piece, at: $0) }
-			}
 		}
 
 		// Queen must be played in player's first 4 moves
@@ -182,7 +176,7 @@ public class GameState: Codable {
 			.filter { includedUnits.contains($0.key) }
 			.filter { $0.key.isTopOfStack(in: self) }
 			.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
-		guard let player = player else { return allSpaces }
+		guard let player = player, move > 1 else { return allSpaces }
 		let unavailableSpaces = Set(units
 			.filter { $0.key.owner != player }
 			.filter { $0.key.isTopOfStack(in: self) }
