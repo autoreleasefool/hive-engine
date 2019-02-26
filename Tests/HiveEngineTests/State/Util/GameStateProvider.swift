@@ -130,7 +130,6 @@ class GameStateProvider {
 		return nextState
 	}
 
-	/// A game state with two winners
 	private lazy var tiedStateMoves: [Movement] = {
 		return [
 			/* 34 */ Movement.move(unit: blackAnt, to: Position.inPlay(x: 1, y: 3, z: -4)),
@@ -153,6 +152,15 @@ class GameStateProvider {
 		}
 		return state
 	}()
+
+	/// Build a GameState with the given moves.
+	func gameState(from moves: [Movement]) -> GameState {
+		var state = initialGameState
+		moves.forEach {
+			state = state.apply($0)
+		}
+		return state
+	}
 }
 
 extension GameState {
