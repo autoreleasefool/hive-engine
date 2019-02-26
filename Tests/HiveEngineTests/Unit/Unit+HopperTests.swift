@@ -18,15 +18,29 @@ final class UnitHopperTests: HiveEngineTestCase {
 	}
 
 	func testHopper_CanMoveAsHopper_IsTrue() {
-		XCTFail("Not implemented")
+		let state = stateProvider.gameState(after: 9)
+		XCTAssertTrue(state.blackHopper.canMove(as: .hopper, in: state))
 	}
 
 	func testHopper_CanMoveAsOtherBug_IsFalse() {
-		XCTFail("Not implemented")
+		let state = stateProvider.gameState(after: 9)
+		XCTAssertFalse(state.blackHopper.canMove(as: .ant, in: state))
+		XCTAssertFalse(state.blackHopper.canMove(as: .beetle, in: state))
+		XCTAssertFalse(state.blackHopper.canMove(as: .ladyBug, in: state))
+		XCTAssertFalse(state.blackHopper.canMove(as: .mosquito, in: state))
+		XCTAssertFalse(state.blackHopper.canMove(as: .pillBug, in: state))
+		XCTAssertFalse(state.blackHopper.canMove(as: .queen, in: state))
+		XCTAssertFalse(state.blackHopper.canMove(as: .spider, in: state))
 	}
 
 	func testHopperMoves_AreCorrect() {
-		XCTFail("Not implemented")
+		let state = stateProvider.gameState(after: 9)
+		let expectedMoves: Set<Movement> = [
+			.move(unit: state.blackHopper, to: .inPlay(x: 1, y: 2, z: -3)),
+			.move(unit: state.blackHopper, to: .inPlay(x: 1, y: 0, z: -1))
+		]
+
+		XCTAssertEqual(expectedMoves, state.blackHopper.availableMoves(in: state))
 	}
 
 	static var allTests = [
