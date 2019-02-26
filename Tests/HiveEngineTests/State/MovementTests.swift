@@ -12,15 +12,8 @@ import XCTest
 
 final class MovementTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testCodingMoveMovement() {
-		let unit = stateProvider.initialGameState.whiteAnt
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
 		let position: Position = .inPlay(x: 1, y: -1, z: 0)
 		let movement: Movement = .move(unit: unit, to: position)
 		XCTAssertEncodable(movement)
@@ -28,8 +21,8 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testCodingYoinkMovement() throws {
-		let pillBug = stateProvider.initialGameState.whitePillBug
-		let unit = stateProvider.initialGameState.whiteAnt
+		let pillBug = Unit(class: .pillBug, owner: .black, identifier: UUID(uuidString: "97957797-CC2B-4673-A079-2C75C378361F")!)
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
 		let position: Position = .inPlay(x: 1, y: -1, z: 0)
 		let movement: Movement = .yoink(pillBug: pillBug, unit: unit, to: position)
 		XCTAssertEncodable(movement)
@@ -37,7 +30,7 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testCodingPlaceMovement() throws {
-		let unit = stateProvider.initialGameState.whiteAnt
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
 		let position: Position = .inPlay(x: 1, y: -1, z: 0)
 		let movement: Movement = .place(unit: unit, at: position)
 		XCTAssertEncodable(movement)
@@ -45,7 +38,7 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testMovedUnit_IsCorrect() {
-		let unit = stateProvider.initialGameState.whiteAnt
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
 		let position: Position = .inPlay(x: 1, y: -1, z: 0)
 
 		var movement: Movement = .place(unit: unit, at: position)
@@ -59,7 +52,7 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testTargetPosition_IsCorrect() {
-		let unit = stateProvider.initialGameState.whiteAnt
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
 		let position: Position = .inPlay(x: 1, y: -1, z: 0)
 
 		var movement: Movement = .place(unit: unit, at: position)
