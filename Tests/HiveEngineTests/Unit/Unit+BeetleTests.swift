@@ -17,43 +17,78 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		stateProvider = GameStateProvider()
 	}
 
-	func testBeetle_CanMoveAsBeetle_IsTrue() {
-		XCTFail("Not implemented")
-	}
-
-	func testBeetle_CanMoveAsQueen_IsTrue() {
-		XCTFail("Not implemented")
-	}
-
-	func testBeetle_CanMoveAsOtherBug_IsFalse() {
-		XCTFail("Not implemented")
+	func testBeetle_CanMoveAsBeetleOrQueen() {
+		let state = stateProvider.gameState(after: 12)
+		HiveEngine.Unit.Class.allCases.forEach {
+			switch $0 {
+			case .beetle, .queen:
+				XCTAssertTrue(state.whiteBeetle.canMove(as: $0, in: state))
+			case .ant, .hopper, .ladyBug, .mosquito, .pillBug, .spider:
+				XCTAssertFalse(state.whiteBeetle.canMove(as: $0, in: state))
+			}
+		}
 	}
 
 	func testBeetle_WithoutFreedomOfMovement_CannotMove() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteHopper, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: 2, y: -1, z: -1)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 2, z: -3)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 3, y: -1, z: -2)),
+			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 2, y: 0, z: -2)),
+			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: 1, y: 2, z: -3)),
+			]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: .inPlay(x: 2, y: 1, z: -3))
+		XCTAssertTrue(state.whiteBeetle.availableMoves(in: state).contains(expectedMove))
+		let unexpectedMove: Movement = .move(unit: state.whiteBeetle, to: .inPlay(x: 1, y: 0, z: -1))
+		XCTAssertFalse(state.whiteBeetle.availableMoves(in: state).contains(unexpectedMove))
 	}
 
-	func testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced_IsTrue() {
-		XCTFail("Not implemented")
+	func testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced() {
+		let state = stateProvider.gameState(after: 29)
+		let expectedPlacements: Set<Movement> = [
+			.place(unit: state.blackPillBug, at: .inPlay(x: 2, y: 0, z: -2)),
+			.place(unit: state.blackPillBug, at: .inPlay(x: 2, y: -1, z: -1)),
+			.place(unit: state.blackAnt, at: .inPlay(x: 2, y: -1, z: -1)),
+			.place(unit: state.blackAnt, at: .inPlay(x: 2, y: 0, z: -2)),
+		]
+
+		let availablePlacements = Set(state.availableMoves.filter { if case .place = $0 { return true } else { return false} })
+
+		XCTAssertTrue(expectedPlacements.isSubset(of: availablePlacements))
 	}
 
-	func testWithBeetleOnTopOfStack_PiecesBeneathCannotMove_IsTrue() {
-		XCTFail("Not implemented")
+	func testWithBeetleOnTopOfStack_PiecesBeneathCannotMove() {
+		let state = stateProvider.gameState(after: 30)
+		XCTAssertEqual(0, state.whiteQueen.availableMoves(in: state).count)
 	}
 
-	func testBeetle_CanMoveToTallerStack_IsTrue() {
-		XCTFail("Not implemented")
+	func testBeetle_CanMoveToTallerStack() {
+		let state = stateProvider.gameState(after: 13)
+		let expectedMove: Movement = .move(unit: state.blackMosquito, to: .inPlay(x: 0, y: 0, z: 0))
+		XCTAssertTrue(state.blackMosquito.availableMoves(in: state).contains(expectedMove))
+	}
+
+	func testBeetle_CanMoveDownFromStack() {
+		let state = stateProvider.gameState(after: 14)
+		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: .inPlay(x: -1, y: 0, z: 1))
+		XCTAssertTrue(state.whiteBeetle.availableMoves(in: state).contains(expectedMove))
 	}
 
 	static var allTests = [
-		("testBeetle_CanMoveAsBeetle_IsTrue", testBeetle_CanMoveAsBeetle_IsTrue),
-		("testBeetle_CanMoveAsQueen_IsTrue", testBeetle_CanMoveAsQueen_IsTrue),
-		("testBeetle_CanMoveAsOtherBug_IsFalse", testBeetle_CanMoveAsOtherBug_IsFalse),
+		("testBeetle_CanMoveAsBeetleOrQueen", testBeetle_CanMoveAsBeetleOrQueen),
 
 		("testBeetle_WithoutFreedomOfMovement_CannotMove", testBeetle_WithoutFreedomOfMovement_CannotMove),
 
-		("testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced_IsTrue", testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced_IsTrue),
-		("testWithBeetleOnTopOfStack_PiecesBeneathCannotMove_IsTrue", testWithBeetleOnTopOfStack_PiecesBeneathCannotMove_IsTrue),
-		("testBeetle_CanMoveToTallerStack_IsTrue", testBeetle_CanMoveToTallerStack_IsTrue)
+		("testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced", testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced),
+		("testWithBeetleOnTopOfStack_PiecesBeneathCannotMove", testWithBeetleOnTopOfStack_PiecesBeneathCannotMove),
+		("testBeetle_CanMoveToTallerStack", testBeetle_CanMoveToTallerStack),
+		("testBeetle_CanMoveDownFromStack", testBeetle_CanMoveDownFromStack)
 	]
 }
