@@ -34,10 +34,12 @@ extension Unit {
 					guard let currentStack = state.stacks[currentPosition], let targetStack = state.stacks[$0] else { return false }
 
 					// Unit can freely move to the target position
+					// When at the start position, it moves from its current height, but when on top of the stack,
+					// it moves from one higher than the stack's height, to 1 higher than the target stack's height
 					return currentPosition.freedomOfMovement(
 						to: $0,
-						startingHeight: currentStack.endIndex,
-						endingHeight: targetStack.endIndex,
+						startingHeight: currentStack.endIndex + (currentPosition == startPosition ? 0 : 1),
+						endingHeight: targetStack.endIndex + 1,
 						in: state
 					)
 				}.forEach { hivePosition in
@@ -46,13 +48,12 @@ extension Unit {
 						// Lady Bug moves exactly 2 spaces on top of hive, then must come down
 						hivePosition.adjacent().filter { downPosition in
 							guard let hiveStack = state.stacks[hivePosition] else { return false }
-							let downStack = state.stacks[downPosition]
 
 							return state.playableSpaces(excluding: self).contains(downPosition) &&
 								hivePosition.freedomOfMovement(
 									to: downPosition,
-									startingHeight: hiveStack.endIndex,
-									endingHeight: downStack?.endIndex ?? 1,
+									startingHeight: hiveStack.endIndex + 1,
+									endingHeight: 1,
 									in: state
 								)
 							}.forEach { downPosition in moves.insert(.move(unit: self, to: downPosition)) }

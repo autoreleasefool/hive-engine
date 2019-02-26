@@ -54,7 +54,7 @@ public enum Position: Hashable, Equatable {
 		in state: GameState
 	) -> Bool {
 		// Can't move to anywhere but the top of a stack
-		if let otherStack = state.stacks[other], endingHeight != otherStack.endIndex {
+		if let otherStack = state.stacks[other], endingHeight != otherStack.endIndex + 1 {
 			return false
 		}
 
@@ -69,7 +69,7 @@ public enum Position: Hashable, Equatable {
 				secondPositionModifier = .inPlay(x: z, y: y, z: 0)
 			} else if y == 0 {
 				firstPositionModifier = .inPlay(x: 0, y: x, z: z)
-				secondPositionModifier = .inPlay(x: z, y: z, z: 0)
+				secondPositionModifier = .inPlay(x: x, y: z, z: 0)
 			} else if z == 0 {
 				firstPositionModifier = .inPlay(x: 0, y: y, z: x)
 				secondPositionModifier = .inPlay(x: x, y: 0, z: y)
@@ -85,7 +85,7 @@ public enum Position: Hashable, Equatable {
 		if startingHeight > endingHeight {
 			return firstStack.endIndex <= startingHeight || secondStack.endIndex <= startingHeight
 		} else {
-			return endingHeight <= firstStack.endIndex || endingHeight <= secondStack.endIndex
+			return endingHeight > firstStack.endIndex || endingHeight > secondStack.endIndex
 		}
 	}
 
