@@ -28,6 +28,10 @@ public class GameState: Codable {
 	/// The current move number
 	private(set) public var move: Int
 
+	/// The most recently moved unit
+	private(set) public var lastMovedUnit: Unit?
+
+	/// True if the game has ended
 	public var isEndGame: Bool {
 		return winner.isNotEmpty
 	}
@@ -137,6 +141,8 @@ public class GameState: Codable {
 			update.stacks[position] = [unit]
 			update.units[unit] = position
 		}
+
+		update.lastMovedUnit = move.movedUnit
 
 		return update
 	}

@@ -81,7 +81,7 @@ public struct Unit: Codable {
 
 	/// Returns false if this piece cannot move due to fundamental rules of the game.
 	func canMove(in state: GameState) -> Bool {
-		return state.oneHive(excluding: self) && self.isTopOfStack(in: state)
+		return state.oneHive(excluding: self) && self.isTopOfStack(in: state) && state.lastMovedUnit != self
 	}
 
 	/// Returns true if this unit can move as the given class.

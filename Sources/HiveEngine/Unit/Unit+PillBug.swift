@@ -18,15 +18,15 @@ extension Unit {
 		let adjacentPlayablePositions = position.adjacent().intersection(state.playableSpaces())
 
 		position.adjacent()
+			// Find adjacent pieces which are in stacks of height 1
 			.compactMap {
-				// Find adjacent pieces which are in stacks of height 1
 				guard let stack = state.stacks[$0], stack.endIndex == 1 else { return nil }
 				return stack.last
 			}
-			.filter {
-				// Ensure moving the unit does not violate the one hive rule
-				return state.oneHive(excluding: $0)
-			}
+			// Ensure moving the unit does not violate the one hive rule
+			.filter { state.oneHive(excluding: $0) }
+			// Unable to move the most recently moved piece (either yoinked or moved last turn)
+			.filter { $0 != state.lastMovedUnit }
 			.forEach { unit in
 				adjacentPlayablePositions.forEach { targetPosition in
 					specialAbilityMovements.insert(.yoink(pillBug: self, unit: unit, to: targetPosition))
