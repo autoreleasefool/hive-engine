@@ -80,15 +80,21 @@ public class GameState: Codable {
 
 		if move == 0 {
 			return availablePieces(for: currentPlayer).map { .place(unit: $0, at: .inPlay(x: 0, y: 0, z: 0)) }
+		} else if move == 1 {
+			let pieces = availablePieces(for: currentPlayer)
+			let positions = playableSpaces()
+			return pieces.flatMap { piece in
+				return positions.map { Movement.place(unit: piece, at: $0) }
+			}
 		}
 
 		if (currentPlayer == .white && move == 6) || (currentPlayer == .black && move == 7),
 			let queen = availablePieces(for: currentPlayer).filter({ $0.class == .queen }).first {
-			return playableSpaces().map { .place(unit: queen, at: $0) }
+			return playableSpaces(for: currentPlayer).map { .place(unit: queen, at: $0) }
 		}
 
 		let placePieceMovements: [Movement] = availablePieces(for: currentPlayer).flatMap { unit in
-			return playableSpaces().map { .place(unit: unit, at: $0) }
+			return playableSpaces(for: currentPlayer).map { .place(unit: unit, at: $0) }
 		}
 
 		var movePieceMovements: [Movement] = []
@@ -162,19 +168,23 @@ public class GameState: Codable {
 	///
 	/// - Parameters:
 	///  - excludedUnit: optionally exclude a unit when determining if the space is playable
-	public func playableSpaces(excluding excludedUnit: Unit? = nil) -> Set<Position> {
+	public func playableSpaces(excluding excludedUnit: Unit? = nil, for player: Player? = nil) -> Set<Position> {
 		var includedUnits = unitsInPlay
 		if let excluded = excludedUnit {
 			includedUnits.remove(excluded)
 		}
 
-		return Set(units.filter { includedUnits.contains($0.key) }.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
+		let allSpaces = Set(units
+			.filter { includedUnits.contains($0.key) }
+			.filter { $0.key.isTopOfStack(in: self) }
+			.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
+		guard let player = player else { return allSpaces }
+		let unavailableSpaces = Set(units
+			.filter { $0.key.owner != player }
+			.filter { $0.key.isTopOfStack(in: self) }
+			.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
+		return allSpaces.subtracting(unavailableSpaces)
 	}
-
-	/// Positions which are adjacent to another piece and are not filled.
-	public lazy var playableSpaces: Set<Position> = {
-		return Set(units.filter { unitsInPlay.contains($0.key) }.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
-	}()
 
 	// MARK: - Validation
 
