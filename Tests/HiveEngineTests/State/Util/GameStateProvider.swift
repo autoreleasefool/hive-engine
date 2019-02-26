@@ -20,22 +20,22 @@ class GameStateProvider {
 		return gameState(after: partialStateMoves.count)
 	}
 
-	private var whiteAnt: Unit!
-	private var whiteBeetle: Unit!
-	private var whiteHopper: Unit!
-	private var whiteLadyBug: Unit!
-	private var whiteMosquito: Unit!
-	private var whitePillBug: Unit!
-	private var whiteQueen: Unit!
-	private var whiteSpider: Unit!
-	private var blackAnt: Unit!
-	private var blackBeetle: Unit!
-	private var blackHopper: Unit!
-	private var blackLadyBug: Unit!
-	private var blackMosquito: Unit!
-	private var blackPillBug: Unit!
-	private var blackQueen: Unit!
-	private var blackSpider: Unit!
+	var whiteAnt: Unit!
+	var whiteBeetle: Unit!
+	var whiteHopper: Unit!
+	var whiteLadyBug: Unit!
+	var whiteMosquito: Unit!
+	var whitePillBug: Unit!
+	var whiteQueen: Unit!
+	var whiteSpider: Unit!
+	var blackAnt: Unit!
+	var blackBeetle: Unit!
+	var blackHopper: Unit!
+	var blackLadyBug: Unit!
+	var blackMosquito: Unit!
+	var blackPillBug: Unit!
+	var blackQueen: Unit!
+	var blackSpider: Unit!
 
 	init() {
 		whiteAnt = initialGameState.whiteAnt
