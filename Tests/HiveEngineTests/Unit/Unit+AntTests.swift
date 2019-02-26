@@ -17,20 +17,16 @@ final class UnitAntTests: HiveEngineTestCase {
 		stateProvider = GameStateProvider()
 	}
 
-	func testAnt_CanMoveAsAnt_IsTrue() {
+	func testAnt_CanMoveAsAntOnly() {
 		let state = stateProvider.gameState(after: 14)
-		XCTAssertTrue(state.whiteAnt.canMove(as: .ant, in: state))
-	}
-
-	func testAnt_CanMoveAsOtherBug_IsFalse() {
-		let state = stateProvider.gameState(after: 14)
-		XCTAssertFalse(state.whiteAnt.canMove(as: .beetle, in: state))
-		XCTAssertFalse(state.whiteAnt.canMove(as: .hopper, in: state))
-		XCTAssertFalse(state.whiteAnt.canMove(as: .ladyBug, in: state))
-		XCTAssertFalse(state.whiteAnt.canMove(as: .mosquito, in: state))
-		XCTAssertFalse(state.whiteAnt.canMove(as: .pillBug, in: state))
-		XCTAssertFalse(state.whiteAnt.canMove(as: .queen, in: state))
-		XCTAssertFalse(state.whiteAnt.canMove(as: .spider, in: state))
+		HiveEngine.Unit.Class.allCases.forEach {
+			switch $0 {
+			case .ant:
+				XCTAssertTrue(state.whiteAnt.canMove(as: $0, in: state))
+			case .spider, .beetle, .hopper, .ladyBug, .mosquito, .pillBug, .queen:
+				XCTAssertFalse(state.whiteAnt.canMove(as: $0, in: state))
+			}
+		}
 	}
 
 	func testAntMoves_AreCorrect() {
@@ -76,9 +72,7 @@ final class UnitAntTests: HiveEngineTestCase {
 	}
 
 	static var allTests = [
-		("testAnt_CanMoveAsAnt_IsTrue", testAnt_CanMoveAsAnt_IsTrue),
-		("testAnt_CanMoveAsOtherBug_IsFalse", testAnt_CanMoveAsOtherBug_IsFalse),
-
+		("testAnt_CanMoveAsAntOnly", testAnt_CanMoveAsAntOnly),
 		("testAntMoves_AreCorrect", testAntMoves_AreCorrect),
 		("testAnt_FreedomOfMovement_IsCorrect", testAnt_FreedomOfMovement_IsCorrect)
 	]

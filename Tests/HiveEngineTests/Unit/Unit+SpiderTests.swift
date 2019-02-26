@@ -17,20 +17,16 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		stateProvider = GameStateProvider()
 	}
 
-	func testSpider_CanMoveAsSpider_IsTrue() {
+	func testSpider_CanMoveAsSpiderOnly() {
 		let state = stateProvider.gameState(after: 2)
-		XCTAssertTrue(state.whiteSpider.canMove(as: .spider, in: state))
-	}
-
-	func testSpider_CanMoveAsOtherBug_IsFalse() {
-		let state = stateProvider.gameState(after: 2)
-		XCTAssertFalse(state.whiteSpider.canMove(as: .ant, in: state))
-		XCTAssertFalse(state.whiteSpider.canMove(as: .beetle, in: state))
-		XCTAssertFalse(state.whiteSpider.canMove(as: .hopper, in: state))
-		XCTAssertFalse(state.whiteSpider.canMove(as: .ladyBug, in: state))
-		XCTAssertFalse(state.whiteSpider.canMove(as: .mosquito, in: state))
-		XCTAssertFalse(state.whiteSpider.canMove(as: .pillBug, in: state))
-		XCTAssertFalse(state.whiteSpider.canMove(as: .queen, in: state))
+		HiveEngine.Unit.Class.allCases.forEach {
+			switch $0 {
+			case .spider:
+				XCTAssertTrue(state.whiteSpider.canMove(as: $0, in: state))
+			case .ant, .beetle, .hopper, .ladyBug, .mosquito, .pillBug, .queen:
+				XCTAssertFalse(state.whiteSpider.canMove(as: $0, in: state))
+			}
+		}
 	}
 
 	func testSpiderMoves_AreCorrect() {
@@ -63,9 +59,7 @@ final class UnitSpiderTests: HiveEngineTestCase {
 	}
 
 	static var allTests = [
-		("testSpider_CanMoveAsSpider_IsTrue", testSpider_CanMoveAsSpider_IsTrue),
-		("testSpider_CanMoveAsOtherBug_IsFalse", testSpider_CanMoveAsOtherBug_IsFalse),
-
+		("testSpider_CanMoveAsSpiderOnly", testSpider_CanMoveAsSpiderOnly),
 		("testSpiderMoves_AreCorrect", testSpiderMoves_AreCorrect),
 		("testSpider_FreedomOfMovement_IsCorrect", testSpider_FreedomOfMovement_IsCorrect)
 	]

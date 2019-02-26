@@ -17,20 +17,16 @@ final class UnitHopperTests: HiveEngineTestCase {
 		stateProvider = GameStateProvider()
 	}
 
-	func testHopper_CanMoveAsHopper_IsTrue() {
+	func testHopper_CanMoveAsHopperOnly() {
 		let state = stateProvider.gameState(after: 9)
-		XCTAssertTrue(state.blackHopper.canMove(as: .hopper, in: state))
-	}
-
-	func testHopper_CanMoveAsOtherBug_IsFalse() {
-		let state = stateProvider.gameState(after: 9)
-		XCTAssertFalse(state.blackHopper.canMove(as: .ant, in: state))
-		XCTAssertFalse(state.blackHopper.canMove(as: .beetle, in: state))
-		XCTAssertFalse(state.blackHopper.canMove(as: .ladyBug, in: state))
-		XCTAssertFalse(state.blackHopper.canMove(as: .mosquito, in: state))
-		XCTAssertFalse(state.blackHopper.canMove(as: .pillBug, in: state))
-		XCTAssertFalse(state.blackHopper.canMove(as: .queen, in: state))
-		XCTAssertFalse(state.blackHopper.canMove(as: .spider, in: state))
+		HiveEngine.Unit.Class.allCases.forEach {
+			switch $0 {
+			case .hopper:
+				XCTAssertTrue(state.blackHopper.canMove(as: $0, in: state))
+			case .ant, .beetle, .spider, .ladyBug, .mosquito, .pillBug, .queen:
+				XCTAssertFalse(state.blackHopper.canMove(as: $0, in: state))
+			}
+		}
 	}
 
 	func testHopperMoves_AreCorrect() {
@@ -43,10 +39,13 @@ final class UnitHopperTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedMoves, state.blackHopper.availableMoves(in: state))
 	}
 
-	static var allTests = [
-		("testHopper_CanMoveAsHopper_IsTrue", testHopper_CanMoveAsHopper_IsTrue),
-		("testHopper_CanMoveAsOtherBug_IsFalse", testHopper_CanMoveAsOtherBug_IsFalse),
+	func testHopper_CanJumpAnyHeight() {
+		XCTFail("Not implemented")
+	}
 
-		("testHopperMoves_AreCorrect", testHopperMoves_AreCorrect)
+	static var allTests = [
+		("testHopper_CanMoveAsHopperOnly", testHopper_CanMoveAsHopperOnly),
+		("testHopperMoves_AreCorrect", testHopperMoves_AreCorrect),
+		("testHopper_CanJumpAnyHeight", testHopper_CanJumpAnyHeight)
 	]
 }
