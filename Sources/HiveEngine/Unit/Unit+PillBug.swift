@@ -15,9 +15,15 @@ extension Unit {
 		guard let position = state.units[self], position != .inHand else { return [] }
 
 		var specialAbilityMovements = Set<Movement>()
-		let adjacentPlayablePositions = position.adjacent().intersection(state.playableSpaces())
+
+		// Find empty adjacent spaces which have freedom of movement from top of pill bug to the position
+		let adjacentPlayablePositions = position.adjacent()
+			.filter { position.freedomOfMovement(to: $0, startingHeight: 2, endingHeight: 1, in: state) }
+			.intersection(state.playableSpaces())
 
 		position.adjacent()
+			// Ensure freedom of movement from the position to the top of the pill bug
+			.filter { $0.freedomOfMovement(to: position, startingHeight: 1, endingHeight: 2, in: state) }
 			// Find adjacent pieces which are in stacks of height 1
 			.compactMap {
 				guard let stack = state.stacks[$0], stack.endIndex == 1 else { return nil }
