@@ -109,7 +109,9 @@ final class PositionTests: HiveEngineTestCase {
 		XCTAssertDecodable(position)
 	}
 
-	func testWhenMovingAcross_EqualOnBothSides_FreedomOfMovement_IsFalse() {
+	// MARK: Moving across 1 to 1
+
+	func testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement() {
 		let setupMoves: [Movement] = [
 			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
 			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
@@ -119,12 +121,13 @@ final class PositionTests: HiveEngineTestCase {
 			]
 
 		let state = stateProvider.gameState(from: setupMoves)
-		let startPosition: Position = .inPlay(x: 2, y: 0, z: -2)
-		let endPosition: Position = .inPlay(x: 1, y: 0, z: -1)
-		XCTAssertFalse(startPosition.freedomOfMovement(to: endPosition, in: state))
+		let firstPosition: Position = .inPlay(x: 2, y: 0, z: -2)
+		let secondPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, in: state))
 	}
 
-	func testWhenMovingAcross__FreeOnOneSide_FreedomOfMovement_IsTrue() {
+	func testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement() {
 		let setupMoves: [Movement] = [
 			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
 			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
@@ -133,12 +136,79 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		let state = stateProvider.gameState(from: setupMoves)
-		let startPosition: Position = .inPlay(x: 2, y: 0, z: -2)
-		let endPosition: Position = .inPlay(x: 1, y: 0, z: -1)
-		XCTAssertTrue(startPosition.freedomOfMovement(to: endPosition, in: state))
+		let firstPosition: Position = .inPlay(x: 2, y: 0, z: -2)
+		let secondPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, in: state))
 	}
 
-	func testWhenMovingDown_HigherOnBothSides_FreedomOfMovement_IsFalse() {
+	func testWhenMovingAcrossZAxis_EqualOnBothSides_NoFreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: -1, y: 2, z: -1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: -2, y: 1, z: 1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: -2, y: 2, z: 0)
+		let secondPosition: Position = .inPlay(x: -1, y: 1, z: 0)
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, in: state))
+	}
+
+	func testWhenMovingAcrossZAxis_FreeOnOneSide_FreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: -1, y: 2, z: -1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: -2, y: 2, z: 0)
+		let secondPosition: Position = .inPlay(x: -1, y: 1, z: 0)
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, in: state))
+	}
+
+	func testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: -1, y: -1, z: 2)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 1, y: -2, z: 1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: -1, z: 1)
+		let secondPosition: Position = .inPlay(x: 0, y: -2, z: 2)
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, in: state))
+	}
+
+	func testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: -1, y: -1, z: 2))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: -1, z: 1)
+		let secondPosition: Position = .inPlay(x: 0, y: -2, z: 2)
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, in: state))
+	}
+
+	// MARK: - Moving up 1 to 2 or down 2 to 1
+
+	// MARK: Z Axis
+
+	func testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let setupMoves: [Movement] = [
 			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
 			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
@@ -151,14 +221,16 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		let state = stateProvider.gameState(from: setupMoves)
-		let startPosition: Position = .inPlay(x: 0, y: 1, z: -1)
-		let startHeight = 1
-		let endPosition: Position = .inPlay(x: 1, y: 0, z: -1)
-		let endHeight = 2
-		XCTAssertFalse(startPosition.freedomOfMovement(to: endPosition, startingHeight: startHeight, endingHeight: endHeight, in: state))
+		let firstPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let secondPositionHeight = 1
+
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
 	}
 
-	func testWhenMovingDown_HigherOnOneSide_FreedomOfMovement_IsTrue() {
+	func testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let setupMoves: [Movement] = [
 			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
 			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
@@ -168,48 +240,232 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		let state = stateProvider.gameState(from: setupMoves)
-		let startPosition: Position = .inPlay(x: 0, y: 1, z: -1)
-		let startHeight = 2
-		let endPosition: Position = .inPlay(x: 1, y: 0, z: -1)
-		let endHeight = 1
-		XCTAssertTrue(startPosition.freedomOfMovement(to: endPosition, startingHeight: startHeight, endingHeight: endHeight, in: state))
+		let firstPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let secondPositionHeight = 1
+
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
 	}
 
-	func testWhenMovingUp_HigherOnBothSides_FreedomOfMovement_IsFalse() {
+	func testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let setupMoves: [Movement] = [
 			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 1, y: 0, z: -1)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: -1, y: 1, z: 0)),
 			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2)),
 			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
 			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),
 			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
 			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))
-			]
+		]
 
 		let state = stateProvider.gameState(from: setupMoves)
-		let startPosition: Position = .inPlay(x: 1, y: 0, z: -1)
-		let startHeight = 1
-		let endPosition: Position = .inPlay(x: 0, y: 1, z: -1)
-		let endHeight = 2
-		XCTAssertFalse(startPosition.freedomOfMovement(to: endPosition, startingHeight: startHeight, endingHeight: endHeight, in: state))
+		let firstPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let firstPositionHeight = 1
+		let secondPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let secondPositionHeight = 2
+
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
 	}
 
-	func testWhenMovingUp_HigherOnOneSide_FreedomOfMovement_IsTrue() {
+	func testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 1, y: 0, z: -1)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let firstPositionHeight = 1
+		let secondPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let secondPositionHeight = 2
+
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	// MARK: Y Axis
+
+	func testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let setupMoves: [Movement] = [
 			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
 			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
-			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 1, z: -2)),
-			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0))
-			]
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 2, y: -2, z: 0)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 1, y: -1, z: 0))
+		]
 
 		let state = stateProvider.gameState(from: setupMoves)
-		let startPosition: Position = .inPlay(x: 1, y: 0, z: -1)
-		let startHeight = 1
-		let endPosition: Position = .inPlay(x: 0, y: 1, z: -1)
-		let endHeight = 2
-		XCTAssertTrue(startPosition.freedomOfMovement(to: endPosition, startingHeight: startHeight, endingHeight: endHeight, in: state))
+		let firstPosition: Position = .inPlay(x: 0, y: 0, z: 0)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let secondPositionHeight = 1
+
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	func testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 2, y: -2, z: 0)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 0, y: 1, z: -1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: 0, z: 0)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: 1, y: 0, z: -1)
+		let secondPositionHeight = 1
+
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	func testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: -1, y: -1, z: 2)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: -2, y: 2, z: 0)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: -1, y: 1, z: 0))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: 0, z: 0)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: -1, y: 0, z: 1)
+		let secondPositionHeight = 1
+
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	func testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: -1, y: -1, z: 2)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: -2, y: 2, z: 0)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 0, y: -1, z: 1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: 0, z: 0)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: -1, y: 0, z: 1)
+		let secondPositionHeight = 1
+
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	// MARK: X Axis
+
+	func testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 1, y: 0, z: -1)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: -2, y: 2, z: 0)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 2, y: 0, z: -2)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 1, y: 0, z: -1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: 0, z: 0)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let secondPositionHeight = 1
+
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	func testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 1, y: 0, z: -1)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: -2, y: 2, z: 0)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 2, y: 0, z: -2)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: -1, y: 1, z: 0))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: 0, z: 0)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: 0, y: 1, z: -1)
+		let secondPositionHeight = 1
+
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	func testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: -2, y: 0, z: 2)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 2, y: -2, z: 0)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: -1, y: 0, z: 1)),
+			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 1, y: -1, z: 0))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: 0, z: 0)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: 0, y: -1, z: 1)
+		let secondPositionHeight = 1
+
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	func testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: -2, y: 0, z: 2)),
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 2, y: -2, z: 0)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: -1, y: 0, z: 1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let firstPosition: Position = .inPlay(x: 0, y: 0, z: 0)
+		let firstPositionHeight = 2
+		let secondPosition: Position = .inPlay(x: 0, y: -1, z: 1)
+		let secondPositionHeight = 1
+
+		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
+		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+	}
+
+	func testInHandDescription_IsCorrect() {
+		let position: Position = .inHand
+		XCTAssertEqual("In Hand", position.description)
+	}
+
+	func testInPlayDescription_IsCorrect() {
+		let position: Position = .inPlay(x: 0, y: 1, z: -1)
+		XCTAssertEqual("(0, 1, -1)", position.description)
 	}
 
 	static var allTests = [
@@ -229,11 +485,29 @@ final class PositionTests: HiveEngineTestCase {
 		("testCodingInPlayPosition", testCodingInPlayPosition),
 		("testCodingInHandPosition", testCodingInHandPosition),
 
-		("testWhenMovingAcross_EqualOnBothSides_FreedomOfMovement_IsFalse", testWhenMovingAcross_EqualOnBothSides_FreedomOfMovement_IsFalse),
-		("testWhenMovingAcross__FreeOnOneSide_FreedomOfMovement_IsTrue", testWhenMovingAcross__FreeOnOneSide_FreedomOfMovement_IsTrue),
-		("testWhenMovingDown_HigherOnBothSides_FreedomOfMovement_IsFalse", testWhenMovingDown_HigherOnBothSides_FreedomOfMovement_IsFalse),
-		("testWhenMovingDown_HigherOnOneSide_FreedomOfMovement_IsTrue", testWhenMovingDown_HigherOnOneSide_FreedomOfMovement_IsTrue),
-		("testWhenMovingUp_HigherOnBothSides_FreedomOfMovement_IsFalse", testWhenMovingUp_HigherOnBothSides_FreedomOfMovement_IsFalse),
-		("testWhenMovingUp_HigherOnOneSide_FreedomOfMovement_IsTrue", testWhenMovingUp_HigherOnOneSide_FreedomOfMovement_IsTrue)
+		("testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement", testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossZAxis_EqualOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossZAxis_EqualOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossZAxis_FreeOnOneSide_FreedomOfMovement", testWhenMovingAcrossZAxis_FreeOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement", testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement),
+
+		("testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement),
+
+		("testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement),
+
+		("testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement),
+
+		("testInHandDescription_IsCorrect", testInHandDescription_IsCorrect),
+		("testInPlayDescription_IsCorrect", testInPlayDescription_IsCorrect)
 	]
 }
