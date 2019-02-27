@@ -18,33 +18,54 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 	}
 
 	func testMosquito_CanMoveAsAdjacentBugs_IsTrue() {
-		XCTFail("Not implemented")
-	}
+		let state = stateProvider.gameState(after: 13)
+		let adjacentUnitClasses = state.units(adjacentTo: state.blackMosquito).map { $0.class }
 
-	func testMosquito_CanMoveAsNonAdjacentBugs_IsFalse() {
-		XCTFail("Not implemented")
-	}
-
-	func testMosquito_CanMoveAsOtherBug_IsFalse() {
-		XCTFail("Not implemented")
+		HiveEngine.Unit.Class.allCases.forEach {
+			if $0 == .mosquito {
+				XCTAssertTrue(state.blackMosquito.canMove(as: $0, in: state))
+			} else if adjacentUnitClasses.contains($0) {
+				XCTAssertTrue(state.blackMosquito.canMove(as: $0, in: state))
+			} else {
+				XCTAssertFalse(state.blackMosquito.canMove(as: $0, in: state))
+			}
+		}
 	}
 
 	func testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue() {
-		XCTFail("Not implemented")
+		let state = stateProvider.gameState(after: 16)
+		XCTAssertTrue(state.whiteMosquito.canUseSpecialAbility(in: state))
 	}
 
 	func testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse() {
-		XCTFail("Not implemented")
+		let state = stateProvider.gameState(after: 18)
+		XCTAssertFalse(state.whiteMosquito.canUseSpecialAbility(in: state))
 	}
 
 	func testMosquito_OnTopOfHive_IsBeetle() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: stateProvider.whiteMosquito, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: stateProvider.blackMosquito, at: .inPlay(x: 0, y: 2, z: -2)),
+			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 1, y: -1, z: 0)),
+			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: -1, y: 2, z: -1)),
+			.move(unit: stateProvider.whiteMosquito, to: .inPlay(x: 0, y: 0, z: 0))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		HiveEngine.Unit.Class.allCases.forEach {
+			switch $0 {
+			case .beetle, .mosquito:
+				XCTAssertTrue(state.whiteMosquito.canMove(as: $0, in: state))
+			case .ant, .hopper, .spider, .ladyBug, .pillBug, .queen:
+				XCTAssertFalse(state.whiteMosquito.canMove(as: $0, in: state))
+			}
+		}
 	}
 
 	static var allTests = [
 		("testMosquito_CanMoveAsAdjacentBugs_IsTrue", testMosquito_CanMoveAsAdjacentBugs_IsTrue),
-		("testMosquito_CanMoveAsNonAdjacentBugs_IsFalse", testMosquito_CanMoveAsNonAdjacentBugs_IsFalse),
-		("testMosquito_CanMoveAsOtherBug_IsFalse", testMosquito_CanMoveAsOtherBug_IsFalse),
 
 		("testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue", testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue),
 		("testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse", testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse),
