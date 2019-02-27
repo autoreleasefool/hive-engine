@@ -65,11 +65,40 @@ final class MovementTests: HiveEngineTestCase {
 		XCTAssertEqual(position, movement.targetPosition)
 	}
 
+	func testPlaceDescription_IsCorrect() {
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let position: Position = .inPlay(x: 1, y: -1, z: 0)
+		let movement: Movement = .place(unit: unit, at: position)
+
+		XCTAssertEqual("Place White Ant at (1, -1, 0)", movement.description)
+	}
+
+	func testMoveDescription_IsCorrect() {
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let position: Position = .inPlay(x: 1, y: -1, z: 0)
+		let movement: Movement = .move(unit: unit, to: position)
+
+		XCTAssertEqual("Move White Ant to (1, -1, 0)", movement.description)
+	}
+
+	func testYoinkDescription_IsCorrect() {
+		let pillBug = Unit(class: .pillBug, owner: .black, identifier: UUID(uuidString: "97957797-CC2B-4673-A079-2C75C378361F")!)
+		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let position: Position = .inPlay(x: 1, y: -1, z: 0)
+		let movement: Movement = .yoink(pillBug: pillBug, unit: unit, to: position)
+
+		XCTAssertEqual("Yoink White Ant to (1, -1, 0)", movement.description)
+	}
+
 	static var allTests = [
 		("testCodingMoveMovement", testCodingMoveMovement),
 		("testCodingYoinkMovement", testCodingYoinkMovement),
 		("testCodingPlaceMovement", testCodingPlaceMovement),
 		("testMovedUnit_IsCorrect", testMovedUnit_IsCorrect),
-		("testTargetPosition_IsCorrect", testTargetPosition_IsCorrect)
+		("testTargetPosition_IsCorrect", testTargetPosition_IsCorrect),
+
+		("testPlaceDescription_IsCorrect", testPlaceDescription_IsCorrect),
+		("testMoveDescription_IsCorrect", testMoveDescription_IsCorrect),
+		("testYoinkDescription_IsCorrect", testYoinkDescription_IsCorrect)
 	]
 }
