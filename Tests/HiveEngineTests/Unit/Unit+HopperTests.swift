@@ -40,7 +40,23 @@ final class UnitHopperTests: HiveEngineTestCase {
 	}
 
 	func testHopper_CanJumpAnyHeight() {
-		XCTFail("Not implemented")
+		let setupMoves: [Movement] = [
+			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0)),
+			.move(unit: stateProvider.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: stateProvider.whiteMosquito, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: stateProvider.blackHopper, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: stateProvider.whiteMosquito, to: .inPlay(x: 0, y: 0, z: 0))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let expectedMoves: Set<Movement> = [
+			.move(unit: state.blackHopper, to: .inPlay(x: 0, y: -1, z: 1))
+		]
+		XCTAssertEqual(expectedMoves, state.blackHopper.availableMoves(in: state))
 	}
 
 	static var allTests = [
