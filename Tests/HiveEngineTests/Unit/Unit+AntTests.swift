@@ -48,7 +48,7 @@ final class UnitAntTests: HiveEngineTestCase {
 			.move(unit: state.whiteAnt, to: .inPlay(x: 3, y: -1, z: -2)),
 			.move(unit: state.whiteAnt, to: .inPlay(x: 2, y: 0, z: -2)),
 			.move(unit: state.whiteAnt, to: .inPlay(x: 2, y: 1, z: -3)),
-			.move(unit: state.whiteAnt, to: .inPlay(x: 1, y: 2, z: -3)),
+			.move(unit: state.whiteAnt, to: .inPlay(x: 1, y: 2, z: -3))
 		]
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
@@ -61,7 +61,7 @@ final class UnitAntTests: HiveEngineTestCase {
 			Movement.place(unit: stateProvider.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
 			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: 2, y: -1, z: -1)),
 			Movement.place(unit: stateProvider.blackAnt, at: Position.inPlay(x: 1, y: 2, z: -3)),
-			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1))
 			]
 
 		let state = stateProvider.gameState(from: setupMoves)

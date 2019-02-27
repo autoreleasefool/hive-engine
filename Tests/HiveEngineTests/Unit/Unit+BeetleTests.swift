@@ -40,7 +40,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 3, y: -1, z: -2)),
 			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: -1, y: 1, z: 0)),
 			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 2, y: 0, z: -2)),
-			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: 1, y: 2, z: -3)),
+			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: 1, y: 2, z: -3))
 			]
 
 		let state = stateProvider.gameState(from: setupMoves)
@@ -56,10 +56,10 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			.place(unit: state.blackPillBug, at: .inPlay(x: 2, y: 0, z: -2)),
 			.place(unit: state.blackPillBug, at: .inPlay(x: 2, y: -1, z: -1)),
 			.place(unit: state.blackAnt, at: .inPlay(x: 2, y: -1, z: -1)),
-			.place(unit: state.blackAnt, at: .inPlay(x: 2, y: 0, z: -2)),
+			.place(unit: state.blackAnt, at: .inPlay(x: 2, y: 0, z: -2))
 		]
 
-		let availablePlacements = Set(state.availableMoves.filter { if case .place = $0 { return true } else { return false} })
+		let availablePlacements = Set(state.availableMoves.filter { if case .place = $0 { return true } else { return false } })
 
 		XCTAssertTrue(expectedPlacements.isSubset(of: availablePlacements))
 	}

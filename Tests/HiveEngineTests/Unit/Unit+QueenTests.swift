@@ -52,7 +52,7 @@ final class UnitQueenTests: HiveEngineTestCase {
 			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 3, y: -1, z: -2)),
 			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: -1, y: 1, z: 0)),
 			Movement.move(unit: stateProvider.whiteQueen, to: Position.inPlay(x: 2, y: 0, z: -2)),
-			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: 1, y: 2, z: -3)),
+			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: 1, y: 2, z: -3))
 			]
 
 		let state = stateProvider.gameState(from: setupMoves)
