@@ -58,16 +58,6 @@ class GameStateProvider {
 
 	// MARK: State Builder
 
-	// Hopper: black, 9 + black, 21 (can't move after yoink)
-	// Spider: black, 3
-	// Lady Bug: black, 9,
-	// Queen: white, 9
-	// Beetle: white, 12
-	// Mosquito: black, 13, black, 19, black 23 (can't move to 0, 1, -1)
-	// Pill Bug: white, 16 (can move mosquito, not others) + white, 18 (can't move any -- hopper just moved),
-	// Ant: white, 14
-	// Can place black units at 2,-1,-1 and 2,0,-2 after move 29
-
 	private lazy var partialStateMoves: [Movement] = {
 		return [
 			/* 1  */ Movement.place(unit: whiteSpider, at: Position.inPlay(x: 0, y: 0, z: 0)),
