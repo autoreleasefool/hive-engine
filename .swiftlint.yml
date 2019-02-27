@@ -1,3 +1,5 @@
 disabled_rules:
   - identifier_name
   - line_length
+  - file_length
+  - type_body_length
