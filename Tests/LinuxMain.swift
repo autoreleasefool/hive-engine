@@ -9,7 +9,7 @@
 import XCTest
 import HiveEngineTests
 
-let tests: [XCTestCaseEntry] =
+let tests: [XCTestCaseEntry] = [
 	CollectionExtensionTests.allTests() +
 	GameStateTests.allTests() +
 	MovementTests.allTests() +
@@ -23,7 +23,7 @@ let tests: [XCTestCaseEntry] =
 	UnitMosquitoTests.allTests() +
 	UnitPillBugTests.allTests() +
 	UnitQueenTests.allTests() +
-	UnitSpiderTests.allTests() +
+	UnitSpiderTests.allTests()
 ]
 
 XCTMain(tests)
