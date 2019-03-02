@@ -9,21 +9,6 @@
 import XCTest
 import HiveEngineTests
 
-let tests: [XCTestCaseEntry] = [
-	CollectionExtensionTests.allTests() +
-	GameStateTests.allTests() +
-	MovementTests.allTests() +
-	PlayerTests.allTests() +
-	PositionTests.allTests() +
-	UnitTests.allTests() +
-	UnitAntTests.allTests() +
-	UnitBeetleTests.allTests() +
-	UnitHopperTests.allTests() +
-	UnitLadyBugTests.allTests() +
-	UnitMosquitoTests.allTests() +
-	UnitPillBugTests.allTests() +
-	UnitQueenTests.allTests() +
-	UnitSpiderTests.allTests()
-]
-
+var tests: [XCTestCaseEntry] = []
+tests += HiveEngineTests.allTests()
 XCTMain(tests)
