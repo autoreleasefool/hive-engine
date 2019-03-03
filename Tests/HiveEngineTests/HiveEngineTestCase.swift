@@ -42,7 +42,11 @@ class HiveEngineTestCase: XCTestCase {
 
 	/// Destination for an Encodable fixture.
 	private func destination<T>(for obj: T) -> URL {
-		return fixtureDestination.appendingPathComponent("\(name)_\(String(describing: type(of: obj))).json")
+		let fixtureName = name.replacingOccurrences(of: "[", with: "")
+			.replacingOccurrences(of: "]", with: "")
+			.replacingOccurrences(of: "-", with: "")
+			.replacingOccurrences(of: " ", with: ".")
+		return fixtureDestination.appendingPathComponent("\(fixtureName)_\(String(describing: type(of: obj))).json")
 	}
 
 	/// Assert a decodable can be decoded from a fixture.
@@ -74,7 +78,13 @@ class HiveEngineTestCase: XCTestCase {
 		let destination = self.destination(for: encodable)
 
 		let encoder = JSONEncoder()
-		encoder.outputFormatting = .prettyPrinted
+		#if !os(macOS)
+		encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+		#endif
+		if #available(OSX 10.13, *) {
+			encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+		}
+
 		guard let data = try? encoder.encode(encodable),
 			let encodableString = String(data: data, encoding: .utf8) else {
 			XCTFail("Failed to encode.")

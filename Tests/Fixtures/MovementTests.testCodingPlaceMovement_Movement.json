@@ -1,5 +1,5 @@
 {
-  "move" : {
+  "place" : {
     "to" : {
       "inPlay" : {
         "x" : 1,
@@ -9,8 +9,8 @@
     },
     "unit" : {
       "class" : "Ant",
-      "owner" : "White",
-      "identifier" : "AACA052C-280E-4925-8488-518770A2A912"
+      "identifier" : "AACA052C-280E-4925-8488-518770A2A912",
+      "owner" : "White"
     }
   }
 }
