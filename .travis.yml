@@ -5,16 +5,6 @@ env:
 
 jobs:
   include:
-  # The first stage will install swiftlint and check the code
-  - stage: SwiftLint
-    os: osx
-    language: swift
-    osx_image: xcode10.1
-    sudo: required
-    install:
-    - ./script/install_swiftlint.sh
-    script:
-    - swiftlint
   # The second stage will run all unit tests using Ubuntu
   - stage: Linux test
     os: linux
@@ -29,6 +19,16 @@ jobs:
     script:
     - swift package update
     - swift test
+  # The first stage will install swiftlint and check the code
+  - stage: SwiftLint
+    os: osx
+    language: swift
+    osx_image: xcode10.1
+    sudo: required
+    install:
+    - ./script/install_swiftlint.sh
+    script:
+    - swiftlint
   # The third stage will run all tests on macOS
   - stage: OSX test
     os: osx

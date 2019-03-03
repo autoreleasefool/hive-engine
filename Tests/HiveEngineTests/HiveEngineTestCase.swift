@@ -24,18 +24,6 @@ class HiveEngineTestCase: XCTestCase {
 		return false
 	}
 
-	private var suiteName: String {
-		let suiteStartIndex = name.index(after: name.index(after: name.startIndex))
-		let suiteEndIndex = name.firstIndex(of: " ") ?? name.endIndex
-		return String(name[suiteStartIndex..<suiteEndIndex])
-	}
-
-	private var testName: String {
-		let testStartIndex = name.index(after: name.firstIndex(of: " ") ?? name.index(before: name.endIndex))
-		let testEndIndex = name.index(before: name.endIndex)
-		return String(name[testStartIndex..<testEndIndex])
-	}
-
 	// MARK: - URLs
 
 	/// Location of test directory
@@ -54,8 +42,7 @@ class HiveEngineTestCase: XCTestCase {
 
 	/// Destination for an Encodable fixture.
 	private func destination<T>(for obj: T) -> URL {
-		return fixtureDestination.appendingPathComponent(suiteName, isDirectory: true)
-			.appendingPathComponent("\(testName)_\(String(describing: type(of: obj))).json")
+		return fixtureDestination.appendingPathComponent("\(name)_\(String(describing: type(of: obj))).json")
 	}
 
 	/// Assert a decodable can be decoded from a fixture.
