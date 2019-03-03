@@ -19,9 +19,9 @@ extension Unit {
 			return []
 		}
 
-		let moves = Set(
+		let movesOnTopOfHive = Set(
 			position.adjacent()
-				// Only consider positions that the beetle would move up onto
+				// Only consider positions on top of the hive
 				.intersection(state.stacks.keys)
 				// Filter to positions that the piece can freely move to
 				.filter {
@@ -31,6 +31,18 @@ extension Unit {
 					movement(to: $0)
 				})
 
-		return self.movesAsQueen(in: state).union(moves)
+		var movesDownFromHive: Set<Movement> = []
+		if height > 1 {
+			movesDownFromHive.formUnion(Set(
+				position.adjacent()
+					// Only consider positions down from the hive
+					.intersection(state.playableSpaces())
+					// Filter to positions that the piece can freely move to
+					.filter { position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: 1, in: state) }
+					.compactMap { movement(to: $0) }
+			))
+		}
+
+		return self.movesAsQueen(in: state).union(movesOnTopOfHive).union(movesDownFromHive)
 	}
 }

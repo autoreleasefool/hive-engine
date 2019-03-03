@@ -32,6 +32,26 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		}
 	}
 
+	func testMosquito_BesideBeetle_CanMoveAsQueen() {
+		let setupMoves: [Movement] = [
+			.place(unit: stateProvider.whiteMosquito, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 1, z: -1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		XCTAssertTrue(state.whiteMosquito.canMove(as: .queen, in: state))
+	}
+
+	func testMosquito_BesidePillBug_CanMoveAsQueen() {
+		let setupMoves: [Movement] = [
+			.place(unit: stateProvider.whiteMosquito, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: stateProvider.blackPillBug, at: .inPlay(x: 0, y: 1, z: -1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		XCTAssertTrue(state.whiteMosquito.canMove(as: .queen, in: state))
+	}
+
 	func testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue() {
 		let state = stateProvider.gameState(after: 16)
 		XCTAssertTrue(state.whiteMosquito.canUseSpecialAbility(in: state))
