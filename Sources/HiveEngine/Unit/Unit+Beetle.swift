@@ -21,8 +21,10 @@ extension Unit {
 
 		let moves = Set(
 			position.adjacent()
+				// Only consider positions that the beetle would move up onto
+				.intersection(state.stacks.keys)
+				// Filter to positions that the piece can freely move to
 				.filter {
-					// Filter to positions that the piece can freely move to
 					let endHeight = (state.stacks[$0]?.endIndex ?? 0) + 1
 					return position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: endHeight, in: state)
 				}.compactMap {

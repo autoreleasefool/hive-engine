@@ -29,6 +29,20 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		}
 	}
 
+	func testBeetleMoves_AreCorrect() {
+		let state = stateProvider.gameState(after: 12)
+		let availableMoves = state.whiteBeetle.availableMoves(in: state)
+		XCTAssertEqual(4, availableMoves.count)
+
+		let expectedMoves: Set<Movement> = [
+			.move(unit: state.whiteBeetle, to: .inPlay(x: -1, y: 1, z: 0)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: -1, y: -1, z: 2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: -1, z: 1)),
+		]
+		XCTAssertEqual(expectedMoves, availableMoves)
+	}
+
 	func testBeetle_WithoutFreedomOfMovement_CannotMove() {
 		let setupMoves: [Movement] = [
 			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
