@@ -228,7 +228,8 @@ extension GameState: Equatable {
 		return lhs.units == rhs.units &&
 			lhs.stacks == rhs.stacks &&
 			lhs.move == rhs.move &&
-			lhs.currentPlayer == rhs.currentPlayer
+			lhs.currentPlayer == rhs.currentPlayer &&
+			lhs.lastMovedUnit == rhs.lastMovedUnit
 	}
 }
 
@@ -238,5 +239,6 @@ extension GameState: Hashable {
 		hasher.combine(stacks)
 		hasher.combine(move)
 		hasher.combine(currentPlayer)
+		hasher.combine(lastMovedUnit)
 	}
 }
