@@ -186,6 +186,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		("testPillBug_CanMoveAsPillBugOrQueen", testPillBug_CanMoveAsPillBugOrQueen),
 		("testPillBug_CanUseSpecialAbility_IsTrue", testPillBug_CanUseSpecialAbility_IsTrue),
 		("testNotPillBug_CanUseSpecialAbility_IsFalse", testNotPillBug_CanUseSpecialAbility_IsFalse),
+		("testPillBugMoves_AreCorrect", testPillBugMoves_AreCorrect),
 
 		("testPillBug_CannotMovePieceJustMoved_IsTrue", testPillBug_CannotMovePieceJustMoved_IsTrue),
 		("testPillBug_PieceJustYoinkedCannotMove_IsTrue", testPillBug_PieceJustYoinkedCannotMove_IsTrue),

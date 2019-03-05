@@ -86,6 +86,8 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 
 	static var allTests = [
 		("testMosquito_CanMoveAsAdjacentBugs_IsTrue", testMosquito_CanMoveAsAdjacentBugs_IsTrue),
+		("testMosquito_BesideBeetle_CanMoveAsQueen", testMosquito_BesideBeetle_CanMoveAsQueen),
+		("testMosquito_BesidePillBug_CanMoveAsQueen", testMosquito_BesidePillBug_CanMoveAsQueen),
 
 		("testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue", testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue),
 		("testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse", testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse),

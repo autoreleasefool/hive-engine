@@ -38,9 +38,34 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			.move(unit: state.whiteBeetle, to: .inPlay(x: -1, y: 1, z: 0)),
 			.move(unit: state.whiteBeetle, to: .inPlay(x: -1, y: -1, z: 2)),
 			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: -1, z: 1)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: -1, z: 1))
 		]
 		XCTAssertEqual(expectedMoves, availableMoves)
+	}
+
+	func testBeetle_CanMoveUpToHive() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 0, y: 1, z: -1))
+			]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 1, z: -1))
+		XCTAssertTrue(state.availableMoves.contains(expectedMove))
+	}
+
+	func testBeetle_CanMoveDownFromHive() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.move(unit: stateProvider.whiteAnt, to: Position.inPlay(x: 1, y: -1, z: 0))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let expectedMove: Movement = .move(unit: state.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1))
+		XCTAssertTrue(state.availableMoves.contains(expectedMove))
 	}
 
 	func testBeetle_WithoutFreedomOfMovement_CannotMove() {
@@ -97,8 +122,11 @@ final class UnitBeetleTests: HiveEngineTestCase {
 
 	static var allTests = [
 		("testBeetle_CanMoveAsBeetleOrQueen", testBeetle_CanMoveAsBeetleOrQueen),
-
+		("testBeetleMoves_AreCorrect", testBeetleMoves_AreCorrect),
 		("testBeetle_WithoutFreedomOfMovement_CannotMove", testBeetle_WithoutFreedomOfMovement_CannotMove),
+
+		("testBeetle_CanMoveUpToHive", testBeetle_CanMoveUpToHive),
+		("testBeetle_CanMoveDownFromHive", testBeetle_CanMoveDownFromHive),
 
 		("testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced", testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced),
 		("testWithBeetleOnTopOfStack_PiecesBeneathCannotMove", testWithBeetleOnTopOfStack_PiecesBeneathCannotMove),
