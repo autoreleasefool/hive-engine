@@ -101,12 +101,17 @@ final class GameStateTests: HiveEngineTestCase {
 
 	// MARK: - Partial Game State
 
-	func testPartialGameState_LastMovedUnit_IsCorrect() {
+	func testPartialGameState_PlacedUnit_DoesNotUpdateLastMovedUnit() {
 		let state = stateProvider.gameState(after: 8)
 
 		let move: Movement = .place(unit: state.whiteLadyBug, at: .inPlay(x: 0, y: -2, z: 2))
 		let nextState = state.apply(move)
-		XCTAssertEqual(state.whiteLadyBug, nextState.lastMovedUnit)
+		XCTAssertNil(nextState.lastMovedUnit)
+	}
+
+	func testPartialGameState_LastMovedUnit_IsCorrect() {
+		let state = stateProvider.gameState(after: 9)
+		XCTAssertEqual(state.whiteAnt, state.lastMovedUnit)
 	}
 
 	func testPartialGameState_YoinkingUnitMakesItLastMovedUnit() {
@@ -243,6 +248,22 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(Player.white, state.currentPlayer)
 	}
 
+	func testPartialGameState_OpponentMoves_AreCorrect() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		let expectedMoves: [Movement] = [
+			Movement.move(unit: state.blackQueen, to: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.move(unit: state.blackQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
+		]
+
+		XCTAssertEqual(expectedMoves, state.opponentMoves.filter { $0.movedUnit == state.blackQueen })
+		XCTAssertEqual(41, state.opponentMoves.count)
+	}
+
 	// MARK: - Won Game State
 
 	func testFinishedGameState_HasOneWinner() {
@@ -284,6 +305,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testInitialGameState_OnlyHasPlaceMovesAvailable", testInitialGameState_OnlyHasPlaceMovesAvailable),
 		("testInitialGameState_HasNoLastMovedUnit", testInitialGameState_HasNoLastMovedUnit),
 
+		("testPartialGameState_PlacedUnit_DoesNotUpdateLastMovedUnit", testPartialGameState_PlacedUnit_DoesNotUpdateLastMovedUnit),
 		("testPartialGameState_LastMovedUnit_IsCorrect", testPartialGameState_LastMovedUnit_IsCorrect),
 		("testPartialGameState_YoinkingUnitMakesItLastMovedUnit", testPartialGameState_YoinkingUnitMakesItLastMovedUnit),
 		("testPartialGameState_Move_IncrementsCorrectly", testPartialGameState_Move_IncrementsCorrectly),
@@ -300,6 +322,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits", testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits),
 		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits", testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
 		("testPartialGameState_ShutOutPlayer_SkipsTurn", testPartialGameState_ShutOutPlayer_SkipsTurn),
+		("testPartialGameState_OpponentMoves_AreCorrect", testPartialGameState_OpponentMoves_AreCorrect),
 
 		("testFinishedGameState_HasOneWinner", testFinishedGameState_HasOneWinner),
 		("testFinishedGameState_HasNoMoves", testFinishedGameState_HasNoMoves),

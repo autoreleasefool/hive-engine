@@ -80,36 +80,45 @@ public class GameState: Codable {
 
 	/// List the available movements from a GameState.
 	public lazy var availableMoves: [Movement] = {
+		return moves(for: currentPlayer)
+	}()
+
+	/// List the available movements from a GameState for the opponent.
+	public lazy var opponentMoves: [Movement] = {
+		return moves(for: currentPlayer.next)
+	}()
+
+	public func moves(for player: Player) -> [Movement] {
 		guard isEndGame == false else { return [] }
 
 		// Only available moves at the start of the game are to place a piece at (0, 0, 0)
 		// or to place a piece next to the original piece
 		if move == 0 {
-			return availablePieces(for: currentPlayer).map { .place(unit: $0, at: .inPlay(x: 0, y: 0, z: 0)) }
+			return availablePieces(for: player).map { .place(unit: $0, at: .inPlay(x: 0, y: 0, z: 0)) }
 		}
 
 		// Queen must be played in player's first 4 moves
-		if (currentPlayer == .white && move == 6) || (currentPlayer == .black && move == 7),
-			let queen = availablePieces(for: currentPlayer).filter({ $0.class == .queen }).first {
-			return playableSpaces(for: currentPlayer).map { .place(unit: queen, at: $0) }
+		if (player == .white && move == 6) || (player == .black && move == 7),
+			let queen = availablePieces(for: player).filter({ $0.class == .queen }).first {
+			return playableSpaces(for: player).map { .place(unit: queen, at: $0) }
 		}
 
 		// Get placeable and moveable pieces
-		let placePieceMovements: [Movement] = availablePieces(for: currentPlayer).flatMap { unit in
-			return playableSpaces(for: currentPlayer).map { .place(unit: unit, at: $0) }
+		let placePieceMovements: [Movement] = availablePieces(for: player).flatMap { unit in
+			return playableSpaces(for: player).map { .place(unit: unit, at: $0) }
 		}
 
 		var movePieceMovements: [Movement] = []
 		// Iterate over all pieces on the board
 		units.filter {  $0.value != .inHand }
 			// Only the current player can move
-			.filter { $0.key.owner == currentPlayer }
+			.filter { $0.key.owner == player }
 			// Moving the piece must not break the hive
 			.filter { $0.key.class == .pillBug || oneHive(excluding: $0.key) }
 			// Append moves available for the piece
 			.forEach { movePieceMovements.append(contentsOf: $0.key.availableMoves(in: self)) }
 		return placePieceMovements + movePieceMovements
-	}()
+	}
 
 	/// Applies the movement to this game state (if it is valid) and returns
 	/// the updated game state.
@@ -131,21 +140,22 @@ public class GameState: Codable {
 			}
 			update.stacks[position]!.append(unit)
 			update.units[unit] = position
+			update.lastMovedUnit = move.movedUnit
 		case .yoink(_, let unit, let position):
 			// Move a piece from its previous stack to a new position adjacent to the pill bug
 			update.stacks[update.units[unit]!] = nil
 			update.stacks[position] = [unit]
 			update.units[unit] = position
+			update.lastMovedUnit = move.movedUnit
 		case .place(let unit, let position):
 			// Place an unplayed piece on the board
 			update.stacks[position] = [unit]
 			update.units[unit] = position
 		}
 
-		update.lastMovedUnit = move.movedUnit
-
 		// When a player is shut out, skip their turn
 		if update.isEndGame == false && update.availableMoves.count == 0 {
+			update.lastMovedUnit = nil
 			update.currentPlayer = update.currentPlayer.next
 		}
 
