@@ -144,6 +144,11 @@ public class GameState: Codable {
 
 		update.lastMovedUnit = move.movedUnit
 
+		// When a player is shut out, skip their turn
+		if update.isEndGame == false && update.availableMoves.count == 0 {
+			update.currentPlayer = update.currentPlayer.next
+		}
+
 		return update
 	}
 

@@ -230,6 +230,19 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
 	}
 
+	func testPartialGameState_ShutOutPlayer_SkipsTurn() {
+		let setupMoves: [Movement] = [
+			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.move(unit: stateProvider.blackQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			Movement.move(unit: stateProvider.whiteAnt, to: Position.inPlay(x: 2, y: 0, z: -2))
+		]
+
+		let state = stateProvider.gameState(from: setupMoves)
+		XCTAssertEqual(Player.white, state.currentPlayer)
+	}
+
 	// MARK: - Won Game State
 
 	func testFinishedGameState_HasOneWinner() {
@@ -286,6 +299,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_OneHive_ExcludingUnit_IsCorrect", testPartialGameState_OneHive_ExcludingUnit_IsCorrect),
 		("testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits", testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits),
 		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits", testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
+		("testPartialGameState_ShutOutPlayer_SkipsTurn", testPartialGameState_ShutOutPlayer_SkipsTurn),
 
 		("testFinishedGameState_HasOneWinner", testFinishedGameState_HasOneWinner),
 		("testFinishedGameState_HasNoMoves", testFinishedGameState_HasNoMoves),
