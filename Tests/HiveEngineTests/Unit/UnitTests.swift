@@ -41,106 +41,114 @@ final class UnitTests: HiveEngineTestCase {
 	}
 
 	func testWhenNotSurrounded_IsSurrounded_IsFalse() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertFalse(state.whiteQueen.isSurrounded(in: state))
 	}
 
 	func testWhenTopOfStack_IsTopOfStack_IsTrue() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
 		]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertTrue(state.whiteBeetle.isTopOfStack(in: state))
 	}
 
 	func testWhenBottomOfStack_IsTopOfStack_IsFalse() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertFalse(state.whiteQueen.isTopOfStack(in: state))
 	}
 
 	func testStackPosition_IsCorrect() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertEqual(2, state.whiteBeetle.stackPosition(in: state))
 		XCTAssertEqual(1, state.whiteQueen.stackPosition(in: state))
 	}
 
 	func testWhenTopOfStackNotOneHive_CanMove_IsFalse() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertTrue(state.blackQueen.isTopOfStack(in: state))
 		XCTAssertFalse(state.oneHive(excluding: state.blackQueen))
 		XCTAssertFalse(state.blackQueen.canMove(in: state))
 	}
 
 	func testWhenBottomOfStackOneHive_CanMove_IsFalse() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertFalse(state.whiteQueen.isTopOfStack(in: state))
 		XCTAssertTrue(state.oneHive(excluding: state.whiteQueen))
 		XCTAssertFalse(state.whiteQueen.canMove(in: state))
 	}
 
 	func testWhenTopOfStackOneHive_CanMove_IsTrue() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertTrue(state.blackBeetle.isTopOfStack(in: state))
 		XCTAssertTrue(state.oneHive(excluding: state.blackBeetle))
 		XCTAssertTrue(state.blackBeetle.canMove(in: state))
 	}
 
 	func testUnitDescription_IsCorrect() {
-		XCTAssertEqual("Black Ant", stateProvider.blackAnt.description)
-		XCTAssertEqual("White Beetle", stateProvider.whiteBeetle.description)
+		let state = stateProvider.initialGameState
+		XCTAssertEqual("Black Ant", state.blackAnt.description)
+		XCTAssertEqual("White Beetle", state.whiteBeetle.description)
 	}
 
 	static var allTests = [

@@ -10,146 +10,106 @@ import HiveEngine
 
 class GameStateProvider {
 
-	private var cache: [Int: GameState] = [:]
-
 	/// A new game state
-	let initialGameState = GameState()
+	var initialGameState: GameState {
+		return GameState()
+	}
 
 	/// A game state with a single winner
 	var wonGameState: GameState {
-		return gameState(after: partialStateMoves.count)
-	}
-
-	var whiteAnt: Unit!
-	var whiteBeetle: Unit!
-	var whiteHopper: Unit!
-	var whiteLadyBug: Unit!
-	var whiteMosquito: Unit!
-	var whitePillBug: Unit!
-	var whiteQueen: Unit!
-	var whiteSpider: Unit!
-	var blackAnt: Unit!
-	var blackBeetle: Unit!
-	var blackHopper: Unit!
-	var blackLadyBug: Unit!
-	var blackMosquito: Unit!
-	var blackPillBug: Unit!
-	var blackQueen: Unit!
-	var blackSpider: Unit!
-
-	init() {
-		whiteAnt = initialGameState.whiteAnt
-		whiteBeetle = initialGameState.whiteBeetle
-		whiteHopper = initialGameState.whiteHopper
-		whiteLadyBug = initialGameState.whiteLadyBug
-		whiteMosquito = initialGameState.whiteMosquito
-		whitePillBug = initialGameState.whitePillBug
-		whiteQueen = initialGameState.whiteQueen
-		whiteSpider = initialGameState.whiteSpider
-		blackAnt = initialGameState.blackAnt
-		blackBeetle = initialGameState.blackBeetle
-		blackHopper = initialGameState.blackHopper
-		blackLadyBug = initialGameState.blackLadyBug
-		blackMosquito = initialGameState.blackMosquito
-		blackPillBug = initialGameState.blackPillBug
-		blackQueen = initialGameState.blackQueen
-		blackSpider = initialGameState.blackSpider
+		let state = initialGameState
+		apply(moves: 34, to: state)
+		return state
 	}
 
 	// MARK: State Builder
 
-	private lazy var partialStateMoves: [Movement] = {
+	private func partialStateMoves(for state: GameState) -> [Movement] {
 		return [
-			/* 1  */ Movement.place(unit: whiteSpider, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			/* 2  */ Movement.place(unit: blackSpider, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			/* 3  */ Movement.place(unit: whiteAnt, at: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 4  */ Movement.place(unit: blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
-			/* 5  */ Movement.place(unit: whitePillBug, at: Position.inPlay(x: 0, y: -1, z: 1)),
-			/* 6  */ Movement.place(unit: blackHopper, at: Position.inPlay(x: -1, y: 2, z: -1)),
-			/* 7  */ Movement.place(unit: whiteQueen, at: Position.inPlay(x: 1, y: -1, z: 0)),
-			/* 8  */ Movement.place(unit: blackQueen, at: Position.inPlay(x: 0, y: 2, z: -2)),
-			/* 9  */ Movement.move(unit: whiteAnt, to: Position.inPlay(x: 0, y: 3, z: -3)),
-			/* 10 */ Movement.place(unit: blackMosquito, at: Position.inPlay(x: 2, y: 1, z: -3)),
-			/* 11 */ Movement.place(unit: whiteBeetle, at: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 12 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			/* 13 */ Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
-			/* 14 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 2, y: -1, z: -1)),
-			/* 15 */ Movement.place(unit: whiteMosquito, at: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 16 */ Movement.place(unit: blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),
-			/* 17 */ Movement.move(unit: whiteMosquito, to: Position.inPlay(x: -1, y: 1, z: 0)),
-			/* 18 */ Movement.move(unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 19 */ Movement.place(unit: whiteHopper, at: Position.inPlay(x: 1, y: -2, z: 1)),
-			/* 20 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			/* 21 */ Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),
-			/* 22 */ Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2)),
-			/* 23 */ Movement.move(unit: whiteMosquito, to: Position.inPlay(x: -1, y: 2, z: -1)),
-			/* 24 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0)),
-			/* 25 */ Movement.place(unit: whiteLadyBug, at: Position.inPlay(x: -1, y: 4, z: -3)),
-			/* 26 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -2, z: 1)),
-			/* 27 */ Movement.move(unit: whiteQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			/* 28 */ Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			/* 29 */ Movement.move(unit: whiteLadyBug, to: Position.inPlay(x: -1, y: 3, z: -2)),
-			/* 30 */ Movement.place(unit: blackPillBug, at: Position.inPlay(x: 2, y: 0, z: -2)),
-			/* 31 */ Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 1, z: -1)),
-			/* 32 */ Movement.place(unit: blackAnt, at: Position.inPlay(x: 2, y: -1, z: -1)),
-			/* 33 */ Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 0, y: 2, z: -2)),
-			/* 34 */ Movement.move(unit: blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0))
+			/* 1  */ Movement.place(unit: state.whiteSpider, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			/* 2  */ Movement.place(unit: state.blackSpider, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			/* 3  */ Movement.place(unit: state.whiteAnt, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 4  */ Movement.place(unit: state.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			/* 5  */ Movement.place(unit: state.whitePillBug, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			/* 6  */ Movement.place(unit: state.blackHopper, at: Position.inPlay(x: -1, y: 2, z: -1)),
+			/* 7  */ Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			/* 8  */ Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 2, z: -2)),
+			/* 9  */ Movement.move(unit: state.whiteAnt, to: Position.inPlay(x: 0, y: 3, z: -3)),
+			/* 10 */ Movement.place(unit: state.blackMosquito, at: Position.inPlay(x: 2, y: 1, z: -3)),
+			/* 11 */ Movement.place(unit: state.whiteBeetle, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 12 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			/* 13 */ Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
+			/* 14 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 2, y: -1, z: -1)),
+			/* 15 */ Movement.place(unit: state.whiteMosquito, at: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 16 */ Movement.place(unit: state.blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),
+			/* 17 */ Movement.move(unit: state.whiteMosquito, to: Position.inPlay(x: -1, y: 1, z: 0)),
+			/* 18 */ Movement.move(unit: state.blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 19 */ Movement.place(unit: state.whiteHopper, at: Position.inPlay(x: 1, y: -2, z: 1)),
+			/* 20 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			/* 21 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),
+			/* 22 */ Movement.move(unit: state.blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2)),
+			/* 23 */ Movement.move(unit: state.whiteMosquito, to: Position.inPlay(x: -1, y: 2, z: -1)),
+			/* 24 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0)),
+			/* 25 */ Movement.place(unit: state.whiteLadyBug, at: Position.inPlay(x: -1, y: 4, z: -3)),
+			/* 26 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: -2, z: 1)),
+			/* 27 */ Movement.move(unit: state.whiteQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			/* 28 */ Movement.move(unit: state.blackBeetle, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			/* 29 */ Movement.move(unit: state.whiteLadyBug, to: Position.inPlay(x: -1, y: 3, z: -2)),
+			/* 30 */ Movement.place(unit: state.blackPillBug, at: Position.inPlay(x: 2, y: 0, z: -2)),
+			/* 31 */ Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 0, y: 1, z: -1)),
+			/* 32 */ Movement.place(unit: state.blackAnt, at: Position.inPlay(x: 2, y: -1, z: -1)),
+			/* 33 */ Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 0, y: 2, z: -2)),
+			/* 34 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0))
 			// Game won by black
 		]
-	}()
-
-	/// Build a GameState for the given number of moves.
-	/// Caches partially built states for faster testing.
-	func gameState(after move: Int) -> GameState {
-		precondition(move >= 0, "Cannot provide a negative number of moves.")
-		precondition(move <= partialStateMoves.count, "Must provide a value less than or equal to \(partialStateMoves.count)")
-
-		if let cachedState = cache[move] {
-			return cachedState
-		}
-
-		if move == 0 {
-			cache[0] = initialGameState
-			return cache[0]!
-		}
-
-		let previousState = gameState(after: move - 1)
-		let nextState = previousState.apply(partialStateMoves[move - 1])
-		assert(previousState != nextState, "Move #\(move) [\(partialStateMoves[move - 1])] was not a valid move.")
-		cache[move] = nextState
-		return nextState
 	}
 
-	private lazy var tiedStateMoves: [Movement] = {
+	/// Build a GameState for the given number of moves.
+	func apply(moves: Int, to state: GameState) {
+		let partialStateMoves = self.partialStateMoves(for: state)
+		precondition(moves >= 0, "Cannot provide a negative number of moves.")
+		precondition(moves <= partialStateMoves.count, "Must provide a value less than or equal to \(partialStateMoves.count)")
+
+		for (index, element) in partialStateMoves.prefix(moves).enumerated() {
+			let previousMove = state.move
+			state.apply(element)
+			assert(previousMove != state.move, "Move #\(index) [\(element)] was not a valid move.")
+		}
+	}
+
+	private func tiedStateMoves(for state: GameState) -> [Movement] {
 		return [
-			/* 34 */ Movement.move(unit: blackAnt, to: Position.inPlay(x: 1, y: 3, z: -4)),
-			/* 35 */ Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 36 */ Movement.move(unit: blackLadyBug, to: Position.inPlay(x: 1, y: -1, z: 0)),
-			/* 37 */ Movement.move(unit: whiteBeetle, to: Position.inPlay(x: 1, y: 2, z: -3)),
-			/* 38 */ Movement.move(unit: blackAnt, to: Position.inPlay(x: 2, y: -1, z: -1)),
-			/* 39 */ Movement.yoink(pillBug: whitePillBug, unit: blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),
-			/* 40 */ Movement.move(unit: blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))
+			/* 34 */ Movement.move(unit: state.blackAnt, to: Position.inPlay(x: 1, y: 3, z: -4)),
+			/* 35 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),
+			/* 36 */ Movement.move(unit: state.blackLadyBug, to: Position.inPlay(x: 1, y: -1, z: 0)),
+			/* 37 */ Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 1, y: 2, z: -3)),
+			/* 38 */ Movement.move(unit: state.blackAnt, to: Position.inPlay(x: 2, y: -1, z: -1)),
+			/* 39 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),
+			/* 40 */ Movement.move(unit: state.blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))
 			// Game ends in a tie
 		]
-	}()
+	}
 
 	/// A game state with two winners
-	lazy var tiedGameState: GameState = {
-		var state = gameState(after: partialStateMoves.count - 1)
-		tiedStateMoves.forEach {
-			assert(state != state.apply($0), "\($0) was not a valid move.")
-			state = state.apply($0)
+	var tiedGameState: GameState {
+		let state = initialGameState
+		apply(moves: 33, to: state)
+
+		for (index, element) in tiedStateMoves(for: state).enumerated() {
+			let previousMove = state.move
+			state.apply(element)
+			assert(previousMove != state.move, "Move #\(index) [\(element)] was not a valid move.")
 		}
 		return state
-	}()
+	}
 
 	/// Build a GameState with the given moves.
-	func gameState(from moves: [Movement]) -> GameState {
-		var state = initialGameState
-		moves.forEach {
-			state = state.apply($0)
+	func apply(moves: [Movement], to state: GameState) {
+		for (index, element) in moves.enumerated() {
+			let previousMove = state.move
+			state.apply(element)
+			assert(previousMove != state.move, "Move #\(index) [\(element)] was not a valid move.")
 		}
-		return state
 	}
 }
 

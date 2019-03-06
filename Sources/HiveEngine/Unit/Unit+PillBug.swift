@@ -32,7 +32,7 @@ extension Unit {
 			// Ensure moving the unit does not violate the one hive rule
 			.filter { state.oneHive(excluding: $0) }
 			// Unable to move the most recently moved piece (either yoinked or moved last turn)
-			.filter { $0 != state.lastMovedUnit }
+			.filter { state.currentPlayer != state.previousMoves.last?.player && $0 != state.previousMoves.last?.movement.movedUnit }
 			.forEach { unit in
 				adjacentPlayablePositions.forEach { targetPosition in
 					specialAbilityMovements.insert(.yoink(pillBug: self, unit: unit, to: targetPosition))

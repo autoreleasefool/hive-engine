@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Unit: Codable {
+public class Unit: Codable {
 
 	public enum Class: String, CaseIterable, Codable {
 		case ant = "Ant"
@@ -81,7 +81,17 @@ public struct Unit: Codable {
 
 	/// Returns false if this piece cannot move due to fundamental rules of the game.
 	func canMove(in state: GameState) -> Bool {
-		return state.oneHive(excluding: self) && self.isTopOfStack(in: state) && state.lastMovedUnit != self
+		let lastMovedUnit: Unit?
+		if let lastMove = state.previousMoves.last {
+			switch lastMove.movement {
+			case .move, .yoink: lastMovedUnit = lastMove.movement.movedUnit
+			case .place: lastMovedUnit = nil
+			}
+		} else {
+			lastMovedUnit = nil
+		}
+
+		return state.oneHive(excluding: self) && self.isTopOfStack(in: state) && self != lastMovedUnit
 	}
 
 	/// Returns true if this unit can move as the given class.

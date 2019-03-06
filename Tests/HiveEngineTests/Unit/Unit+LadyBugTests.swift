@@ -18,7 +18,8 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 	}
 
 	func testLadyBug_CanMoveAsLadyBugOnly() {
-		let state = stateProvider.gameState(after: 9)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 9, to: state)
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .ladyBug:
@@ -30,62 +31,65 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 	}
 
 	func testLadyBugMoves_AreCorrect() {
-		let state = stateProvider.gameState(after: 9)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 9, to: state)
 		let expectedMoves: Set<Movement> = [
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: -1, y: 1, z: 0)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: 1, y: 0, z: -1)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: -1, y: 3, z: -2)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: -1, y: 4, z: -3)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: 0, y: 4, z: -4)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: 1, y: 3, z: -4)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: 1, y: 2, z: -3)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: -1, y: 0, z: 1)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: -2, y: 3, z: -1)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: -2, y: 2, z: 0))
+			.move(unit: state.blackLadyBug, to: .inPlay(x: -1, y: 1, z: 0)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: 1, y: 0, z: -1)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: -1, y: 3, z: -2)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: -1, y: 4, z: -3)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: 0, y: 4, z: -4)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: 1, y: 3, z: -4)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: 1, y: 2, z: -3)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: -1, y: 0, z: 1)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: -2, y: 3, z: -1)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: -2, y: 2, z: 0))
 		]
 
 		XCTAssertEqual(expectedMoves, state.blackLadyBug.availableMoves(in: state))
 	}
 
 	func testLadyBug_WithoutFreedomOfMovement_CannotMove() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteSpider, at: .inPlay(x: 1, y: -1, z: 0)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 1, y: 1, z: -2)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 2, y: -2, z: 0)),
-			.move(unit: stateProvider.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 1, y: -1, z: 0)),
-			.place(unit: stateProvider.blackLadyBug, at: .inPlay(x: 1, y: 1, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: 1, y: 0, z: -1)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 1, y: -1, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteSpider, at: .inPlay(x: 1, y: -1, z: 0)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 1, y: 1, z: -2)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 2, y: -2, z: 0)),
+			.move(unit: state.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 1, y: -1, z: 0)),
+			.place(unit: state.blackLadyBug, at: .inPlay(x: 1, y: 1, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: 1, y: 0, z: -1)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 1, y: -1, z: 0))
 		]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMoves: Set<Movement> = [
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: -1, y: 1, z: 0)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: -1, y: 0, z: 1)),
-			.move(unit: stateProvider.blackLadyBug, to: .inPlay(x: 0, y: -1, z: 1))
+			.move(unit: state.blackLadyBug, to: .inPlay(x: -1, y: 1, z: 0)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: -1, y: 0, z: 1)),
+			.move(unit: state.blackLadyBug, to: .inPlay(x: 0, y: -1, z: 1))
 		]
 
 		XCTAssertEqual(expectedMoves, state.blackLadyBug.availableMoves(in: state))
 	}
 
 	func testLadyBug_CanMoveAcrossAnyHeight() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteSpider, at: .inPlay(x: 1, y: -1, z: 0)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 1, y: 1, z: -2)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 2, y: -2, z: 0)),
-			.move(unit: stateProvider.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 1, y: -1, z: 0)),
-			.place(unit: stateProvider.blackLadyBug, at: .inPlay(x: 1, y: 1, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteSpider, at: .inPlay(x: 1, y: -1, z: 0)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 1, y: 1, z: -2)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 2, y: -2, z: 0)),
+			.move(unit: state.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 1, y: -1, z: 0)),
+			.place(unit: state.blackLadyBug, at: .inPlay(x: 1, y: 1, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
 		]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertTrue(state.blackLadyBug.availableMoves(in: state).count > 0)
 	}
 

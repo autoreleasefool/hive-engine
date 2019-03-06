@@ -8,16 +8,27 @@
 
 import Foundation
 
-/// Immutable state of a game of hive.
+public struct GameStateUpdate: Codable, Equatable {
+	/// Player who made the move
+	let player: Player
+	/// The movement applied to the state
+	let movement: Movement
+	/// Previous position of the unit moved in `movement`
+	let previousPosition: Position
+	/// The move number
+	let move: Int
+}
+
+/// State of a game of hive.
 public class GameState: Codable {
 
 	/// Units and their positions
 	private(set) public var units: [Unit: Position]
 
 	/// Units which are currently in play.
-	public lazy var unitsInPlay: Set<Unit> = {
+	public var unitsInPlay: Set<Unit> {
 		return Set(units.filter { $0.value != .inHand }.keys)
-	}()
+	}
 
 	/// Stacks of units at a certain position
 	private(set) public var stacks: [Position: [Unit]]
@@ -29,7 +40,7 @@ public class GameState: Codable {
 	private(set) public var move: Int
 
 	/// The most recently moved unit
-	private(set) public var lastMovedUnit: Unit?
+	private(set) public var previousMoves: [GameStateUpdate] = []
 
 	/// True if the game has ended
 	public var isEndGame: Bool {
@@ -38,7 +49,7 @@ public class GameState: Codable {
 
 	/// Returns the Player who has won the game, both players if it is a tie,
 	/// or no players if the game has not ended
-	public lazy var winner: [Player] = {
+	public var winner: [Player] {
 		var winners: [Player] = []
 		let queens = units.filter { $0.key.class == .queen }.map { $0.key }
 
@@ -50,7 +61,7 @@ public class GameState: Codable {
 		}
 
 		return winners
-	}()
+	}
 
 	// MARK: - Constructors
 
@@ -67,26 +78,25 @@ public class GameState: Codable {
 		}
 	}
 
-	/// Create a game state from a previous one.
-	/// The current player and move area progressed when created and the units and positions are duplicated.
-	public init(from other: GameState) {
-		self.currentPlayer = other.currentPlayer.next
-		self.move = other.move + 1
-		self.units = other.units
-		self.stacks = other.stacks
+	public init(from state: GameState) {
+		self.currentPlayer = state.currentPlayer
+		self.units = state.units
+		self.stacks = state.stacks
+		self.previousMoves = state.previousMoves
+		self.move = state.move
 	}
 
 	// MARK: - Updates
 
 	/// List the available movements from a GameState.
-	public lazy var availableMoves: [Movement] = {
+	public var availableMoves: [Movement] {
 		return moves(for: currentPlayer)
-	}()
+	}
 
 	/// List the available movements from a GameState for the opponent.
-	public lazy var opponentMoves: [Movement] = {
+	public var opponentMoves: [Movement] {
 		return moves(for: currentPlayer.next)
-	}()
+	}
 
 	public func moves(for player: Player) -> [Movement] {
 		guard isEndGame == false else { return [] }
@@ -108,58 +118,103 @@ public class GameState: Codable {
 			return playableSpaces(for: player).map { .place(unit: unit, at: $0) }
 		}
 
-		var movePieceMovements: [Movement] = []
 		// Iterate over all pieces on the board
-		units.filter {  $0.value != .inHand }
+		let movePieceMovements = units.filter {  $0.value != .inHand }
 			// Only the current player can move
 			.filter { $0.key.owner == player }
 			// Moving the piece must not break the hive
 			.filter { $0.key.class == .pillBug || oneHive(excluding: $0.key) }
-			// Append moves available for the piece
-			.forEach { movePieceMovements.append(contentsOf: $0.key.availableMoves(in: self)) }
+			// Get moves available for the piece
+			.flatMap { $0.key.availableMoves(in: self) }
+
 		return placePieceMovements + movePieceMovements
 	}
 
-	/// Applies the movement to this game state (if it is valid) and returns
-	/// the updated game state.
-	public func apply(_ move: Movement) -> GameState {
+	/// Applies the movement to this game state (if it is valid)
+	public func apply(_ movement: Movement) {
 		// Ensure only valid moves are played
-		guard availableMoves.contains(move) else { return self }
-		let update = GameState(from: self)
+		guard validate(movement: movement) else { return }
 
-		switch move {
+		let updatePlayer = currentPlayer
+		let updateMovement = movement
+		let updateMove = move
+		let updatePosition: Position
+
+		currentPlayer = currentPlayer.next
+		move += 1
+
+		switch movement {
 		case .move(let unit, let position):
 			// Move a piece from its previous stack to a new position
-			let startPosition = update.units[unit]!
-			_ = update.stacks[startPosition]?.popLast()
-			if (update.stacks[startPosition]?.count ?? -1) == 0 {
-				update.stacks[startPosition] = nil
+			let startPosition = units[unit]!
+			updatePosition = startPosition
+			_ = stacks[startPosition]?.popLast()
+			if (stacks[startPosition]?.count ?? -1) == 0 {
+				stacks[startPosition] = nil
 			}
-			if update.stacks[position] == nil {
-				update.stacks[position] = []
+			if stacks[position] == nil {
+				stacks[position] = []
 			}
-			update.stacks[position]!.append(unit)
-			update.units[unit] = position
-			update.lastMovedUnit = move.movedUnit
+			stacks[position]!.append(unit)
+			units[unit] = position
 		case .yoink(_, let unit, let position):
 			// Move a piece from its previous stack to a new position adjacent to the pill bug
-			update.stacks[update.units[unit]!] = nil
-			update.stacks[position] = [unit]
-			update.units[unit] = position
-			update.lastMovedUnit = move.movedUnit
+			updatePosition = units[unit]!
+			stacks[units[unit]!] = nil
+			stacks[position] = [unit]
+			units[unit] = position
 		case .place(let unit, let position):
 			// Place an unplayed piece on the board
-			update.stacks[position] = [unit]
-			update.units[unit] = position
+			updatePosition = .inHand
+			stacks[position] = [unit]
+			units[unit] = position
 		}
 
 		// When a player is shut out, skip their turn
-		if update.isEndGame == false && update.availableMoves.count == 0 {
-			update.lastMovedUnit = nil
-			update.currentPlayer = update.currentPlayer.next
+		if isEndGame == false && availableMoves.count == 0 {
+			currentPlayer = currentPlayer.next
 		}
 
-		return update
+		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove))
+	}
+
+	public func undoMove() {
+		guard let lastMove = previousMoves.popLast() else { return }
+		currentPlayer = lastMove.player
+		move = lastMove.move
+
+		switch lastMove.movement {
+		case .move(let unit, let position):
+			let startPosition = position
+			_ = stacks[startPosition]?.popLast()
+			if (stacks[startPosition]?.count ?? -1) == 0 {
+				stacks[startPosition] = nil
+			}
+			if stacks[lastMove.previousPosition] == nil {
+				stacks[lastMove.previousPosition] = []
+			}
+			stacks[lastMove.previousPosition]!.append(unit)
+			units[unit] = lastMove.previousPosition
+		case .yoink(_, let unit, let position):
+			stacks[position] = nil
+			stacks[lastMove.previousPosition] = [unit]
+			units[unit] = lastMove.previousPosition
+		case .place(let unit, let position):
+			stacks[position] = nil
+			units[unit] = .inHand
+		}
+	}
+
+	/// Validate that a given move is valid in the current state.
+	private func validate(movement: Movement) -> Bool {
+		switch movement {
+		case .move(let unit, _):
+			return unit.availableMoves(in: self).contains(movement)
+		case .yoink(let pillBug, _, _):
+			return pillBug.availableMoves(in: self).contains(movement)
+		case .place(let unit, let position):
+			return units[unit] == .inHand && playableSpaces(for: currentPlayer).contains(position)
+		}
 	}
 
 	// MARK: Units
@@ -188,6 +243,8 @@ public class GameState: Codable {
 	/// - Parameters:
 	///  - excludedUnit: optionally exclude a unit when determining if the space is playable
 	public func playableSpaces(excluding excludedUnit: Unit? = nil, for player: Player? = nil) -> Set<Position> {
+		if move == 0 { return [.inPlay(x: 0, y: 0, z: 0)] }
+
 		var includedUnits = unitsInPlay
 		if let excluded = excludedUnit {
 			includedUnits.remove(excluded)
@@ -238,8 +295,7 @@ extension GameState: Equatable {
 		return lhs.units == rhs.units &&
 			lhs.stacks == rhs.stacks &&
 			lhs.move == rhs.move &&
-			lhs.currentPlayer == rhs.currentPlayer &&
-			lhs.lastMovedUnit == rhs.lastMovedUnit
+			lhs.currentPlayer == rhs.currentPlayer
 	}
 }
 
@@ -249,6 +305,5 @@ extension GameState: Hashable {
 		hasher.combine(stacks)
 		hasher.combine(move)
 		hasher.combine(currentPlayer)
-		hasher.combine(lastMovedUnit)
 	}
 }

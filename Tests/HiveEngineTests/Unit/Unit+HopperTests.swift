@@ -18,7 +18,8 @@ final class UnitHopperTests: HiveEngineTestCase {
 	}
 
 	func testHopper_CanMoveAsHopperOnly() {
-		let state = stateProvider.gameState(after: 9)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 9, to: state)
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .hopper:
@@ -30,7 +31,8 @@ final class UnitHopperTests: HiveEngineTestCase {
 	}
 
 	func testHopperMoves_AreCorrect() {
-		let state = stateProvider.gameState(after: 9)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 9, to: state)
 		let expectedMoves: Set<Movement> = [
 			.move(unit: state.blackHopper, to: .inPlay(x: 1, y: 2, z: -3)),
 			.move(unit: state.blackHopper, to: .inPlay(x: 1, y: 0, z: -1))
@@ -40,19 +42,20 @@ final class UnitHopperTests: HiveEngineTestCase {
 	}
 
 	func testHopper_CanJumpAnyHeight() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0)),
-			.move(unit: stateProvider.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteMosquito, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackHopper, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: stateProvider.whiteMosquito, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0)),
+			.move(unit: state.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteMosquito, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackHopper, at: .inPlay(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteMosquito, to: .inPlay(x: 0, y: 0, z: 0))
 		]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMoves: Set<Movement> = [
 			.move(unit: state.blackHopper, to: .inPlay(x: 0, y: -1, z: 1))
 		]

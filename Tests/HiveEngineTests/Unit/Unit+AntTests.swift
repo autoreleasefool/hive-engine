@@ -18,7 +18,8 @@ final class UnitAntTests: HiveEngineTestCase {
 	}
 
 	func testAnt_CanMoveAsAntOnly() {
-		let state = stateProvider.gameState(after: 14)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 14, to: state)
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .ant:
@@ -30,7 +31,8 @@ final class UnitAntTests: HiveEngineTestCase {
 	}
 
 	func testAntMoves_AreCorrect() {
-		let state = stateProvider.gameState(after: 14)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 14, to: state)
 		let availableMoves = state.whiteAnt.availableMoves(in: state)
 		XCTAssertEqual(14, availableMoves.count)
 
@@ -54,17 +56,18 @@ final class UnitAntTests: HiveEngineTestCase {
 	}
 
 	func testAnt_FreedomOfMovement_IsCorrect() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
-			Movement.place(unit: stateProvider.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
-			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: 2, y: -1, z: -1)),
-			Movement.place(unit: stateProvider.blackAnt, at: Position.inPlay(x: 1, y: 2, z: -3)),
-			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1))
+			Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.place(unit: state.whiteSpider, at: Position.inPlay(x: 2, y: -1, z: -1)),
+			Movement.place(unit: state.blackAnt, at: Position.inPlay(x: 1, y: 2, z: -3)),
+			Movement.place(unit: state.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMove: Movement = .move(unit: state.blackAnt, to: .inPlay(x: 3, y: -1, z: -2))
 		XCTAssertTrue(state.blackAnt.availableMoves(in: state).contains(expectedMove))
 		let unexpectedMove: Movement = .move(unit: state.blackAnt, to: .inPlay(x: 1, y: 0, z: -1))

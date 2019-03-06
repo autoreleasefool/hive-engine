@@ -18,7 +18,8 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 	}
 
 	func testMosquito_CanMoveAsAdjacentBugs_IsTrue() {
-		let state = stateProvider.gameState(after: 13)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 13, to: state)
 		let adjacentUnitClasses = state.units(adjacentTo: state.blackMosquito).map { $0.class }
 
 		HiveEngine.Unit.Class.allCases.forEach {
@@ -33,47 +34,52 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 	}
 
 	func testMosquito_BesideBeetle_CanMoveAsQueen() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteMosquito, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: 0, y: 1, z: -1))
+			.place(unit: state.whiteMosquito, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 1, z: -1))
 		]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertTrue(state.whiteMosquito.canMove(as: .queen, in: state))
 	}
 
 	func testMosquito_BesidePillBug_CanMoveAsQueen() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteMosquito, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackPillBug, at: .inPlay(x: 0, y: 1, z: -1))
+			.place(unit: state.whiteMosquito, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackPillBug, at: .inPlay(x: 0, y: 1, z: -1))
 		]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertTrue(state.whiteMosquito.canMove(as: .queen, in: state))
 	}
 
 	func testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue() {
-		let state = stateProvider.gameState(after: 16)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 16, to: state)
 		XCTAssertTrue(state.whiteMosquito.canUseSpecialAbility(in: state))
 	}
 
 	func testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse() {
-		let state = stateProvider.gameState(after: 18)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 18, to: state)
 		XCTAssertFalse(state.whiteMosquito.canUseSpecialAbility(in: state))
 	}
 
 	func testMosquito_OnTopOfHive_IsBeetle() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: stateProvider.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: stateProvider.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: stateProvider.whiteMosquito, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: stateProvider.blackMosquito, at: .inPlay(x: 0, y: 2, z: -2)),
-			.place(unit: stateProvider.whiteBeetle, at: .inPlay(x: 1, y: -1, z: 0)),
-			.place(unit: stateProvider.blackBeetle, at: .inPlay(x: -1, y: 2, z: -1)),
-			.move(unit: stateProvider.whiteMosquito, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteMosquito, at: .inPlay(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackMosquito, at: .inPlay(x: 0, y: 2, z: -2)),
+			.place(unit: state.whiteBeetle, at: .inPlay(x: 1, y: -1, z: 0)),
+			.place(unit: state.blackBeetle, at: .inPlay(x: -1, y: 2, z: -1)),
+			.move(unit: state.whiteMosquito, to: .inPlay(x: 0, y: 0, z: 0))
 		]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .beetle, .mosquito:

@@ -18,7 +18,8 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	}
 
 	func testBeetle_CanMoveAsBeetleOrQueen() {
-		let state = stateProvider.gameState(after: 12)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 12, to: state)
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .beetle, .queen:
@@ -30,7 +31,8 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	}
 
 	func testBeetleMoves_AreCorrect() {
-		let state = stateProvider.gameState(after: 12)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 12, to: state)
 		let availableMoves = state.whiteBeetle.availableMoves(in: state)
 		XCTAssertEqual(4, availableMoves.count)
 
@@ -44,45 +46,48 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	}
 
 	func testBeetle_CanMoveUpToHive() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 0, y: 1, z: -1))
+			Movement.place(unit: state.whiteBeetle, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackBeetle, at: Position.inPlay(x: 0, y: 1, z: -1))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 1, z: -1))
 		XCTAssertTrue(state.availableMoves.contains(expectedMove))
 	}
 
 	func testBeetle_CanMoveDownFromHive() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: stateProvider.blackBeetle, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: stateProvider.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
-			Movement.move(unit: stateProvider.blackBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.move(unit: stateProvider.whiteAnt, to: Position.inPlay(x: 1, y: -1, z: 0))
+			Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackBeetle, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.move(unit: state.blackBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.move(unit: state.whiteAnt, to: Position.inPlay(x: 1, y: -1, z: 0))
 		]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMove: Movement = .move(unit: state.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1))
 		XCTAssertTrue(state.availableMoves.contains(expectedMove))
 	}
 
 	func testBeetle_WithoutFreedomOfMovement_CannotMove() {
+		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: stateProvider.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: stateProvider.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: stateProvider.whiteHopper, at: Position.inPlay(x: 1, y: -1, z: 0)),
-			Movement.place(unit: stateProvider.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
-			Movement.place(unit: stateProvider.whiteSpider, at: Position.inPlay(x: 2, y: -1, z: -1)),
-			Movement.place(unit: stateProvider.blackSpider, at: Position.inPlay(x: 1, y: 2, z: -3)),
-			Movement.place(unit: stateProvider.whiteBeetle, at: Position.inPlay(x: 3, y: -1, z: -2)),
-			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: -1, y: 1, z: 0)),
-			Movement.move(unit: stateProvider.whiteBeetle, to: Position.inPlay(x: 2, y: 0, z: -2)),
-			Movement.move(unit: stateProvider.blackSpider, to: Position.inPlay(x: 1, y: 2, z: -3))
+			Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteHopper, at: Position.inPlay(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
+			Movement.place(unit: state.whiteSpider, at: Position.inPlay(x: 2, y: -1, z: -1)),
+			Movement.place(unit: state.blackSpider, at: Position.inPlay(x: 1, y: 2, z: -3)),
+			Movement.place(unit: state.whiteBeetle, at: Position.inPlay(x: 3, y: -1, z: -2)),
+			Movement.move(unit: state.blackSpider, to: Position.inPlay(x: -1, y: 1, z: 0)),
+			Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 2, y: 0, z: -2)),
+			Movement.move(unit: state.blackSpider, to: Position.inPlay(x: 1, y: 2, z: -3))
 			]
 
-		let state = stateProvider.gameState(from: setupMoves)
+		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: .inPlay(x: 2, y: 1, z: -3))
 		XCTAssertTrue(state.whiteBeetle.availableMoves(in: state).contains(expectedMove))
 		let unexpectedMove: Movement = .move(unit: state.whiteBeetle, to: .inPlay(x: 1, y: 0, z: -1))
@@ -90,7 +95,8 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	}
 
 	func testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced() {
-		let state = stateProvider.gameState(after: 29)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 29, to: state)
 		let expectedPlacements: Set<Movement> = [
 			.place(unit: state.blackPillBug, at: .inPlay(x: 2, y: 0, z: -2)),
 			.place(unit: state.blackPillBug, at: .inPlay(x: 2, y: -1, z: -1)),
@@ -104,18 +110,21 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	}
 
 	func testWithBeetleOnTopOfStack_PiecesBeneathCannotMove() {
-		let state = stateProvider.gameState(after: 30)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 30, to: state)
 		XCTAssertEqual(0, state.whiteQueen.availableMoves(in: state).count)
 	}
 
 	func testBeetle_CanMoveToTallerStack() {
-		let state = stateProvider.gameState(after: 13)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 13, to: state)
 		let expectedMove: Movement = .move(unit: state.blackMosquito, to: .inPlay(x: 0, y: 0, z: 0))
 		XCTAssertTrue(state.blackMosquito.availableMoves(in: state).contains(expectedMove))
 	}
 
 	func testBeetle_CanMoveDownFromStack() {
-		let state = stateProvider.gameState(after: 14)
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 14, to: state)
 		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: .inPlay(x: -1, y: 0, z: 1))
 		XCTAssertTrue(state.whiteBeetle.availableMoves(in: state).contains(expectedMove))
 	}
