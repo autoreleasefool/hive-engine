@@ -13,15 +13,16 @@ extension Unit {
 		guard self.canMove(in: state) else { return [] }
 		guard self.canMove(as: .queen, in: state) else { return [] }
 		guard let position = state.units[self], position != .inHand else { return [] }
+		let adjacentUnits = state.units(adjacentTo: position)
 
 		return Set(
 			position.adjacent()
 				.filter {
+					// Filter to positions that do not jump across spaces
+					return adjacentUnits.intersection(state.units(adjacentTo: $0)).count > 0
+				}.filter {
 					// Get positions that the piece is free to move to
 					position.freedomOfMovement(to: $0, in: state)
-				}.filter {
-					// Filter to positions that do not jump across spaces
-					return state.units(adjacentTo: position).intersection(state.units(adjacentTo: $0)).count > 0
 				}.compactMap {
 					movement(to: $0)
 				})

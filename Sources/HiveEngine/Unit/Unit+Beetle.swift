@@ -31,12 +31,13 @@ extension Unit {
 					movement(to: $0)
 				})
 
+		let playableSpaces = state.playableSpaces()
 		var movesDownFromHive: Set<Movement> = []
 		if height > 1 {
 			movesDownFromHive.formUnion(Set(
 				position.adjacent()
 					// Only consider positions down from the hive
-					.intersection(state.playableSpaces())
+					.intersection(playableSpaces)
 					// Filter to positions that the piece can freely move to
 					.filter { position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: 1, in: state) }
 					.compactMap { movement(to: $0) }

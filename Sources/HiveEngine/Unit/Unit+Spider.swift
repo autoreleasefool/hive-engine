@@ -16,6 +16,7 @@ extension Unit {
 
 		let maxDistance = 3
 
+		let playableSpaces = state.playableSpaces(excluding: self)
 		var moves = Set<Movement>()
 		var visited = Set<Position>()
 		var toVisit = [startPosition]
@@ -25,17 +26,18 @@ extension Unit {
 		while toVisit.isNotEmpty {
 			let currentPosition = toVisit.popLast()!
 			visited.insert(currentPosition)
+			let adjacentUnits = state.units(adjacentTo: currentPosition)
 
 			// Only consider valid playable positions that can be reached
 			currentPosition.adjacent()
 				// Target position is adjacent to another piece
-				.filter { state.playableSpaces(excluding: self).contains($0) }
-				// Unit can freely move to the target position
-				.filter { currentPosition.freedomOfMovement(to: $0, in: state) }
+				.filter { playableSpaces.contains($0) }
 				// Unit cannot backtrack
 				.filter { visited.contains($0) == false }
 				// Target position shares at least 1 adjacent unit with the current position
-				.filter { state.units(adjacentTo: currentPosition).intersection(state.units(adjacentTo: $0)).count > 0 }
+				.filter { adjacentUnits.intersection(state.units(adjacentTo: $0)).count > 0 }
+				// Unit can freely move to the target position
+				.filter { currentPosition.freedomOfMovement(to: $0, in: state) }
 				.forEach {
 					let distanceToRoot = distance[currentPosition]! + 1
 					if distanceToRoot == maxDistance {

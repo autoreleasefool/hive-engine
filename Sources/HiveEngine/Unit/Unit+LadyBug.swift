@@ -21,6 +21,7 @@ extension Unit {
 		distance[startPosition] = 0
 
 		let distanceOnHive = 2
+		let playableSpaces = state.playableSpaces(excluding: self)
 
 		while toVisit.isNotEmpty {
 			let currentPosition = toVisit.popLast()!
@@ -49,7 +50,7 @@ extension Unit {
 						hivePosition.adjacent().filter { downPosition in
 							guard let hiveStack = state.stacks[hivePosition] else { return false }
 
-							return state.playableSpaces(excluding: self).contains(downPosition) &&
+							return playableSpaces.contains(downPosition) &&
 								hivePosition.freedomOfMovement(
 									to: downPosition,
 									startingHeight: hiveStack.endIndex + 1,

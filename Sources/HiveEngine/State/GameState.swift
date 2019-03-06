@@ -101,21 +101,25 @@ public class GameState: Codable {
 	public func moves(for player: Player) -> [Movement] {
 		guard isEndGame == false else { return [] }
 
+		let availablePiecesForPlayer = availablePieces(for: player)
+
 		// Only available moves at the start of the game are to place a piece at (0, 0, 0)
 		// or to place a piece next to the original piece
 		if move == 0 {
-			return availablePieces(for: player).map { .place(unit: $0, at: .inPlay(x: 0, y: 0, z: 0)) }
+			return availablePiecesForPlayer.map { .place(unit: $0, at: .inPlay(x: 0, y: 0, z: 0)) }
 		}
+
+		let playableSpacesForPlayer = playableSpaces(for: player)
 
 		// Queen must be played in player's first 4 moves
 		if (player == .white && move == 6) || (player == .black && move == 7),
-			let queen = availablePieces(for: player).filter({ $0.class == .queen }).first {
-			return playableSpaces(for: player).map { .place(unit: queen, at: $0) }
+			let queen = availablePiecesForPlayer.filter({ $0.class == .queen }).first {
+			return playableSpacesForPlayer.map { .place(unit: queen, at: $0) }
 		}
 
 		// Get placeable and moveable pieces
-		let placePieceMovements: [Movement] = availablePieces(for: player).flatMap { unit in
-			return playableSpaces(for: player).map { .place(unit: unit, at: $0) }
+		let placePieceMovements: [Movement] = availablePiecesForPlayer.flatMap { unit in
+			return playableSpacesForPlayer.map { .place(unit: unit, at: $0) }
 		}
 
 		// Iterate over all pieces on the board
@@ -241,7 +245,7 @@ public class GameState: Codable {
 
 	/// List the unplayed pieces for a player.
 	public func availablePieces(for player: Player) -> Set<Unit> {
-		return Set(units.filter { $0.key.owner == player }.keys).subtracting(unitsInPlay)
+		return Set(units.filter { $0.key.owner == player && units[$0.key] == .inHand }.keys)
 	}
 
 	/// List the units which are at the top of a stack adjacent to the position of a unit.
