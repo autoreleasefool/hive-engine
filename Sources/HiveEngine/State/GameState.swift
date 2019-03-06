@@ -171,13 +171,14 @@ public class GameState: Codable {
 		}
 
 		// When a player is shut out, skip their turn
-		if isEndGame == false && availableMoves.count == 0 {
+		if isEndGame == false && anyMovesAvailable(for: currentPlayer) == false {
 			currentPlayer = currentPlayer.next
 		}
 
 		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove))
 	}
 
+	/// Undo the most recent move
 	public func undoMove() {
 		guard let lastMove = previousMoves.popLast() else { return }
 		currentPlayer = lastMove.player
@@ -215,6 +216,25 @@ public class GameState: Codable {
 		case .place(let unit, let position):
 			return units[unit] == .inHand && playableSpaces(for: currentPlayer).contains(position)
 		}
+	}
+
+	/// Returns true if there are any moves available for the given player.
+	public func anyMovesAvailable(for player: Player) -> Bool {
+		if isEndGame { return false }
+
+		// Check if any pieces can be placed
+		if availablePieces(for: player).count > 0 && playableSpaces(for: player).count > 0 {
+			return true
+		}
+
+		// Check if any pieces on the board has available moves
+		for unit in units.filter({ $0.value != .inHand && $0.key.owner == player }).map({ $0.key }) {
+			if unit.availableMoves(in: self).count > 0 {
+				return true
+			}
+		}
+
+		return false
 	}
 
 	// MARK: Units

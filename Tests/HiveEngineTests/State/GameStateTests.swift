@@ -253,6 +253,27 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(Player.white, state.currentPlayer)
 	}
 
+	func testPartialGameState_ShutOutPlayer_HasNoMoves() {
+		let state = stateProvider.initialGameState
+		let setupMoves: [Movement] = [
+			Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
+			Movement.move(unit: state.blackQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
+			Movement.move(unit: state.whiteAnt, to: Position.inPlay(x: 2, y: 0, z: -2))
+		]
+
+		stateProvider.apply(moves: setupMoves, to: state)
+		XCTAssertFalse(state.anyMovesAvailable(for: state.currentPlayer.next))
+	}
+
+	func testPartialGameState_PlayerHasAvailableMoves() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 1, to: state)
+		XCTAssertTrue(state.anyMovesAvailable(for: state.currentPlayer))
+		XCTAssertTrue(state.anyMovesAvailable(for: state.currentPlayer.next))
+	}
+
 	func testPartialGameState_OpponentMoves_AreCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
@@ -301,6 +322,12 @@ final class GameStateTests: HiveEngineTestCase {
 	}
 
 	// MARK: - Won Game State
+
+	func testFinishedGameState_PlayerHasNoAvailableMoves() {
+		let state = stateProvider.wonGameState
+		XCTAssertFalse(state.anyMovesAvailable(for: .white))
+		XCTAssertFalse(state.anyMovesAvailable(for: .black))
+	}
 
 	func testFinishedGameState_HasOneWinner() {
 		let state = stateProvider.wonGameState
@@ -358,12 +385,15 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits", testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits),
 		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits", testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
 		("testPartialGameState_ShutOutPlayer_SkipsTurn", testPartialGameState_ShutOutPlayer_SkipsTurn),
+		("testPartialGameState_ShutOutPlayer_HasNoMoves", testPartialGameState_ShutOutPlayer_HasNoMoves),
+		("testPartialGameState_PlayerHasAvailableMoves", testPartialGameState_PlayerHasAvailableMoves),
 		("testPartialGameState_OpponentMoves_AreCorrect", testPartialGameState_OpponentMoves_AreCorrect),
 
 		("testPartialGameState_UndoPlace_CreatesOldGameState", testPartialGameState_UndoPlace_CreatesOldGameState),
 		("testPartialGameState_UndoMove_CreatesOldGameState", testPartialGameState_UndoMove_CreatesOldGameState),
 		("testPartialGameState_UndoYoink_CreatesOldGameState", testPartialGameState_UndoYoink_CreatesOldGameState),
 
+		("testFinishedGameState_PlayerHasNoAvailableMoves", testFinishedGameState_PlayerHasNoAvailableMoves),
 		("testFinishedGameState_HasOneWinner", testFinishedGameState_HasOneWinner),
 		("testFinishedGameState_HasNoMoves", testFinishedGameState_HasNoMoves),
 		("testFinishedGameState_IsEndGame", testFinishedGameState_IsEndGame),
