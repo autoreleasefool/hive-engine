@@ -1,3 +1,5 @@
+![Logo](media/HiveEngine.png)
+
 # Hive Engine
 
 [![Build status](https://travis-ci.org/josephroqueca/hive-engine.svg?branch=master)](https://travis-ci.org/josephroqueca/hive-engine) [![codecov](https://codecov.io/gh/josephroqueca/hive-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/josephroqueca/hive-engine)
