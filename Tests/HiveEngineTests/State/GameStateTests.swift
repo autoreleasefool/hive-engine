@@ -99,6 +99,25 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(0, state.previousMoves.count)
 	}
 
+	func testInitialGameState_ValidatesMoves() {
+		let state = stateProvider.initialGameState
+		XCTAssertTrue(state.requireMovementValidation)
+
+		let move = state.move
+		state.apply(.place(unit: state.whiteAnt, at: .inPlay(x: 1, y: 1, z: 1)))
+		XCTAssertEqual(move, state.move)
+	}
+
+	func testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves() {
+		let state = stateProvider.initialGameState
+		state.requireMovementValidation = false
+		state.apply(.place(unit: state.whiteAnt, at: .inPlay(x: 1, y: 1, z: 1)))
+
+		let expectedUnits = Set([state.whiteAnt])
+		XCTAssertEqual(expectedUnits, state.unitsInPlay)
+		XCTAssertEqual(.inPlay(x: 1, y: 1, z: 1), state.units[state.whiteAnt])
+	}
+
 	// MARK: - Partial Game State
 
 	func testPartialGameState_PreviousMove_IsCorrect() {
@@ -369,6 +388,8 @@ final class GameStateTests: HiveEngineTestCase {
 		("testInitialGameState_HasNoStacks", testInitialGameState_HasNoStacks),
 		("testInitialGameState_OnlyHasPlaceMovesAvailable", testInitialGameState_OnlyHasPlaceMovesAvailable),
 		("testInitialGameState_HasNoPreviousMoves", testInitialGameState_HasNoPreviousMoves),
+		("testInitialGameState_ValidatesMoves", testInitialGameState_ValidatesMoves),
+		("testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves", testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves),
 
 		("testPartialGameState_PreviousMove_IsCorrect", testPartialGameState_PreviousMove_IsCorrect),
 		("testPartialGameState_Move_IncrementsCorrectly", testPartialGameState_Move_IncrementsCorrectly),

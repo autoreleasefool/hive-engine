@@ -21,6 +21,12 @@ public struct GameStateUpdate: Codable, Equatable {
 
 /// State of a game of hive.
 public class GameState: Codable {
+	private enum CodingKeys: String, CodingKey {
+		case units
+		case stacks
+		case currentPlayer
+		case move
+	}
 
 	/// Units and their positions
 	private(set) public var units: [Unit: Position]
@@ -62,6 +68,10 @@ public class GameState: Codable {
 
 		return winners
 	}
+
+	/// Set to false to disable move validation. The state will simply accept any move given to it,
+	/// which means you must be certain the move is valid or you can end up in an unpredictable state.
+	public var requireMovementValidation = true
 
 	// MARK: - Constructors
 
@@ -137,7 +147,9 @@ public class GameState: Codable {
 	/// Applies the movement to this game state (if it is valid)
 	public func apply(_ movement: Movement) {
 		// Ensure only valid moves are played
-		guard validate(movement: movement) else { return }
+		if requireMovementValidation {
+			guard validate(movement: movement) else { return }
+		}
 
 		let updatePlayer = currentPlayer
 		let updateMovement = movement
