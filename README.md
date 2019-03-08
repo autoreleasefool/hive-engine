@@ -2,7 +2,7 @@
 
 # Hive Engine
 
-[![Build status](https://travis-ci.org/josephroqueca/hive-engine.svg?branch=master)](https://travis-ci.org/josephroqueca/hive-engine) [![codecov](https://codecov.io/gh/josephroqueca/hive-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/josephroqueca/hive-engine)
+[![Build status](https://travis-ci.org/josephroquedev/hive-engine.svg?branch=master)](https://travis-ci.org/josephroquedev/hive-engine) [![codecov](https://codecov.io/gh/josephroquedev/hive-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/josephroquedev/hive-engine)
 
 Manages the game state of a game of hive and determines valid playable moves.
 
@@ -64,7 +64,7 @@ This package is built with Swift Package Manager, so you can require it as a dep
 
 ```
     dependencies: [
-        .package(url: "git@github.com:josephroqueca/hive-engine.git", .branch("master"))
+        .package(url: "git@github.com:josephroquedev/hive-engine.git", .branch("master"))
     ],
 ```
 
@@ -72,11 +72,11 @@ Optionally, you can lock the engine to a specific version with:
 
 ```
     dependencies: [
-        .package(url: "git@github.com:josephroqueca/hive-engine.git", from: "1.0.0")
+        .package(url: "git@github.com:josephroquedev/hive-engine.git", from: "1.0.0")
     ],
 ```
 
-See the [Releases](https://github.com/josephroqueca/hive-engine/releases) for the most recent release.
+See the [Releases](https://github.com/josephroquedev/hive-engine/releases) for the most recent release.
 
 ### Manual
 
