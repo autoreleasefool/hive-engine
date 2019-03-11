@@ -27,45 +27,45 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testInitialGameState_UnitsAreNotInPlay() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual(Set(), state.unitsInPlay)
+		XCTAssertEqual([:], state.unitsInPlayNext)
 	}
 
 	func testInitialGameState_PlayerHasAllUnitsAvailable() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual(14, state.availablePieces(for: .white).count)
-		XCTAssertEqual(14, state.availablePieces(for: .black).count)
+		XCTAssertEqual(14, state.unitsInHand[Player.white]!.count)
+		XCTAssertEqual(14, state.unitsInHand[Player.black]!.count)
 
 		// 3 ants
-		XCTAssertEqual(3, state.availablePieces(for: .white).filter { $0.class == .ant }.count)
-		XCTAssertEqual(3, state.availablePieces(for: .black).filter { $0.class == .ant }.count)
+		XCTAssertEqual(3, state.unitsInHand[Player.white]!.filter { $0.class == .ant }.count)
+		XCTAssertEqual(3, state.unitsInHand[Player.black]!.filter { $0.class == .ant }.count)
 
 		// 2 beetles
-		XCTAssertEqual(2, state.availablePieces(for: .white).filter { $0.class == .beetle }.count)
-		XCTAssertEqual(2, state.availablePieces(for: .black).filter { $0.class == .beetle }.count)
+		XCTAssertEqual(2, state.unitsInHand[Player.white]!.filter { $0.class == .beetle }.count)
+		XCTAssertEqual(2, state.unitsInHand[Player.black]!.filter { $0.class == .beetle }.count)
 
 		// 3 hoppers
-		XCTAssertEqual(3, state.availablePieces(for: .white).filter { $0.class == .hopper }.count)
-		XCTAssertEqual(3, state.availablePieces(for: .black).filter { $0.class == .hopper }.count)
+		XCTAssertEqual(3, state.unitsInHand[Player.white]!.filter { $0.class == .hopper }.count)
+		XCTAssertEqual(3, state.unitsInHand[Player.black]!.filter { $0.class == .hopper }.count)
 
 		// 1 lady bug
-		XCTAssertEqual(1, state.availablePieces(for: .white).filter { $0.class == .ladyBug }.count)
-		XCTAssertEqual(1, state.availablePieces(for: .black).filter { $0.class == .ladyBug }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.white]!.filter { $0.class == .ladyBug }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.black]!.filter { $0.class == .ladyBug }.count)
 
 		// 1 mosquito
-		XCTAssertEqual(1, state.availablePieces(for: .white).filter { $0.class == .mosquito }.count)
-		XCTAssertEqual(1, state.availablePieces(for: .black).filter { $0.class == .mosquito }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.white]!.filter { $0.class == .mosquito }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.black]!.filter { $0.class == .mosquito }.count)
 
 		// 1 pill bug
-		XCTAssertEqual(1, state.availablePieces(for: .white).filter { $0.class == .pillBug }.count)
-		XCTAssertEqual(1, state.availablePieces(for: .black).filter { $0.class == .pillBug }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.white]!.filter { $0.class == .pillBug }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.black]!.filter { $0.class == .pillBug }.count)
 
 		// 1 queen
-		XCTAssertEqual(1, state.availablePieces(for: .white).filter { $0.class == .queen }.count)
-		XCTAssertEqual(1, state.availablePieces(for: .black).filter { $0.class == .queen }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.white]!.filter { $0.class == .queen }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.black]!.filter { $0.class == .queen }.count)
 
 		// 2 spiders
-		XCTAssertEqual(2, state.availablePieces(for: .white).filter { $0.class == .spider }.count)
-		XCTAssertEqual(2, state.availablePieces(for: .black).filter { $0.class == .spider }.count)
+		XCTAssertEqual(2, state.unitsInHand[Player.white]!.filter { $0.class == .spider }.count)
+		XCTAssertEqual(2, state.unitsInHand[Player.black]!.filter { $0.class == .spider }.count)
 	}
 
 	func testInitialGameState_WhitePlayerIsFirst() {
@@ -104,18 +104,18 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertTrue(state.requireMovementValidation)
 
 		let move = state.move
-		state.apply(.place(unit: state.whiteAnt, at: .inPlay(x: 1, y: 1, z: 1)))
+		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1)))
 		XCTAssertEqual(move, state.move)
 	}
 
 	func testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves() {
 		let state = stateProvider.initialGameState
 		state.requireMovementValidation = false
-		state.apply(.place(unit: state.whiteAnt, at: .inPlay(x: 1, y: 1, z: 1)))
+		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1)))
 
 		let expectedUnits = Set([state.whiteAnt])
-		XCTAssertEqual(expectedUnits, state.unitsInPlay)
-		XCTAssertEqual(.inPlay(x: 1, y: 1, z: 1), state.units[state.whiteAnt])
+		XCTAssertEqual(expectedUnits, Set(state.unitsInPlayNext.keys))
+		XCTAssertEqual(Position(x: 1, y: 1, z: 1), state.unitsInPlayNext[state.whiteAnt])
 	}
 
 	// MARK: - Partial Game State
@@ -123,7 +123,7 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_PreviousMove_IsCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 9, to: state)
-		XCTAssertEqual(GameStateUpdate(player: Player.white, movement: Movement.move(unit: state.whiteAnt, to: Position.inPlay(x: 0, y: 3, z: -3)), previousPosition: Position.inPlay(x: -1, y: 0, z: 1), move: 8), state.previousMoves.last)
+		XCTAssertEqual(GameStateUpdate(player: Player.white, movement: Movement.move(unit: state.whiteAnt, to: Position(x: 0, y: 3, z: -3)), previousPosition: Position(x: -1, y: 0, z: 1), move: 8), state.previousMoves.last)
 	}
 
 	func testPartialGameState_MustPlayQueenInFirstFourMoves() {
@@ -141,7 +141,7 @@ final class GameStateTests: HiveEngineTestCase {
 		stateProvider.apply(moves: 8, to: state)
 		XCTAssertEqual(8, state.move)
 
-		let move: Movement = .place(unit: state.whiteLadyBug, at: .inPlay(x: 0, y: -2, z: 2))
+		let move: Movement = .place(unit: state.whiteLadyBug, at: Position(x: 0, y: -2, z: 2))
 		state.apply(move)
 		XCTAssertEqual(9, state.move)
 	}
@@ -150,14 +150,14 @@ final class GameStateTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 8, to: state)
 		let playableSpaces: Set<Position> = Set([
-			.inPlay(x: 0, y: 3, z: -3), .inPlay(x: 1, y: 2, z: -3),
-			.inPlay(x: 2, y: 1, z: -3), .inPlay(x: 2, y: 0, z: -2),
-			.inPlay(x: 1, y: 0, z: -1), .inPlay(x: 2, y: -1, z: -1),
-			.inPlay(x: 2, y: -2, z: 0), .inPlay(x: 1, y: -2, z: 1),
-			.inPlay(x: 0, y: -2, z: 2), .inPlay(x: -1, y: -1, z: 2),
-			.inPlay(x: -2, y: 0, z: 2), .inPlay(x: -2, y: 1, z: 1),
-			.inPlay(x: -1, y: 1, z: 0), .inPlay(x: -2, y: 2, z: 0),
-			.inPlay(x: -2, y: 3, z: -1), .inPlay(x: -1, y: 3, z: -2)
+			Position(x: 0, y: 3, z: -3), Position(x: 1, y: 2, z: -3),
+			Position(x: 2, y: 1, z: -3), Position(x: 2, y: 0, z: -2),
+			Position(x: 1, y: 0, z: -1), Position(x: 2, y: -1, z: -1),
+			Position(x: 2, y: -2, z: 0), Position(x: 1, y: -2, z: 1),
+			Position(x: 0, y: -2, z: 2), Position(x: -1, y: -1, z: 2),
+			Position(x: -2, y: 0, z: 2), Position(x: -2, y: 1, z: 1),
+			Position(x: -1, y: 1, z: 0), Position(x: -2, y: 2, z: 0),
+			Position(x: -2, y: 3, z: -1), Position(x: -1, y: 3, z: -2)
 			])
 
 		XCTAssertEqual(playableSpaces, state.playableSpaces())
@@ -172,7 +172,7 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_ApplyMovement_ValidMoveUpdatesState() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 8, to: state)
-		let move: Movement = .place(unit: state.whiteLadyBug, at: .inPlay(x: 0, y: -2, z: 2))
+		let move: Movement = .place(unit: state.whiteLadyBug, at: Position(x: 0, y: -2, z: 2))
 		XCTAssertTrue(state.availableMoves.contains(move))
 		state.apply(move)
 		XCTAssertEqual(9, state.move)
@@ -181,7 +181,7 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_ApplyMovement_InvalidMoveDoesNotModify() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 8, to: state)
-		let invalidMove: Movement = .place(unit: state.whiteLadyBug, at: .inPlay(x: 0, y: -3, z: 3))
+		let invalidMove: Movement = .place(unit: state.whiteLadyBug, at: Position(x: 0, y: -3, z: 3))
 		XCTAssertFalse(state.availableMoves.contains(invalidMove))
 		state.apply(invalidMove)
 		XCTAssertEqual(8, state.move)
@@ -195,13 +195,13 @@ final class GameStateTests: HiveEngineTestCase {
 			state.whiteSpider, state.whiteAnt,
 			state.whiteQueen, state.whitePillBug
 			])
-		XCTAssertEqual(0, state.availablePieces(for: .white).intersection(whitePieces).count)
+		XCTAssertEqual(0, state.unitsInHand[Player.white]!.intersection(whitePieces).count)
 
 		let blackPieces: Set<HiveEngine.Unit> = Set([
 			state.blackHopper, state.blackSpider,
 			state.blackLadyBug, state.blackQueen
 			])
-		XCTAssertEqual(0, state.availablePieces(for: .black).intersection(blackPieces).count)
+		XCTAssertEqual(0, state.unitsInHand[Player.black]!.intersection(blackPieces).count)
 	}
 
 	func testPartialGameState_AdjacentUnits_ToUnit_IsCorrect() {
@@ -215,7 +215,7 @@ final class GameStateTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 13, to: state)
 		let adjacentUnits: Set<HiveEngine.Unit> = Set([state.blackHopper, state.blackQueen, state.blackLadyBug, state.blackMosquito, state.whiteBeetle])
-		XCTAssertEqual(adjacentUnits, state.units(adjacentTo: .inPlay(x: 0, y: 1, z: -1)))
+		XCTAssertEqual(adjacentUnits, state.units(adjacentTo: Position(x: 0, y: 1, z: -1)))
 	}
 
 	func testPartialGameState_OneHive_IsCorrect() {
@@ -235,9 +235,9 @@ final class GameStateTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 3, to: state)
 		let expectedPositions: Set<Position> = [
-			.inPlay(x: -1, y: 2, z: -1),
-			.inPlay(x: 0, y: 2, z: -2),
-			.inPlay(x: 1, y: 1, z: -2)
+			Position(x: -1, y: 2, z: -1),
+			Position(x: 0, y: 2, z: -2),
+			Position(x: 1, y: 1, z: -2)
 		]
 
 		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
@@ -247,12 +247,12 @@ final class GameStateTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 1, to: state)
 		let expectedPositions: Set<Position> = [
-			.inPlay(x: 0, y: 1, z: -1),
-			.inPlay(x: 1, y: 0, z: -1),
-			.inPlay(x: 1, y: -1, z: 0),
-			.inPlay(x: 0, y: -1, z: 1),
-			.inPlay(x: -1, y: 0, z: 1),
-			.inPlay(x: -1, y: 1, z: 0)
+			Position(x: 0, y: 1, z: -1),
+			Position(x: 1, y: 0, z: -1),
+			Position(x: 1, y: -1, z: 0),
+			Position(x: 0, y: -1, z: 1),
+			Position(x: -1, y: 0, z: 1),
+			Position(x: -1, y: 1, z: 0)
 		]
 
 		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
@@ -261,11 +261,11 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_ShutOutPlayer_SkipsTurn() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.blackQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.whiteAnt, to: Position.inPlay(x: 2, y: 0, z: -2))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
+			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
+			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -275,11 +275,11 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_ShutOutPlayer_HasNoMoves() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.blackQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.whiteAnt, to: Position.inPlay(x: 2, y: 0, z: -2))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
+			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
+			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -296,14 +296,14 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_OpponentMoves_AreCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMoves: Set<Movement> = [
-			Movement.move(unit: state.blackQueen, to: Position.inPlay(x: -1, y: 1, z: 0)),
-			Movement.move(unit: state.blackQueen, to: Position.inPlay(x: 1, y: 0, z: -1))
+			Movement.move(unit: state.blackQueen, to: Position(x: -1, y: 1, z: 0)),
+			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1))
 		]
 
 		XCTAssertEqual(expectedMoves, Set(state.opponentMoves.filter { $0.movedUnit == state.blackQueen }))
@@ -366,7 +366,7 @@ final class GameStateTests: HiveEngineTestCase {
 	func testFinishedGameState_ApplyMovement_DoesNotModifyState() {
 		let state = stateProvider.wonGameState
 		let expectedMove = state.move
-		state.apply(.move(unit: state.whiteAnt, to: .inPlay(x: 0, y: 0, z: 0)))
+		state.apply(.move(unit: state.whiteAnt, to: Position(x: 0, y: 0, z: 0)))
 		XCTAssertEqual(expectedMove, state.move)
 	}
 

@@ -10,9 +10,11 @@ import Foundation
 
 extension Unit {
 	func movesAsSpider(in state: GameState) -> Set<Movement> {
-		guard self.canMove(in: state) else { return [] }
-		guard self.canMove(as: .spider, in: state) else { return [] }
-		guard let startPosition = state.units[self], startPosition != .inHand else { return [] }
+		guard self.canMove(in: state),
+			self.canMove(as: .spider, in: state),
+			let startPosition = state.unitsInPlayNext[self] else {
+			return []
+		}
 
 		let maxDistance = 3
 

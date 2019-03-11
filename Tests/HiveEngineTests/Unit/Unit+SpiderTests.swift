@@ -37,7 +37,7 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		XCTAssertEqual(1, availableMoves.count)
 
 		let expectedMoves: Set<Movement> = [
-			.move(unit: state.whiteSpider, to: .inPlay(x: 0, y: 2, z: -2))
+			.move(unit: state.whiteSpider, to: Position(x: 0, y: 2, z: -2))
 		]
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
@@ -45,19 +45,19 @@ final class UnitSpiderTests: HiveEngineTestCase {
 	func testSpider_FreedomOfMovement_IsCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whiteBeetle, at: Position.inPlay(x: 1, y: -1, z: 0)),
-			Movement.place(unit: state.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
-			Movement.place(unit: state.whiteSpider, at: Position.inPlay(x: 2, y: -1, z: -1)),
-			Movement.place(unit: state.blackSpider, at: Position.inPlay(x: 1, y: 2, z: -3)),
-			Movement.place(unit: state.whiteAnt, at: Position.inPlay(x: 0, y: -1, z: 1))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteBeetle, at: Position(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
+			Movement.place(unit: state.whiteSpider, at: Position(x: 2, y: -1, z: -1)),
+			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 2, z: -3)),
+			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let expectedMove: Movement = .move(unit: state.blackSpider, to: .inPlay(x: 3, y: -1, z: -2))
+		let expectedMove: Movement = .move(unit: state.blackSpider, to: Position(x: 3, y: -1, z: -2))
 		XCTAssertTrue(state.blackSpider.availableMoves(in: state).contains(expectedMove))
-		let unexpectedMove: Movement = .move(unit: state.blackSpider, to: .inPlay(x: 1, y: 0, z: -1))
+		let unexpectedMove: Movement = .move(unit: state.blackSpider, to: Position(x: 1, y: 0, z: -1))
 		XCTAssertFalse(state.blackSpider.availableMoves(in: state).contains(unexpectedMove))
 	}
 

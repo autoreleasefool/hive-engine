@@ -10,9 +10,11 @@ import Foundation
 
 extension Unit {
 	func movesAsAnt(in state: GameState) -> Set<Movement> {
-		guard self.canMove(in: state) else { return [] }
-		guard self.canMove(as: .ant, in: state) else { return [] }
-		guard let position = state.units[self], position != .inHand else { return [] }
+		guard self.canMove(in: state),
+			self.canMove(as: .ant, in: state),
+			let position = state.unitsInPlayNext[self] else {
+			return []
+		}
 
 		let playableSpaces = state.playableSpaces(excluding: self)
 

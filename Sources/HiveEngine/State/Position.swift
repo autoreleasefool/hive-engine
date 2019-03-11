@@ -27,23 +27,26 @@ import Foundation
 ///          +z   \_____/   -y
 ///
 
-public enum Position: Hashable, Equatable {
-	case inHand
-	case inPlay(x: Int, y: Int, z: Int)
+public struct Position: Hashable, Equatable, Codable {
+	let x: Int
+	let y: Int
+	let z: Int
+
+	public init(x: Int, y: Int, z: Int) {
+		self.x = x
+		self.y = y
+		self.z = z
+	}
 
 	public func adjacent() -> Set<Position> {
-		switch self {
-		case .inHand: return []
-		case .inPlay(let x, let y, let z):
-			return [
-				.inPlay(x: x, y: y + 1, z: z - 1),
-				.inPlay(x: x + 1, y: y, z: z - 1),
-				.inPlay(x: x + 1, y: y - 1, z: z),
-				.inPlay(x: x, y: y - 1, z: z + 1),
-				.inPlay(x: x - 1, y: y, z: z + 1),
-				.inPlay(x: x - 1, y: y + 1, z: z)
-			]
-		}
+		return [
+			Position(x: x, y: y + 1, z: z - 1),
+			Position(x: x + 1, y: y, z: z - 1),
+			Position(x: x + 1, y: y - 1, z: z),
+			Position(x: x, y: y - 1, z: z + 1),
+			Position(x: x - 1, y: y, z: z + 1),
+			Position(x: x - 1, y: y + 1, z: z)
+		]
 	}
 
 	/// Returns true if there is freedom of movement between two positions at given heights
@@ -63,17 +66,15 @@ public enum Position: Hashable, Equatable {
 
 		var firstPositionModifier: Position?
 		var secondPositionModifier: Position?
-		if case let .inPlay(x, y, z) = difference {
-			if x == 0 {
-				firstPositionModifier = .inPlay(x: y, y: 0, z: z)
-				secondPositionModifier = .inPlay(x: z, y: y, z: 0)
-			} else if y == 0 {
-				firstPositionModifier = .inPlay(x: 0, y: x, z: z)
-				secondPositionModifier = .inPlay(x: x, y: z, z: 0)
-			} else if z == 0 {
-				firstPositionModifier = .inPlay(x: 0, y: y, z: x)
-				secondPositionModifier = .inPlay(x: x, y: 0, z: y)
-			}
+		if difference.x == 0 {
+			firstPositionModifier = Position(x: difference.y, y: 0, z: difference.z)
+			secondPositionModifier = Position(x: difference.z, y: difference.y, z: 0)
+		} else if difference.y == 0 {
+			firstPositionModifier = Position(x: 0, y: difference.x, z: difference.z)
+			secondPositionModifier = Position(x: difference.x, y: difference.z, z: 0)
+		} else if difference.z == 0 {
+			firstPositionModifier = Position(x: 0, y: difference.y, z: difference.x)
+			secondPositionModifier = Position(x: difference.x, y: 0, z: difference.y)
 		}
 
 		// Get the relevant stacks, or if the stacks are empty then the movement is valid
@@ -90,87 +91,16 @@ public enum Position: Hashable, Equatable {
 	}
 
 	public func subtracting(_ other: Position) -> Position {
-		switch (self, other) {
-		case (.inHand, _):
-			return .inHand
-		case (_, .inHand):
-			return self
-		case(.inPlay(let x1, let y1, let z1), .inPlay(let x2, let y2, let z2)):
-			return .inPlay(x: x1 - x2, y: y1 - y2, z: z1 - z2)
-		}
+		return Position(x: self.x - other.x, y: self.y - other.y, z: self.z - other.z)
 	}
 
 	public func adding(_ other: Position) -> Position {
-		switch (self, other) {
-		case (.inHand, _):
-			return .inHand
-		case (_, .inHand):
-			return self
-		case(.inPlay(let x1, let y1, let z1), .inPlay(let x2, let y2, let z2)):
-			return .inPlay(x: x1 + x2, y: y1 + y2, z: z1 + z2)
-		}
+		return Position(x: self.x + other.x, y: self.y + other.y, z: self.z + other.z)
 	}
 }
 
 extension Position: CustomStringConvertible {
 	public var description: String {
-		switch self {
-		case .inHand: return "In Hand"
-		case .inPlay(let x, let y, let z): return "(\(x), \(y), \(z))"
-		}
+		return "(\(x), \(y), \(z))"
 	}
 }
-
-// MARK: - Codable
-
-extension Position: Codable {
-	public init(from decoder: Decoder) throws {
-		self = try Position.Coding.init(from: decoder).position()
-	}
-
-	public func encode(to encoder: Encoder) throws {
-		try Position.Coding.init(position: self).encode(to: encoder)
-	}
-}
-
-// swiftlint:disable nesting
-// Allow deeper nesting for codable workaround
-
-extension Position {
-	enum CodingError: Error {
-		case standard(String)
-	}
-
-	fileprivate struct Coding: Codable {
-		private struct InPlay: Codable {
-			let x: Int
-			let y: Int
-			let z: Int
-		}
-
-		private var inPlay: InPlay?
-		private var inHand: Bool?
-
-		fileprivate init(position: Position) {
-			switch position {
-			case .inHand:
-				self.inHand = true
-			case .inPlay(let x, let y, let z):
-				self.inPlay = InPlay(x: x, y: y, z: z)
-			}
-		}
-
-		fileprivate func position() throws -> Position {
-			switch (inHand, inPlay) {
-			case (nil, .some(let position)):
-				return .inPlay(x: position.x, y: position.y, z: position.z)
-			case (_, nil):
-				return .inHand
-			default:
-				throw Position.CodingError.standard("Could not convert \(self) into a Position")
-			}
-		}
-	}
-}
-
-//swiftlint:enable nesting

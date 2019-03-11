@@ -34,8 +34,8 @@ final class UnitHopperTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 9, to: state)
 		let expectedMoves: Set<Movement> = [
-			.move(unit: state.blackHopper, to: .inPlay(x: 1, y: 2, z: -3)),
-			.move(unit: state.blackHopper, to: .inPlay(x: 1, y: 0, z: -1))
+			.move(unit: state.blackHopper, to: Position(x: 1, y: 2, z: -3)),
+			.move(unit: state.blackHopper, to: Position(x: 1, y: 0, z: -1))
 		]
 
 		XCTAssertEqual(expectedMoves, state.blackHopper.availableMoves(in: state))
@@ -44,20 +44,20 @@ final class UnitHopperTests: HiveEngineTestCase {
 	func testHopper_CanJumpAnyHeight() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0)),
-			.move(unit: state.blackBeetle, to: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteMosquito, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackHopper, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteMosquito, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0)),
+			.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteMosquito, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackHopper, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteMosquito, to: Position(x: 0, y: 0, z: 0))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMoves: Set<Movement> = [
-			.move(unit: state.blackHopper, to: .inPlay(x: 0, y: -1, z: 1))
+			.move(unit: state.blackHopper, to: Position(x: 0, y: -1, z: 1))
 		]
 		XCTAssertEqual(expectedMoves, state.blackHopper.availableMoves(in: state))
 	}

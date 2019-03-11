@@ -22,17 +22,10 @@ final class UnitTests: HiveEngineTestCase {
 
 	func testGetMovementToPositionInPlay_IsCorrect() {
 		let unit = stateProvider.initialGameState.whiteAnt
-		let position: Position = .inPlay(x: 0, y: 2, z: -2)
+		let position: Position = Position(x: 0, y: 2, z: -2)
 		let expectedMovement: Movement = .move(unit: unit, to: position)
 
 		XCTAssertEqual(expectedMovement, unit.movement(to: position))
-	}
-
-	func testGetMovementToPositionInHand_IsNil() {
-		let unit = stateProvider.initialGameState.whiteAnt
-		let position: Position = .inHand
-
-		XCTAssertNil(unit.movement(to: position))
 	}
 
 	func testWhenSurrounded_IsSurrounded_IsTrue() {
@@ -43,11 +36,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenNotSurrounded_IsSurrounded_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -57,11 +50,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenTopOfStack_IsTopOfStack_IsTrue() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -71,11 +64,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenBottomOfStack_IsTopOfStack_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -85,11 +78,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testStackPosition_IsCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -100,11 +93,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenTopOfStackNotOneHive_CanMove_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -116,11 +109,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenBottomOfStackOneHive_CanMove_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -132,11 +125,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenTopOfStackOneHive_CanMove_IsTrue() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			.place(unit: state.whiteBeetle, at: .inPlay(x: 0, y: -1, z: 1)),
-			.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .inPlay(x: 0, y: 0, z: 0))
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -153,7 +146,6 @@ final class UnitTests: HiveEngineTestCase {
 
 	static var allTests = [
 		("testGetMovementToPositionInPlay_IsCorrect", testGetMovementToPositionInPlay_IsCorrect),
-		("testGetMovementToPositionInHand_IsNil", testGetMovementToPositionInHand_IsNil),
 
 		("testWhenSurrounded_IsSurrounded_IsTrue", testWhenSurrounded_IsSurrounded_IsTrue),
 		("testWhenNotSurrounded_IsSurrounded_IsFalse", testWhenNotSurrounded_IsSurrounded_IsFalse),

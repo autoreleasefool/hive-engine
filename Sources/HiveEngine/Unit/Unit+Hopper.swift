@@ -10,9 +10,11 @@ import Foundation
 
 extension Unit {
 	func movesAsHopper(in state: GameState) -> Set<Movement> {
-		guard self.canMove(in: state) else { return [] }
-		guard self.canMove(as: .hopper, in: state) else { return [] }
-		guard let position = state.units[self], position != .inHand else { return [] }
+		guard self.canMove(in: state),
+			self.canMove(as: .hopper, in: state),
+			let position = state.unitsInPlayNext[self] else {
+			return []
+		}
 
 		return Set(position.adjacent().compactMap { adjacentPosition in
 			guard state.stacks[adjacentPosition] != nil else { return nil }

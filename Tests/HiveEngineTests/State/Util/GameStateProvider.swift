@@ -26,40 +26,40 @@ class GameStateProvider {
 
 	private func partialStateMoves(for state: GameState) -> [Movement] {
 		return [
-			/* 1  */ Movement.place(unit: state.whiteSpider, at: Position.inPlay(x: 0, y: 0, z: 0)),
-			/* 2  */ Movement.place(unit: state.blackSpider, at: Position.inPlay(x: 0, y: 1, z: -1)),
-			/* 3  */ Movement.place(unit: state.whiteAnt, at: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 4  */ Movement.place(unit: state.blackLadyBug, at: Position.inPlay(x: 1, y: 1, z: -2)),
-			/* 5  */ Movement.place(unit: state.whitePillBug, at: Position.inPlay(x: 0, y: -1, z: 1)),
-			/* 6  */ Movement.place(unit: state.blackHopper, at: Position.inPlay(x: -1, y: 2, z: -1)),
-			/* 7  */ Movement.place(unit: state.whiteQueen, at: Position.inPlay(x: 1, y: -1, z: 0)),
-			/* 8  */ Movement.place(unit: state.blackQueen, at: Position.inPlay(x: 0, y: 2, z: -2)),
-			/* 9  */ Movement.move(unit: state.whiteAnt, to: Position.inPlay(x: 0, y: 3, z: -3)),
-			/* 10 */ Movement.place(unit: state.blackMosquito, at: Position.inPlay(x: 2, y: 1, z: -3)),
-			/* 11 */ Movement.place(unit: state.whiteBeetle, at: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 12 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			/* 13 */ Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 0, y: 0, z: 0)),
-			/* 14 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 2, y: -1, z: -1)),
-			/* 15 */ Movement.place(unit: state.whiteMosquito, at: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 16 */ Movement.place(unit: state.blackBeetle, at: Position.inPlay(x: 2, y: 1, z: -3)),
-			/* 17 */ Movement.move(unit: state.whiteMosquito, to: Position.inPlay(x: -1, y: 1, z: 0)),
-			/* 18 */ Movement.move(unit: state.blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 19 */ Movement.place(unit: state.whiteHopper, at: Position.inPlay(x: 1, y: -2, z: 1)),
-			/* 20 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			/* 21 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),
-			/* 22 */ Movement.move(unit: state.blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2)),
-			/* 23 */ Movement.move(unit: state.whiteMosquito, to: Position.inPlay(x: -1, y: 2, z: -1)),
-			/* 24 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0)),
-			/* 25 */ Movement.place(unit: state.whiteLadyBug, at: Position.inPlay(x: -1, y: 4, z: -3)),
-			/* 26 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: -2, z: 1)),
-			/* 27 */ Movement.move(unit: state.whiteQueen, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			/* 28 */ Movement.move(unit: state.blackBeetle, to: Position.inPlay(x: 1, y: 0, z: -1)),
-			/* 29 */ Movement.move(unit: state.whiteLadyBug, to: Position.inPlay(x: -1, y: 3, z: -2)),
-			/* 30 */ Movement.place(unit: state.blackPillBug, at: Position.inPlay(x: 2, y: 0, z: -2)),
-			/* 31 */ Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 0, y: 1, z: -1)),
-			/* 32 */ Movement.place(unit: state.blackAnt, at: Position.inPlay(x: 2, y: -1, z: -1)),
-			/* 33 */ Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 0, y: 2, z: -2)),
-			/* 34 */ Movement.move(unit: state.blackMosquito, to: Position.inPlay(x: 1, y: -1, z: 0))
+			/* 1  */ Movement.place(unit: state.whiteSpider, at: Position(x: 0, y: 0, z: 0)),
+			/* 2  */ Movement.place(unit: state.blackSpider, at: Position(x: 0, y: 1, z: -1)),
+			/* 3  */ Movement.place(unit: state.whiteAnt, at: Position(x: -1, y: 0, z: 1)),
+			/* 4  */ Movement.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
+			/* 5  */ Movement.place(unit: state.whitePillBug, at: Position(x: 0, y: -1, z: 1)),
+			/* 6  */ Movement.place(unit: state.blackHopper, at: Position(x: -1, y: 2, z: -1)),
+			/* 7  */ Movement.place(unit: state.whiteQueen, at: Position(x: 1, y: -1, z: 0)),
+			/* 8  */ Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 2, z: -2)),
+			/* 9  */ Movement.move(unit: state.whiteAnt, to: Position(x: 0, y: 3, z: -3)),
+			/* 10 */ Movement.place(unit: state.blackMosquito, at: Position(x: 2, y: 1, z: -3)),
+			/* 11 */ Movement.place(unit: state.whiteBeetle, at: Position(x: -1, y: 0, z: 1)),
+			/* 12 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: 0, z: -1)),
+			/* 13 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0)),
+			/* 14 */ Movement.move(unit: state.blackMosquito, to: Position(x: 2, y: -1, z: -1)),
+			/* 15 */ Movement.place(unit: state.whiteMosquito, at: Position(x: -1, y: 0, z: 1)),
+			/* 16 */ Movement.place(unit: state.blackBeetle, at: Position(x: 2, y: 1, z: -3)),
+			/* 17 */ Movement.move(unit: state.whiteMosquito, to: Position(x: -1, y: 1, z: 0)),
+			/* 18 */ Movement.move(unit: state.blackHopper, to: Position(x: -1, y: 0, z: 1)),
+			/* 19 */ Movement.place(unit: state.whiteHopper, at: Position(x: 1, y: -2, z: 1)),
+			/* 20 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: 0, z: -1)),
+			/* 21 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position(x: -1, y: -1, z: 2)),
+			/* 22 */ Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2)),
+			/* 23 */ Movement.move(unit: state.whiteMosquito, to: Position(x: -1, y: 2, z: -1)),
+			/* 24 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: -1, z: 0)),
+			/* 25 */ Movement.place(unit: state.whiteLadyBug, at: Position(x: -1, y: 4, z: -3)),
+			/* 26 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: -2, z: 1)),
+			/* 27 */ Movement.move(unit: state.whiteQueen, to: Position(x: 1, y: 0, z: -1)),
+			/* 28 */ Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 0, z: -1)),
+			/* 29 */ Movement.move(unit: state.whiteLadyBug, to: Position(x: -1, y: 3, z: -2)),
+			/* 30 */ Movement.place(unit: state.blackPillBug, at: Position(x: 2, y: 0, z: -2)),
+			/* 31 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 1, z: -1)),
+			/* 32 */ Movement.place(unit: state.blackAnt, at: Position(x: 2, y: -1, z: -1)),
+			/* 33 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 2, z: -2)),
+			/* 34 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: -1, z: 0))
 			// Game won by black
 		]
 	}
@@ -79,13 +79,13 @@ class GameStateProvider {
 
 	private func tiedStateMoves(for state: GameState) -> [Movement] {
 		return [
-			/* 34 */ Movement.move(unit: state.blackAnt, to: Position.inPlay(x: 1, y: 3, z: -4)),
-			/* 35 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position.inPlay(x: -1, y: 0, z: 1)),
-			/* 36 */ Movement.move(unit: state.blackLadyBug, to: Position.inPlay(x: 1, y: -1, z: 0)),
-			/* 37 */ Movement.move(unit: state.whiteBeetle, to: Position.inPlay(x: 1, y: 2, z: -3)),
-			/* 38 */ Movement.move(unit: state.blackAnt, to: Position.inPlay(x: 2, y: -1, z: -1)),
-			/* 39 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position.inPlay(x: -1, y: -1, z: 2)),
-			/* 40 */ Movement.move(unit: state.blackBeetle, to: Position.inPlay(x: 1, y: 1, z: -2))
+			/* 34 */ Movement.move(unit: state.blackAnt, to: Position(x: 1, y: 3, z: -4)),
+			/* 35 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position(x: -1, y: 0, z: 1)),
+			/* 36 */ Movement.move(unit: state.blackLadyBug, to: Position(x: 1, y: -1, z: 0)),
+			/* 37 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: 2, z: -3)),
+			/* 38 */ Movement.move(unit: state.blackAnt, to: Position(x: 2, y: -1, z: -1)),
+			/* 39 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position(x: -1, y: -1, z: 2)),
+			/* 40 */ Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2))
 			// Game ends in a tie
 		]
 	}
@@ -117,11 +117,13 @@ extension GameState {
 
 	// MARK: - GameState units
 
+	private static func unitSort(u1: Unit, u2: Unit) -> Bool {
+		return u1.identifier.uuidString < u2.identifier.uuidString
+	}
+
 	private func find(_ class: Unit.Class, belongingTo owner: Player) -> Unit {
-		return units.keys
-				.filter { $0.owner == owner && $0.class == `class` }
-				.sorted { $0.identifier.uuidString < $1.identifier.uuidString }
-				.first!
+		return unitsInPlayNext.keys.sorted(by: GameState.unitSort).first { $0.owner == owner && $0.class == `class` }
+			?? unitsInHand[owner]!.sorted(by: GameState.unitSort).first { $0.class == `class` }!
 	}
 
 	var whiteAnt: Unit {

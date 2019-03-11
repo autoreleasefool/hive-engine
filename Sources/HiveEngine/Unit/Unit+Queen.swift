@@ -10,9 +10,11 @@ import Foundation
 
 extension Unit {
 	func movesAsQueen(in state: GameState) -> Set<Movement> {
-		guard self.canMove(in: state) else { return [] }
-		guard self.canMove(as: .queen, in: state) else { return [] }
-		guard let position = state.units[self], position != .inHand else { return [] }
+		guard self.canMove(in: state),
+			self.canMove(as: .queen, in: state),
+			let position = state.unitsInPlayNext[self] else {
+			return []
+		}
 		let adjacentUnits = state.units(adjacentTo: position)
 
 		return Set(

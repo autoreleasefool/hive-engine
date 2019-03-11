@@ -52,11 +52,11 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 16, to: state)
 		let expectedAvailableMoves: Set<Movement> = [
-			.move(unit: state.whitePillBug, to: .inPlay(x: -1, y: -1, z: 2)),
-			.move(unit: state.whitePillBug, to: .inPlay(x: 1, y: -2, z: 1)),
-			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: .inPlay(x: -1, y: -1, z: 2)),
-			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: .inPlay(x: 0, y: -2, z: 2)),
-			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: .inPlay(x: 1, y: -2, z: 1))
+			.move(unit: state.whitePillBug, to: Position(x: -1, y: -1, z: 2)),
+			.move(unit: state.whitePillBug, to: Position(x: 1, y: -2, z: 1)),
+			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: Position(x: -1, y: -1, z: 2)),
+			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: Position(x: 0, y: -2, z: 2)),
+			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: Position(x: 1, y: -2, z: 1))
 		]
 
 		XCTAssertEqual(expectedAvailableMoves, state.whitePillBug.availableMoves(in: state))
@@ -66,8 +66,8 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 18, to: state)
 		let expectedAvailableMoves: Set<Movement> = [
-			.move(unit: state.whitePillBug, to: .inPlay(x: -1, y: -1, z: 2)),
-			.move(unit: state.whitePillBug, to: .inPlay(x: 1, y: -2, z: 1))
+			.move(unit: state.whitePillBug, to: Position(x: -1, y: -1, z: 2)),
+			.move(unit: state.whitePillBug, to: Position(x: 1, y: -2, z: 1))
 		]
 
 		XCTAssertEqual(expectedAvailableMoves, state.whitePillBug.availableMoves(in: state))
@@ -82,28 +82,28 @@ final class UnitPillBugTests: HiveEngineTestCase {
 	func testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whitePillBug, at: .inPlay(x: 1, y: -1, z: 0)),
-			Movement.place(unit: state.blackSpider, at: .inPlay(x: -1, y: 2, z: -1)),
-			Movement.place(unit: state.whiteLadyBug, at: .inPlay(x: 2, y: -1, z: -1)),
-			Movement.move(unit: state.blackSpider, to: .inPlay(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.whiteLadyBug, to: .inPlay(x: 1, y: 0, z: -1)),
-			Movement.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: -2, z: 2)),
-			Movement.place(unit: state.whiteBeetle, at: .inPlay(x: 2, y: 0, z: -2)),
-			Movement.move(unit: state.blackBeetle, to: .inPlay(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.whiteBeetle, to: .inPlay(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.blackQueen, to: .inPlay(x: 1, y: 1, z: -2)),
-			Movement.move(unit: state.whiteQueen, to: .inPlay(x: -1, y: 0, z: 1)),
-			Movement.move(unit: state.blackQueen, to: .inPlay(x: 2, y: 0, z: -2)),
-			Movement.move(unit: state.whiteQueen, to: .inPlay(x: -1, y: -1, z: 2)),
-			Movement.move(unit: state.blackQueen, to: .inPlay(x: 2, y: -1, z: -1))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
+			Movement.place(unit: state.whiteLadyBug, at: Position(x: 2, y: -1, z: -1)),
+			Movement.move(unit: state.blackSpider, to: Position(x: 0, y: -1, z: 1)),
+			Movement.move(unit: state.whiteLadyBug, to: Position(x: 1, y: 0, z: -1)),
+			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: -2, z: 2)),
+			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: 0, z: -2)),
+			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: -1, z: 1)),
+			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: 0, z: -1)),
+			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 1, z: -2)),
+			Movement.move(unit: state.whiteQueen, to: Position(x: -1, y: 0, z: 1)),
+			Movement.move(unit: state.blackQueen, to: Position(x: 2, y: 0, z: -2)),
+			Movement.move(unit: state.whiteQueen, to: Position(x: -1, y: -1, z: 2)),
+			Movement.move(unit: state.blackQueen, to: Position(x: 2, y: -1, z: -1))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
 		let yoinkToOriginMoves = state.availableMoves.filter {
 			if case let .yoink(_, _, position) = $0 {
-				return position == .inPlay(x: 0, y: 0, z: 0)
+				return position == Position(x: 0, y: 0, z: 0)
 			} else {
 				return false
 			}
@@ -115,18 +115,18 @@ final class UnitPillBugTests: HiveEngineTestCase {
 	func testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whitePillBug, at: .inPlay(x: 1, y: -1, z: 0)),
-			Movement.place(unit: state.blackSpider, at: .inPlay(x: -1, y: 2, z: -1)),
-			Movement.place(unit: state.whiteLadyBug, at: .inPlay(x: 2, y: -1, z: -1)),
-			Movement.move(unit: state.blackSpider, to: .inPlay(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.whiteLadyBug, to: .inPlay(x: 1, y: 0, z: -1)),
-			Movement.place(unit: state.blackBeetle, at: .inPlay(x: 0, y: -2, z: 2)),
-			Movement.place(unit: state.whiteBeetle, at: .inPlay(x: 2, y: 0, z: -2)),
-			Movement.move(unit: state.blackBeetle, to: .inPlay(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.whiteBeetle, to: .inPlay(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.blackQueen, to: .inPlay(x: 1, y: 1, z: -2))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
+			Movement.place(unit: state.whiteLadyBug, at: Position(x: 2, y: -1, z: -1)),
+			Movement.move(unit: state.blackSpider, to: Position(x: 0, y: -1, z: 1)),
+			Movement.move(unit: state.whiteLadyBug, to: Position(x: 1, y: 0, z: -1)),
+			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: -2, z: 2)),
+			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: 0, z: -2)),
+			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: -1, z: 1)),
+			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: 0, z: -1)),
+			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 1, z: -2))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -145,12 +145,12 @@ final class UnitPillBugTests: HiveEngineTestCase {
 	func testPillBug_YoinkCannotBreakHive() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whitePillBug, at: .inPlay(x: 1, y: -1, z: 0)),
-			Movement.place(unit: state.blackSpider, at: .inPlay(x: -1, y: 2, z: -1)),
-			Movement.move(unit: state.whitePillBug, to: .inPlay(x: 1, y: 0, z: -1)),
-			Movement.place(unit: state.blackPillBug, at: .inPlay(x: 0, y: 2, z: -2))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
+			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
+			Movement.place(unit: state.blackPillBug, at: Position(x: 0, y: 2, z: -2))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -169,14 +169,14 @@ final class UnitPillBugTests: HiveEngineTestCase {
 	func testPillBug_CannotYoinkPieceJustYoinked() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .inPlay(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackQueen, at: .inPlay(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whitePillBug, at: .inPlay(x: 1, y: -1, z: 0)),
-			Movement.place(unit: state.blackSpider, at: .inPlay(x: -1, y: 2, z: -1)),
-			Movement.move(unit: state.whitePillBug, to: .inPlay(x: 1, y: 0, z: -1)),
-			Movement.place(unit: state.blackPillBug, at: .inPlay(x: 0, y: 2, z: -2)),
-			Movement.move(unit: state.whiteQueen, to: .inPlay(x: -1, y: 1, z: 0)),
-			Movement.yoink(pillBug: state.blackPillBug, unit: state.blackSpider, to: .inPlay(x: 1, y: 1, z: -2))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
+			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
+			Movement.place(unit: state.blackPillBug, at: Position(x: 0, y: 2, z: -2)),
+			Movement.move(unit: state.whiteQueen, to: Position(x: -1, y: 1, z: 0)),
+			Movement.yoink(pillBug: state.blackPillBug, unit: state.blackSpider, to: Position(x: 1, y: 1, z: -2))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
