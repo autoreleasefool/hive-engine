@@ -13,6 +13,7 @@ public func allTests() -> [XCTestCaseEntry] {
 	return [
 		testCase(CollectionExtensionTests.allTests),
 		testCase(GameStateTests.allTests),
+		testCase(GameStatePerformanceTests.allTests),
 		testCase(MovementTests.allTests),
 		testCase(PlayerTests.allTests),
 		testCase(PositionTests.allTests),

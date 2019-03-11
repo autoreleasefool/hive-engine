@@ -24,17 +24,20 @@ extension Unit {
 			.intersection(state.playableSpaces())
 
 		position.adjacent()
-			// Ensure freedom of movement from the position to the top of the pill bug
-			.filter { $0.freedomOfMovement(to: position, startingHeight: 1, endingHeight: 2, in: state) }
-			// Find adjacent pieces which are in stacks of height 1
 			.compactMap {
-				guard let stack = state.stacks[$0], stack.endIndex == 1 else { return nil }
-				return stack.last
+					// Find adjacent pieces which are in stacks of height 1
+				guard let stack = state.stacks[$0], stack.endIndex == 1,
+					// Ensure freedom of movement from the position to the top of the pill bug
+					$0.freedomOfMovement(to: position, startingHeight: 1, endingHeight: 2, in: state),
+					// Get the unit at the top of the stack
+					let unit = stack.last,
+					// Ensure moving the unit does not violate the one hive rule
+					state.oneHive(excluding: unit),
+					// Unable to move the most recently moved piece (either yoinked or moved last turn)
+					state.currentPlayer != state.previousMoves.last?.player && unit != state.previousMoves.last?.movement.movedUnit
+					else { return nil }
+				return unit
 			}
-			// Ensure moving the unit does not violate the one hive rule
-			.filter { state.oneHive(excluding: $0) }
-			// Unable to move the most recently moved piece (either yoinked or moved last turn)
-			.filter { state.currentPlayer != state.previousMoves.last?.player && $0 != state.previousMoves.last?.movement.movedUnit }
 			.forEach { unit in
 				adjacentPlayablePositions.forEach { targetPosition in
 					specialAbilityMovements.insert(.yoink(pillBug: self, unit: unit, to: targetPosition))

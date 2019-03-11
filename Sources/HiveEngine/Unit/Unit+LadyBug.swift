@@ -30,11 +30,11 @@ extension Unit {
 			visited.insert(currentPosition)
 
 			currentPosition.adjacent()
-				// Unit cannot backtrack
-				.filter { visited.contains($0) == false }
 				.filter {
-					// Only consider positions on top of the hive
-					guard let currentStack = state.stacks[currentPosition], let targetStack = state.stacks[$0] else { return false }
+						// Unit cannot backtrack
+					guard visited.contains($0) == false,
+						// Only consider positions on top of the hive
+						let currentStack = state.stacks[currentPosition], let targetStack = state.stacks[$0] else { return false }
 
 					// Unit can freely move to the target position
 					// When at the start position, it moves from its current height, but when on top of the stack,

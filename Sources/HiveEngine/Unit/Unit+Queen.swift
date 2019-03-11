@@ -20,12 +20,11 @@ extension Unit {
 		return Set(
 			position.adjacent()
 				.filter {
-					// Filter to positions that do not jump across spaces
-					return adjacentUnits.intersection(state.units(adjacentTo: $0)).count > 0
-				}.filter {
-					// Get positions that the piece is free to move to
-					position.freedomOfMovement(to: $0, in: state)
-				}.compactMap {
+						// Filter to positions that do not jump across spaces
+					return adjacentUnits.intersection(state.units(adjacentTo: $0)).count > 0 &&
+						// Get positions that the piece is free to move to
+						position.freedomOfMovement(to: $0, in: state)
+				}.map {
 					movement(to: $0)
 				})
 	}

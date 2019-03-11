@@ -300,14 +300,15 @@ public class GameState: Codable {
 			includedUnits[excluded] = nil
 		}
 
+		let takenPositions = self.stacks.keys
+
 		let allSpaces = Set(includedUnits
 			.filter { $0.key.isTopOfStack(in: self) }
-			.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
+			.values.flatMap { $0.adjacent() }).subtracting(takenPositions)
 		guard let player = player, move > 1 else { return allSpaces }
 		let unavailableSpaces = Set(includedUnits
-			.filter { $0.key.owner != player }
-			.filter { $0.key.isTopOfStack(in: self) }
-			.values.flatMap { $0.adjacent() }).subtracting(stacks.keys)
+			.filter { $0.key.owner != player && $0.key.isTopOfStack(in: self) }
+			.values.flatMap { $0.adjacent() }).subtracting(takenPositions)
 		return allSpaces.subtracting(unavailableSpaces)
 	}
 

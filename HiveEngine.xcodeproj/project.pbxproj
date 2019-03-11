@@ -29,6 +29,7 @@
 		CA598DC0222425A400761E47 /* Unit+PillBugTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DBF222425A400761E47 /* Unit+PillBugTests.swift */; };
 		CA598DC2222425B100761E47 /* Unit+QueenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DC1222425B100761E47 /* Unit+QueenTests.swift */; };
 		CA598DC4222425BA00761E47 /* Unit+SpiderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DC3222425BA00761E47 /* Unit+SpiderTests.swift */; };
+		CAAE1C152236997500E191FA /* GameStatePerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAE1C132236994A00E191FA /* GameStatePerformanceTests.swift */; };
 		OBJ_49 /* Collection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Collection+Extensions.swift */; };
 		OBJ_50 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* GameState.swift */; };
 		OBJ_51 /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Movement.swift */; };
@@ -82,6 +83,7 @@
 		CA598DBF222425A400761E47 /* Unit+PillBugTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+PillBugTests.swift"; sourceTree = "<group>"; };
 		CA598DC1222425B100761E47 /* Unit+QueenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+QueenTests.swift"; sourceTree = "<group>"; };
 		CA598DC3222425BA00761E47 /* Unit+SpiderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+SpiderTests.swift"; sourceTree = "<group>"; };
+		CAAE1C132236994A00E191FA /* GameStatePerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStatePerformanceTests.swift; sourceTree = "<group>"; };
 		"HiveEngine::HiveEngine::Product" /* HiveEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HiveEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"HiveEngine::HiveEngineTests::Product" /* HiveEngineTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = HiveEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* Collection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extensions.swift"; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			children = (
 				OBJ_36 /* Util */,
 				OBJ_32 /* GameStateTests.swift */,
+				CAAE1C132236994A00E191FA /* GameStatePerformanceTests.swift */,
 				OBJ_33 /* MovementTests.swift */,
 				OBJ_34 /* PlayerTests.swift */,
 				OBJ_35 /* PositionTests.swift */,
@@ -230,7 +233,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -238,7 +241,6 @@
 				OBJ_26 /* Tests */,
 				OBJ_41 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -333,7 +335,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_41 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -392,6 +394,7 @@
 				OBJ_83 /* MovementTests.swift in Sources */,
 				CA598DBE2224259900761E47 /* Unit+MosquitoTests.swift in Sources */,
 				OBJ_84 /* PlayerTests.swift in Sources */,
+				CAAE1C152236997500E191FA /* GameStatePerformanceTests.swift in Sources */,
 				OBJ_85 /* PositionTests.swift in Sources */,
 				CA598DC2222425B100761E47 /* Unit+QueenTests.swift in Sources */,
 				OBJ_86 /* GameStateProvider.swift in Sources */,

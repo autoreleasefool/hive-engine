@@ -58,7 +58,7 @@ public class Unit: Codable {
 	}
 
 	/// Returns a movement to the given position, unless the position is `.inHand`
-	func movement(to position: Position) -> Movement? {
+	func movement(to position: Position) -> Movement {
 		return .move(unit: self, to: position)
 	}
 
