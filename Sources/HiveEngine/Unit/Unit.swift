@@ -133,7 +133,7 @@ public class Unit: Codable {
 
 	/// Determine the position of a unit in a positional stack.
 	public func stackPosition(in state: GameState) -> Int? {
-		guard let position = state.unitsInPlayNext[self],
+		guard let position = state.unitsInPlay[owner]?[self],
 			let stack = state.stacks[position] else {
 			return nil
 		}
@@ -144,7 +144,7 @@ public class Unit: Codable {
 
 	/// Determine if this unit is at the top of its stack.
 	public func isTopOfStack(in state: GameState) -> Bool {
-		guard let position = state.unitsInPlayNext[self],
+		guard let position = state.unitsInPlay[owner]?[self],
 			let stack = state.stacks[position] else {
 			return false
 		}

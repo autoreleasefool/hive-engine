@@ -27,7 +27,8 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testInitialGameState_UnitsAreNotInPlay() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual([:], state.unitsInPlayNext)
+		XCTAssertEqual([:], state.unitsInPlay[Player.white])
+		XCTAssertEqual([:], state.unitsInPlay[Player.black])
 	}
 
 	func testInitialGameState_PlayerHasAllUnitsAvailable() {
@@ -114,8 +115,8 @@ final class GameStateTests: HiveEngineTestCase {
 		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1)))
 
 		let expectedUnits = Set([state.whiteAnt])
-		XCTAssertEqual(expectedUnits, Set(state.unitsInPlayNext.keys))
-		XCTAssertEqual(Position(x: 1, y: 1, z: 1), state.unitsInPlayNext[state.whiteAnt])
+		XCTAssertEqual(expectedUnits, Set(state.allUnitsInPlay.keys))
+		XCTAssertEqual(Position(x: 1, y: 1, z: 1), state.unitsInPlay[Player.white]?[state.whiteAnt])
 	}
 
 	// MARK: - Partial Game State

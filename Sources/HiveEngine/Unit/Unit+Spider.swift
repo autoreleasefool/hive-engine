@@ -12,7 +12,7 @@ extension Unit {
 	func movesAsSpider(in state: GameState) -> Set<Movement> {
 		guard self.canMove(in: state),
 			self.canMove(as: .spider, in: state),
-			let startPosition = state.unitsInPlayNext[self] else {
+			let startPosition = state.unitsInPlay[owner]?[self] else {
 			return []
 		}
 

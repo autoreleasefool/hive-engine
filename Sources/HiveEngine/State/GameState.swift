@@ -22,7 +22,7 @@ public struct GameStateUpdate: Codable, Equatable {
 /// State of a game of hive.
 public class GameState: Codable {
 	private enum CodingKeys: String, CodingKey {
-		case unitsInPlayNext
+		case unitsInPlay
 		case unitsInHand
 		case stacks
 		case currentPlayer
@@ -30,7 +30,7 @@ public class GameState: Codable {
 	}
 
 	/// Units and their positions
-	private(set) public var unitsInPlayNext: [Unit: Position]
+	private(set) public var unitsInPlay: [Player: [Unit: Position]]
 
 	/// Units still in each player's hand
 	private(set) public var unitsInHand: [Player: Set<Unit>]
@@ -52,13 +52,20 @@ public class GameState: Codable {
 		return winner.isNotEmpty
 	}
 
+	/// The white player's queen
 	private lazy var whiteQueen: Unit = {
-		return unitsInPlayNext.first { $0.key.class == .queen && $0.key.owner == .white }?.key ?? unitsInHand[Player.white]!.first { $0.class == .queen }!
+		return unitsInPlay[Player.white]!.first { $0.key.class == .queen }?.key ?? unitsInHand[Player.white]!.first { $0.class == .queen }!
 	}()
 
+	/// The black player's queen
 	private lazy var blackQueen: Unit = {
-		return unitsInPlayNext.first { $0.key.class == .queen && $0.key.owner == .black }?.key ?? unitsInHand[Player.black]!.first { $0.class == .queen }!
+		return unitsInPlay[Player.black]!.first { $0.key.class == .queen }?.key ?? unitsInHand[Player.black]!.first { $0.class == .queen }!
 	}()
+
+	/// All units currently in play in the state.
+	public var allUnitsInPlay: [Unit: Position] {
+		return unitsInPlay[Player.white]!.merging(unitsInPlay[Player.black]!, uniquingKeysWith: { p1, _ in p1 })
+	}
 
 	/// Returns the Player who has won the game, both players if it is a tie,
 	/// or no players if the game has not ended
@@ -82,21 +89,25 @@ public class GameState: Codable {
 
 	public init() {
 		self.currentPlayer = .white
-		self.unitsInPlayNext = [:]
+		self.unitsInPlay = [
+			Player.white: [:],
+			Player.black: [:]
+		]
 		self.stacks = [:]
 		self.move = 0
 
 		let whiteUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .white) }
 		let blackUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .black) }
-		self.unitsInHand = [:]
-		self.unitsInHand[Player.white] = Set(whiteUnits)
-		self.unitsInHand[Player.black] = Set(blackUnits)
+		self.unitsInHand = [
+			Player.white: Set(whiteUnits),
+			Player.black: Set(blackUnits)
+		]
 	}
 
 	public init(from state: GameState) {
 		self.currentPlayer = state.currentPlayer
 		self.unitsInHand = state.unitsInHand
-		self.unitsInPlayNext = state.unitsInPlayNext
+		self.unitsInPlay = state.unitsInPlay
 		self.stacks = state.stacks
 		self.previousMoves = state.previousMoves
 		self.move = state.move
@@ -139,9 +150,7 @@ public class GameState: Codable {
 		}
 
 		// Iterate over all pieces on the board
-		let movePieceMovements = unitsInPlayNext
-			// Only the current player can move
-			.filter { $0.key.owner == player }
+		let movePieceMovements = unitsInPlay[player]!
 			// Moving the piece must not break the hive
 			.filter { $0.key.class == .pillBug || oneHive(excluding: $0.key) }
 			// Get moves available for the piece
@@ -168,7 +177,7 @@ public class GameState: Codable {
 		switch movement {
 		case .move(let unit, let position):
 			// Move a piece from its previous stack to a new position
-			let startPosition = unitsInPlayNext[unit]!
+			let startPosition = unitsInPlay[unit.owner]![unit]!
 			updatePosition = startPosition
 			_ = stacks[startPosition]?.popLast()
 			if (stacks[startPosition]?.count ?? -1) == 0 {
@@ -178,18 +187,18 @@ public class GameState: Codable {
 				stacks[position] = []
 			}
 			stacks[position]!.append(unit)
-			unitsInPlayNext[unit] = position
+			unitsInPlay[unit.owner]![unit] = position
 		case .yoink(_, let unit, let position):
 			// Move a piece from its previous stack to a new position adjacent to the pill bug
-			updatePosition = unitsInPlayNext[unit]!
-			stacks[unitsInPlayNext[unit]!] = nil
+			updatePosition = unitsInPlay[unit.owner]![unit]!
+			stacks[unitsInPlay[unit.owner]![unit]!] = nil
 			stacks[position] = [unit]
-			unitsInPlayNext[unit] = position
+			unitsInPlay[unit.owner]![unit] = position
 		case .place(let unit, let position):
 			// Place an unplayed piece on the board
 			updatePosition = nil
 			stacks[position] = [unit]
-			unitsInPlayNext[unit] = position
+			unitsInPlay[unit.owner]![unit] = position
 			unitsInHand[unit.owner]!.remove(unit)
 		}
 
@@ -219,15 +228,15 @@ public class GameState: Codable {
 				stacks[endPosition] = []
 			}
 			stacks[endPosition]!.append(unit)
-			unitsInPlayNext[unit] = endPosition
+			unitsInPlay[unit.owner]![unit] = endPosition
 		case .yoink(_, let unit, let position):
 			let previousPosition = lastMove.previousPosition!
 			stacks[position] = nil
 			stacks[previousPosition] = [unit]
-			unitsInPlayNext[unit] = previousPosition
+			unitsInPlay[unit.owner]![unit] = previousPosition
 		case .place(let unit, let position):
 			stacks[position] = nil
-			unitsInPlayNext[unit] = nil
+			unitsInPlay[unit.owner]![unit] = nil
 			unitsInHand[unit.owner]!.insert(unit)
 		}
 	}
@@ -254,7 +263,7 @@ public class GameState: Codable {
 		}
 
 		// Check if any pieces on the board has available moves
-		for unit in unitsInPlayNext.filter({ $0.key.owner == player }).map({ $0.key }) {
+		for unit in unitsInPlay[player]!.map({ $0.key }) {
 			if unit.availableMoves(in: self).count > 0 {
 				return true
 			}
@@ -267,7 +276,7 @@ public class GameState: Codable {
 
 	/// List the units which are at the top of a stack adjacent to the position of a unit.
 	public func units(adjacentTo unit: Unit) -> Set<Unit> {
-		guard let position = unitsInPlayNext[unit] else { return [] }
+		guard let position = unitsInPlay[unit.owner]?[unit] else { return [] }
 		return units(adjacentTo: position)
 	}
 
@@ -286,7 +295,7 @@ public class GameState: Codable {
 	public func playableSpaces(excluding excludedUnit: Unit? = nil, for player: Player? = nil) -> Set<Position> {
 		if move == 0 { return [Position(x: 0, y: 0, z: 0)] }
 
-		var includedUnits = unitsInPlayNext
+		var includedUnits = allUnitsInPlay
 		if let excluded = excludedUnit {
 			includedUnits[excluded] = nil
 		}
@@ -309,7 +318,7 @@ public class GameState: Codable {
 	/// - Parameters:
 	///   - excludedUnit: optionally exclude a unit when determining if the rule is met
 	public func oneHive(excluding excludedUnit: Unit? = nil) -> Bool {
-		let allPositions = Set(unitsInPlayNext.filter { $0.key != excludedUnit }.compactMap { $0.value })
+		let allPositions = Set(allUnitsInPlay.filter { $0.key != excludedUnit }.compactMap { $0.value })
 		guard let startPosition = allPositions.first else { return true }
 
 		var found = Set([startPosition])
@@ -332,7 +341,7 @@ public class GameState: Codable {
 
 extension GameState: Equatable {
 	public static func == (lhs: GameState, rhs: GameState) -> Bool {
-		return lhs.unitsInPlayNext == rhs.unitsInPlayNext &&
+		return lhs.unitsInPlay == rhs.unitsInPlay &&
 			lhs.unitsInHand == rhs.unitsInHand &&
 			lhs.stacks == rhs.stacks &&
 			lhs.move == rhs.move &&
@@ -342,7 +351,7 @@ extension GameState: Equatable {
 
 extension GameState: Hashable {
 	public func hash(into hasher: inout Hasher) {
-		hasher.combine(unitsInPlayNext)
+		hasher.combine(unitsInPlay)
 		hasher.combine(unitsInHand)
 		hasher.combine(stacks)
 		hasher.combine(move)

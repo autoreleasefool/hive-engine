@@ -12,7 +12,7 @@ extension Unit {
 	func movesAsAnt(in state: GameState) -> Set<Movement> {
 		guard self.canMove(in: state),
 			self.canMove(as: .ant, in: state),
-			let position = state.unitsInPlayNext[self] else {
+			let position = state.unitsInPlay[owner]?[self] else {
 			return []
 		}
 

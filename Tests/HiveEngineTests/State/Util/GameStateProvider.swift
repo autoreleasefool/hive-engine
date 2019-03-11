@@ -122,7 +122,7 @@ extension GameState {
 	}
 
 	private func find(_ class: Unit.Class, belongingTo owner: Player) -> Unit {
-		return unitsInPlayNext.keys.sorted(by: GameState.unitSort).first { $0.owner == owner && $0.class == `class` }
+		return unitsInPlay[owner]!.keys.sorted(by: GameState.unitSort).first { $0.class == `class` }
 			?? unitsInHand[owner]!.sorted(by: GameState.unitSort).first { $0.class == `class` }!
 	}
 
