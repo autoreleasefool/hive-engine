@@ -19,8 +19,8 @@ extension Unit {
 		var specialAbilityMovements = Set<Movement>()
 
 		// Find empty adjacent spaces which have freedom of movement from top of pill bug to the position
-		let adjacentPlayablePositions = position.adjacent()
-			.filter { position.freedomOfMovement(to: $0, startingHeight: 2, endingHeight: 1, in: state) }
+		let adjacentPlayablePositions = Set(position.adjacent()
+			.filter { position.freedomOfMovement(to: $0, startingHeight: 2, endingHeight: 1, in: state) })
 			.intersection(state.playableSpaces())
 
 		position.adjacent()

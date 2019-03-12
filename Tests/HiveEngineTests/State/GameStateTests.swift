@@ -208,14 +208,14 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_AdjacentUnits_ToUnit_IsCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 13, to: state)
-		let adjacentUnits: Set<HiveEngine.Unit> = Set([state.blackMosquito, state.whiteBeetle, state.whitePillBug])
+		let adjacentUnits: [HiveEngine.Unit] = [state.blackMosquito, state.whitePillBug, state.whiteBeetle]
 		XCTAssertEqual(adjacentUnits, state.units(adjacentTo: state.whiteQueen))
 	}
 
 	func testPartialGameState_AdjacentUnits_ToPosition_IsCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 13, to: state)
-		let adjacentUnits: Set<HiveEngine.Unit> = Set([state.blackHopper, state.blackQueen, state.blackLadyBug, state.blackMosquito, state.whiteBeetle])
+		let adjacentUnits: [HiveEngine.Unit] = [state.blackQueen, state.blackLadyBug, state.blackMosquito, state.whiteBeetle, state.blackHopper]
 		XCTAssertEqual(adjacentUnits, state.units(adjacentTo: Position(x: 0, y: 1, z: -1)))
 	}
 

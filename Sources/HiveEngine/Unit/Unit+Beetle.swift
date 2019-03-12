@@ -17,31 +17,39 @@ extension Unit {
 			return []
 		}
 
-		let movesOnTopOfHive = Set(
+		let hivePositions = state.stacks.keys
+		let movesOnTopOfHive =
 			position.adjacent()
-				// Only consider positions on top of the hive
-				.intersection(state.stacks.keys)
-				// Filter to positions that the piece can freely move to
 				.filter {
+					// Only consider positions on top of the hive
+					guard hivePositions.contains($0) else { return false }
+
+					// Filter to positions that the piece can freely move to
 					let endHeight = (state.stacks[$0]?.endIndex ?? 0) + 1
 					return position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: endHeight, in: state)
 				}.compactMap {
 					movement(to: $0)
-				})
+				}
 
 		let playableSpaces = state.playableSpaces()
-		var movesDownFromHive: Set<Movement> = []
+		var movesDownFromHive: [Movement] = []
 		if height > 1 {
-			movesDownFromHive.formUnion(Set(
+			movesDownFromHive.append(contentsOf:
 				position.adjacent()
-					// Only consider positions down from the hive
-					.intersection(playableSpaces)
-					// Filter to positions that the piece can freely move to
-					.filter { position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: 1, in: state) }
+					.filter {
+							// Only consider positions down from the hive
+						return playableSpaces.contains($0) &&
+							// Filter to positions that the piece can freely move to
+							position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: 1, in: state)
+
+					}
 					.compactMap { movement(to: $0) }
-			))
+			)
 		}
 
-		return self.movesAsQueen(in: state).union(movesOnTopOfHive).union(movesDownFromHive)
+		var allMoves = self.movesAsQueen(in: state)
+		movesDownFromHive.forEach { allMoves.insert($0) }
+		movesOnTopOfHive.forEach { allMoves.insert($0) }
+		return allMoves
 	}
 }

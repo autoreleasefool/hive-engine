@@ -22,13 +22,13 @@ final class PositionTests: HiveEngineTestCase {
 	func testAdjacentPositions_InPlay_IsCorrect() {
 		let position: Position = Position(x: 22, y: 11, z: -13)
 
-		let expectedAdjacent: Set<Position> = [
-			Position(x: 21, y: 12, z: -13),
-			Position(x: 23, y: 10, z: -13),
-			Position(x: 21, y: 11, z: -12),
-			Position(x: 23, y: 11, z: -14),
+		let expectedAdjacent = [
 			Position(x: 22, y: 12, z: -14),
-			Position(x: 22, y: 10, z: -12)
+			Position(x: 23, y: 11, z: -14),
+			Position(x: 23, y: 10, z: -13),
+			Position(x: 22, y: 10, z: -12),
+			Position(x: 21, y: 11, z: -12),
+			Position(x: 21, y: 12, z: -13)
 		]
 
 		XCTAssertEqual(expectedAdjacent, position.adjacent())

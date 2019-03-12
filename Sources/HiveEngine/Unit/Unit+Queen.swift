@@ -15,15 +15,16 @@ extension Unit {
 			let position = state.unitsInPlay[owner]?[self] else {
 			return []
 		}
-		let adjacentUnits = state.units(adjacentTo: position)
 
 		return Set(
 			position.adjacent()
 				.filter {
-						// Filter to positions that do not jump across spaces
-					return adjacentUnits.intersection(state.units(adjacentTo: $0)).count > 0 &&
-						// Get positions that the piece is free to move to
-						position.freedomOfMovement(to: $0, in: state)
+					// The new position shares at least 1 adjacent unit with a previous space
+					let commonPositions = position.commonPositions(to: $0)
+					guard state.stacks[commonPositions.0] != nil || state.stacks[commonPositions.1] != nil else { return false }
+
+					// Get positions that the piece is free to move to
+					return position.freedomOfMovement(to: $0, in: state)
 				}.map {
 					movement(to: $0)
 				})

@@ -275,17 +275,17 @@ public class GameState: Codable {
 	// MARK: Units
 
 	/// List the units which are at the top of a stack adjacent to the position of a unit.
-	public func units(adjacentTo unit: Unit) -> Set<Unit> {
+	public func units(adjacentTo unit: Unit) -> [Unit] {
 		guard let position = unitsInPlay[unit.owner]?[unit] else { return [] }
 		return units(adjacentTo: position)
 	}
 
 	/// List the units which are at the top of a stack adjacent to a position.
-	public func units(adjacentTo position: Position) -> Set<Unit> {
-		return Set(position.adjacent().compactMap {
+	public func units(adjacentTo position: Position) -> [Unit] {
+		return position.adjacent().compactMap {
 			guard let stack = stacks[$0] else { return nil }
 			return stack.last
-		})
+		}
 	}
 
 	/// Positions which are adjacent to another piece and are not filled.
