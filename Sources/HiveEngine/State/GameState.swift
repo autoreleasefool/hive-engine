@@ -115,6 +115,16 @@ public class GameState: Codable {
 
 	// MARK: - Updates
 
+	/// Returns true if the player has played their queen, otherwise returns false.
+	public func queenPlayed(for player: Player) -> Bool {
+		switch player {
+		case .white:
+			return self.unitsInPlay[Player.white]![whiteQueen] != nil
+		case .black:
+			return self.unitsInPlay[Player.black]![blackQueen] != nil
+		}
+	}
+
 	/// List the available movements from a GameState.
 	public var availableMoves: [Movement] {
 		return moves(for: currentPlayer)
@@ -125,6 +135,7 @@ public class GameState: Codable {
 		return moves(for: currentPlayer.next)
 	}
 
+	/// Available moves for the given player
 	public func moves(for player: Player) -> [Movement] {
 		guard isEndGame == false else { return [] }
 
@@ -144,10 +155,13 @@ public class GameState: Codable {
 			return playableSpacesForPlayer.map { .place(unit: queen, at: $0) }
 		}
 
-		// Get placeable and moveable pieces
+		// Get placeable pieces
 		let placePieceMovements: [Movement] = availablePiecesForPlayer.flatMap { unit in
 			return playableSpacesForPlayer.map { .place(unit: unit, at: $0) }
 		}
+
+		// Player can only place pieces until their queen has been played
+		guard queenPlayed(for: player) else { return placePieceMovements }
 
 		// Iterate over all pieces on the board
 		let movePieceMovements = unitsInPlay[player]!
@@ -261,6 +275,9 @@ public class GameState: Codable {
 		if unitsInHand[player]!.count > 0 && playableSpaces(for: player).count > 0 {
 			return true
 		}
+
+		// Check if the user has played their queen yet. If not, they cannot move any pieces
+		guard queenPlayed(for: player) else { return false }
 
 		// Check if any pieces on the board has available moves
 		for unit in unitsInPlay[player]!.map({ $0.key }) {

@@ -341,6 +341,33 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(stateAfterUndo, state)
 	}
 
+	func testPartialGameState_CannotMoveUntilQueenPlaced() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 5, to: state)
+
+		let moveMovements = state.availableMoves.filter {
+			switch $0 {
+			case .move: return true
+			case .yoink: return true
+			case .place: return false
+			}
+		}
+
+		XCTAssertEqual(0, moveMovements.count)
+	}
+
+	func testPartialGameState_QueenPlayed_IsCorrect() {
+		let state = stateProvider.initialGameState
+
+		XCTAssertFalse(state.queenPlayed(for: .white))
+		XCTAssertFalse(state.queenPlayed(for: .black))
+
+		stateProvider.apply(moves: 8, to: state)
+
+		XCTAssertTrue(state.queenPlayed(for: .white))
+		XCTAssertTrue(state.queenPlayed(for: .black))
+	}
+
 	// MARK: - Won Game State
 
 	func testFinishedGameState_PlayerHasNoAvailableMoves() {
@@ -414,6 +441,9 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_UndoPlace_CreatesOldGameState", testPartialGameState_UndoPlace_CreatesOldGameState),
 		("testPartialGameState_UndoMove_CreatesOldGameState", testPartialGameState_UndoMove_CreatesOldGameState),
 		("testPartialGameState_UndoYoink_CreatesOldGameState", testPartialGameState_UndoYoink_CreatesOldGameState),
+
+		("testPartialGameState_CannotMoveUntilQueenPlaced", testPartialGameState_CannotMoveUntilQueenPlaced),
+		("testPartialGameState_QueenPlayed_IsCorrect", testPartialGameState_QueenPlayed_IsCorrect),
 
 		("testFinishedGameState_PlayerHasNoAvailableMoves", testFinishedGameState_PlayerHasNoAvailableMoves),
 		("testFinishedGameState_HasOneWinner", testFinishedGameState_HasOneWinner),

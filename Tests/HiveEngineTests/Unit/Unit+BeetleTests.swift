@@ -48,12 +48,14 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	func testBeetle_CanMoveUpToHive() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteBeetle, at: Position(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 1, z: -1))
+			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: Position(x: 0, y: 1, z: -1))
+		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
 		XCTAssertTrue(state.availableMoves.contains(expectedMove))
 	}
 
@@ -61,14 +63,16 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
-			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: 0, z: 0)),
-			Movement.move(unit: state.whiteAnt, to: Position(x: 1, y: -1, z: 0))
+			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			Movement.move(unit: state.whiteAnt, to: Position(x: 1, y: -1, z: 0)),
+			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
+			Movement.move(unit: state.whiteAnt, to: Position(x: 0, y: -1, z: 1))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let expectedMove: Movement = .move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1))
+		let expectedMove: Movement = .move(unit: state.blackBeetle, to: Position(x: 0, y: 2, z: -2))
 		XCTAssertTrue(state.availableMoves.contains(expectedMove))
 	}
 
