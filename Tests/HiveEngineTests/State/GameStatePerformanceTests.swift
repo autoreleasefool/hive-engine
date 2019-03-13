@@ -19,14 +19,13 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 
 	func testFinishedGameState_Performance() {
 		measure {
-			let _ = stateProvider.wonGameState
-			let _ = stateProvider.wonGameState
+			_ = stateProvider.wonGameState
 		}
 	}
 
 	// MARK: - Linux Tests
 
 	static var allTests = [
-		("testFinishedGameState_Performance", testFinishedGameState_Performance),
+		("testFinishedGameState_Performance", testFinishedGameState_Performance)
 	]
 }
