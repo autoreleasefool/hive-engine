@@ -77,7 +77,7 @@ public class Unit: Codable {
 	}
 
 	/// Returns false if this piece cannot move due to fundamental rules of the game.
-	func canMove(in state: GameState) -> Bool {
+	public func canMove(in state: GameState) -> Bool {
 		let lastMovedUnit: Unit?
 		if let lastMove = state.previousMoves.last {
 			switch lastMove.movement {
