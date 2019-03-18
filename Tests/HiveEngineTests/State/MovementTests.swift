@@ -13,7 +13,7 @@ import XCTest
 final class MovementTests: HiveEngineTestCase {
 
 	func testCodingMoveMovement() {
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .move(unit: unit, to: position)
 		XCTAssertEncodable(movement)
@@ -21,8 +21,8 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testCodingYoinkMovement() throws {
-		let pillBug = Unit(class: .pillBug, owner: .black, identifier: UUID(uuidString: "97957797-CC2B-4673-A079-2C75C378361F")!)
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let pillBug = Unit(class: .pillBug, owner: .black, index: 0)
+		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .yoink(pillBug: pillBug, unit: unit, to: position)
 		XCTAssertEncodable(movement)
@@ -30,7 +30,7 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testCodingPlaceMovement() throws {
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .place(unit: unit, at: position)
 		XCTAssertEncodable(movement)
@@ -38,7 +38,7 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testMovedUnit_IsCorrect() {
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
 
 		var movement: Movement = .place(unit: unit, at: position)
@@ -52,7 +52,7 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testTargetPosition_IsCorrect() {
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
 
 		var movement: Movement = .place(unit: unit, at: position)
@@ -66,7 +66,7 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testPlaceDescription_IsCorrect() {
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .place(unit: unit, at: position)
 
@@ -74,7 +74,7 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testMoveDescription_IsCorrect() {
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .move(unit: unit, to: position)
 
@@ -82,8 +82,8 @@ final class MovementTests: HiveEngineTestCase {
 	}
 
 	func testYoinkDescription_IsCorrect() {
-		let pillBug = Unit(class: .pillBug, owner: .black, identifier: UUID(uuidString: "97957797-CC2B-4673-A079-2C75C378361F")!)
-		let unit = Unit(class: .ant, owner: .white, identifier: UUID(uuidString: "AACA052C-280E-4925-8488-518770A2A912")!)
+		let pillBug = Unit(class: .pillBug, owner: .black, index: 0)
+		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .yoink(pillBug: pillBug, unit: unit, to: position)
 

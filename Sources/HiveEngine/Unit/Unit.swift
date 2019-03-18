@@ -35,19 +35,29 @@ public class Unit: Codable {
 		}
 	}
 
+	/// Track which indices have been taken for each unit
+	private static var classIndices: [Class: Int] = [:]
+
+	/// Get the next unused index for a given class
+	private static func nextIndex(for `class`: Class) -> Int {
+		let next = (classIndices[`class`] ?? 0) + 1
+		classIndices[`class`] = next
+		return next
+	}
+
 	// MARK: Properties
 
 	/// Unique ID for the unit which persists across game states
-	public let identifier: UUID
+	public let index: Int
 	/// Class of the unit to determine its movements
 	public let `class`: Class
 	/// Owner of the unit
 	public let owner: Player
 
-	init(`class`: Class, owner: Player, identifier: UUID = UUID()) {
+	init(`class`: Class, owner: Player, index: Int? = nil) {
 		self.class = `class`
 		self.owner = owner
-		self.identifier = identifier
+		self.index = index ?? Unit.nextIndex(for: `class`)
 	}
 
 	// MARK: Movement
@@ -170,7 +180,9 @@ extension Unit: CustomStringConvertible {
 
 extension Unit: Hashable {
 	public func hash(into hasher: inout Hasher) {
-		hasher.combine(identifier)
+		hasher.combine(owner)
+		hasher.combine(`class`)
+		hasher.combine(index)
 	}
 }
 
@@ -178,6 +190,8 @@ extension Unit: Hashable {
 
 extension Unit: Equatable {
 	public static func == (lhs: Unit, rhs: Unit) -> Bool {
-		return lhs.identifier == rhs.identifier
+		return lhs.owner == rhs.owner &&
+			lhs.class == rhs.class &&
+			lhs.index == rhs.index
 	}
 }

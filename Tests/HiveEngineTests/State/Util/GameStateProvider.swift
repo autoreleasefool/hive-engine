@@ -118,7 +118,13 @@ extension GameState {
 	// MARK: - GameState units
 
 	private static func unitSort(u1: Unit, u2: Unit) -> Bool {
-		return u1.identifier.uuidString < u2.identifier.uuidString
+		if u1.owner != u2.owner {
+			return u1.owner.rawValue < u2.owner.rawValue
+		} else if u1.class != u2.class {
+			return u1.class.rawValue < u2.class.rawValue
+		} else {
+			return u1.index < u2.index
+		}
 	}
 
 	private func find(_ class: Unit.Class, belongingTo owner: Player) -> Unit {
