@@ -102,8 +102,26 @@ public struct Position: Hashable, Equatable, Codable {
 	}
 }
 
+// MARK: - CustomStringConvertible
+
 extension Position: CustomStringConvertible {
 	public var description: String {
 		return "(\(x), \(y), \(z))"
+	}
+}
+
+// MARK: - Position
+
+extension Position: Comparable {
+	public static func < (lhs: Position, rhs: Position) -> Bool {
+		if lhs.x == rhs.x {
+			if lhs.y == rhs.y {
+				return lhs.z < rhs.z
+			} else {
+				return lhs.y < rhs.z
+			}
+		} else {
+			return lhs.x < rhs.x
+		}
 	}
 }

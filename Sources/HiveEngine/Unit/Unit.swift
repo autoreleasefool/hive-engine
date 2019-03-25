@@ -10,15 +10,15 @@ import Foundation
 
 public class Unit: Codable {
 
-	public enum Class: String, CaseIterable, Codable {
-		case ant = "Ant"
-		case beetle = "Beetle"
-		case hopper = "Hopper"
-		case ladyBug = "Lady Bug"
-		case mosquito = "Mosquito"
-		case pillBug = "Pill Bug"
-		case queen = "Queen"
-		case spider = "Spider"
+	public enum Class: Int, CaseIterable, Codable {
+		case ant = 0
+		case beetle = 1
+		case hopper = 2
+		case ladyBug = 3
+		case mosquito = 4
+		case pillBug = 5
+		case queen = 6
+		case spider = 7
 
 		/// A single player's full set of units
 		static var fullSet: [Class] {
@@ -35,16 +35,6 @@ public class Unit: Codable {
 		}
 	}
 
-	/// Track which indices have been taken for each unit
-	private static var classIndices: [Class: Int] = [:]
-
-	/// Get the next unused index for a given class
-	private static func nextIndex(for `class`: Class) -> Int {
-		let next = (classIndices[`class`] ?? 0) + 1
-		classIndices[`class`] = next
-		return next
-	}
-
 	// MARK: Properties
 
 	/// Unique ID for the unit which persists across game states
@@ -54,10 +44,10 @@ public class Unit: Codable {
 	/// Owner of the unit
 	public let owner: Player
 
-	init(`class`: Class, owner: Player, index: Int? = nil) {
+	init(`class`: Class, owner: Player, index: Int) {
 		self.class = `class`
 		self.owner = owner
-		self.index = index ?? Unit.nextIndex(for: `class`)
+		self.index = index
 	}
 
 	// MARK: Movement
@@ -172,7 +162,22 @@ public class Unit: Codable {
 
 extension Unit: CustomStringConvertible {
 	public var description: String {
-		return "\(self.owner.rawValue) \(self.class.rawValue)"
+		return "\(self.owner.description) \(self.class.description)"
+	}
+}
+
+extension Unit.Class: CustomStringConvertible {
+	public var description: String {
+		switch self {
+		case .ant: return "Ant"
+		case .beetle: return "Beetle"
+		case .hopper: return "Hopper"
+		case .ladyBug: return "Lady Bug"
+		case .mosquito: return "Mosquito"
+		case .pillBug: return "Pill Bug"
+		case .queen: return "Queen"
+		case .spider: return "Spider"
+		}
 	}
 }
 
@@ -193,5 +198,27 @@ extension Unit: Equatable {
 		return lhs.owner == rhs.owner &&
 			lhs.class == rhs.class &&
 			lhs.index == rhs.index
+	}
+}
+
+// MARK: - Comparable
+
+extension Unit: Comparable {
+	public static func < (lhs: Unit, rhs: Unit) -> Bool {
+		if lhs.owner == rhs.owner {
+			if lhs.class == rhs.class {
+				return lhs.index < rhs.index
+			} else {
+				return lhs.class < rhs.class
+			}
+		} else {
+			return lhs.owner < rhs.owner
+		}
+	}
+}
+
+extension Unit.Class: Comparable {
+	public static func < (lhs: Unit.Class, rhs: Unit.Class) -> Bool {
+		return lhs.rawValue < rhs.rawValue
 	}
 }

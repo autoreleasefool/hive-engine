@@ -69,6 +69,12 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(2, state.unitsInHand[Player.black]!.filter { $0.class == .spider }.count)
 	}
 
+	func testInitialGameState_UnitIndicesAreCorrect() {
+		let state = stateProvider.initialGameState
+		let unitIndices = state.unitsInHand[Player.white]!.sorted().map { $0.index }
+		XCTAssertEqual([1, 2, 3, 1, 2, 1, 2, 3, 1, 1, 1, 1, 1, 2], unitIndices)
+	}
+
 	func testInitialGameState_WhitePlayerIsFirst() {
 		let state = stateProvider.initialGameState
 		XCTAssertEqual(Player.white, state.currentPlayer)
@@ -418,6 +424,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testInitialGameState_HasNoPreviousMoves", testInitialGameState_HasNoPreviousMoves),
 		("testInitialGameState_ValidatesMoves", testInitialGameState_ValidatesMoves),
 		("testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves", testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves),
+		("testInitialGameState_UnitIndicesAreCorrect", testInitialGameState_UnitIndicesAreCorrect),
 
 		("testPartialGameState_PreviousMove_IsCorrect", testPartialGameState_PreviousMove_IsCorrect),
 		("testPartialGameState_Move_IncrementsCorrectly", testPartialGameState_Move_IncrementsCorrectly),

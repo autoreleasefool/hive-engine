@@ -96,8 +96,19 @@ public class GameState: Codable {
 		self.stacks = [:]
 		self.move = 0
 
-		let whiteUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .white) }
-		let blackUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .black) }
+		var classIndices: [Player: [Unit.Class: Int]] = [
+			Player.white: [:],
+			Player.black: [:]
+		]
+
+		func nextIndex(for `class`: Unit.Class, belongingTo owner: Player) -> Int {
+			let next = (classIndices[owner]![`class`] ?? 0) + 1
+			classIndices[owner]![`class`] = next
+			return next
+		}
+
+		let whiteUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .white, index: nextIndex(for: $0, belongingTo: .white)) }
+		let blackUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .black, index: nextIndex(for: $0, belongingTo: .black)) }
 		self.unitsInHand = [
 			Player.white: Set(whiteUnits),
 			Player.black: Set(blackUnits)
