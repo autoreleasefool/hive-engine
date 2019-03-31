@@ -1,7 +1,7 @@
 env:
   global:
-  - SWIFT_BRANCH=swift-4.2.3-release
-  - SWIFT_VERSION=swift-4.2.3-RELEASE
+  - SWIFT_BRANCH=swift-5.0-release
+  - SWIFT_VERSION=swift-5.0-RELEASE
 
 jobs:
   include:
@@ -9,7 +9,7 @@ jobs:
   - stage: SwiftLint
     os: osx
     language: swift
-    osx_image: xcode10.1
+    osx_image: xcode10.2
     sudo: required
     install:
     - ./script/install_swiftlint.sh
@@ -32,7 +32,7 @@ jobs:
   # The third stage will run all tests on macOS
   - stage: OSX test
     os: osx
-    osx_image: xcode10.1
+    osx_image: xcode10.2
     language: swift
     sudo: required
     install:
