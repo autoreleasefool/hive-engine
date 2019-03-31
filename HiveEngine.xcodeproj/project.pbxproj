@@ -84,8 +84,8 @@
 		CA598DC1222425B100761E47 /* Unit+QueenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+QueenTests.swift"; sourceTree = "<group>"; };
 		CA598DC3222425BA00761E47 /* Unit+SpiderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+SpiderTests.swift"; sourceTree = "<group>"; };
 		CAAE1C132236994A00E191FA /* GameStatePerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStatePerformanceTests.swift; sourceTree = "<group>"; };
-		"HiveEngine::HiveEngine::Product" /* HiveEngine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HiveEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"HiveEngine::HiveEngineTests::Product" /* HiveEngineTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = HiveEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		"HiveEngine::HiveEngine::Product" /* HiveEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HiveEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"HiveEngine::HiveEngineTests::Product" /* HiveEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HiveEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* Collection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extensions.swift"; sourceTree = "<group>"; };
 		OBJ_12 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Movement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
@@ -327,12 +327,21 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					"HiveEngine::HiveEngine" = {
+						LastSwiftMigration = 1020;
+					};
+					"HiveEngine::HiveEngineTests" = {
+						LastSwiftMigration = 1020;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "HiveEngine" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = OBJ_5;
@@ -484,7 +493,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = HiveEngine;
 			};
 			name = Debug;
@@ -508,7 +517,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = HiveEngine;
 			};
 			name = Release;
@@ -559,7 +568,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = HiveEngineTests;
 			};
 			name = Debug;
@@ -580,7 +589,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGET_NAME = HiveEngineTests;
 			};
 			name = Release;
