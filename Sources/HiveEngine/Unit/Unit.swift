@@ -10,18 +10,18 @@ import Foundation
 
 public class Unit: Codable {
 
-	public enum Class: Int, CaseIterable, Codable {
-		case ant = 0
-		case beetle = 1
-		case hopper = 2
-		case ladyBug = 3
-		case mosquito = 4
-		case pillBug = 5
-		case queen = 6
-		case spider = 7
+	public enum Class: String, CaseIterable, Codable {
+		case ant = "Ant"
+		case beetle = "Beetle"
+		case hopper = "Hopper"
+		case ladyBug = "Lady Bug"
+		case mosquito = "Mosquito"
+		case pillBug = "Pill Bug"
+		case queen = "Queen"
+		case spider = "Spider"
 
 		/// A single player's full set of units
-		static var fullSet: [Class] {
+		public static var fullSet: [Class] {
 			return [
 				.ant, .ant, .ant,
 				.beetle, .beetle,
@@ -32,6 +32,19 @@ public class Unit: Codable {
 				.queen,
 				.spider, .spider
 			]
+		}
+
+		public var orderedValue: Int {
+			switch self {
+			case .ant: return 0
+			case .beetle: return 1
+			case .hopper: return 2
+			case .ladyBug: return 3
+			case .mosquito: return 4
+			case .pillBug: return 5
+			case .queen: return 6
+			case .spider: return 7
+			}
 		}
 	}
 
@@ -168,16 +181,7 @@ extension Unit: CustomStringConvertible {
 
 extension Unit.Class: CustomStringConvertible {
 	public var description: String {
-		switch self {
-		case .ant: return "Ant"
-		case .beetle: return "Beetle"
-		case .hopper: return "Hopper"
-		case .ladyBug: return "Lady Bug"
-		case .mosquito: return "Mosquito"
-		case .pillBug: return "Pill Bug"
-		case .queen: return "Queen"
-		case .spider: return "Spider"
-		}
+		return self.rawValue
 	}
 }
 
@@ -219,6 +223,6 @@ extension Unit: Comparable {
 
 extension Unit.Class: Comparable {
 	public static func < (lhs: Unit.Class, rhs: Unit.Class) -> Bool {
-		return lhs.rawValue < rhs.rawValue
+		return lhs.orderedValue < rhs.orderedValue
 	}
 }

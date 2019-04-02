@@ -119,9 +119,9 @@ extension GameState {
 
 	private static func unitSort(u1: Unit, u2: Unit) -> Bool {
 		if u1.owner != u2.owner {
-			return u1.owner.rawValue < u2.owner.rawValue
+			return u1.owner < u2.owner
 		} else if u1.class != u2.class {
-			return u1.class.rawValue < u2.class.rawValue
+			return u1.class < u2.class
 		} else {
 			return u1.index < u2.index
 		}

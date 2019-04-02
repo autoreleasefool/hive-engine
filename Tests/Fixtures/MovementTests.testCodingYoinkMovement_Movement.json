@@ -1,9 +1,9 @@
 {
   "yoink" : {
     "pillBug" : {
-      "class" : 5,
+      "class" : "Pill Bug",
       "index" : 0,
-      "owner" : 1
+      "owner" : "Black"
     },
     "to" : {
       "x" : 1,
@@ -11,9 +11,9 @@
       "z" : 0
     },
     "unit" : {
-      "class" : 0,
+      "class" : "Ant",
       "index" : 0,
-      "owner" : 0
+      "owner" : "White"
     }
   }
 }

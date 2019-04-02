@@ -6,9 +6,9 @@
       "z" : 0
     },
     "unit" : {
-      "class" : 0,
+      "class" : "Ant",
       "index" : 0,
-      "owner" : 0
+      "owner" : "White"
     }
   }
 }
