@@ -411,6 +411,30 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(2, state.winner.count)
 	}
 
+	// MARK: - Other tests
+
+	func testCopyingGameState_IsCorrect() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 4, to: state)
+
+		let copiedState = GameState(from: state)
+
+		state.apply(state.availableMoves.first!)
+		state.apply(state.availableMoves.first!)
+		state.apply(state.availableMoves.first!)
+
+		XCTAssertNotEqual(copiedState.unitsInHand[Player.white], state.unitsInHand[Player.white])
+		XCTAssertNotEqual(copiedState.unitsInPlay[Player.white], state.unitsInPlay[Player.white])
+
+		XCTAssertNotEqual(copiedState.unitsInHand[Player.black], state.unitsInHand[Player.black])
+		XCTAssertNotEqual(copiedState.unitsInPlay[Player.black], state.unitsInPlay[Player.black])
+
+		XCTAssertNotEqual(copiedState.stacks, state.stacks)
+
+		XCTAssertNotEqual(copiedState.move, state.move)
+		XCTAssertNotEqual(copiedState.currentPlayer, state.currentPlayer)
+	}
+
 	// MARK: - Linux Tests
 
 	static var allTests = [
@@ -458,6 +482,8 @@ final class GameStateTests: HiveEngineTestCase {
 		("testFinishedGameState_IsEndGame", testFinishedGameState_IsEndGame),
 		("testFinishedGameState_ApplyMovement_DoesNotModifyState", testFinishedGameState_ApplyMovement_DoesNotModifyState),
 
-		("testTiedGameState_HasTwoWinners", testTiedGameState_HasTwoWinners)
+		("testTiedGameState_HasTwoWinners", testTiedGameState_HasTwoWinners),
+
+		("testCopyingGameState_IsCorrect", testCopyingGameState_IsCorrect)
 	]
 }
