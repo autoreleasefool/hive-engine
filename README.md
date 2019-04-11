@@ -84,7 +84,7 @@ To install manually, simply drag and drop `HiveMind.xcodeproj` into your Xcode p
 
 ### Requirements
 
-* Swift 4.2+
+* Swift 5.0+
 
 ---
 
