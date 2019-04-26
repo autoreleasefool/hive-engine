@@ -22,12 +22,25 @@ public struct GameStateUpdate: Codable, Equatable {
 /// State of a game of hive.
 public class GameState: Codable {
 	private enum CodingKeys: String, CodingKey {
+		case options
 		case unitsInPlay
 		case unitsInHand
 		case stacks
 		case currentPlayer
 		case move
 	}
+
+	public enum Options: String, Codable {
+		/// Include the Lady Bug unit
+		case ladyBug = "Lady Bug"
+		/// Include the Mosquito unit
+		case mosquito = "Mosquito"
+		/// Include the Pill Bug unit
+		case pillBug = "Pill Bug"
+	}
+
+	/// Optional parameters
+	private(set) public var options: Set<Options>
 
 	/// Units and their positions
 	private(set) public var unitsInPlay: [Player: [Unit: Position]]
@@ -87,7 +100,8 @@ public class GameState: Codable {
 
 	// MARK: - Constructors
 
-	public init() {
+	public init(options: Set<Options> = [.ladyBug, .mosquito, .pillBug]) {
+		self.options = options
 		self.currentPlayer = .white
 		self.unitsInPlay = [
 			Player.white: [:],
@@ -107,8 +121,8 @@ public class GameState: Codable {
 			return next
 		}
 
-		let whiteUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .white, index: nextIndex(for: $0, belongingTo: .white)) }
-		let blackUnits = Unit.Class.fullSet.map { Unit(class: $0, owner: .black, index: nextIndex(for: $0, belongingTo: .black)) }
+		let whiteUnits = Unit.Class.set(with: options).map { Unit(class: $0, owner: .white, index: nextIndex(for: $0, belongingTo: .white)) }
+		let blackUnits = Unit.Class.set(with: options).map { Unit(class: $0, owner: .black, index: nextIndex(for: $0, belongingTo: .black)) }
 		self.unitsInHand = [
 			Player.white: Set(whiteUnits),
 			Player.black: Set(blackUnits)
@@ -116,6 +130,7 @@ public class GameState: Codable {
 	}
 
 	public init(from state: GameState) {
+		self.options = state.options
 		self.currentPlayer = state.currentPlayer
 		self.unitsInHand = state.unitsInHand
 		self.unitsInPlay = state.unitsInPlay

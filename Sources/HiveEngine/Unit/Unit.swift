@@ -21,17 +21,23 @@ public class Unit: Codable {
 		case spider = "Spider"
 
 		/// A single player's full set of units
-		public static var fullSet: [Class] {
+		public static var basicSet: [Class] {
 			return [
 				.ant, .ant, .ant,
 				.beetle, .beetle,
 				.hopper, .hopper, .hopper,
-				.ladyBug,
-				.mosquito,
-				.pillBug,
 				.queen,
 				.spider, .spider
 			]
+		}
+
+		/// Get a set of Units for a game based on the Options provided.
+		public static func set(with options: Set<GameState.Options>) -> [Class] {
+			var basicSet = Class.basicSet
+			if options.contains(.ladyBug) { basicSet.append(.ladyBug) }
+			if options.contains(.mosquito) { basicSet.append(.mosquito) }
+			if options.contains(.pillBug) { basicSet.append(.pillBug) }
+			return basicSet
 		}
 
 		public var orderedValue: Int {

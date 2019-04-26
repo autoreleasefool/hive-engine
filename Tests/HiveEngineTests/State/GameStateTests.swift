@@ -31,6 +31,46 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual([:], state.unitsInPlay[Player.black])
 	}
 
+	func testInitialGameState_NoOptionsHasNoExtensionUnits() {
+		let state = GameState(options: [])
+		XCTAssertEqual(11, state.unitsInHand[Player.white]!.count)
+		XCTAssertEqual(11, state.unitsInHand[Player.black]!.count)
+
+		XCTAssertEqual(0, state.unitsInHand[Player.white]!.filter { $0.class == .ladyBug }.count)
+		XCTAssertEqual(0, state.unitsInHand[Player.black]!.filter { $0.class == .ladyBug }.count)
+		XCTAssertEqual(0, state.unitsInHand[Player.white]!.filter { $0.class == .mosquito }.count)
+		XCTAssertEqual(0, state.unitsInHand[Player.black]!.filter { $0.class == .mosquito }.count)
+		XCTAssertEqual(0, state.unitsInHand[Player.white]!.filter { $0.class == .pillBug }.count)
+		XCTAssertEqual(0, state.unitsInHand[Player.black]!.filter { $0.class == .pillBug }.count)
+	}
+
+	func testInitialGameState_LadyBugOptionAddsLadyBugUnit() {
+		let state = GameState(options: [.ladyBug])
+		XCTAssertEqual(12, state.unitsInHand[Player.white]!.count)
+		XCTAssertEqual(12, state.unitsInHand[Player.black]!.count)
+
+		XCTAssertEqual(1, state.unitsInHand[Player.white]!.filter { $0.class == .ladyBug }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.black]!.filter { $0.class == .ladyBug }.count)
+	}
+
+	func testInitialGameState_MosquitoOptionAddsMosquitoUnit() {
+		let state = GameState(options: [.mosquito])
+		XCTAssertEqual(12, state.unitsInHand[Player.white]!.count)
+		XCTAssertEqual(12, state.unitsInHand[Player.black]!.count)
+
+		XCTAssertEqual(1, state.unitsInHand[Player.white]!.filter { $0.class == .mosquito }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.black]!.filter { $0.class == .mosquito }.count)
+	}
+
+	func testInitialGameState_PillBugOptionAddsPillBugUnit() {
+		let state = GameState(options: [.pillBug])
+		XCTAssertEqual(12, state.unitsInHand[Player.white]!.count)
+		XCTAssertEqual(12, state.unitsInHand[Player.black]!.count)
+
+		XCTAssertEqual(1, state.unitsInHand[Player.white]!.filter { $0.class == .pillBug }.count)
+		XCTAssertEqual(1, state.unitsInHand[Player.black]!.filter { $0.class == .pillBug }.count)
+	}
+
 	func testInitialGameState_PlayerHasAllUnitsAvailable() {
 		let state = stateProvider.initialGameState
 		XCTAssertEqual(14, state.unitsInHand[Player.white]!.count)
@@ -439,6 +479,10 @@ final class GameStateTests: HiveEngineTestCase {
 
 	static var allTests = [
 		("testInitialGameState_IsFirstMove", testInitialGameState_IsFirstMove),
+		("testInitialGameState_NoOptionsHasNoExtensionUnits", testInitialGameState_NoOptionsHasNoExtensionUnits),
+		("testInitialGameState_LadyBugOptionAddsLadyBugUnit", testInitialGameState_LadyBugOptionAddsLadyBugUnit),
+		("testInitialGameState_MosquitoOptionAddsMosquitoUnit", testInitialGameState_MosquitoOptionAddsMosquitoUnit),
+		("testInitialGameState_PillBugOptionAddsPillBugUnit", testInitialGameState_PillBugOptionAddsPillBugUnit),
 		("testInitialGameState_UnitsAreNotInPlay", testInitialGameState_UnitsAreNotInPlay),
 		("testInitialGameState_PlayerHasAllUnitsAvailable", testInitialGameState_PlayerHasAllUnitsAvailable),
 		("testInitialGameState_WhitePlayerIsFirst", testInitialGameState_WhitePlayerIsFirst),
