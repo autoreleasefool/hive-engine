@@ -69,6 +69,25 @@ public class Unit: Codable {
 		self.index = index
 	}
 
+	/// Standard unit notation
+	public var notation: String {
+		let colorNotation: String = owner == .white ? "w" : "b"
+		let indexNotation: String = "\(index)"
+		let classNotation: String
+		switch self.class {
+		case .ant: classNotation = "A"
+		case .beetle: classNotation = "B"
+		case .hopper: classNotation = "G"
+		case .ladyBug: classNotation = "L"
+		case .mosquito: classNotation = "M"
+		case .pillBug: classNotation = "P"
+		case .queen: classNotation = "Q"
+		case .spider: classNotation = "S"
+		}
+
+		return "\(colorNotation)\(classNotation)\(indexNotation)"
+	}
+
 	// MARK: Movement
 
 	/// List the moves available for the unit.
@@ -181,7 +200,7 @@ public class Unit: Codable {
 
 extension Unit: CustomStringConvertible {
 	public var description: String {
-		return "\(self.owner.description) \(self.class.description)"
+		return "\(self.owner.description) \(self.class.description) (\(self.index))"
 	}
 }
 

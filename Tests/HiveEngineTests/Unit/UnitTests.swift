@@ -140,8 +140,14 @@ final class UnitTests: HiveEngineTestCase {
 
 	func testUnitDescription_IsCorrect() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual("Black Ant", state.blackAnt.description)
-		XCTAssertEqual("White Beetle", state.whiteBeetle.description)
+		XCTAssertEqual("Black Ant (1)", state.blackAnt.description)
+		XCTAssertEqual("White Beetle (1)", state.whiteBeetle.description)
+	}
+
+	func testUnitNotation_IsCorrect() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual("bA1", state.blackAnt.notation)
+		XCTAssertEqual("wS2", HiveEngine.Unit(class: .spider, owner: .white, index: 2).notation)
 	}
 
 	static var allTests = [
@@ -159,6 +165,7 @@ final class UnitTests: HiveEngineTestCase {
 		("testWhenBottomOfStackOneHive_CanMove_IsFalse", testWhenBottomOfStackOneHive_CanMove_IsFalse),
 		("testWhenTopOfStackOneHive_CanMove_IsTrue", testWhenTopOfStackOneHive_CanMove_IsTrue),
 
-		("testUnitDescription_IsCorrect", testUnitDescription_IsCorrect)
+		("testUnitDescription_IsCorrect", testUnitDescription_IsCorrect),
+		("testUnitNotation_IsCorrect", testUnitNotation_IsCorrect)
 	]
 }

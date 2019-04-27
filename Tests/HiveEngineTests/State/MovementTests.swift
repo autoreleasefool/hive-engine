@@ -70,7 +70,7 @@ final class MovementTests: HiveEngineTestCase {
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .place(unit: unit, at: position)
 
-		XCTAssertEqual("Place White Ant at (1, -1, 0)", movement.description)
+		XCTAssertEqual("Place White Ant (0) at (1, -1, 0)", movement.description)
 	}
 
 	func testMoveDescription_IsCorrect() {
@@ -78,7 +78,7 @@ final class MovementTests: HiveEngineTestCase {
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .move(unit: unit, to: position)
 
-		XCTAssertEqual("Move White Ant to (1, -1, 0)", movement.description)
+		XCTAssertEqual("Move White Ant (0) to (1, -1, 0)", movement.description)
 	}
 
 	func testYoinkDescription_IsCorrect() {
@@ -87,7 +87,7 @@ final class MovementTests: HiveEngineTestCase {
 		let position: Position = Position(x: 1, y: -1, z: 0)
 		let movement: Movement = .yoink(pillBug: pillBug, unit: unit, to: position)
 
-		XCTAssertEqual("Yoink White Ant to (1, -1, 0)", movement.description)
+		XCTAssertEqual("Yoink White Ant (0) to (1, -1, 0)", movement.description)
 	}
 
 	static var allTests = [
