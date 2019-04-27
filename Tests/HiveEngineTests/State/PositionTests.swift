@@ -55,7 +55,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
@@ -72,7 +72,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2))
@@ -88,7 +88,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossZAxis_EqualOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
@@ -105,7 +105,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossZAxis_FreeOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1))
@@ -121,7 +121,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: -1, z: 2)),
@@ -138,7 +138,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: -1, z: 2))
@@ -158,11 +158,11 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
-			Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0)),
+			Movement.move(unit: state.whiteBeetle, to: .origin),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 2, y: 1, z: -3)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
 			Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2))
@@ -181,11 +181,11 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
-			Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			Movement.move(unit: state.whiteBeetle, to: .origin)
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -201,11 +201,11 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: -1, y: 1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
-			Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0)),
+			Movement.move(unit: state.whiteBeetle, to: .origin),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 2, y: 1, z: -3)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
 			Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2))
@@ -224,11 +224,11 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: -1, y: 1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
-			Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			Movement.move(unit: state.whiteBeetle, to: .origin)
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -246,7 +246,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 1, y: 1, z: -2)),
@@ -256,7 +256,7 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let firstPosition: Position = Position(x: 0, y: 0, z: 0)
+		let firstPosition: Position = .origin
 		let firstPositionHeight = 2
 		let secondPosition: Position = Position(x: 1, y: 0, z: -1)
 		let secondPositionHeight = 1
@@ -268,7 +268,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 1, y: 1, z: -2)),
@@ -277,7 +277,7 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let firstPosition: Position = Position(x: 0, y: 0, z: 0)
+		let firstPosition: Position = .origin
 		let firstPositionHeight = 2
 		let secondPosition: Position = Position(x: 1, y: 0, z: -1)
 		let secondPositionHeight = 1
@@ -289,7 +289,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: -1, z: 1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: -1, y: 1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -1, y: -1, z: 2)),
@@ -299,7 +299,7 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let firstPosition: Position = Position(x: 0, y: 0, z: 0)
+		let firstPosition: Position = .origin
 		let firstPositionHeight = 2
 		let secondPosition: Position = Position(x: -1, y: 0, z: 1)
 		let secondPositionHeight = 1
@@ -311,7 +311,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: -1, z: 1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: -1, y: 1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -1, y: -1, z: 2)),
@@ -320,7 +320,7 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let firstPosition: Position = Position(x: 0, y: 0, z: 0)
+		let firstPosition: Position = .origin
 		let firstPositionHeight = 2
 		let secondPosition: Position = Position(x: -1, y: 0, z: 1)
 		let secondPositionHeight = 1
@@ -334,7 +334,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 1, z: 0)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -2, y: 2, z: 0)),
@@ -344,7 +344,7 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let firstPosition: Position = Position(x: 0, y: 0, z: 0)
+		let firstPosition: Position = .origin
 		let firstPositionHeight = 2
 		let secondPosition: Position = Position(x: 0, y: 1, z: -1)
 		let secondPositionHeight = 1
@@ -356,7 +356,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 1, z: 0)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -2, y: 2, z: 0)),
@@ -365,7 +365,7 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let firstPosition: Position = Position(x: 0, y: 0, z: 0)
+		let firstPosition: Position = .origin
 		let firstPositionHeight = 2
 		let secondPosition: Position = Position(x: 0, y: 1, z: -1)
 		let secondPositionHeight = 1
@@ -377,7 +377,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -2, y: 0, z: 2)),
@@ -387,7 +387,7 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let firstPosition: Position = Position(x: 0, y: 0, z: 0)
+		let firstPosition: Position = .origin
 		let firstPositionHeight = 2
 		let secondPosition: Position = Position(x: 0, y: -1, z: 1)
 		let secondPositionHeight = 1
@@ -399,7 +399,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -2, y: 0, z: 2)),
@@ -408,7 +408,7 @@ final class PositionTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let firstPosition: Position = Position(x: 0, y: 0, z: 0)
+		let firstPosition: Position = .origin
 		let firstPositionHeight = 2
 		let secondPosition: Position = Position(x: 0, y: -1, z: 1)
 		let secondPositionHeight = 1

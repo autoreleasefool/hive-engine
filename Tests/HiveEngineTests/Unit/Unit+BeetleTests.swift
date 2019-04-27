@@ -39,7 +39,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		let expectedMoves: Set<Movement> = [
 			.move(unit: state.whiteBeetle, to: Position(x: -1, y: 1, z: 0)),
 			.move(unit: state.whiteBeetle, to: Position(x: -1, y: -1, z: 2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0)),
+			.move(unit: state.whiteBeetle, to: .origin),
 			.move(unit: state.whiteBeetle, to: Position(x: 0, y: -1, z: 1))
 		]
 		XCTAssertEqual(expectedMoves, availableMoves)
@@ -48,21 +48,21 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	func testBeetle_CanMoveUpToHive() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2))
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: .origin)
 		XCTAssertTrue(state.availableMoves.contains(expectedMove))
 	}
 
 	func testBeetle_CanMoveDownFromHive() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
@@ -79,7 +79,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	func testBeetle_WithoutFreedomOfMovement_CannotMove() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteHopper, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
@@ -122,7 +122,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	func testBeetle_CanMoveToTallerStack() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 13, to: state)
-		let expectedMove: Movement = .move(unit: state.blackMosquito, to: Position(x: 0, y: 0, z: 0))
+		let expectedMove: Movement = .move(unit: state.blackMosquito, to: .origin)
 		XCTAssertTrue(state.blackMosquito.availableMoves(in: state).contains(expectedMove))
 	}
 

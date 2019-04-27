@@ -170,7 +170,7 @@ public class GameState: Codable {
 		// Only available moves at the start of the game are to place a piece at (0, 0, 0)
 		// or to place a piece next to the original piece
 		if move == 0 {
-			return availablePiecesForPlayer.map { .place(unit: $0, at: Position(x: 0, y: 0, z: 0)) }
+			return availablePiecesForPlayer.map { .place(unit: $0, at: .origin) }
 		}
 
 		let playableSpacesForPlayer = playableSpaces(for: player)
@@ -336,7 +336,7 @@ public class GameState: Codable {
 	/// - Parameters:
 	///  - excludedUnit: optionally exclude a unit when determining if the space is playable
 	public func playableSpaces(excluding excludedUnit: Unit? = nil, for player: Player? = nil) -> Set<Position> {
-		if move == 0 { return [Position(x: 0, y: 0, z: 0)] }
+		if move == 0 { return [.origin] }
 
 		var includedUnits = allUnitsInPlay
 		if let excluded = excludedUnit {

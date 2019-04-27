@@ -36,11 +36,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenNotSurrounded_IsSurrounded_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteBeetle, to: .origin)
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -50,11 +50,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenTopOfStack_IsTopOfStack_IsTrue() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteBeetle, to: .origin)
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -64,11 +64,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenBottomOfStack_IsTopOfStack_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteBeetle, to: .origin)
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -78,11 +78,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testStackPosition_IsCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteBeetle, to: .origin)
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -93,11 +93,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenTopOfStackNotOneHive_CanMove_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteBeetle, to: .origin)
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -109,11 +109,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenBottomOfStackOneHive_CanMove_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteBeetle, to: .origin)
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -125,11 +125,11 @@ final class UnitTests: HiveEngineTestCase {
 	func testWhenTopOfStackOneHive_CanMove_IsTrue() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteBeetle, to: .origin)
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)

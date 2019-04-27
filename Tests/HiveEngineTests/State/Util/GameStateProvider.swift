@@ -26,7 +26,7 @@ class GameStateProvider {
 
 	private func partialStateMoves(for state: GameState) -> [Movement] {
 		return [
-			/* 1  */ Movement.place(unit: state.whiteSpider, at: Position(x: 0, y: 0, z: 0)),
+			/* 1  */ Movement.place(unit: state.whiteSpider, at: .origin),
 			/* 2  */ Movement.place(unit: state.blackSpider, at: Position(x: 0, y: 1, z: -1)),
 			/* 3  */ Movement.place(unit: state.whiteAnt, at: Position(x: -1, y: 0, z: 1)),
 			/* 4  */ Movement.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
@@ -38,7 +38,7 @@ class GameStateProvider {
 			/* 10 */ Movement.place(unit: state.blackMosquito, at: Position(x: 2, y: 1, z: -3)),
 			/* 11 */ Movement.place(unit: state.whiteBeetle, at: Position(x: -1, y: 0, z: 1)),
 			/* 12 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: 0, z: -1)),
-			/* 13 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0)),
+			/* 13 */ Movement.move(unit: state.whiteBeetle, to: .origin),
 			/* 14 */ Movement.move(unit: state.blackMosquito, to: Position(x: 2, y: -1, z: -1)),
 			/* 15 */ Movement.place(unit: state.whiteMosquito, at: Position(x: -1, y: 0, z: 1)),
 			/* 16 */ Movement.place(unit: state.blackBeetle, at: Position(x: 2, y: 1, z: -3)),

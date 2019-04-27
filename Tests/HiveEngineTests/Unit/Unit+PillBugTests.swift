@@ -82,7 +82,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 	func testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
@@ -103,7 +103,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		stateProvider.apply(moves: setupMoves, to: state)
 		let yoinkToOriginMoves = state.availableMoves.filter {
 			if case let .yoink(_, _, position) = $0 {
-				return position == Position(x: 0, y: 0, z: 0)
+				return position == .origin
 			} else {
 				return false
 			}
@@ -115,7 +115,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 	func testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
@@ -145,7 +145,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 	func testPillBug_YoinkCannotBreakHive() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
@@ -169,7 +169,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 	func testPillBug_CannotYoinkPieceJustYoinked() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),

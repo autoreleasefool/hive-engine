@@ -45,7 +45,7 @@ final class UnitSpiderTests: HiveEngineTestCase {
 	func testSpider_FreedomOfMovement_IsCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),

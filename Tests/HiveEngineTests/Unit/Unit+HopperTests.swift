@@ -44,15 +44,15 @@ final class UnitHopperTests: HiveEngineTestCase {
 	func testHopper_CanJumpAnyHeight() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0)),
+			.move(unit: state.whiteBeetle, to: .origin),
 			.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteMosquito, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackHopper, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteMosquito, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteMosquito, to: .origin)
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)

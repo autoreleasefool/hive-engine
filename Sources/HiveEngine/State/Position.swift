@@ -38,6 +38,10 @@ public struct Position: Hashable, Equatable, Codable {
 		self.z = z
 	}
 
+	/// Origin position
+	public static let origin = Position(x: 0, y: 0, z: 0)
+
+	/// All adjacent positions
 	public func adjacent() -> [Position] {
 		return [
 			Position(x: x, y: y + 1, z: z - 1),

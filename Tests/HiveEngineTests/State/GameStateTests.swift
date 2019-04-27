@@ -308,7 +308,7 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_ShutOutPlayer_SkipsTurn() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
 			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
@@ -322,7 +322,7 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_ShutOutPlayer_HasNoMoves() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
 			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
@@ -343,7 +343,7 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_OpponentMoves_AreCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1))
 		]
 
@@ -440,7 +440,7 @@ final class GameStateTests: HiveEngineTestCase {
 	func testFinishedGameState_ApplyMovement_DoesNotModifyState() {
 		let state = stateProvider.wonGameState
 		let expectedMove = state.move
-		state.apply(.move(unit: state.whiteAnt, to: Position(x: 0, y: 0, z: 0)))
+		state.apply(.move(unit: state.whiteAnt, to: .origin))
 		XCTAssertEqual(expectedMove, state.move)
 	}
 

@@ -52,7 +52,7 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 	func testLadyBug_WithoutFreedomOfMovement_CannotMove() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
 			.place(unit: state.blackBeetle, at: Position(x: 1, y: 1, z: -2)),
@@ -60,7 +60,7 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 			.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
 			.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0)),
 			.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0)),
+			.move(unit: state.whiteBeetle, to: .origin),
 			.move(unit: state.blackLadyBug, to: Position(x: 1, y: 0, z: -1)),
 			.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0))
 		]
@@ -78,7 +78,7 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 	func testLadyBug_CanMoveAcrossAnyHeight() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			.place(unit: state.whiteQueen, at: Position(x: 0, y: 0, z: 0)),
+			.place(unit: state.whiteQueen, at: .origin),
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
 			.place(unit: state.blackBeetle, at: Position(x: 1, y: 1, z: -2)),
@@ -86,7 +86,7 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 			.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
 			.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0)),
 			.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: 0, z: 0))
+			.move(unit: state.whiteBeetle, to: .origin)
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
