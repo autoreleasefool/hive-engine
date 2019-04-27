@@ -82,7 +82,7 @@ Optionally, you can lock the engine to a specific version with:
 
 ```
     dependencies: [
-        .package(url: "git@github.com:josephroquedev/hive-engine.git", from: "1.0.0")
+        .package(url: "git@github.com:josephroquedev/hive-engine.git", from: "1.2.0")
     ],
 ```
 
