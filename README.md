@@ -8,6 +8,8 @@ Manages the game state of a game of hive and determines valid playable moves.
 
 Additionally, produces new game states from the application of valid moves.
 
+This engine optionally supports games with all 3 official Hive expansions: the Mosquito, the Lady Bug, and the Pill Bug. See details on the `GameState` below for options.
+
 ## Usage
 
 You can read about each of the engine's components below, or dive right in with an instance of `GameState`:
@@ -47,6 +49,14 @@ A `Movement` provides details on moving a `Unit` around the board, or introducin
 The `GameState` is the structure which manages the overall state of a game of Hive.
 
 Get started by creating an instance: `let state = GameState()`
+
+#### Options
+
+By default, a `GameState` will create a game with Mosquitos, Lady Bugs, and Pill Bugs enabled (for backwards compatibility).
+
+Provide a set of `GameState.Options` to the `GameState(options:)` constructor to change which options you have enabled.
+
+#### API
 
 You can enumerate all the current moves available with `availableMoves` and `opponentMoves`.
 
