@@ -151,7 +151,6 @@ final class GameStateTests: HiveEngineTestCase {
 			.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0))
 		]
 		stateProvider.apply(moves: moves, to: state)
-		print(state.availableMoves)
 		unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit.index > 1 ? $0.movedUnit : nil })
 		XCTAssertEqual(1, unitsWithIndexGreaterThanOne.count)
 	}
@@ -185,7 +184,14 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_PreviousMove_IsCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 9, to: state)
-		XCTAssertEqual(GameStateUpdate(player: Player.white, movement: Movement.move(unit: state.whiteAnt, to: Position(x: 0, y: 3, z: -3)), previousPosition: Position(x: -1, y: 0, z: 1), move: 8), state.previousMoves.last)
+		let expectedUpdate = GameStateUpdate(
+			player: .white,
+			movement: .move(unit: state.whiteAnt, to: Position(x: 0, y: 3, z: -3)),
+			previousPosition: Position(x: -1, y: 0, z: 1),
+			move: 8,
+			notation: "wA1 \\bQ1"
+		)
+		XCTAssertEqual(expectedUpdate, state.previousMoves.last)
 	}
 
 	func testPartialGameState_MustPlayQueenInFirstFourMoves() {
@@ -494,6 +500,49 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertNotEqual(copiedState.currentPlayer, state.currentPlayer)
 	}
 
+	func testGameStateUpdate_Notation_IsCorrect() {
+		let state = stateProvider.initialGameState
+		state.requireMovementValidation = false
+
+		state.apply(.place(unit: state.whiteQueen, at: .origin))
+		XCTAssertEqual("wQ1", state.previousMoves.last!.notation)
+
+		state.apply(.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)))
+		XCTAssertEqual("bQ1 \\wQ1", state.previousMoves.last!.notation)
+
+		state.undoMove()
+		state.apply(.place(unit: state.whiteBeetle, at: Position(x: 1, y: 0, z: -1)))
+		XCTAssertEqual("wB1 wQ1/", state.previousMoves.last!.notation)
+
+		state.undoMove()
+		state.apply(.place(unit: state.blackHopper, at: Position(x: 1, y: -1, z: 0)))
+		XCTAssertEqual("bG1 wQ1-", state.previousMoves.last!.notation)
+
+		state.undoMove()
+		state.apply(.place(unit: state.whiteLadyBug, at: Position(x: 0, y: -1, z: 1)))
+		XCTAssertEqual("wL1 wQ1\\", state.previousMoves.last!.notation)
+
+		state.undoMove()
+		state.apply(.place(unit: state.blackSpider, at: Position(x: -1, y: 0, z: 1)))
+		XCTAssertEqual("bS1 /wQ1", state.previousMoves.last!.notation)
+
+		state.undoMove()
+		state.apply(.place(unit: state.whitePillBug, at: Position(x: -1, y: 1, z: 0)))
+		XCTAssertEqual("wP1 -wQ1", state.previousMoves.last!.notation)
+
+		state.undoMove()
+		state.apply(.place(unit: state.whiteBeetle, at: Position(x: 1, y: 0, z: -1)))
+		state.apply(.move(unit: state.whiteBeetle, to: .origin))
+		XCTAssertEqual("wB1 wQ1", state.previousMoves.last!.notation)
+
+		state.undoMove()
+		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: -2)))
+		XCTAssertEqual("wA1 \\wB1", state.previousMoves.last!.notation)
+
+		state.apply(.place(unit: state.blackHopper, at: Position(x: 1, y: -1, z: 0)))
+		XCTAssertEqual("bG1 wB1\\", state.previousMoves.last!.notation)
+	}
+
 	// MARK: - Linux Tests
 
 	static var allTests = [
@@ -548,6 +597,7 @@ final class GameStateTests: HiveEngineTestCase {
 
 		("testTiedGameState_HasTwoWinners", testTiedGameState_HasTwoWinners),
 
-		("testCopyingGameState_IsCorrect", testCopyingGameState_IsCorrect)
+		("testCopyingGameState_IsCorrect", testCopyingGameState_IsCorrect),
+		("testGameStateUpdate_Notation_IsCorrect", testGameStateUpdate_Notation_IsCorrect)
 	]
 }

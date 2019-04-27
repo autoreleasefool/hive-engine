@@ -17,6 +17,9 @@ public struct GameStateUpdate: Codable, Equatable {
 	let previousPosition: Position?
 	/// The move number
 	let move: Int
+	/// Standard notation describing the movement in the context of the state it was played
+	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
+	let notation: String
 }
 
 /// State of a game of hive.
@@ -202,6 +205,34 @@ public class GameState: Codable {
 		return placePieceMovements + movePieceMovements
 	}
 
+	/// Standard notation for a position relative to another Unit.
+	///
+	/// - Parameters:
+	///   - position: the Position for which relative notation should be determined
+	private func adjacentUnitNotation(relativePosition position: Position) -> String {
+		// If the movement is on top of another unit, return the unit moved onto
+		if let stack = stacks[position], stack.count > 1 {
+			return stack[stack.count - 2].notation
+		}
+
+		guard let adjacentUnit = units(adjacentTo: position).first,
+			let adjacentUnitPosition = unitsInPlay[adjacentUnit.owner]?[adjacentUnit] else { return "" }
+
+		// For this notation, since positions are defined with horizontal hexagons (see the top of the file),
+		// but standard notation uses vertical hexagons, all relative positions are defined by rotating the map
+		// 60 degrees clockwise, such that (1, 0, -1) is to the north east of (0, 0, 0)
+		let difference = position.subtracting(adjacentUnitPosition)
+		switch (difference.x, difference.y, difference.z) {
+		case (1, 0, -1): return "\(adjacentUnit.notation)/"
+		case (1, -1, 0): return "\(adjacentUnit.notation)-"
+		case (0, -1, 1): return "\(adjacentUnit.notation)\\"
+		case (-1, 0, 1): return "/\(adjacentUnit.notation)"
+		case (-1, 1, 0): return "-\(adjacentUnit.notation)"
+		case (0, 1, -1): return "\\\(adjacentUnit.notation)"
+		default: return ""
+		}
+	}
+
 	/// Applies the movement to this game state (if it is valid)
 	public func apply(_ movement: Movement) {
 		// Ensure only valid moves are played
@@ -209,6 +240,7 @@ public class GameState: Codable {
 			guard validate(movement: movement) else { return }
 		}
 
+		var notation: String = "\(movement.movedUnit.notation)"
 		let updatePlayer = currentPlayer
 		let updateMovement = movement
 		let updateMove = move
@@ -245,12 +277,16 @@ public class GameState: Codable {
 			unitsInHand[unit.owner]!.remove(unit)
 		}
 
+		if updateMove > 0 {
+			notation = "\(notation) \(adjacentUnitNotation(relativePosition: movement.targetPosition))"
+		}
+
 		// When a player is shut out, skip their turn
 		if isEndGame == false && anyMovesAvailable(for: currentPlayer) == false {
 			currentPlayer = currentPlayer.next
 		}
 
-		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove))
+		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove, notation: notation))
 	}
 
 	/// Undo the most recent move
