@@ -90,7 +90,7 @@ See the [Releases](https://github.com/josephroquedev/hive-engine/releases) for t
 
 ### Manual
 
-To install manually, simply drag and drop `HiveMind.xcodeproj` into your Xcode project.
+To install manually, simply drag and drop `HiveEngine.xcodeproj` into your Xcode project.
 
 ### Requirements
 
