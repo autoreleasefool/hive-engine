@@ -141,6 +141,21 @@ final class GameStateTests: HiveEngineTestCase {
 		}.count)
 	}
 
+	func testInitialGameState_OnlyLowestIndexUnitCanBePlayed() {
+		let state = stateProvider.initialGameState
+		var unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit.index > 1 ? $0.movedUnit : nil })
+		XCTAssertEqual(0, unitsWithIndexGreaterThanOne.count)
+
+		let moves: [Movement] = [
+			.place(unit: state.whiteAnt, at: .origin),
+			.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0))
+		]
+		stateProvider.apply(moves: moves, to: state)
+		print(state.availableMoves)
+		unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit.index > 1 ? $0.movedUnit : nil })
+		XCTAssertEqual(1, unitsWithIndexGreaterThanOne.count)
+	}
+
 	func testInitialGameState_HasNoPreviousMoves() {
 		let state = stateProvider.initialGameState
 		XCTAssertEqual(0, state.previousMoves.count)
@@ -354,7 +369,11 @@ final class GameStateTests: HiveEngineTestCase {
 		]
 
 		XCTAssertEqual(expectedMoves, Set(state.opponentMoves.filter { $0.movedUnit == state.blackQueen }))
-		XCTAssertEqual(41, state.opponentMoves.count)
+
+		// 23 possible moves by opponent:
+		//   - 2 moves by the black queen
+		//   - 7 unplayed classes with 3 possible positions each
+		XCTAssertEqual(23, state.opponentMoves.count)
 	}
 
 	func testPartialGameState_UndoPlace_CreatesOldGameState() {
@@ -489,6 +508,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testInitialGameState_HasNoWinner", testInitialGameState_HasNoWinner),
 		("testInitialGameState_HasNoStacks", testInitialGameState_HasNoStacks),
 		("testInitialGameState_OnlyHasPlaceMovesAvailable", testInitialGameState_OnlyHasPlaceMovesAvailable),
+		("testInitialGameState_OnlyLowestIndexUnitCanBePlayed", testInitialGameState_OnlyLowestIndexUnitCanBePlayed),
 		("testInitialGameState_HasNoPreviousMoves", testInitialGameState_HasNoPreviousMoves),
 		("testInitialGameState_ValidatesMoves", testInitialGameState_ValidatesMoves),
 		("testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves", testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves),

@@ -165,24 +165,27 @@ public class GameState: Codable {
 	public func moves(for player: Player) -> [Movement] {
 		guard isEndGame == false else { return [] }
 
-		let availablePiecesForPlayer = unitsInHand[player]!
+		let allAvailablePiecesForPlayer = unitsInHand[player]!
+		let playablePiecesForPlayer = allAvailablePiecesForPlayer.filter { unit in
+			unit.index == 1 || allAvailablePiecesForPlayer.contains(where: { otherUnit in otherUnit.class == unit.class && otherUnit.index < unit.index }) == false
+		}
 
 		// Only available moves at the start of the game are to place a piece at (0, 0, 0)
 		// or to place a piece next to the original piece
 		if move == 0 {
-			return availablePiecesForPlayer.map { .place(unit: $0, at: .origin) }
+			return playablePiecesForPlayer.map { .place(unit: $0, at: .origin) }
 		}
 
 		let playableSpacesForPlayer = playableSpaces(for: player)
 
 		// Queen must be played in player's first 4 moves
 		if (player == .white && move == 6) || (player == .black && move == 7),
-			let queen = availablePiecesForPlayer.filter({ $0.class == .queen }).first {
+			let queen = playablePiecesForPlayer.filter({ $0.class == .queen }).first {
 			return playableSpacesForPlayer.map { .place(unit: queen, at: $0) }
 		}
 
 		// Get placeable pieces
-		let placePieceMovements: [Movement] = availablePiecesForPlayer.flatMap { unit in
+		let placePieceMovements: [Movement] = playablePiecesForPlayer.flatMap { unit in
 			return playableSpacesForPlayer.map { .place(unit: unit, at: $0) }
 		}
 
