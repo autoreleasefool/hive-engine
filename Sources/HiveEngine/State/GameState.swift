@@ -154,14 +154,30 @@ public class GameState: Codable {
 		}
 	}
 
-	/// List the available movements from a GameState.
+	/// Cache available moves
+	private var _availableMoves: [Player: [Movement]] = [:]
+
+	/// List the available movements from a GameState. Benefits from caching
 	public var availableMoves: [Movement] {
-		return moves(for: currentPlayer)
+		if let cachedMoves = _availableMoves[currentPlayer] {
+			return cachedMoves
+		}
+
+		let cachedMoves = moves(for: currentPlayer)
+		_availableMoves[currentPlayer] = cachedMoves
+		return cachedMoves
 	}
 
-	/// List the available movements from a GameState for the opponent.
+	/// List the available movements from a GameState for the opponent. Benefits from caching
 	public var opponentMoves: [Movement] {
-		return moves(for: currentPlayer.next)
+		let opponent = currentPlayer.next
+		if let cachedMoves = _availableMoves[opponent] {
+			return cachedMoves
+		}
+
+		let cachedMoves = moves(for: opponent)
+		_availableMoves[opponent] = cachedMoves
+		return cachedMoves
 	}
 
 	/// Available moves for the given player
@@ -246,6 +262,7 @@ public class GameState: Codable {
 		let updateMove = move
 		let updatePosition: Position?
 
+		_availableMoves.removeAll()
 		currentPlayer = currentPlayer.next
 		move += 1
 
@@ -292,6 +309,7 @@ public class GameState: Codable {
 	/// Undo the most recent move
 	public func undoMove() {
 		guard let lastMove = previousMoves.popLast() else { return }
+		_availableMoves.removeAll()
 		currentPlayer = lastMove.player
 		move = lastMove.move
 
