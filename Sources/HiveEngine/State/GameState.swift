@@ -340,6 +340,8 @@ public class GameState: Codable {
 
 	/// Validate that a given move is valid in the current state.
 	private func validate(movement: Movement) -> Bool {
+		guard oneHive(excluding: movement.movedUnit) else { return false }
+
 		switch movement {
 		case .move(let unit, _):
 			return unit.availableMoves(in: self).contains(movement)
@@ -352,7 +354,7 @@ public class GameState: Codable {
 
 	/// Returns true if there are any moves available for the given player.
 	public func anyMovesAvailable(for player: Player) -> Bool {
-		if isEndGame { return false }
+		guard isEndGame == false else { return false }
 
 		// Check if any pieces can be placed
 		if unitsInHand[player]!.count > 0 && playableSpaces(for: player).count > 0 {
@@ -363,7 +365,7 @@ public class GameState: Codable {
 		guard queenPlayed(for: player) else { return false }
 
 		// Check if any pieces on the board has available moves
-		for unit in unitsInPlay[player]!.map({ $0.key }) {
+		for unit in unitsInPlay[player]!.compactMap({ ($0.key.class == .pillBug || oneHive(excluding: $0.key)) ? $0.key : nil }) {
 			if unit.availableMoves(in: self).count > 0 {
 				return true
 			}
