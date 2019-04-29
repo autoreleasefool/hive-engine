@@ -543,6 +543,46 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual("bG1 wB1\\", state.previousMoves.last!.notation)
 	}
 
+	// MARK: - GameState.Options
+
+	func testGameStateOptions_RestrictedOpenings_IsCorrect() {
+		let openState = GameState(options: [])
+		openState.apply(.place(unit: openState.whiteQueen, at: .origin))
+		// Can place 5 pieces in 6 positions each
+		XCTAssertEqual(30, openState.availableMoves.count)
+
+		let restrictedState = GameState(options: [.restrictedOpening])
+		restrictedState.apply(.place(unit: restrictedState.whiteQueen, at: .origin))
+		// Can only place 5 pieces in 1 possible position
+		XCTAssertEqual(5, restrictedState.availableMoves.count)
+	}
+
+	func testGameStateOptions_NoFirstQueenMove_IsCorrect() {
+		let openState = GameState(options: [])
+		XCTAssertEqual(0, openState.move)
+		// White can play 5 pieces at origin
+		XCTAssertEqual(5, openState.availableMoves.count)
+		openState.apply(.place(unit: openState.whiteQueen, at: .origin))
+		openState.apply(.place(unit: openState.blackQueen, at: Position(x: 0, y: 1, z: -1)))
+		// Both moves were valid, move count increased
+		XCTAssertEqual(2, openState.move)
+
+		let restrictedState = GameState(options: [.noFirstMoveQueen])
+		XCTAssertEqual(0, restrictedState.move)
+		// White can play only 4 pieces at origin
+		XCTAssertEqual(4, restrictedState.availableMoves.count)
+		restrictedState.apply(.place(unit: restrictedState.whiteQueen, at: .origin))
+		// Move was not valid, move count not incremented
+		XCTAssertEqual(0, restrictedState.move)
+		restrictedState.apply(.place(unit: restrictedState.whiteAnt, at: .origin))
+		// Black can play 4 pieces, in 6 possible places
+		XCTAssertEqual(24, restrictedState.availableMoves.count)
+		XCTAssertEqual(1, restrictedState.move)
+		restrictedState.apply(.place(unit: restrictedState.blackQueen, at: .origin))
+		// Move was not valid, move count not incremented
+		XCTAssertEqual(1, restrictedState.move)
+	}
+
 	// MARK: - Linux Tests
 
 	static var allTests = [
@@ -598,6 +638,9 @@ final class GameStateTests: HiveEngineTestCase {
 		("testTiedGameState_HasTwoWinners", testTiedGameState_HasTwoWinners),
 
 		("testCopyingGameState_IsCorrect", testCopyingGameState_IsCorrect),
-		("testGameStateUpdate_Notation_IsCorrect", testGameStateUpdate_Notation_IsCorrect)
+		("testGameStateUpdate_Notation_IsCorrect", testGameStateUpdate_Notation_IsCorrect),
+
+		("testGameStateOptions_RestrictedOpenings_IsCorrect", testGameStateOptions_RestrictedOpenings_IsCorrect),
+		("testGameStateOptions_NoFirstQueenMove_IsCorrect", testGameStateOptions_NoFirstQueenMove_IsCorrect)
 	]
 }

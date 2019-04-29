@@ -40,6 +40,10 @@ public class GameState: Codable {
 		case mosquito = "Mosquito"
 		/// Include the Pill Bug unit
 		case pillBug = "Pill Bug"
+		/// Restrict the black player's opening move to only one position
+		case restrictedOpening = "Restricted Opening"
+		/// Disallow playing the Queen on either player's first move
+		case noFirstMoveQueen = "No First Move Queen"
 	}
 
 	/// Optional parameters
@@ -185,14 +189,21 @@ public class GameState: Codable {
 		guard isEndGame == false else { return [] }
 
 		let allAvailablePiecesForPlayer = unitsInHand[player]!
-		let playablePiecesForPlayer = allAvailablePiecesForPlayer.filter { unit in
+		var playablePiecesForPlayer = allAvailablePiecesForPlayer.filter { unit in
 			unit.index == 1 || allAvailablePiecesForPlayer.contains(where: { otherUnit in otherUnit.class == unit.class && otherUnit.index < unit.index }) == false
 		}
 
 		// Only available moves at the start of the game are to place a piece at (0, 0, 0)
 		// or to place a piece next to the original piece
 		if move == 0 {
+			if options.contains(.noFirstMoveQueen) {
+				playablePiecesForPlayer.remove(whiteQueen)
+			}
 			return playablePiecesForPlayer.map { .place(unit: $0, at: .origin) }
+		} else if move == 1 {
+			if options.contains(.noFirstMoveQueen) {
+				playablePiecesForPlayer.remove(blackQueen)
+			}
 		}
 
 		let playableSpacesForPlayer = playableSpaces(for: player)
@@ -348,7 +359,13 @@ public class GameState: Codable {
 		case .yoink(let pillBug, _, _):
 			return pillBug.availableMoves(in: self).contains(movement)
 		case .place(let unit, let position):
-			return unitsInHand[unit.owner]!.contains(unit) && playableSpaces(for: currentPlayer).contains(position)
+			var playablePieces = unitsInHand[unit.owner]!
+			if move == 0 && options.contains(.noFirstMoveQueen) {
+				playablePieces.remove(whiteQueen)
+			} else if move == 1 && options.contains(.noFirstMoveQueen) {
+				playablePieces.remove(blackQueen)
+			}
+			return playablePieces.contains(unit) && playableSpaces(for: currentPlayer).contains(position)
 		}
 	}
 
@@ -396,6 +413,7 @@ public class GameState: Codable {
 	///  - excludedUnit: optionally exclude a unit when determining if the space is playable
 	public func playableSpaces(excluding excludedUnit: Unit? = nil, for player: Player? = nil) -> Set<Position> {
 		if move == 0 { return [.origin] }
+		if move == 1 && options.contains(.restrictedOpening) { return [Position(x: 0, y: 1, z: -1)] }
 
 		var includedUnits = allUnitsInPlay
 		if let excluded = excludedUnit {
