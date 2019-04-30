@@ -25,8 +25,6 @@ extension Unit {
 
 					// Get positions that the piece is free to move to
 					return position.freedomOfMovement(to: $0, in: state)
-				}.map {
-					movement(to: $0)
-				})
+				}.map { Movement.move(unit: self, to: $0) })
 	}
 }

@@ -27,9 +27,7 @@ extension Unit {
 					// Filter to positions that the piece can freely move to
 					let endHeight = (state.stacks[$0]?.endIndex ?? 0) + 1
 					return position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: endHeight, in: state)
-				}.compactMap {
-					movement(to: $0)
-				}
+				}.map { Movement.move(unit: self, to: $0) }
 
 		let playableSpaces = state.playableSpaces()
 		var movesDownFromHive: [Movement] = []
@@ -42,8 +40,7 @@ extension Unit {
 							// Filter to positions that the piece can freely move to
 							position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: 1, in: state)
 
-					}
-					.compactMap { movement(to: $0) }
+					}.map { Movement.move(unit: self, to: $0) }
 			)
 		}
 

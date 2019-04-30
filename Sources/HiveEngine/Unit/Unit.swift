@@ -95,11 +95,6 @@ public class Unit: Codable {
 		return moves(as: self.class, in: state)
 	}
 
-	/// Returns a movement to the given position, unless the position is `.inHand`
-	func movement(to position: Position) -> Movement {
-		return .move(unit: self, to: position)
-	}
-
 	/// Get the available moves when treating this unit as a certain class
 	func moves(as `class`: Class, in state: GameState) -> Set<Movement> {
 		switch `class` {
