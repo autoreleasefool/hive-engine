@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		CA35C26B227B27EB00C75DE2 /* PerftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA35C26A227B27EB00C75DE2 /* PerftTests.swift */; };
 		CA598DB62224252400761E47 /* Unit+AntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DB4222424EB00761E47 /* Unit+AntTests.swift */; };
 		CA598DB82224254C00761E47 /* Unit+BeetleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DB72224254C00761E47 /* Unit+BeetleTests.swift */; };
 		CA598DBA2224258100761E47 /* Unit+HopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DB92224258100761E47 /* Unit+HopperTests.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CA35C26A227B27EB00C75DE2 /* PerftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerftTests.swift; sourceTree = "<group>"; };
 		CA598DB4222424EB00761E47 /* Unit+AntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+AntTests.swift"; sourceTree = "<group>"; };
 		CA598DB72224254C00761E47 /* Unit+BeetleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+BeetleTests.swift"; sourceTree = "<group>"; };
 		CA598DB92224258100761E47 /* Unit+HopperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+HopperTests.swift"; sourceTree = "<group>"; };
@@ -131,6 +133,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CA35C269227B27C600C75DE2 /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				CA35C26A227B27EB00C75DE2 /* PerftTests.swift */,
+			);
+			path = Validation;
+			sourceTree = "<group>";
+		};
 		OBJ_11 /* State */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +182,7 @@
 				OBJ_28 /* Extensions */,
 				OBJ_31 /* State */,
 				OBJ_38 /* Unit */,
+				CA35C269227B27C600C75DE2 /* Validation */,
 				OBJ_30 /* HiveEngineTestCase.swift */,
 				OBJ_40 /* XCTestManifests.swift */,
 			);
@@ -399,6 +410,7 @@
 				CA598DC4222425BA00761E47 /* Unit+SpiderTests.swift in Sources */,
 				OBJ_82 /* GameStateTests.swift in Sources */,
 				CA598DBC2224258B00761E47 /* Unit+LadyBugTests.swift in Sources */,
+				CA35C26B227B27EB00C75DE2 /* PerftTests.swift in Sources */,
 				CA598DBA2224258100761E47 /* Unit+HopperTests.swift in Sources */,
 				OBJ_83 /* MovementTests.swift in Sources */,
 				CA598DBE2224259900761E47 /* Unit+MosquitoTests.swift in Sources */,
