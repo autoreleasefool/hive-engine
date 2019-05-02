@@ -20,14 +20,6 @@ final class UnitTests: HiveEngineTestCase {
 
 	// MARK: - Unit
 
-	func testGetMovementToPositionInPlay_IsCorrect() {
-		let unit = stateProvider.initialGameState.whiteAnt
-		let position: Position = Position(x: 0, y: 2, z: -2)
-		let expectedMovement: Movement = .move(unit: unit, to: position)
-
-		XCTAssertEqual(expectedMovement, unit.movement(to: position))
-	}
-
 	func testWhenSurrounded_IsSurrounded_IsTrue() {
 		let state = stateProvider.wonGameState
 		XCTAssertTrue(state.whiteQueen.isSurrounded(in: state))
@@ -151,8 +143,6 @@ final class UnitTests: HiveEngineTestCase {
 	}
 
 	static var allTests = [
-		("testGetMovementToPositionInPlay_IsCorrect", testGetMovementToPositionInPlay_IsCorrect),
-
 		("testWhenSurrounded_IsSurrounded_IsTrue", testWhenSurrounded_IsSurrounded_IsTrue),
 		("testWhenNotSurrounded_IsSurrounded_IsFalse", testWhenNotSurrounded_IsSurrounded_IsFalse),
 
