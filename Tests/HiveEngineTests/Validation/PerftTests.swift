@@ -45,9 +45,7 @@ class PerftTests: HiveEngineTestCase {
 		let perftReference = perftTable[""]!
 
 		for depth in 0..<perftReference.count {
-			print(depth)
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
-			print("success")
 		}
 	}
 
@@ -56,9 +54,7 @@ class PerftTests: HiveEngineTestCase {
 		let perftReference = perftTable["M"]!
 
 		for depth in 0..<perftReference.count {
-			print(depth)
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
-			print("success")
 		}
 	}
 
@@ -67,9 +63,7 @@ class PerftTests: HiveEngineTestCase {
 		let perftReference = perftTable["L"]!
 
 		for depth in 0..<perftReference.count {
-			print(depth)
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
-			print("success")
 		}
 	}
 
@@ -78,9 +72,7 @@ class PerftTests: HiveEngineTestCase {
 		let perftReference = perftTable["P"]!
 
 		for depth in 0..<perftReference.count {
-			print(depth)
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
-			print("success")
 		}
 	}
 
@@ -89,9 +81,7 @@ class PerftTests: HiveEngineTestCase {
 		let perftReference = perftTable["ML"]!
 
 		for depth in 0..<perftReference.count {
-			print(depth)
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
-			print("success")
 		}
 	}
 
@@ -100,9 +90,7 @@ class PerftTests: HiveEngineTestCase {
 		let perftReference = perftTable["MP"]!
 
 		for depth in 0..<perftReference.count {
-			print(depth)
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
-			print("success")
 		}
 	}
 
@@ -111,9 +99,7 @@ class PerftTests: HiveEngineTestCase {
 		let perftReference = perftTable["LP"]!
 
 		for depth in 0..<perftReference.count {
-			print(depth)
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
-			print("success")
 		}
 	}
 
@@ -122,9 +108,7 @@ class PerftTests: HiveEngineTestCase {
 		let perftReference = perftTable["MLP"]!
 
 		for depth in 0..<perftReference.count {
-			print(depth)
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
-			print("success")
 		}
 	}
 
