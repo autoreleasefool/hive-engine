@@ -41,7 +41,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_BaseGame() {
-		let state = GameState(options: [.noFirstMoveQueen])
+		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation])
 		let perftReference = perftTable[""]!
 
 		for depth in 0..<perftReference.count {
@@ -50,7 +50,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_Mosquito() {
-		let state = GameState(options: [.noFirstMoveQueen, .mosquito])
+		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito])
 		let perftReference = perftTable["M"]!
 
 		for depth in 0..<perftReference.count {
@@ -59,7 +59,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_LadyBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .ladyBug])
+		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .ladyBug])
 		let perftReference = perftTable["L"]!
 
 		for depth in 0..<perftReference.count {
@@ -68,7 +68,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_PillBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .pillBug])
+		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .pillBug])
 		let perftReference = perftTable["P"]!
 
 		for depth in 0..<perftReference.count {
@@ -77,7 +77,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_Mosquito_LadyBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .mosquito, .ladyBug])
+		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .ladyBug])
 		let perftReference = perftTable["ML"]!
 
 		for depth in 0..<perftReference.count {
@@ -86,7 +86,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_Mosquito_PillBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .mosquito, .pillBug])
+		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .pillBug])
 		let perftReference = perftTable["MP"]!
 
 		for depth in 0..<perftReference.count {
@@ -95,7 +95,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_LadyBug_PillBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .ladyBug, .pillBug])
+		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .ladyBug, .pillBug])
 		let perftReference = perftTable["LP"]!
 
 		for depth in 0..<perftReference.count {
@@ -104,7 +104,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_Mosquito_LadyBug_PillBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .mosquito, .ladyBug, .pillBug])
+		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .ladyBug, .pillBug])
 		let perftReference = perftTable["MLP"]!
 
 		for depth in 0..<perftReference.count {
