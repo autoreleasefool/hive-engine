@@ -162,7 +162,7 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testInitialGameState_ValidatesMoves() {
 		let state = stateProvider.initialGameState
-		XCTAssertTrue(state.requireMovementValidation)
+		XCTAssertFalse(state.options.contains(.disableMovementValidation))
 
 		let move = state.move
 		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1)))
@@ -170,8 +170,7 @@ final class GameStateTests: HiveEngineTestCase {
 	}
 
 	func testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves() {
-		let state = stateProvider.initialGameState
-		state.requireMovementValidation = false
+		let state = GameState(options: [.disableMovementValidation])
 		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1)))
 
 		let expectedUnits = Set([state.whiteAnt])
@@ -501,8 +500,7 @@ final class GameStateTests: HiveEngineTestCase {
 	}
 
 	func testGameStateUpdate_Notation_IsCorrect() {
-		let state = stateProvider.initialGameState
-		state.requireMovementValidation = false
+		let state = GameState(options: [.ladyBug, .pillBug, .mosquito, .disableMovementValidation])
 
 		state.apply(.place(unit: state.whiteQueen, at: .origin))
 		XCTAssertEqual("wQ1", state.previousMoves.last!.notation)

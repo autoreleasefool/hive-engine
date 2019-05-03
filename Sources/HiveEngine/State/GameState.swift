@@ -44,6 +44,8 @@ public class GameState: Codable {
 		case restrictedOpening = "Restricted Opening"
 		/// Disallow playing the Queen on either player's first move
 		case noFirstMoveQueen = "No First Move Queen"
+		/// Disable validation of movements before applying
+		case disableMovementValidation = "Disable Movement Validation"
 	}
 
 	/// Optional parameters
@@ -103,7 +105,18 @@ public class GameState: Codable {
 
 	/// Set to false to disable move validation. The state will simply accept any move given to it,
 	/// which means you must be certain the move is valid or you can end up in an unpredictable state.
-	public var requireMovementValidation = true
+	@available(*, deprecated, message: "Use GameState.Options.disableMovementValidation")
+	public var requireMovementValidation: Bool {
+		get {
+			return options.contains(.disableMovementValidation) == false
+		} set {
+			if newValue {
+				options.remove(.disableMovementValidation)
+			} else {
+				options.insert(.disableMovementValidation)
+			}
+		}
+	}
 
 	// MARK: - Constructors
 
@@ -263,7 +276,7 @@ public class GameState: Codable {
 	/// Applies the movement to this game state (if it is valid)
 	public func apply(_ movement: Movement) {
 		// Ensure only valid moves are played
-		if requireMovementValidation {
+		if options.contains(.disableMovementValidation) == false {
 			guard validate(movement: movement) else { return }
 		}
 
