@@ -37,6 +37,12 @@ final class MovementTests: HiveEngineTestCase {
 		XCTAssertDecodable(movement)
 	}
 
+	func testCodingPassMovement() throws {
+		let movement: Movement = .pass
+		XCTAssertEncodable(movement)
+		XCTAssertDecodable(movement)
+	}
+
 	func testMovedUnit_IsCorrect() {
 		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
@@ -94,6 +100,7 @@ final class MovementTests: HiveEngineTestCase {
 		("testCodingMoveMovement", testCodingMoveMovement),
 		("testCodingYoinkMovement", testCodingYoinkMovement),
 		("testCodingPlaceMovement", testCodingPlaceMovement),
+		("testCodingPassMovement", testCodingPassMovement),
 		("testMovedUnit_IsCorrect", testMovedUnit_IsCorrect),
 		("testTargetPosition_IsCorrect", testTargetPosition_IsCorrect),
 

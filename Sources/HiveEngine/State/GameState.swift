@@ -159,7 +159,7 @@ public class GameState: Codable {
 		self.move = state.move
 	}
 
-	// MARK: - Updates
+	// MARK: - Moves
 
 	/// Returns true if the player has played their queen, otherwise returns false.
 	public func queenPlayed(for player: Player) -> Bool {
@@ -201,34 +201,17 @@ public class GameState: Codable {
 	public func moves(for player: Player) -> [Movement] {
 		guard isEndGame == false else { return [] }
 
-		let allAvailablePiecesForPlayer = unitsInHand[player]!
-		var playablePiecesForPlayer = allAvailablePiecesForPlayer.filter { unit in
-			unit.index == 1 || allAvailablePiecesForPlayer.contains(where: { otherUnit in otherUnit.class == unit.class && otherUnit.index < unit.index }) == false
-		}
-
-		// Only available moves at the start of the game are to place a piece at (0, 0, 0)
-		// or to place a piece next to the original piece
-		if move == 0 {
-			if options.contains(.noFirstMoveQueen) {
-				playablePiecesForPlayer.remove(whiteQueen)
-			}
-			return playablePiecesForPlayer.map { .place(unit: $0, at: .origin) }
-		} else if move == 1 {
-			if options.contains(.noFirstMoveQueen) {
-				playablePiecesForPlayer.remove(blackQueen)
-			}
-		}
-
+		let playableUnitsForPlayer = playableUnits(for: player)
 		let playableSpacesForPlayer = playableSpaces(for: player)
 
 		// Queen must be played in player's first 4 moves
 		if (player == .white && move == 6) || (player == .black && move == 7),
-			let queen = playablePiecesForPlayer.filter({ $0.class == .queen }).first {
+			let queen = playableUnitsForPlayer.filter({ $0.class == .queen }).first {
 			return playableSpacesForPlayer.map { .place(unit: queen, at: $0) }
 		}
 
 		// Get placeable pieces
-		let placePieceMovements: [Movement] = playablePiecesForPlayer.flatMap { unit in
+		let placePieceMovements: [Movement] = playableUnitsForPlayer.flatMap { unit in
 			return playableSpacesForPlayer.map { .place(unit: unit, at: $0) }
 		}
 
@@ -242,7 +225,12 @@ public class GameState: Codable {
 			// Get moves available for the piece
 			.flatMap { $0.key.availableMoves(in: self) }
 
-		return placePieceMovements + movePieceMovements
+		let allMoves = placePieceMovements + movePieceMovements
+		guard allMoves.count > 0 else {
+			return [.pass]
+		}
+
+		return allMoves
 	}
 
 	/// Standard notation for a position relative to another Unit.
@@ -280,7 +268,7 @@ public class GameState: Codable {
 			guard validate(movement: movement) else { return }
 		}
 
-		var notation: String = "\(movement.movedUnit.notation)"
+		var notation = (movement == .pass) ? "pass" : "\(movement.movedUnit!.notation)"
 		let updatePlayer = currentPlayer
 		let updateMovement = movement
 		let updateMove = move
@@ -316,15 +304,12 @@ public class GameState: Codable {
 			stacks[position] = [unit]
 			unitsInPlay[unit.owner]![unit] = position
 			unitsInHand[unit.owner]!.remove(unit)
+		case .pass:
+			updatePosition = nil
 		}
 
-		if updateMove > 0 {
-			notation = "\(notation) \(adjacentUnitNotation(relativePosition: movement.targetPosition))"
-		}
-
-		// When a player is shut out, skip their turn
-		if isEndGame == false && anyMovesAvailable(for: currentPlayer) == false {
-			currentPlayer = currentPlayer.next
+		if updateMove > 0 && movement != .pass {
+			notation = "\(notation) \(adjacentUnitNotation(relativePosition: movement.targetPosition!))"
 		}
 
 		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove, notation: notation))
@@ -359,12 +344,18 @@ public class GameState: Codable {
 			stacks[position] = nil
 			unitsInPlay[unit.owner]![unit] = nil
 			unitsInHand[unit.owner]!.insert(unit)
+		case .pass:
+			break
 		}
 	}
 
 	/// Validate that a given move is valid in the current state.
 	private func validate(movement: Movement) -> Bool {
-		guard oneHive(excluding: movement.movedUnit) else { return false }
+		// Can only pass if the only available movement is to pass
+		guard movement != .pass else { return availableMoves.first == Movement.pass }
+
+		// Moved unit cannot break the hive, or be the most recent unit moved
+		guard oneHive(excluding: movement.movedUnit) && movement.movedUnit != lastUnitMoved else { return false }
 
 		switch movement {
 		case .move(let unit, _):
@@ -379,29 +370,9 @@ public class GameState: Codable {
 				playablePieces.remove(blackQueen)
 			}
 			return playablePieces.contains(unit) && playableSpaces(for: currentPlayer).contains(position)
+		case .pass:
+			return availableMoves.first == Movement.pass
 		}
-	}
-
-	/// Returns true if there are any moves available for the given player.
-	public func anyMovesAvailable(for player: Player) -> Bool {
-		guard isEndGame == false else { return false }
-
-		// Check if any pieces can be placed
-		if unitsInHand[player]!.count > 0 && playableSpaces(for: player).count > 0 {
-			return true
-		}
-
-		// Check if the user has played their queen yet. If not, they cannot move any pieces
-		guard queenPlayed(for: player) else { return false }
-
-		// Check if any pieces on the board has available moves
-		for unit in unitsInPlay[player]!.compactMap({ ($0.key.class == .pillBug || oneHive(excluding: $0.key)) ? $0.key : nil }) {
-			if unit.availableMoves(in: self).count > 0 {
-				return true
-			}
-		}
-
-		return false
 	}
 
 	// MARK: Units
@@ -418,6 +389,28 @@ public class GameState: Codable {
 			guard let stack = stacks[$0] else { return nil }
 			return stack.last
 		}
+	}
+
+	/// Units which can currently be played from the Player's hand.
+	///
+	/// - Parameters:
+	///   - player: the player to get the playable units for
+	public func playableUnits(for player: Player) -> Set<Unit> {
+		let allAvailablePiecesForPlayer = unitsInHand[player]!.sorted()
+
+		// Filter down to pieces with either index == 1, or where all units of the same class with lower indices have been played
+		var playablePiecesForPlayer = Set(allAvailablePiecesForPlayer.enumerated().filter { index, unit in
+			guard unit.index > 1 && index > 0 else { return true }
+			let previousUnit = allAvailablePiecesForPlayer[index - 1]
+			return previousUnit.class != unit.class
+			}.map { $0.element })
+
+		if options.contains(.noFirstMoveQueen) && (move == 0 || move == 1) {
+			playablePiecesForPlayer.remove(whiteQueen)
+			playablePiecesForPlayer.remove(blackQueen)
+		}
+
+		return playablePiecesForPlayer
 	}
 
 	/// Positions which are adjacent to another piece and are not filled.

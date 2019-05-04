@@ -137,13 +137,14 @@ final class GameStateTests: HiveEngineTestCase {
 			case .place: return false
 			case .move: return true
 			case .yoink: return true
+			case .pass: return true
 			}
 		}.count)
 	}
 
 	func testInitialGameState_OnlyLowestIndexUnitCanBePlayed() {
 		let state = stateProvider.initialGameState
-		var unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit.index > 1 ? $0.movedUnit : nil })
+		var unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit!.index > 1 ? $0.movedUnit : nil })
 		XCTAssertEqual(0, unitsWithIndexGreaterThanOne.count)
 
 		let moves: [Movement] = [
@@ -151,7 +152,7 @@ final class GameStateTests: HiveEngineTestCase {
 			.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0))
 		]
 		stateProvider.apply(moves: moves, to: state)
-		unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit.index > 1 ? $0.movedUnit : nil })
+		unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit!.index > 1 ? $0.movedUnit : nil })
 		XCTAssertEqual(1, unitsWithIndexGreaterThanOne.count)
 	}
 
@@ -325,7 +326,7 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
 	}
 
-	func testPartialGameState_ShutOutPlayer_SkipsTurn() {
+	func testPartialGameState_ShutOutPlayer_HasOnlyPassMove() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
@@ -336,28 +337,15 @@ final class GameStateTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		XCTAssertEqual(Player.white, state.currentPlayer)
-	}
-
-	func testPartialGameState_ShutOutPlayer_HasNoMoves() {
-		let state = stateProvider.initialGameState
-		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .origin),
-			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2))
-		]
-
-		stateProvider.apply(moves: setupMoves, to: state)
-		XCTAssertFalse(state.anyMovesAvailable(for: state.currentPlayer.next))
+		let expectedMoves: [Movement] = [.pass]
+		XCTAssertEqual(expectedMoves, state.availableMoves)
 	}
 
 	func testPartialGameState_PlayerHasAvailableMoves() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 1, to: state)
-		XCTAssertTrue(state.anyMovesAvailable(for: state.currentPlayer))
-		XCTAssertTrue(state.anyMovesAvailable(for: state.currentPlayer.next))
+		XCTAssertTrue(state.availableMoves.count > 0)
+		XCTAssertNotEqual(Movement.pass, state.availableMoves.first)
 	}
 
 	func testPartialGameState_OpponentMoves_AreCorrect() {
@@ -420,6 +408,7 @@ final class GameStateTests: HiveEngineTestCase {
 			case .move: return true
 			case .yoink: return true
 			case .place: return false
+			case .pass: return true
 			}
 		}
 
@@ -442,8 +431,8 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testFinishedGameState_PlayerHasNoAvailableMoves() {
 		let state = stateProvider.wonGameState
-		XCTAssertFalse(state.anyMovesAvailable(for: .white))
-		XCTAssertFalse(state.anyMovesAvailable(for: .black))
+		XCTAssertEqual([], state.availableMoves)
+		XCTAssertEqual([], state.opponentMoves)
 	}
 
 	func testFinishedGameState_HasOneWinner() {
@@ -615,8 +604,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_OneHive_ExcludingUnit_IsCorrect", testPartialGameState_OneHive_ExcludingUnit_IsCorrect),
 		("testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits", testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits),
 		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits", testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
-		("testPartialGameState_ShutOutPlayer_SkipsTurn", testPartialGameState_ShutOutPlayer_SkipsTurn),
-		("testPartialGameState_ShutOutPlayer_HasNoMoves", testPartialGameState_ShutOutPlayer_HasNoMoves),
+		("testPartialGameState_ShutOutPlayer_HasOnlyPassMove", testPartialGameState_ShutOutPlayer_HasOnlyPassMove),
 		("testPartialGameState_PlayerHasAvailableMoves", testPartialGameState_PlayerHasAvailableMoves),
 		("testPartialGameState_OpponentMoves_AreCorrect", testPartialGameState_OpponentMoves_AreCorrect),
 

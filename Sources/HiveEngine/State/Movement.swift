@@ -12,20 +12,23 @@ public enum Movement: Hashable, Equatable {
 	case move(unit: Unit, to: Position)
 	case yoink(pillBug: Unit, unit: Unit, to: Position)
 	case place(unit: Unit, at: Position)
+	case pass
 
-	public var movedUnit: Unit {
+	public var movedUnit: Unit? {
 		switch self {
 		case .move(let unit, _): return unit
 		case .yoink(_, let unit, _): return unit
 		case .place(let unit, _): return unit
+		case .pass: return nil
 		}
 	}
 
-	public var targetPosition: Position {
+	public var targetPosition: Position? {
 		switch self {
 		case .move(_, let position): return position
 		case .yoink(_, _, let position): return position
 		case .place(_, let position): return position
+		case .pass: return nil
 		}
 	}
 }
@@ -36,6 +39,7 @@ extension Movement: CustomStringConvertible {
 		case .move(let unit, let to): return "Move \(unit) to \(to)"
 		case .place(let unit, let at): return "Place \(unit) at \(at)"
 		case .yoink(_, let unit, let to): return "Yoink \(unit) to \(to)"
+		case .pass: return "Pass"
 		}
 	}
 }
@@ -75,6 +79,7 @@ extension Movement {
 		private var move: Move?
 		private var yoink: Yoink?
 		private var place: Move?
+		private var pass: Bool?
 
 		fileprivate init(movement: Movement) {
 			switch movement {
@@ -84,17 +89,21 @@ extension Movement {
 				self.yoink = Yoink(pillBug: pillBug, unit: unit, to: position)
 			case .place(let unit, let position):
 				self.place = Move(unit: unit, to: position)
+			case .pass:
+				self.pass = true
 			}
 		}
 
 		fileprivate func movement() throws -> Movement {
-			switch (move, yoink, place) {
-			case (.some(let move), nil, nil):
+			switch (move, yoink, place, pass) {
+			case (.some(let move), nil, nil, nil):
 				return .move(unit: move.unit, to: move.to)
-			case (nil, .some(let yoink), nil):
+			case (nil, .some(let yoink), nil, nil):
 				return .yoink(pillBug: yoink.pillBug, unit: yoink.unit, to: yoink.to)
-			case (nil, nil, .some(let place)):
+			case (nil, nil, .some(let place), nil):
 				return .place(unit: place.unit, at: place.to)
+			case (nil, nil, nil, .some(true)):
+				return .pass
 			default:
 				throw Movement.CodingError.standard("Could not convert \(self) into a Movement")
 			}
