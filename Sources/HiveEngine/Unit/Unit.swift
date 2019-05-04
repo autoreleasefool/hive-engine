@@ -111,17 +111,7 @@ public class Unit: Codable {
 
 	/// Returns false if this piece cannot move due to fundamental rules of the game.
 	public func canMove(in state: GameState) -> Bool {
-		let lastMovedUnit: Unit?
-		if let lastMove = state.previousMoves.last {
-			switch lastMove.movement {
-			case .move, .yoink: lastMovedUnit = lastMove.movement.movedUnit
-			case .place: lastMovedUnit = nil
-			}
-		} else {
-			lastMovedUnit = nil
-		}
-
-		return state.oneHive(excluding: self) && self.isTopOfStack(in: state) && self != lastMovedUnit
+		return state.oneHive(excluding: self) && self.isTopOfStack(in: state) && self != state.lastUnitMoved
 	}
 
 	/// Returns true if this unit can move as the given class.
@@ -152,6 +142,8 @@ public class Unit: Codable {
 
 	/// Returns true if this unit can use the Pill Bug's special ability.
 	public func canUseSpecialAbility(in state: GameState) -> Bool {
+		guard self != state.lastUnitMoved else { return false }
+
 		switch self.class {
 		case .pillBug:
 			return true

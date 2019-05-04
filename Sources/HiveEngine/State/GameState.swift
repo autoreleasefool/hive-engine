@@ -89,6 +89,18 @@ public class GameState: Codable {
 		return unitsInPlay[Player.white]!.merging(unitsInPlay[Player.black]!, uniquingKeysWith: { p1, _ in p1 })
 	}
 
+	/// The unit most recently moved, locked for the current turn
+	public var lastUnitMoved: Unit? {
+		guard let lastMove = previousMoves.last else { return nil }
+		return lastMove.movement.movedUnit
+	}
+
+	/// The player to most recently make a move.
+	public var lastPlayer: Player? {
+		guard let lastMove = previousMoves.last else { return nil }
+		return lastMove.player
+	}
+
 	/// Returns the Player who has won the game, both players if it is a tie,
 	/// or no players if the game has not ended
 	public var winner: [Player] {
