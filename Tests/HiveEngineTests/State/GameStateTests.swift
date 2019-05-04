@@ -348,27 +348,6 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertNotEqual(Movement.pass, state.availableMoves.first)
 	}
 
-	func testPartialGameState_OpponentMoves_AreCorrect() {
-		let state = stateProvider.initialGameState
-		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .origin),
-			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1))
-		]
-
-		stateProvider.apply(moves: setupMoves, to: state)
-		let expectedMoves: Set<Movement> = [
-			Movement.move(unit: state.blackQueen, to: Position(x: -1, y: 1, z: 0)),
-			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1))
-		]
-
-		XCTAssertEqual(expectedMoves, Set(state.opponentMoves.filter { $0.movedUnit == state.blackQueen }))
-
-		// 23 possible moves by opponent:
-		//   - 2 moves by the black queen
-		//   - 7 unplayed classes with 3 possible positions each
-		XCTAssertEqual(23, state.opponentMoves.count)
-	}
-
 	func testPartialGameState_UndoPlace_CreatesOldGameState() {
 		let state = stateProvider.initialGameState
 		let stateAfterUndo = GameState(from: state)
@@ -432,7 +411,6 @@ final class GameStateTests: HiveEngineTestCase {
 	func testFinishedGameState_PlayerHasNoAvailableMoves() {
 		let state = stateProvider.wonGameState
 		XCTAssertEqual([], state.availableMoves)
-		XCTAssertEqual([], state.opponentMoves)
 	}
 
 	func testFinishedGameState_HasOneWinner() {
@@ -606,7 +584,6 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits", testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
 		("testPartialGameState_ShutOutPlayer_HasOnlyPassMove", testPartialGameState_ShutOutPlayer_HasOnlyPassMove),
 		("testPartialGameState_PlayerHasAvailableMoves", testPartialGameState_PlayerHasAvailableMoves),
-		("testPartialGameState_OpponentMoves_AreCorrect", testPartialGameState_OpponentMoves_AreCorrect),
 
 		("testPartialGameState_UndoPlace_CreatesOldGameState", testPartialGameState_UndoPlace_CreatesOldGameState),
 		("testPartialGameState_UndoMove_CreatesOldGameState", testPartialGameState_UndoMove_CreatesOldGameState),
