@@ -74,9 +74,15 @@ final class UnitAntTests: HiveEngineTestCase {
 		XCTAssertFalse(state.blackAnt.availableMoves(in: state).contains(unexpectedMove))
 	}
 
+	func testAntNotInPlay_CannotMove() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual([], state.whiteAnt.availableMoves(in: state))
+	}
+
 	static var allTests = [
 		("testAnt_CanMoveAsAntOnly", testAnt_CanMoveAsAntOnly),
 		("testAntMoves_AreCorrect", testAntMoves_AreCorrect),
-		("testAnt_FreedomOfMovement_IsCorrect", testAnt_FreedomOfMovement_IsCorrect)
+		("testAnt_FreedomOfMovement_IsCorrect", testAnt_FreedomOfMovement_IsCorrect),
+		("testAntNotInPlay_CannotMove", testAntNotInPlay_CannotMove)
 	]
 }

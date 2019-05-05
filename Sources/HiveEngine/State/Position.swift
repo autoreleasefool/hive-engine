@@ -53,9 +53,19 @@ public struct Position: Hashable, Equatable, Codable {
 		]
 	}
 
-	/// Find the common position between this and an adjacent position. If the positions are not adjacent, a fatalError is thrown.
-	public func commonPositions(to other: Position) -> (Position, Position) {
+	/// Find the common position between this and an adjacent position. If the positions are not adjacent, nil is returned
+	///
+	/// - Parameters:
+	///   - other: an adjacent `Position`
+	public func commonPositions(to other: Position) -> (Position, Position)? {
 		let difference = other.subtracting(self)
+
+		guard -1 <= difference.x && difference.x <= 1 &&
+			-1 <= difference.y && difference.y <= 1 &&
+			-1 <= difference.z && difference.z <= 1 &&
+			difference.x != difference.y && difference.y != difference.z && difference.x != difference.z else {
+			return nil
+		}
 
 		if difference.x == 0 {
 			return (self.adding(x: difference.y, y: 0, z: difference.z), self.adding(x: difference.z, y: difference.y, z: 0))
@@ -63,9 +73,9 @@ public struct Position: Hashable, Equatable, Codable {
 			return (self.adding(x: 0, y: difference.x, z: difference.z), self.adding(x: difference.x, y: difference.z, z: 0))
 		} else if difference.z == 0 {
 			return (self.adding(x: 0, y: difference.y, z: difference.x), self.adding(x: difference.x, y: 0, z: difference.y))
-		} else {
-			fatalError("Error while resolving common positions. Calculated difference was \(difference)")
 		}
+
+		return nil
 	}
 
 	/// Returns true if there is freedom of movement between two positions at given heights
@@ -80,7 +90,7 @@ public struct Position: Hashable, Equatable, Codable {
 			return false
 		}
 
-		let (firstPosition, secondPosition) = commonPositions(to: other)
+		guard let (firstPosition, secondPosition) = commonPositions(to: other) else { return false }
 
 		// Get the relevant stacks, or if the stacks are empty then the movement is valid
 		guard let firstStack = state.stacks[firstPosition],
@@ -121,11 +131,9 @@ extension Position: Comparable {
 		if lhs.x == rhs.x {
 			if lhs.y == rhs.y {
 				return lhs.z < rhs.z
-			} else {
-				return lhs.y < rhs.z
 			}
-		} else {
-			return lhs.x < rhs.x
+			return lhs.y < rhs.y
 		}
+		return lhs.x < rhs.x
 	}
 }

@@ -62,6 +62,11 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedAvailableMoves, state.whitePillBug.availableMoves(in: state))
 	}
 
+	func testPillBugNotInPlay_CannotMove() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual([], state.whitePillBug.availableMoves(in: state))
+	}
+
 	func testPillBug_CannotMovePieceJustMoved_IsTrue() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 18, to: state)
@@ -237,6 +242,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		("testPillBug_CanUseSpecialAbility_IsTrue", testPillBug_CanUseSpecialAbility_IsTrue),
 		("testNotPillBug_CanUseSpecialAbility_IsFalse", testNotPillBug_CanUseSpecialAbility_IsFalse),
 		("testPillBugMoves_AreCorrect", testPillBugMoves_AreCorrect),
+		("testPillBugNotInPlay_CannotMove", testPillBugNotInPlay_CannotMove),
 
 		("testPillBug_CannotMovePieceJustMoved_IsTrue", testPillBug_CannotMovePieceJustMoved_IsTrue),
 		("testPillBug_PieceJustYoinkedCannotMove_IsTrue", testPillBug_PieceJustYoinkedCannotMove_IsTrue),

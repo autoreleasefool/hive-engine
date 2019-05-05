@@ -20,7 +20,7 @@ extension Unit {
 			position.adjacent()
 				.filter {
 					// The new position shares at least 1 adjacent unit with a previous space
-					let commonPositions = position.commonPositions(to: $0)
+					guard let commonPositions = position.commonPositions(to: $0) else { return false }
 					guard state.stacks[commonPositions.0] != nil || state.stacks[commonPositions.1] != nil else { return false }
 
 					// Get positions that the piece is free to move to

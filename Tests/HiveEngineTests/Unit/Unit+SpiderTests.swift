@@ -42,6 +42,11 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
 
+	func testSpiderNotInPlay_CannotMove() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual([], state.whiteSpider.availableMoves(in: state))
+	}
+
 	func testSpider_FreedomOfMovement_IsCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
@@ -64,6 +69,7 @@ final class UnitSpiderTests: HiveEngineTestCase {
 	static var allTests = [
 		("testSpider_CanMoveAsSpiderOnly", testSpider_CanMoveAsSpiderOnly),
 		("testSpiderMoves_AreCorrect", testSpiderMoves_AreCorrect),
+		("testSpiderNotInPlay_CannotMove", testSpiderNotInPlay_CannotMove),
 		("testSpider_FreedomOfMovement_IsCorrect", testSpider_FreedomOfMovement_IsCorrect)
 	]
 }

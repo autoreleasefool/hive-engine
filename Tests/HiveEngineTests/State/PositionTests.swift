@@ -19,7 +19,7 @@ final class PositionTests: HiveEngineTestCase {
 		stateProvider = GameStateProvider()
 	}
 
-	func testAdjacentPositions_InPlay_IsCorrect() {
+	func testAdjacentPositions_IsCorrect() {
 		let position: Position = Position(x: 22, y: 11, z: -13)
 
 		let expectedAdjacent = [
@@ -34,20 +34,75 @@ final class PositionTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedAdjacent, position.adjacent())
 	}
 
-	func testAddingInPlayToInPlay_IsCorrect() {
+	func testAddingPositionToPosition_IsCorrect() {
 		let position: Position = Position(x: 4, y: -8, z: 2)
-		let inPlay: Position = Position(x: 22, y: 11, z: -13)
+		let otherPosition: Position = Position(x: 22, y: 11, z: -13)
 		let expectedPosition: Position = Position(x: 26, y: 3, z: -11)
 
-		XCTAssertEqual(expectedPosition, position.adding(inPlay))
+		XCTAssertEqual(expectedPosition, position.adding(otherPosition))
 	}
 
-	func testSubtractingInPlayFromInPlay_IsCorrect() {
+	func testSubtractingPositionFromPosition_IsCorrect() {
 		let position: Position = Position(x: 4, y: -8, z: 2)
-		let inPlay: Position = Position(x: 22, y: 11, z: -13)
+		let otherPosition: Position = Position(x: 22, y: 11, z: -13)
 		let expectedPosition: Position = Position(x: -18, y: -19, z: 15)
 
-		XCTAssertEqual(expectedPosition, position.subtracting(inPlay))
+		XCTAssertEqual(expectedPosition, position.subtracting(otherPosition))
+	}
+
+	func testCommonPositionsBetweenAdjacentPositions() {
+		let position: Position = .origin
+		let otherPosition: Position = Position(x: 0, y: 1, z: -1)
+		let expectedCommonPositions = (Position(x: 1, y: 0, z: -1), Position(x: -1, y: 1, z: 0))
+
+		guard let commonPositions = position.commonPositions(to: otherPosition) else {
+			XCTFail("commonPositions was nil")
+			return
+		}
+		XCTAssertEqual(expectedCommonPositions.0, commonPositions.0)
+		XCTAssertEqual(expectedCommonPositions.1, commonPositions.1)
+	}
+
+	func testCommonPositionsBetweenNonAdjacentPositions() {
+		let position: Position = .origin
+		let otherPosition: Position = Position(x: 2, y: 0, z: -2)
+		XCTAssertNil(position.commonPositions(to: otherPosition))
+	}
+
+	func testCommonPositionsBetweenInvalidPositions() {
+		let position: Position = .origin
+		let otherPosition: Position = Position(x: 1, y: 1, z: 1)
+		XCTAssertNil(position.commonPositions(to: otherPosition))
+	}
+
+	// MARK: - Freedom of movement
+
+	func testNonAdjacentFreedomOfMovement_IsFalse() {
+		let state = stateProvider.initialGameState
+		let setupMoves: [Movement] = [
+			Movement.place(unit: state.whiteQueen, at: .origin),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whiteSpider, at: Position(x: 0, y: -1, z: 1))
+		]
+
+		stateProvider.apply(moves: setupMoves, to: state)
+		let firstPosition: Position = Position(x: 0, y: 1, z: -1)
+		let secondPosition: Position = Position(x: 0, y: -1, z: 1)
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, in: state))
+	}
+
+	func testFreedomOfMovement_BetweenIdenticalPositions_IsFalse() {
+		let state = stateProvider.initialGameState
+		let setupMoves: [Movement] = [
+			Movement.place(unit: state.whiteQueen, at: .origin)
+		]
+
+		stateProvider.apply(moves: setupMoves, to: state)
+		let firstPosition: Position = .origin
+		let secondPosition: Position = .origin
+		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, in: state))
+		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, in: state))
 	}
 
 	// MARK: Moving across 1 to 1
@@ -417,15 +472,29 @@ final class PositionTests: HiveEngineTestCase {
 		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
 	}
 
-	func testInPlayDescription_IsCorrect() {
+	// MARK: - Extensions
+
+	func testPositionComparable_IsCorrect() {
+		XCTAssertTrue(.origin < Position(x: 0, y: 0, z: 1))
+		XCTAssertTrue(.origin < Position(x: 0, y: 1, z: 0))
+		XCTAssertTrue(.origin < Position(x: 1, y: 0, z: 0))
+	}
+
+	func testPositionDescription_IsCorrect() {
 		let position: Position = Position(x: 0, y: 1, z: -1)
 		XCTAssertEqual("(0, 1, -1)", position.description)
 	}
 
 	static var allTests = [
-		("testAdjacentPositions_InPlay_IsCorrect", testAdjacentPositions_InPlay_IsCorrect),
-		("testAddingInPlayToInPlay_IsCorrect", testAddingInPlayToInPlay_IsCorrect),
-		("testSubtractingInPlayFromInPlay_IsCorrect", testSubtractingInPlayFromInPlay_IsCorrect),
+		("testAdjacentPositions_IsCorrect", testAdjacentPositions_IsCorrect),
+		("testAddingPositionToPosition_IsCorrect", testAddingPositionToPosition_IsCorrect),
+		("testSubtractingPositionFromPosition_IsCorrect", testSubtractingPositionFromPosition_IsCorrect),
+		("testCommonPositionsBetweenAdjacentPositions", testCommonPositionsBetweenAdjacentPositions),
+		("testCommonPositionsBetweenNonAdjacentPositions", testCommonPositionsBetweenNonAdjacentPositions),
+		("testCommonPositionsBetweenInvalidPositions", testCommonPositionsBetweenInvalidPositions),
+
+		("testNonAdjacentFreedomOfMovement_IsFalse", testNonAdjacentFreedomOfMovement_IsFalse),
+		("testFreedomOfMovement_BetweenIdenticalPositions_IsFalse", testFreedomOfMovement_BetweenIdenticalPositions_IsFalse),
 
 		("testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement),
 		("testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement", testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement),
@@ -449,6 +518,7 @@ final class PositionTests: HiveEngineTestCase {
 		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
 		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement),
 
-		("testInPlayDescription_IsCorrect", testInPlayDescription_IsCorrect)
+		("testPositionComparable_IsCorrect", testPositionComparable_IsCorrect),
+		("testPositionDescription_IsCorrect", testPositionDescription_IsCorrect)
 	]
 }

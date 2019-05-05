@@ -67,6 +67,11 @@ final class UnitTests: HiveEngineTestCase {
 		XCTAssertFalse(state.whiteQueen.isTopOfStack(in: state))
 	}
 
+	func testWhenNotInPlay_IsTopOfStack_IsFalse() {
+		let state = stateProvider.initialGameState
+		XCTAssertFalse(state.whiteAnt.isTopOfStack(in: state))
+	}
+
 	func testStackPosition_IsCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
@@ -80,6 +85,11 @@ final class UnitTests: HiveEngineTestCase {
 		stateProvider.apply(moves: setupMoves, to: state)
 		XCTAssertEqual(2, state.whiteBeetle.stackPosition(in: state))
 		XCTAssertEqual(1, state.whiteQueen.stackPosition(in: state))
+	}
+
+	func testWhenNotInPlay_StackPosition_IsNil() {
+		let state = stateProvider.initialGameState
+		XCTAssertNil(state.whiteAnt.stackPosition(in: state))
 	}
 
 	func testWhenTopOfStackNotOneHive_CanMove_IsFalse() {
@@ -142,20 +152,32 @@ final class UnitTests: HiveEngineTestCase {
 		XCTAssertEqual("wS2", HiveEngine.Unit(class: .spider, owner: .white, index: 2).notation)
 	}
 
+	func testUnitComparable_IsCorrect() {
+		// 1 before 2
+		XCTAssertTrue(Unit(class: .ant, owner: .white, index: 1) < Unit(class: .ant, owner: .white, index: 2))
+		// Ant before Beetle
+		XCTAssertTrue(Unit(class: .ant, owner: .white, index: 1) < Unit(class: .beetle, owner: .white, index: 1))
+		// White before black
+		XCTAssertTrue(Unit(class: .ant, owner: .white, index: 1) < Unit(class: .ant, owner: .black, index: 1))
+	}
+
 	static var allTests = [
 		("testWhenSurrounded_IsSurrounded_IsTrue", testWhenSurrounded_IsSurrounded_IsTrue),
 		("testWhenNotSurrounded_IsSurrounded_IsFalse", testWhenNotSurrounded_IsSurrounded_IsFalse),
 
 		("testWhenTopOfStack_IsTopOfStack_IsTrue", testWhenTopOfStack_IsTopOfStack_IsTrue),
 		("testWhenBottomOfStack_IsTopOfStack_IsFalse", testWhenBottomOfStack_IsTopOfStack_IsFalse),
+		("testWhenNotInPlay_IsTopOfStack_IsFalse", testWhenNotInPlay_IsTopOfStack_IsFalse),
 
 		("testStackPosition_IsCorrect", testStackPosition_IsCorrect),
+		("testWhenNotInPlay_StackPosition_IsNil", testWhenNotInPlay_StackPosition_IsNil),
 
 		("testWhenTopOfStackNotOneHive_CanMove_IsFalse", testWhenTopOfStackNotOneHive_CanMove_IsFalse),
 		("testWhenBottomOfStackOneHive_CanMove_IsFalse", testWhenBottomOfStackOneHive_CanMove_IsFalse),
 		("testWhenTopOfStackOneHive_CanMove_IsTrue", testWhenTopOfStackOneHive_CanMove_IsTrue),
 
 		("testUnitDescription_IsCorrect", testUnitDescription_IsCorrect),
-		("testUnitNotation_IsCorrect", testUnitNotation_IsCorrect)
+		("testUnitNotation_IsCorrect", testUnitNotation_IsCorrect),
+		("testUnitComparable_IsCorrect", testUnitComparable_IsCorrect)
 	]
 }

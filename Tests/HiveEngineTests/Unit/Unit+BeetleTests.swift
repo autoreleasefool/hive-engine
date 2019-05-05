@@ -45,6 +45,11 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
 
+	func testBeetleNotInPlay_CannotMove() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual([], state.whiteBeetle.availableMoves(in: state))
+	}
+
 	func testBeetle_CanMoveUpToHive() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
@@ -137,6 +142,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		("testBeetle_CanMoveAsBeetleOrQueen", testBeetle_CanMoveAsBeetleOrQueen),
 		("testBeetleMoves_AreCorrect", testBeetleMoves_AreCorrect),
 		("testBeetle_WithoutFreedomOfMovement_CannotMove", testBeetle_WithoutFreedomOfMovement_CannotMove),
+		("testBeetleNotInPlay_CannotMove", testBeetleNotInPlay_CannotMove),
 
 		("testBeetle_CanMoveUpToHive", testBeetle_CanMoveUpToHive),
 		("testBeetle_CanMoveDownFromHive", testBeetle_CanMoveDownFromHive),

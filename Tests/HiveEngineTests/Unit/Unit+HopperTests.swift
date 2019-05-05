@@ -41,6 +41,11 @@ final class UnitHopperTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedMoves, state.blackHopper.availableMoves(in: state))
 	}
 
+	func testHopperNotInPlay_CannotMove() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual([], state.whiteHopper.availableMoves(in: state))
+	}
+
 	func testHopper_CanJumpAnyHeight() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
@@ -65,6 +70,7 @@ final class UnitHopperTests: HiveEngineTestCase {
 	static var allTests = [
 		("testHopper_CanMoveAsHopperOnly", testHopper_CanMoveAsHopperOnly),
 		("testHopperMoves_AreCorrect", testHopperMoves_AreCorrect),
+		("testHopperNotInPlay_CannotMove", testHopperNotInPlay_CannotMove),
 		("testHopper_CanJumpAnyHeight", testHopper_CanJumpAnyHeight)
 	]
 }

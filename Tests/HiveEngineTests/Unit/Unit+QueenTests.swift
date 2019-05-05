@@ -43,6 +43,11 @@ final class UnitQueenTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
 
+	func testQueenNotInPlay_CannotMove() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual([], state.whiteQueen.availableMoves(in: state))
+	}
+
 	func testQueen_FreedomOfMovement_IsCorrect() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
@@ -68,6 +73,7 @@ final class UnitQueenTests: HiveEngineTestCase {
 	static var allTests = [
 		("testQueen_CanMoveAsQueenOnly", testQueen_CanMoveAsQueenOnly),
 		("testQueenMoves_AreCorrect", testQueenMoves_AreCorrect),
+		("testQueenNotInPlay_CannotMove", testQueenNotInPlay_CannotMove),
 		("testQueen_FreedomOfMovement_IsCorrect", testQueen_FreedomOfMovement_IsCorrect)
 	]
 }

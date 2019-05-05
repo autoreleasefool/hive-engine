@@ -49,6 +49,11 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedMoves, state.blackLadyBug.availableMoves(in: state))
 	}
 
+	func testLadyBugNotInPlay_CannotMove() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual([], state.whiteLadyBug.availableMoves(in: state))
+	}
+
 	func testLadyBug_WithoutFreedomOfMovement_CannotMove() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
@@ -96,6 +101,7 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 	static var allTests = [
 		("testLadyBug_CanMoveAsLadyBugOnly", testLadyBug_CanMoveAsLadyBugOnly),
 		("testLadyBugMoves_AreCorrect", testLadyBugMoves_AreCorrect),
+		("testLadyBugNotInPlay_CannotMove", testLadyBugNotInPlay_CannotMove),
 		("testLadyBug_WithoutFreedomOfMovement_CannotMove", testLadyBug_WithoutFreedomOfMovement_CannotMove),
 		("testLadyBug_CanMoveAcrossAnyHeight", testLadyBug_CanMoveAcrossAnyHeight)
 	]

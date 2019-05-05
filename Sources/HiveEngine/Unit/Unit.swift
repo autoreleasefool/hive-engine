@@ -224,12 +224,10 @@ extension Unit: Comparable {
 		if lhs.owner == rhs.owner {
 			if lhs.class == rhs.class {
 				return lhs.index < rhs.index
-			} else {
-				return lhs.class < rhs.class
 			}
-		} else {
-			return lhs.owner < rhs.owner
+			return lhs.class < rhs.class
 		}
+		return lhs.owner < rhs.owner
 	}
 }
 
