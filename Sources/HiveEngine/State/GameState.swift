@@ -117,21 +117,6 @@ public class GameState: Codable {
 		return winners
 	}
 
-	/// Set to false to disable move validation. The state will simply accept any move given to it,
-	/// which means you must be certain the move is valid or you can end up in an unpredictable state.
-	@available(*, deprecated, message: "Use GameState.Options.disableMovementValidation")
-	public var requireMovementValidation: Bool {
-		get {
-			return options.contains(.disableMovementValidation) == false
-		} set {
-			if newValue {
-				options.remove(.disableMovementValidation)
-			} else {
-				options.insert(.disableMovementValidation)
-			}
-		}
-	}
-
 	// MARK: - Constructors
 
 	public init(options: Set<Options> = []) {
