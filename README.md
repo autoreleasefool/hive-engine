@@ -43,6 +43,7 @@ A `Movement` provides details on moving a `Unit` around the board, or introducin
 * `.move(unit:to:)` specifies instructions for moving a `Unit` to a `Position`
 * `.place(unit:at:)` specifies instructions for placing a `Unit` at a `Position`
 * `.yoink(pillBug:unit:to:)` specifies instructions for moving a `Unit` through the use of a Pill Bug to a `Position`
+* `.pass` specifies a non-movement, only available when a player has **no other moves**.
 
 ### GameState
 
@@ -52,17 +53,17 @@ Get started by creating an instance: `let state = GameState()`
 
 #### Options
 
-By default, a `GameState` will create a game with Mosquitos, Lady Bugs, and Pill Bugs enabled (for backwards compatibility).
+By default, a `GameState` will create a basic game with no additional options. You can enable expansion pieces and common unofficial rules through `GameState.Options`, as well as performance enhancements.
 
 Provide a set of `GameState.Options` to the `GameState(options:)` constructor to change which options you have enabled.
 
 #### API
 
-You can enumerate all the current moves available with `availableMoves` and `opponentMoves`.
+You can enumerate all the current moves available with `availableMoves`.
 
 To update the `GameState` with a given move, call `apply(_:)` which will mutate the state in place. If you want to explore various `Movement`s, you can undo a move with `undoMove()`
 
-For better performance, you can disable move validation with `requireMovementValidation = false`.
+For better performance, you can disable move validation with `GameState.Options.disableMovementValidation`.
 
 ---
 
@@ -82,7 +83,7 @@ Optionally, you can lock the engine to a specific version with:
 
 ```
     dependencies: [
-        .package(url: "git@github.com:josephroquedev/hive-engine.git", from: "1.2.0")
+        .package(url: "git@github.com:josephroquedev/hive-engine.git", from: "2.0.0")
     ],
 ```
 
