@@ -11,7 +11,7 @@ import Foundation
 extension Unit {
 	func movesAsBeetle(in state: GameState) -> Set<Movement> {
 		guard self.canMove(in: state),
-			self.canMove(as: .beetle, in: state),
+			self.canCopyMoves(of: .beetle, in: state),
 			let position = state.unitsInPlay[owner]?[self],
 			let height = self.stackPosition(in: state) else {
 			return []

@@ -23,9 +23,9 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .beetle, .queen:
-				XCTAssertTrue(state.whiteBeetle.canMove(as: $0, in: state))
+				XCTAssertTrue(state.whiteBeetle.canCopyMoves(of: $0, in: state))
 			case .ant, .hopper, .ladyBug, .mosquito, .pillBug, .spider:
-				XCTAssertFalse(state.whiteBeetle.canMove(as: $0, in: state))
+				XCTAssertFalse(state.whiteBeetle.canCopyMoves(of: $0, in: state))
 			}
 		}
 	}

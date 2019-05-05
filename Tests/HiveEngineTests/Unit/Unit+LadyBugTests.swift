@@ -23,9 +23,9 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .ladyBug:
-				XCTAssertTrue(state.blackLadyBug.canMove(as: $0, in: state))
+				XCTAssertTrue(state.blackLadyBug.canCopyMoves(of: $0, in: state))
 			case .spider, .beetle, .hopper, .ant, .mosquito, .pillBug, .queen:
-				XCTAssertFalse(state.blackLadyBug.canMove(as: $0, in: state))
+				XCTAssertFalse(state.blackLadyBug.canCopyMoves(of: $0, in: state))
 			}
 		}
 	}

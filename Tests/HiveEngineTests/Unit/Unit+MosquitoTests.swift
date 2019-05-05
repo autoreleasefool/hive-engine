@@ -24,11 +24,11 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 
 		HiveEngine.Unit.Class.allCases.forEach {
 			if $0 == .mosquito {
-				XCTAssertTrue(state.blackMosquito.canMove(as: $0, in: state))
+				XCTAssertTrue(state.blackMosquito.canCopyMoves(of: $0, in: state))
 			} else if adjacentUnitClasses.contains($0) {
-				XCTAssertTrue(state.blackMosquito.canMove(as: $0, in: state))
+				XCTAssertTrue(state.blackMosquito.canCopyMoves(of: $0, in: state))
 			} else {
-				XCTAssertFalse(state.blackMosquito.canMove(as: $0, in: state))
+				XCTAssertFalse(state.blackMosquito.canCopyMoves(of: $0, in: state))
 			}
 		}
 	}
@@ -41,7 +41,7 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		XCTAssertTrue(state.whiteMosquito.canMove(as: .queen, in: state))
+		XCTAssertTrue(state.whiteMosquito.canCopyMoves(of: .queen, in: state))
 	}
 
 	func testMosquito_BesidePillBug_CanMoveAsQueen() {
@@ -52,7 +52,7 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		XCTAssertTrue(state.whiteMosquito.canMove(as: .queen, in: state))
+		XCTAssertTrue(state.whiteMosquito.canCopyMoves(of: .queen, in: state))
 	}
 
 	func testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue() {
@@ -83,9 +83,9 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .beetle, .mosquito:
-				XCTAssertTrue(state.whiteMosquito.canMove(as: $0, in: state))
+				XCTAssertTrue(state.whiteMosquito.canCopyMoves(of: $0, in: state))
 			case .ant, .hopper, .spider, .ladyBug, .pillBug, .queen:
-				XCTAssertFalse(state.whiteMosquito.canMove(as: $0, in: state))
+				XCTAssertFalse(state.whiteMosquito.canCopyMoves(of: $0, in: state))
 			}
 		}
 	}

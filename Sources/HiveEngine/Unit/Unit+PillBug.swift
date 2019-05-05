@@ -10,8 +10,10 @@ import Foundation
 
 extension Unit {
 	func movesAsPillBug(in state: GameState) -> Set<Movement> {
-		guard self.canMove(in: state) || self.canUseSpecialAbility(in: state),
-			self.canMove(as: .pillBug, in: state),
+		let moveable = self.canMove(in: state)
+		let hasSpecialAbility = self.canUseSpecialAbility(in: state)
+		guard moveable || hasSpecialAbility,
+			self.canCopyMoves(of: .pillBug, in: state),
 			let position = state.unitsInPlay[owner]?[self] else {
 			return []
 		}
@@ -44,6 +46,7 @@ extension Unit {
 				}
 			}
 
+		guard moveable else { return specialAbilityMovements }
 		return self.movesAsQueen(in: state).union(specialAbilityMovements)
 	}
 }

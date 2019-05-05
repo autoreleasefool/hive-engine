@@ -23,9 +23,9 @@ final class UnitHopperTests: HiveEngineTestCase {
 		HiveEngine.Unit.Class.allCases.forEach {
 			switch $0 {
 			case .hopper:
-				XCTAssertTrue(state.blackHopper.canMove(as: $0, in: state))
+				XCTAssertTrue(state.blackHopper.canCopyMoves(of: $0, in: state))
 			case .ant, .beetle, .spider, .ladyBug, .mosquito, .pillBug, .queen:
-				XCTAssertFalse(state.blackHopper.canMove(as: $0, in: state))
+				XCTAssertFalse(state.blackHopper.canCopyMoves(of: $0, in: state))
 			}
 		}
 	}

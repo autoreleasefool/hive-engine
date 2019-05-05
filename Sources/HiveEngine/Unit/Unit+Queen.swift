@@ -11,7 +11,7 @@ import Foundation
 extension Unit {
 	func movesAsQueen(in state: GameState) -> Set<Movement> {
 		guard self.canMove(in: state),
-			self.canMove(as: .queen, in: state),
+			self.canCopyMoves(of: .queen, in: state),
 			let position = state.unitsInPlay[owner]?[self] else {
 			return []
 		}

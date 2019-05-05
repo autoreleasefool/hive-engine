@@ -10,8 +10,8 @@ import Foundation
 
 extension Unit {
 	func movesAsMosquito(in state: GameState) -> Set<Movement> {
-		guard self.canMove(in: state),
-			self.canMove(as: .mosquito, in: state),
+		guard self.canMove(in: state) || self.canUseSpecialAbility(in: state),
+			self.canCopyMoves(of: .mosquito, in: state),
 			let height = self.stackPosition(in: state) else {
 			return []
 		}

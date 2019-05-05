@@ -115,7 +115,7 @@ public class Unit: Codable {
 	}
 
 	/// Returns true if this unit can move as the given class.
-	public func canMove(as givenClass: Class, in state: GameState) -> Bool {
+	public func canCopyMoves(of givenClass: Class, in state: GameState) -> Bool {
 		if self.class == givenClass {
 			return true
 		} else if self.class == .mosquito {
@@ -148,7 +148,7 @@ public class Unit: Codable {
 		case .pillBug:
 			return true
 		case .mosquito:
-			return canMove(as: .pillBug, in: state)
+			return canCopyMoves(of: .pillBug, in: state)
 		case .ant, .beetle, .hopper, .ladyBug, .queen, .spider:
 			return false
 		}

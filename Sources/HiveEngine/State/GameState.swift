@@ -354,7 +354,7 @@ public class GameState: Codable {
 		// Can only pass if the only available movement is to pass
 		guard movement != .pass else { return availableMoves.first == Movement.pass }
 
-		// Moved unit cannot break the hive, or be the most recent unit moved
+		// Moved unit cannot break the hive or be the last unit moved
 		guard oneHive(excluding: movement.movedUnit) && movement.movedUnit != lastUnitMoved else { return false }
 
 		switch movement {
