@@ -86,11 +86,11 @@ public struct Position: Hashable, Equatable, Codable {
 		guard let firstStack = state.stacks[firstPosition],
 			let secondStack = state.stacks[secondPosition] else { return true }
 
-		if startingHeight > endingHeight {
-			return firstStack.endIndex < startingHeight || secondStack.endIndex < startingHeight
-		} else {
-			return endingHeight > firstStack.endIndex || endingHeight > secondStack.endIndex
-		}
+		/// See https://boardgamegeek.com/wiki/page/Hive_FAQ#toc9
+		return (startingHeight - 1 < firstStack.endIndex &&
+			startingHeight - 1 < secondStack.endIndex &&
+			endingHeight - 1 < firstStack.endIndex &&
+			endingHeight - 1 < secondStack.endIndex) == false
 	}
 
 	public func subtracting(_ other: Position) -> Position {
