@@ -88,7 +88,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackPillBug, at: Position(x: 1, y: 1, z: -2)),
 			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.blackAnt, at: Position(x: -1, y: 2, z: -1)),
-			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0)),
+			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -108,7 +108,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackPillBug, at: Position(x: 1, y: 1, z: -2)),
 			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.blackAnt, at: Position(x: -1, y: 2, z: -1)),
-			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0)),
+			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0))
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)

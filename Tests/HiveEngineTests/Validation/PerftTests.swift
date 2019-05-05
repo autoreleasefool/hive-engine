@@ -21,7 +21,7 @@ class PerftTests: HiveEngineTestCase {
 		"L": [5, 150, 2610, 45414, 1252800, 34233672],
 		"P": [5, 150, 2610, 45414, 1255932, 34395984],
 		"ML": [6, 216, 4320, 86400, 2725920, 85201200],
-		"MP": [6 ,216, 4320, 86400, 2730888, 85492248],
+		"MP": [6, 216, 4320, 86400, 2730888, 85492248],
 		"LP": [6, 216, 4320, 86400, 2730240, 85457136],
 		"MLP": [7, 294, 6678, 151686, 5427108, 192353904]
 	]
@@ -112,7 +112,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	static var allTests: [(String, (PerftTests) -> () -> ())] = [
+	static var allTests: [(String, ((PerftTests) -> Void) -> Void)] = [
 //		("testPerftValidation_BaseGame", testPerftValidation_BaseGame),
 //		("testPerftValidation_Mosquito", testPerftValidation_Mosquito),
 //		("testPerftValidation_LadyBug", testPerftValidation_LadyBug),
