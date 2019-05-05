@@ -44,6 +44,8 @@ public class GameState: Codable {
 		case restrictedOpening = "Restricted Opening"
 		/// Disallow playing the Queen on either player's first move
 		case noFirstMoveQueen = "No First Move Queen"
+		/// Allow players to use their Pill Bug's special ability, immediately after that Pill Bug was yoinked
+		case allowSpecialAbilityAfterYoink = "Allow Special Ability after Yoink"
 		/// Disable validation of movements before applying
 		case disableMovementValidation = "Disable Movement Validation"
 	}

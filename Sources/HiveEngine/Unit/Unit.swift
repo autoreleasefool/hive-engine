@@ -142,7 +142,7 @@ public class Unit: Codable {
 
 	/// Returns true if this unit can use the Pill Bug's special ability.
 	public func canUseSpecialAbility(in state: GameState) -> Bool {
-		guard self != state.lastUnitMoved else { return false }
+		guard self != state.lastUnitMoved || state.options.contains(.allowSpecialAbilityAfterYoink) else { return false }
 
 		switch self.class {
 		case .pillBug:

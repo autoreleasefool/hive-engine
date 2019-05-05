@@ -79,6 +79,46 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		XCTAssertEqual(0, state.blackHopper.availableMoves(in: state).count)
 	}
 
+	func testPillBug_CannotYoinkAfterBeingYoinked_WithoutOption() {
+		let state = GameState(options: [.pillBug])
+		let setupMoves: [Movement] = [
+			Movement.place(unit: state.whiteQueen, at: .origin),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackPillBug, at: Position(x: 1, y: 1, z: -2)),
+			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
+			Movement.place(unit: state.blackAnt, at: Position(x: -1, y: 2, z: -1)),
+			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0)),
+		]
+
+		stateProvider.apply(moves: setupMoves, to: state)
+		XCTAssertEqual(7, state.move)
+		let invalidMove = Movement.yoink(pillBug: state.blackPillBug, unit: state.whitePillBug, to: Position(x: 0, y: -1, z: 1))
+		XCTAssertFalse(state.availableMoves.contains(invalidMove))
+		state.apply(invalidMove)
+		XCTAssertEqual(7, state.move)
+	}
+
+	func testPillBug_CanYoinkAfterBeingYoinked_WithOption() {
+		let state = GameState(options: [.pillBug, .allowSpecialAbilityAfterYoink])
+		let setupMoves: [Movement] = [
+			Movement.place(unit: state.whiteQueen, at: .origin),
+			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.blackPillBug, at: Position(x: 1, y: 1, z: -2)),
+			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
+			Movement.place(unit: state.blackAnt, at: Position(x: -1, y: 2, z: -1)),
+			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0)),
+		]
+
+		stateProvider.apply(moves: setupMoves, to: state)
+		XCTAssertEqual(7, state.move)
+		let validMove = Movement.yoink(pillBug: state.blackPillBug, unit: state.whitePillBug, to: Position(x: 0, y: -1, z: 1))
+		XCTAssertTrue(state.availableMoves.contains(validMove))
+		state.apply(validMove)
+		XCTAssertEqual(8, state.move)
+	}
+
 	func testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
@@ -200,6 +240,8 @@ final class UnitPillBugTests: HiveEngineTestCase {
 
 		("testPillBug_CannotMovePieceJustMoved_IsTrue", testPillBug_CannotMovePieceJustMoved_IsTrue),
 		("testPillBug_PieceJustYoinkedCannotMove_IsTrue", testPillBug_PieceJustYoinkedCannotMove_IsTrue),
+		("testPillBug_CannotYoinkAfterBeingYoinked_WithoutOption", testPillBug_CannotYoinkAfterBeingYoinked_WithoutOption),
+		("testPillBug_CanYoinkAfterBeingYoinked_WithOption", testPillBug_CanYoinkAfterBeingYoinked_WithOption),
 
 		("testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition", testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition),
 		("testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition", testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition),
