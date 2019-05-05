@@ -12,7 +12,7 @@ class GameStateProvider {
 
 	/// A new game state
 	var initialGameState: GameState {
-		return GameState()
+		return GameState(options: [.ladyBug, .mosquito, .pillBug])
 	}
 
 	/// A game state with a single winner

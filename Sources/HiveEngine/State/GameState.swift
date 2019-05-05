@@ -134,7 +134,7 @@ public class GameState: Codable {
 
 	// MARK: - Constructors
 
-	public init(options: Set<Options> = [.ladyBug, .mosquito, .pillBug]) {
+	public init(options: Set<Options> = []) {
 		self.options = options
 		self.currentPlayer = .white
 		self.unitsInPlay = [
