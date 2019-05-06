@@ -23,9 +23,37 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 		}
 	}
 
+	func testAvailableMoves_Performance() {
+		measure {
+			for i in 0..<34 {
+				let state = stateProvider.initialGameState
+				stateProvider.apply(moves: i, to: state)
+				_ = state.availableMoves
+			}
+		}
+	}
+
+	func testExploration_Performance() {
+		func explore(state: GameState, depth: Int) {
+			guard depth > 0 else { return }
+			for move in state.availableMoves {
+				state.apply(move)
+				explore(state: state, depth: depth - 1)
+				state.undoMove()
+			}
+		}
+
+		measure {
+			let state = stateProvider.initialGameState
+			explore(state: state, depth: 3)
+		}
+	}
+
 	// MARK: - Linux Tests
 
 	static var allTests = [
-		("testFinishedGameState_Performance", testFinishedGameState_Performance)
+		("testFinishedGameState_Performance", testFinishedGameState_Performance),
+		("testAvailableMoves_Performance", testAvailableMoves_Performance),
+		("testExploration_Performance", testExploration_Performance)
 	]
 }
