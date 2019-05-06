@@ -259,7 +259,7 @@ public class GameState: Codable {
 		let updateMove = move
 		let updatePosition: Position?
 
-		_availableMoves = nil
+		resetCaches()
 		currentPlayer = currentPlayer.next
 		move += 1
 
@@ -303,7 +303,7 @@ public class GameState: Codable {
 	/// Undo the most recent move
 	public func undoMove() {
 		guard let lastMove = previousMoves.popLast() else { return }
-		_availableMoves = nil
+		resetCaches()
 		currentPlayer = lastMove.player
 		move = lastMove.move
 
@@ -448,6 +448,12 @@ public class GameState: Codable {
 		}
 
 		return found == allPositions
+	}
+
+	// MARK: - Private
+
+	private func resetCaches() {
+		_availableMoves = nil
 	}
 }
 
