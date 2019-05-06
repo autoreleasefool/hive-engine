@@ -207,8 +207,6 @@ public class GameState: Codable {
 
 		// Iterate over all pieces on the board
 		let movePieceMovements = unitsInPlay[player]!
-			// Moving the piece must not break the hive
-			.filter { $0.key.class == .pillBug || oneHive(excluding: $0.key) }
 			// Get moves available for the piece
 			.flatMap { $0.key.availableMoves(in: self) }
 
@@ -392,7 +390,7 @@ public class GameState: Codable {
 			return previousUnit.class != unit.class
 			}.map { $0.element })
 
-		if options.contains(.noFirstMoveQueen) && (move == 0 || move == 1) {
+		if (move == 0 || move == 1) && options.contains(.noFirstMoveQueen) {
 			playablePiecesForPlayer.remove(whiteQueen)
 			playablePiecesForPlayer.remove(blackQueen)
 		}
