@@ -35,8 +35,8 @@ extension Unit {
 					let unit = stack.last,
 					// Ensure moving the unit does not violate the one hive rule
 					state.oneHive(excluding: unit),
-					// Unable to move the most recently moved piece (either yoinked or moved last turn)
-					state.currentPlayer != state.previousMoves.last?.player && unit != state.previousMoves.last?.movement.movedUnit
+					// Unable to move the most recently moved piece (either yoinked, placed, or moved last turn)
+					unit != state.lastUnitMoved
 					else { return nil }
 				return unit
 			}
