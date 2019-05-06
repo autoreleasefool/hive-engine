@@ -35,6 +35,7 @@ class PerftTests: HiveEngineTestCase {
 		"MLP": [7, 294, 6678, 151686, 5427108, 192353904]
 	]
 
+	/// Count the number of valid states at a certain depth by iterating all possible moves.
 	private func perft(state: GameState, depth: Int) -> Int {
 		guard state.move < depth else {
 			return Set(state.availableMoves.map { $0.simplified }).count
@@ -42,11 +43,26 @@ class PerftTests: HiveEngineTestCase {
 
 		var perftCount = 0
 		for move in state.availableMoves {
+			heartbeat()
+
 			state.apply(move)
 			perftCount += perft(state: state, depth: depth)
 			state.undoMove()
 		}
 		return perftCount
+	}
+
+	private var lastHeartBeat: DispatchTime = DispatchTime.now()
+
+	/// CI times out afte 10 minutes with no output, so this heartbeat function
+	/// prints to STDOUT every 5 minutes to prevent timeout.
+	private func heartbeat() {
+		let currentTime = DispatchTime.now()
+		let secondsSinceLastHeartBeat = Double(currentTime.uptimeNanoseconds - lastHeartBeat.uptimeNanoseconds) / 1_000_000_000
+		if secondsSinceLastHeartBeat > 300 {
+			print("Heartbeat...")
+			lastHeartBeat = currentTime
+		}
 	}
 
 	func testPerftValidation_BaseGame() {
