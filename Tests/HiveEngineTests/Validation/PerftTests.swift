@@ -137,14 +137,14 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	static var allTests: [(String, ((PerftTests) -> Void) -> Void)] = [
-//		("testPerftValidation_BaseGame", testPerftValidation_BaseGame),
-//		("testPerftValidation_Mosquito", testPerftValidation_Mosquito),
-//		("testPerftValidation_LadyBug", testPerftValidation_LadyBug),
-//		("testPerftValidation_PillBug", testPerftValidation_PillBug),
-//		("testPerftValidation_Mosquito_LadyBug", testPerftValidation_Mosquito_LadyBug),
-//		("testPerftValidation_Mosquito_PillBug", testPerftValidation_Mosquito_PillBug),
-//		("testPerftValidation_LadyBug_PillBug", testPerftValidation_LadyBug_PillBug),
-//		("testPerftValidation_Mosquito_LadyBug_PillBug", testPerftValidation_Mosquito_LadyBug_PillBug)
+	static var allTests = [
+		("testPerftValidation_BaseGame", testPerftValidation_BaseGame),
+		("testPerftValidation_Mosquito", testPerftValidation_Mosquito),
+		("testPerftValidation_LadyBug", testPerftValidation_LadyBug),
+		("testPerftValidation_PillBug", testPerftValidation_PillBug),
+		("testPerftValidation_Mosquito_LadyBug", testPerftValidation_Mosquito_LadyBug),
+		("testPerftValidation_Mosquito_PillBug", testPerftValidation_Mosquito_PillBug),
+		("testPerftValidation_LadyBug_PillBug", testPerftValidation_LadyBug_PillBug),
+		("testPerftValidation_Mosquito_LadyBug_PillBug", testPerftValidation_Mosquito_LadyBug_PillBug)
 	]
 }
