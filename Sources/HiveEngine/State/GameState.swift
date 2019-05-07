@@ -336,28 +336,7 @@ public class GameState: Codable {
 
 	/// Validate that a given move is valid in the current state.
 	private func validate(movement: Movement) -> Bool {
-		// Can only pass if the only available movement is to pass
-		guard movement != .pass else { return availableMoves.first == Movement.pass }
-
-		// Moved unit cannot break the hive or be the last unit moved
-		guard oneHive(excluding: movement.movedUnit) && movement.movedUnit != lastUnitMoved else { return false }
-
-		switch movement {
-		case .move(let unit, _):
-			return unit.availableMoves(in: self).contains(movement)
-		case .yoink(let pillBug, _, _):
-			return pillBug.availableMoves(in: self).contains(movement)
-		case .place(let unit, let position):
-			var playablePieces = unitsInHand[unit.owner]!
-			if move == 0 && options.contains(.noFirstMoveQueen) {
-				playablePieces.remove(whiteQueen)
-			} else if move == 1 && options.contains(.noFirstMoveQueen) {
-				playablePieces.remove(blackQueen)
-			}
-			return playablePieces.contains(unit) && playableSpaces(for: currentPlayer).contains(position)
-		case .pass:
-			return availableMoves.first == Movement.pass
-		}
+		return availableMoves.contains(movement)
 	}
 
 	// MARK: Units

@@ -18,15 +18,17 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 	}
 
 	func testFinishedGameState_Performance() {
+
 		measure {
-			_ = stateProvider.wonGameState
+			let state = GameState(options: [.ladyBug, .mosquito, .pillBug, .disableMovementValidation])
+			stateProvider.apply(moves: 34, to: state)
 		}
 	}
 
 	func testAvailableMoves_Performance() {
 		measure {
 			for i in 0..<34 {
-				let state = stateProvider.initialGameState
+				let state = GameState(options: [.ladyBug, .mosquito, .pillBug, .disableMovementValidation])
 				stateProvider.apply(moves: i, to: state)
 				_ = state.availableMoves
 			}
@@ -44,7 +46,7 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 		}
 
 		measure {
-			let state = stateProvider.initialGameState
+			let state = GameState(options: [.ladyBug, .mosquito, .pillBug, .disableMovementValidation])
 			explore(state: state, depth: 3)
 		}
 	}
