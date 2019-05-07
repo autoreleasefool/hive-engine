@@ -52,10 +52,14 @@ class PerftTests: HiveEngineTestCase {
 		return perftCount
 	}
 
-	private var lastHeartBeat: DispatchTime = DispatchTime.now()
+	private var lastHeartBeat: DispatchTime!
 
-	/// CI times out afte 10 minutes with no output, so this heartbeat function
-	/// prints to STDOUT every 5 minutes to prevent timeout.
+	override func setUp() {
+		lastHeartBeat = DispatchTime.now()
+	}
+
+	/// CI times out after 10 minutes with no output, so this heartbeat function
+	/// prints to STDOUT on a regular interval to prevent timeout.
 	private func heartbeat() {
 		let currentTime = DispatchTime.now()
 		let secondsSinceLastHeartBeat = Double(currentTime.uptimeNanoseconds - lastHeartBeat.uptimeNanoseconds) / 1_000_000_000
