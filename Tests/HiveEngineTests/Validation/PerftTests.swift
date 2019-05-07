@@ -59,7 +59,7 @@ class PerftTests: HiveEngineTestCase {
 	private func heartbeat() {
 		let currentTime = DispatchTime.now()
 		let secondsSinceLastHeartBeat = Double(currentTime.uptimeNanoseconds - lastHeartBeat.uptimeNanoseconds) / 1_000_000_000
-		if secondsSinceLastHeartBeat > 300 {
+		if secondsSinceLastHeartBeat > 30 {
 			print("Heartbeat...")
 			lastHeartBeat = currentTime
 		}
