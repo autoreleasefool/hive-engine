@@ -33,7 +33,9 @@ final class UnitAntTests: HiveEngineTestCase {
 	func testAntMoves_AreCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 14, to: state)
-		let availableMoves = state.whiteAnt.availableMoves(in: state)
+
+		var availableMoves: Set<Movement> = []
+		state.whiteAnt.availableMoves(in: state, moveSet: &availableMoves)
 		XCTAssertEqual(14, availableMoves.count)
 
 		let expectedMoves: Set<Movement> = [
@@ -68,15 +70,23 @@ final class UnitAntTests: HiveEngineTestCase {
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
+
+		var availableMoves: Set<Movement> = []
+		state.blackAnt.availableMoves(in: state, moveSet: &availableMoves)
+
 		let expectedMove: Movement = .move(unit: state.blackAnt, to: Position(x: 3, y: -1, z: -2))
-		XCTAssertTrue(state.blackAnt.availableMoves(in: state).contains(expectedMove))
+		XCTAssertTrue(availableMoves.contains(expectedMove))
 		let unexpectedMove: Movement = .move(unit: state.blackAnt, to: Position(x: 1, y: 0, z: -1))
-		XCTAssertFalse(state.blackAnt.availableMoves(in: state).contains(unexpectedMove))
+		XCTAssertFalse(availableMoves.contains(unexpectedMove))
 	}
 
 	func testAntNotInPlay_CannotMove() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual([], state.whiteAnt.availableMoves(in: state))
+
+		var availableMoves: Set<Movement> = []
+		state.whiteAnt.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	static var allTests = [

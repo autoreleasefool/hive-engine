@@ -9,44 +9,37 @@
 import Foundation
 
 extension Unit {
-	func movesAsBeetle(in state: GameState) -> Set<Movement> {
+	func movesAsBeetle(in state: GameState, moveSet: inout Set<Movement>) {
 		guard self.canMove(in: state),
 			self.canCopyMoves(of: .beetle, in: state),
 			let position = state.unitsInPlay[owner]?[self],
 			let height = self.stackPosition(in: state) else {
-			return []
+			return
 		}
 
 		let hivePositions = state.stacks.keys
-		let movesOnTopOfHive =
-			position.adjacent()
-				.filter {
-					// Only consider positions on top of the hive
-					guard hivePositions.contains($0) else { return false }
+		position.adjacent()
+			.filter {
+				// Only consider positions on top of the hive
+				guard hivePositions.contains($0) else { return false }
 
-					// Filter to positions that the piece can freely move to
-					let endHeight = (state.stacks[$0]?.endIndex ?? 0) &+ 1
-					return position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: endHeight, in: state)
-				}.map { Movement.move(unit: self, to: $0) }
+				// Filter to positions that the piece can freely move to
+				let endHeight = (state.stacks[$0]?.endIndex ?? 0) &+ 1
+				return position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: endHeight, in: state)
+			}.forEach { moveSet.insert(.move(unit: self, to: $0)) }
 
 		let playableSpaces = state.playableSpaces()
-		var movesDownFromHive: [Movement] = []
 		if height > 1 {
-			movesDownFromHive.append(contentsOf:
-				position.adjacent()
-					.filter {
-							// Only consider positions down from the hive
-						return playableSpaces.contains($0) &&
-							// Filter to positions that the piece can freely move to
-							position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: 1, in: state)
+			position.adjacent()
+				.filter {
+						// Only consider positions down from the hive
+					return playableSpaces.contains($0) &&
+						// Filter to positions that the piece can freely move to
+						position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: 1, in: state)
 
-					}.map { Movement.move(unit: self, to: $0) }
-			)
+				}.forEach { moveSet.insert(.move(unit: self, to: $0)) }
 		}
 
-		var allMoves = self.movesAsQueen(in: state)
-		movesDownFromHive.forEach { allMoves.insert($0) }
-		movesOnTopOfHive.forEach { allMoves.insert($0) }
-		return allMoves
+		self.movesAsQueen(in: state, moveSet: &moveSet)
 	}
 }

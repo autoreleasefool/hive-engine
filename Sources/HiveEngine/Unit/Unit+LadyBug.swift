@@ -9,15 +9,14 @@
 import Foundation
 
 extension Unit {
-	func movesAsLadyBug(in state: GameState) -> Set<Movement> {
+	func movesAsLadyBug(in state: GameState, moveSet: inout Set<Movement>) {
 		guard self.canMove(in: state),
 			self.canCopyMoves(of: .ladyBug, in: state),
 			let startPosition = state.unitsInPlay[owner]?[self] else {
-			return []
+			return
 		}
 
-		var moves = Set<Movement>()
-		var visited = Set<Position>()
+		var visited: Set<Position> = []
 		var toVisit = [startPosition]
 		var distance: [Position: Int] = [:]
 		distance[startPosition] = 0
@@ -59,14 +58,12 @@ extension Unit {
 									endingHeight: 1,
 									in: state
 								)
-							}.forEach { downPosition in moves.insert(.move(unit: self, to: downPosition)) }
+							}.forEach { downPosition in moveSet.insert(.move(unit: self, to: downPosition)) }
 					} else if distanceToRoot < distanceOnHive {
 						toVisit.append(hivePosition)
 						distance[hivePosition] = distanceToRoot
 					}
 			}
 		}
-
-		return moves
 	}
 }

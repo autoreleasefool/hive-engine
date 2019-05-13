@@ -9,17 +9,16 @@
 import Foundation
 
 extension Unit {
-	func movesAsAnt(in state: GameState) -> Set<Movement> {
+	func movesAsAnt(in state: GameState, moveSet: inout Set<Movement>) {
 		guard self.canMove(in: state),
 			self.canCopyMoves(of: .ant, in: state),
 			let position = state.unitsInPlay[owner]?[self] else {
-			return []
+			return
 		}
 
 		let playableSpaces = state.playableSpaces(excluding: self)
 
-		var moves = Set<Movement>()
-		var visited = Set<Position>()
+		var visited: Set<Position> = []
 		var toVisit = [position]
 
 		while toVisit.isNotEmpty {
@@ -41,10 +40,8 @@ extension Unit {
 				}
 				.forEach {
 					toVisit.append($0)
-					moves.insert(.move(unit: self, to: $0))
+					moveSet.insert(.move(unit: self, to: $0))
 				}
 		}
-
-		return moves
 	}
 }

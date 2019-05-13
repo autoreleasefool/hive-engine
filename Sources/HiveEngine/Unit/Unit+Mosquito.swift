@@ -9,25 +9,22 @@
 import Foundation
 
 extension Unit {
-	func movesAsMosquito(in state: GameState) -> Set<Movement> {
+	func movesAsMosquito(in state: GameState, moveSet: inout Set<Movement>) {
 		guard self.canMove(in: state) || self.canUseSpecialAbility(in: state),
 			self.canCopyMoves(of: .mosquito, in: state),
 			let height = self.stackPosition(in: state) else {
-			return []
+			return
 		}
-
-		var moves = Set<Movement>()
 
 		if height > 1 {
-			moves = self.movesAsBeetle(in: state)
+			self.movesAsBeetle(in: state, moveSet: &moveSet)
 		} else {
 			// Copy moves of each adjacent unit
-			state.units(adjacentTo: self).forEach {
-				guard $0.class != .mosquito else { return }
-				moves = moves.union(self.moves(as: $0.class, in: state))
+			for unit in state.units(adjacentTo: self) {
+				guard unit.class != .mosquito else { continue }
+				self.moves(as: unit.class, in: state, moveSet: &moveSet)
 			}
-		}
 
-		return moves
+		}
 	}
 }

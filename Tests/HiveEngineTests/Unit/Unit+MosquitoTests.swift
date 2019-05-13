@@ -19,7 +19,11 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 
 	func testMosquitoNotInPlay_CannotMove() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual([], state.whiteMosquito.availableMoves(in: state))
+
+		var availableMoves: Set<Movement> = []
+		state.whiteMosquito.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	func testMosquito_CanMoveAsAdjacentBugs_IsTrue() {

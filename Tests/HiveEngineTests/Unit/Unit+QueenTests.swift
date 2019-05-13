@@ -33,7 +33,8 @@ final class UnitQueenTests: HiveEngineTestCase {
 	func testQueenMoves_AreCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 8, to: state)
-		let availableMoves = state.whiteQueen.availableMoves(in: state)
+		var availableMoves: Set<Movement> = []
+		state.whiteQueen.availableMoves(in: state, moveSet: &availableMoves)
 		XCTAssertEqual(2, availableMoves.count)
 
 		let expectedMoves: Set<Movement> = [
@@ -45,7 +46,11 @@ final class UnitQueenTests: HiveEngineTestCase {
 
 	func testQueenNotInPlay_CannotMove() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual([], state.whiteQueen.availableMoves(in: state))
+
+		var availableMoves: Set<Movement> = []
+		state.whiteQueen.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	func testQueen_FreedomOfMovement_IsCorrect() {
@@ -64,10 +69,13 @@ final class UnitQueenTests: HiveEngineTestCase {
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
+		var availableMoves: Set<Movement> = []
+		state.whiteQueen.availableMoves(in: state, moveSet: &availableMoves)
+
 		let expectedMove: Movement = .move(unit: state.whiteQueen, to: Position(x: 2, y: 1, z: -3))
-		XCTAssertTrue(state.whiteQueen.availableMoves(in: state).contains(expectedMove))
+		XCTAssertTrue(availableMoves.contains(expectedMove))
 		let unexpectedMove: Movement = .move(unit: state.whiteQueen, to: Position(x: 1, y: 0, z: -1))
-		XCTAssertFalse(state.whiteQueen.availableMoves(in: state).contains(unexpectedMove))
+		XCTAssertFalse(availableMoves.contains(unexpectedMove))
 	}
 
 	static var allTests = [

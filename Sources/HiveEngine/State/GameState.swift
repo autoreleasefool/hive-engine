@@ -176,10 +176,10 @@ public class GameState: Codable {
 	}
 
 	/// Cache available moves
-	private var _availableMoves: [Movement]?
+	private var _availableMoves: Set<Movement>?
 
 	/// List the available movements from a GameState. Benefits from caching
-	public var availableMoves: [Movement] {
+	public var availableMoves: Set<Movement> {
 		if let cachedMoves = _availableMoves {
 			return cachedMoves
 		}
@@ -190,24 +190,29 @@ public class GameState: Codable {
 	}
 
 	/// Available moves for the given player
-	private func moves(for player: Player) -> [Movement] {
+	private func moves(for player: Player) -> Set<Movement> {
 		guard isEndGame == false else { return [] }
 
+		var moves: Set<Movement> = []
 		let playableSpacesForPlayer = playableSpaces(for: player)
 
 		// Queen must be played in player's first 4 moves
 		if (player == .white && move == 6 && queenPlayed(for: .white) == false) || (player == .black && move == 7 && queenPlayed(for: .black) == false) {
 			let queen = player == .white ? whiteQueen : blackQueen
-			return playableSpacesForPlayer.map { .place(unit: queen, at: $0) }
+			for playableSpace in playableSpacesForPlayer {
+				moves.insert(.place(unit: queen, at: playableSpace))
+			}
+
+			return moves
 		}
 
-		var moves: [Movement] = []
+
 		let playableUnitsForPlayer = playableUnits(for: player)
 
 		// Get placeable pieces
 		for unit in playableUnitsForPlayer {
 			for space in playableSpacesForPlayer {
-				moves.append(.place(unit: unit, at: space))
+				moves.insert(.place(unit: unit, at: space))
 			}
 		}
 
@@ -217,7 +222,7 @@ public class GameState: Codable {
 		// Iterate over all pieces on the board
 		for (unit, _) in unitsInPlay[player]! {
 			// Get moves available for the piece
-			moves.append(contentsOf: unit.availableMoves(in: self))
+			unit.availableMoves(in: self, moveSet: &moves)
 		}
 
 		guard moves.count > 0 else { return [.pass] }

@@ -9,26 +9,26 @@
 import Foundation
 
 extension Unit {
-	func movesAsHopper(in state: GameState) -> Set<Movement> {
+	func movesAsHopper(in state: GameState, moveSet: inout Set<Movement>) {
 		guard self.canMove(in: state),
 			self.canCopyMoves(of: .hopper, in: state),
 			let position = state.unitsInPlay[owner]?[self] else {
-			return []
+			return
 		}
 
-		return Set(position.adjacent().compactMap { adjacentPosition in
-			guard state.stacks[adjacentPosition] != nil else { return nil }
+		for adjacent in position.adjacent() {
+			guard state.stacks[adjacent] != nil else { continue }
 
 			// Determine direction to extend jump in
-			let difference = adjacentPosition.subtracting(position)
-			var targetPosition = adjacentPosition
+			let difference = adjacent.subtracting(position)
+			var targetPosition = adjacent
 
 			// Extend in direction until an empty space is found
 			while state.stacks[targetPosition] != nil {
 				targetPosition = targetPosition.adding(difference)
 			}
 
-			return .move(unit: self, to: targetPosition)
-		})
+			moveSet.insert(.move(unit: self, to: targetPosition))
+		}
 	}
 }

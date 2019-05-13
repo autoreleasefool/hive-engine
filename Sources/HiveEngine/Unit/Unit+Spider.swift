@@ -9,18 +9,17 @@
 import Foundation
 
 extension Unit {
-	func movesAsSpider(in state: GameState) -> Set<Movement> {
+	func movesAsSpider(in state: GameState, moveSet: inout Set<Movement>) {
 		guard self.canMove(in: state),
 			self.canCopyMoves(of: .spider, in: state),
 			let startPosition = state.unitsInPlay[owner]?[self] else {
-			return []
+			return
 		}
 
 		let maxDistance = 3
 
 		let playableSpaces = state.playableSpaces(excluding: self)
-		var moves = Set<Movement>()
-		var visited = Set<Position>()
+		var visited: Set<Position> = []
 		var toVisit = [startPosition]
 		var distance: [Position: Int] = [:]
 		distance[startPosition] = 0
@@ -46,14 +45,12 @@ extension Unit {
 					let distanceToRoot = distance[currentPosition]! &+ 1
 					if distanceToRoot == maxDistance {
 						// Spider moves exactly 3 spaces
-						moves.insert(.move(unit: self, to: $0))
+						moveSet.insert(.move(unit: self, to: $0))
 					} else if distanceToRoot < maxDistance {
 						toVisit.append($0)
 						distance[$0] = distanceToRoot
 					}
 				}
 		}
-
-		return moves
 	}
 }

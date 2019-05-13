@@ -33,7 +33,8 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	func testBeetleMoves_AreCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 12, to: state)
-		let availableMoves = state.whiteBeetle.availableMoves(in: state)
+		var availableMoves: Set<Movement> = []
+		state.whiteBeetle.availableMoves(in: state, moveSet: &availableMoves)
 		XCTAssertEqual(4, availableMoves.count)
 
 		let expectedMoves: Set<Movement> = [
@@ -47,7 +48,11 @@ final class UnitBeetleTests: HiveEngineTestCase {
 
 	func testBeetleNotInPlay_CannotMove() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual([], state.whiteBeetle.availableMoves(in: state))
+
+		var availableMoves: Set<Movement> = []
+		state.whiteBeetle.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	func testBeetle_CanMoveUpToHive() {
@@ -97,10 +102,13 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
+		var availableMoves: Set<Movement> = []
+		state.whiteBeetle.availableMoves(in: state, moveSet: &availableMoves)
+
 		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: Position(x: 2, y: 1, z: -3))
-		XCTAssertTrue(state.whiteBeetle.availableMoves(in: state).contains(expectedMove))
+		XCTAssertTrue(availableMoves.contains(expectedMove))
 		let unexpectedMove: Movement = .move(unit: state.whiteBeetle, to: Position(x: 1, y: 0, z: -1))
-		XCTAssertFalse(state.whiteBeetle.availableMoves(in: state).contains(unexpectedMove))
+		XCTAssertFalse(availableMoves.contains(unexpectedMove))
 	}
 
 	func testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced() {
@@ -121,21 +129,31 @@ final class UnitBeetleTests: HiveEngineTestCase {
 	func testWithBeetleOnTopOfStack_PiecesBeneathCannotMove() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 30, to: state)
-		XCTAssertEqual(0, state.whiteQueen.availableMoves(in: state).count)
+
+		var availableMoves: Set<Movement> = []
+		state.whiteQueen.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	func testBeetle_CanMoveToTallerStack() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 13, to: state)
 		let expectedMove: Movement = .move(unit: state.blackMosquito, to: .origin)
-		XCTAssertTrue(state.blackMosquito.availableMoves(in: state).contains(expectedMove))
+
+		var availableMoves: Set<Movement> = []
+		state.blackMosquito.availableMoves(in: state, moveSet: &availableMoves)
+		XCTAssertTrue(availableMoves.contains(expectedMove))
 	}
 
 	func testBeetle_CanMoveDownFromStack() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 14, to: state)
 		let expectedMove: Movement = .move(unit: state.whiteBeetle, to: Position(x: -1, y: 0, z: 1))
-		XCTAssertTrue(state.whiteBeetle.availableMoves(in: state).contains(expectedMove))
+
+		var availableMoves: Set<Movement> = []
+		state.whiteBeetle.availableMoves(in: state, moveSet: &availableMoves)
+		XCTAssertTrue(availableMoves.contains(expectedMove))
 	}
 
 	static var allTests = [

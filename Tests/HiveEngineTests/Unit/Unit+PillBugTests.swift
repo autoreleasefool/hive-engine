@@ -59,12 +59,18 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: Position(x: 1, y: -2, z: 1))
 		]
 
-		XCTAssertEqual(expectedAvailableMoves, state.whitePillBug.availableMoves(in: state))
+		var availableMoves: Set<Movement> = []
+		state.whitePillBug.availableMoves(in: state, moveSet: &availableMoves)
+		XCTAssertEqual(expectedAvailableMoves, availableMoves)
 	}
 
 	func testPillBugNotInPlay_CannotMove() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual([], state.whitePillBug.availableMoves(in: state))
+
+		var availableMoves: Set<Movement> = []
+		state.whitePillBug.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	func testPillBug_CannotMovePieceJustMoved_IsTrue() {
@@ -75,13 +81,19 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			.move(unit: state.whitePillBug, to: Position(x: 1, y: -2, z: 1))
 		]
 
-		XCTAssertEqual(expectedAvailableMoves, state.whitePillBug.availableMoves(in: state))
+		var availableMoves: Set<Movement> = []
+		state.whitePillBug.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(expectedAvailableMoves, availableMoves)
 	}
 
 	func testPillBug_PieceJustYoinkedCannotMove_IsTrue() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 21, to: state)
-		XCTAssertEqual(0, state.blackHopper.availableMoves(in: state).count)
+
+		var availableMoves: Set<Movement> = []
+		state.blackHopper.availableMoves(in: state, moveSet: &availableMoves)
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	func testPillBug_CannotYoinkAfterBeingYoinked_WithoutOption() {
@@ -175,7 +187,8 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let pillBugAvailableMoves = state.whitePillBug.availableMoves(in: state)
+		var pillBugAvailableMoves: Set<Movement> = []
+		state.whitePillBug.availableMoves(in: state, moveSet: &pillBugAvailableMoves)
 		let yoinkQueenMoves = pillBugAvailableMoves.filter {
 			if case let .yoink(_, unit, _) = $0 {
 				return unit == state.whiteQueen
@@ -199,7 +212,8 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let pillBugAvailableMoves = state.whitePillBug.availableMoves(in: state)
+		var pillBugAvailableMoves: Set<Movement> = []
+		state.whitePillBug.availableMoves(in: state, moveSet: &pillBugAvailableMoves)
 		let yoinkQueenMoves = pillBugAvailableMoves.filter {
 			if case let .yoink(_, unit, _) = $0 {
 				return unit == state.blackQueen
@@ -225,7 +239,8 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let pillBugAvailableMoves = state.whitePillBug.availableMoves(in: state)
+		var pillBugAvailableMoves: Set<Movement> = []
+		state.whitePillBug.availableMoves(in: state, moveSet: &pillBugAvailableMoves)
 		let yoinkSpiderMoves = pillBugAvailableMoves.filter {
 			if case let .yoink(_, unit, _) = $0 {
 				return unit == state.blackSpider

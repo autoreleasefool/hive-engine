@@ -33,7 +33,8 @@ final class UnitSpiderTests: HiveEngineTestCase {
 	func testSpiderMoves_AreCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 2, to: state)
-		let availableMoves = state.whiteSpider.availableMoves(in: state)
+		var availableMoves: Set<Movement> = []
+		state.whiteSpider.availableMoves(in: state, moveSet: &availableMoves)
 		XCTAssertEqual(1, availableMoves.count)
 
 		let expectedMoves: Set<Movement> = [
@@ -44,7 +45,11 @@ final class UnitSpiderTests: HiveEngineTestCase {
 
 	func testSpiderNotInPlay_CannotMove() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual([], state.whiteSpider.availableMoves(in: state))
+
+		var availableMoves: Set<Movement> = []
+		state.whiteSpider.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	func testSpider_FreedomOfMovement_IsCorrect() {
@@ -60,10 +65,13 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
+		var availableMoves: Set<Movement> = []
+		state.blackSpider.availableMoves(in: state, moveSet: &availableMoves)
+
 		let expectedMove: Movement = .move(unit: state.blackSpider, to: Position(x: 3, y: -1, z: -2))
-		XCTAssertTrue(state.blackSpider.availableMoves(in: state).contains(expectedMove))
+		XCTAssertTrue(availableMoves.contains(expectedMove))
 		let unexpectedMove: Movement = .move(unit: state.blackSpider, to: Position(x: 1, y: 0, z: -1))
-		XCTAssertFalse(state.blackSpider.availableMoves(in: state).contains(unexpectedMove))
+		XCTAssertFalse(availableMoves.contains(unexpectedMove))
 	}
 
 	static var allTests = [

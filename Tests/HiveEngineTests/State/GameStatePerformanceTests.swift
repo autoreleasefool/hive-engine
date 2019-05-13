@@ -18,7 +18,6 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 	}
 
 	func testFinishedGameState_Performance() {
-
 		measure {
 			let state = GameState(options: [.ladyBug, .mosquito, .pillBug, .disableMovementValidation])
 			stateProvider.apply(moves: 34, to: state)

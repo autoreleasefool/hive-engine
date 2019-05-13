@@ -46,12 +46,18 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 			.move(unit: state.blackLadyBug, to: Position(x: -2, y: 2, z: 0))
 		]
 
-		XCTAssertEqual(expectedMoves, state.blackLadyBug.availableMoves(in: state))
+		var availableMoves: Set<Movement> = []
+		state.blackLadyBug.availableMoves(in: state, moveSet: &availableMoves)
+		XCTAssertEqual(expectedMoves, availableMoves)
 	}
 
 	func testLadyBugNotInPlay_CannotMove() {
 		let state = stateProvider.initialGameState
-		XCTAssertEqual([], state.whiteLadyBug.availableMoves(in: state))
+
+		var availableMoves: Set<Movement> = []
+		state.whiteLadyBug.availableMoves(in: state, moveSet: &availableMoves)
+
+		XCTAssertEqual(0, availableMoves.count)
 	}
 
 	func testLadyBug_WithoutFreedomOfMovement_CannotMove() {
@@ -77,7 +83,9 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 			.move(unit: state.blackLadyBug, to: Position(x: 0, y: -1, z: 1))
 		]
 
-		XCTAssertEqual(expectedMoves, state.blackLadyBug.availableMoves(in: state))
+		var availableMoves: Set<Movement> = []
+		state.blackLadyBug.availableMoves(in: state, moveSet: &availableMoves)
+		XCTAssertEqual(expectedMoves, availableMoves)
 	}
 
 	func testLadyBug_CanMoveAcrossAnyHeight() {
@@ -95,7 +103,9 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		XCTAssertTrue(state.blackLadyBug.availableMoves(in: state).count > 0)
+		var availableMoves: Set<Movement> = []
+		state.blackLadyBug.availableMoves(in: state, moveSet: &availableMoves)
+		XCTAssertTrue(availableMoves.count > 0)
 	}
 
 	static var allTests = [

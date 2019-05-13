@@ -348,7 +348,7 @@ final class GameStateTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let expectedMoves: [Movement] = [.pass]
+		let expectedMoves: Set<Movement> = [.pass]
 		XCTAssertEqual(expectedMoves, state.availableMoves)
 	}
 
@@ -363,7 +363,7 @@ final class GameStateTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let expectedMoves: [Movement] = [.pass]
+		let expectedMoves: Set<Movement> = [.pass]
 		XCTAssertEqual(expectedMoves, state.availableMoves)
 		XCTAssertEqual(5, state.move)
 		state.apply(.pass)

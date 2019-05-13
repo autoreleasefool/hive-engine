@@ -91,21 +91,21 @@ public struct Unit: Codable {
 	// MARK: Movement
 
 	/// List the moves available for the unit.
-	public func availableMoves(in state: GameState) -> Set<Movement> {
-		return moves(as: self.class, in: state)
+	public func availableMoves(in state: GameState, moveSet: inout Set<Movement>) {
+		return moves(as: self.class, in: state, moveSet: &moveSet)
 	}
 
 	/// Get the available moves when treating this unit as a certain class
-	func moves(as `class`: Class, in state: GameState) -> Set<Movement> {
+	func moves(as `class`: Class, in state: GameState, moveSet: inout Set<Movement>) {
 		switch `class` {
-		case .ant: return movesAsAnt(in: state)
-		case .beetle: return movesAsBeetle(in: state)
-		case .hopper: return movesAsHopper(in: state)
-		case .ladyBug: return movesAsLadyBug(in: state)
-		case .mosquito: return movesAsMosquito(in: state)
-		case .pillBug: return movesAsPillBug(in: state)
-		case .queen: return movesAsQueen(in: state)
-		case .spider: return movesAsSpider(in: state)
+		case .ant: movesAsAnt(in: state, moveSet: &moveSet)
+		case .beetle: movesAsBeetle(in: state, moveSet: &moveSet)
+		case .hopper: movesAsHopper(in: state, moveSet: &moveSet)
+		case .ladyBug: movesAsLadyBug(in: state, moveSet: &moveSet)
+		case .mosquito: movesAsMosquito(in: state, moveSet: &moveSet)
+		case .pillBug: movesAsPillBug(in: state, moveSet: &moveSet)
+		case .queen: movesAsQueen(in: state, moveSet: &moveSet)
+		case .spider: movesAsSpider(in: state, moveSet: &moveSet)
 		}
 	}
 
