@@ -169,12 +169,8 @@ public struct Unit: Codable {
 
 	/// Determine if this unit is at the top of its stack.
 	public func isTopOfStack(in state: GameState) -> Bool {
-		guard let position = state.unitsInPlay[owner]?[self],
-			let stack = state.stacks[position] else {
-			return false
-		}
-
-		return stack.last == self
+		guard let position = state.unitsInPlay[owner]?[self] else { return false }
+		return state.stacks[position]?.last == self
 	}
 
 	/// Returns true if this unit is surrounded on all 6 sides.
