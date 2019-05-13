@@ -135,7 +135,7 @@ public class GameState: Codable {
 		]
 
 		func nextIndex(for `class`: Unit.Class, belongingTo owner: Player) -> Int {
-			let next = (classIndices[owner]![`class`] ?? 0) + 1
+			let next = (classIndices[owner]![`class`] ?? 0) &+ 1
 			classIndices[owner]![`class`] = next
 			return next
 		}
@@ -231,7 +231,7 @@ public class GameState: Codable {
 	private func adjacentUnitNotation(relativePosition position: Position) -> String {
 		// If the movement is on top of another unit, return the unit moved onto
 		if let stack = stacks[position], stack.count > 1 {
-			return stack[stack.count - 2].notation
+			return stack[stack.count &- 2].notation
 		}
 
 		guard let adjacentUnit = units(adjacentTo: position).first,
@@ -383,7 +383,7 @@ public class GameState: Codable {
 		// Filter down to pieces with either index == 1, or where all units of the same class with lower indices have been played
 		var playablePiecesForPlayer = Set(allAvailablePiecesForPlayer.enumerated().filter { index, unit in
 			guard unit.index > 1 && index > 0 else { return true }
-			let previousUnit = allAvailablePiecesForPlayer[index - 1]
+			let previousUnit = allAvailablePiecesForPlayer[index &- 1]
 			return previousUnit.class != unit.class
 			}.map { $0.element })
 

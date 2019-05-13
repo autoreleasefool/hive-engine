@@ -25,7 +25,7 @@ extension Unit {
 					guard hivePositions.contains($0) else { return false }
 
 					// Filter to positions that the piece can freely move to
-					let endHeight = (state.stacks[$0]?.endIndex ?? 0) + 1
+					let endHeight = (state.stacks[$0]?.endIndex ?? 0) &+ 1
 					return position.freedomOfMovement(to: $0, startingHeight: height, endingHeight: endHeight, in: state)
 				}.map { Movement.move(unit: self, to: $0) }
 

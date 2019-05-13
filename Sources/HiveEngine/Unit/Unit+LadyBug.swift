@@ -41,12 +41,12 @@ extension Unit {
 					// it moves from one higher than the stack's height, to 1 higher than the target stack's height
 					return currentPosition.freedomOfMovement(
 						to: $0,
-						startingHeight: currentStack.endIndex + (currentPosition == startPosition ? 0 : 1),
-						endingHeight: targetStack.endIndex + 1,
+						startingHeight: currentStack.endIndex &+ (currentPosition == startPosition ? 0 : 1),
+						endingHeight: targetStack.endIndex &+ 1,
 						in: state
 					)
 				}.forEach { hivePosition in
-					let distanceToRoot = distance[currentPosition]! + 1
+					let distanceToRoot = distance[currentPosition]! &+ 1
 					if distanceToRoot == distanceOnHive {
 						// Lady Bug moves exactly 2 spaces on top of hive, then must come down
 						hivePosition.adjacent().filter { downPosition in
@@ -55,7 +55,7 @@ extension Unit {
 							return playableSpaces.contains(downPosition) &&
 								hivePosition.freedomOfMovement(
 									to: downPosition,
-									startingHeight: hiveStack.endIndex + 1,
+									startingHeight: hiveStack.endIndex &+ 1,
 									endingHeight: 1,
 									in: state
 								)

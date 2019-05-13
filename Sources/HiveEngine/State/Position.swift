@@ -44,12 +44,12 @@ public struct Position: Hashable, Equatable, Codable {
 	/// All adjacent positions
 	public func adjacent() -> [Position] {
 		return [
-			Position(x: x, y: y + 1, z: z - 1),
-			Position(x: x + 1, y: y, z: z - 1),
-			Position(x: x + 1, y: y - 1, z: z),
-			Position(x: x, y: y - 1, z: z + 1),
-			Position(x: x - 1, y: y, z: z + 1),
-			Position(x: x - 1, y: y + 1, z: z)
+			Position(x: x, y: y &+ 1, z: z &- 1),
+			Position(x: x &+ 1, y: y, z: z &- 1),
+			Position(x: x &+ 1, y: y &- 1, z: z),
+			Position(x: x, y: y &- 1, z: z &+ 1),
+			Position(x: x &- 1, y: y, z: z &+ 1),
+			Position(x: x &- 1, y: y &+ 1, z: z)
 		]
 	}
 
@@ -86,7 +86,7 @@ public struct Position: Hashable, Equatable, Codable {
 		in state: GameState
 	) -> Bool {
 		// Can't move to anywhere but the top of a stack
-		if let otherStack = state.stacks[other], endingHeight != otherStack.endIndex + 1 {
+		if let otherStack = state.stacks[other], endingHeight != otherStack.endIndex &+ 1 {
 			return false
 		}
 
@@ -97,22 +97,22 @@ public struct Position: Hashable, Equatable, Codable {
 			let secondStack = state.stacks[secondPosition] else { return true }
 
 		/// See https://boardgamegeek.com/wiki/page/Hive_FAQ#toc9
-		return (startingHeight - 1 < firstStack.endIndex &&
-			startingHeight - 1 < secondStack.endIndex &&
-			endingHeight - 1 < firstStack.endIndex &&
-			endingHeight - 1 < secondStack.endIndex) == false
+		return (startingHeight &- 1 < firstStack.endIndex &&
+			startingHeight &- 1 < secondStack.endIndex &&
+			endingHeight &- 1 < firstStack.endIndex &&
+			endingHeight &- 1 < secondStack.endIndex) == false
 	}
 
 	public func subtracting(_ other: Position) -> Position {
-		return Position(x: self.x - other.x, y: self.y - other.y, z: self.z - other.z)
+		return Position(x: self.x &- other.x, y: self.y &- other.y, z: self.z &- other.z)
 	}
 
 	public func adding(_ other: Position) -> Position {
-		return Position(x: self.x + other.x, y: self.y + other.y, z: self.z + other.z)
+		return Position(x: self.x &+ other.x, y: self.y &+ other.y, z: self.z &+ other.z)
 	}
 
 	public func adding(x: Int, y: Int, z: Int) -> Position {
-		return Position(x: self.x + x, y: self.y + y, z: self.z + z)
+		return Position(x: self.x &+ x, y: self.y &+ y, z: self.z &+ z)
 	}
 }
 

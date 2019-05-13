@@ -40,7 +40,7 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 			guard depth > 0 else { return }
 			for move in state.availableMoves {
 				state.apply(move)
-				explore(state: state, depth: depth - 1)
+				explore(state: state, depth: depth &- 1)
 				state.undoMove()
 			}
 		}

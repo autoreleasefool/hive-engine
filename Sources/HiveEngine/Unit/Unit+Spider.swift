@@ -43,7 +43,7 @@ extension Unit {
 					return currentPosition.freedomOfMovement(to: $0, in: state)
 				}
 				.forEach {
-					let distanceToRoot = distance[currentPosition]! + 1
+					let distanceToRoot = distance[currentPosition]! &+ 1
 					if distanceToRoot == maxDistance {
 						// Spider moves exactly 3 spaces
 						moves.insert(.move(unit: self, to: $0))
