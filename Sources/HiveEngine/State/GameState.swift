@@ -193,34 +193,35 @@ public class GameState: Codable {
 	private func moves(for player: Player) -> [Movement] {
 		guard isEndGame == false else { return [] }
 
-		let playableUnitsForPlayer = playableUnits(for: player)
 		let playableSpacesForPlayer = playableSpaces(for: player)
 
 		// Queen must be played in player's first 4 moves
-		if (player == .white && move == 6) || (player == .black && move == 7),
-			let queen = playableUnitsForPlayer.filter({ $0.class == .queen }).first {
+		if (player == .white && move == 6 && queenPlayed(for: .white) == false) || (player == .black && move == 7 && queenPlayed(for: .black) == false) {
+			let queen = player == .white ? whiteQueen : blackQueen
 			return playableSpacesForPlayer.map { .place(unit: queen, at: $0) }
 		}
 
+		var moves: [Movement] = []
+		let playableUnitsForPlayer = playableUnits(for: player)
+
 		// Get placeable pieces
-		let placePieceMovements: [Movement] = playableUnitsForPlayer.flatMap { unit in
-			return playableSpacesForPlayer.map { .place(unit: unit, at: $0) }
+		for unit in playableUnitsForPlayer {
+			for space in playableSpacesForPlayer {
+				moves.append(.place(unit: unit, at: space))
+			}
 		}
 
 		// Player can only place pieces until their queen has been played
-		guard queenPlayed(for: player) else { return placePieceMovements }
+		guard queenPlayed(for: player) else { return moves }
 
 		// Iterate over all pieces on the board
-		let movePieceMovements = unitsInPlay[player]!
+		for (unit, _) in unitsInPlay[player]! {
 			// Get moves available for the piece
-			.flatMap { $0.key.availableMoves(in: self) }
-
-		let allMoves = placePieceMovements + movePieceMovements
-		guard allMoves.count > 0 else {
-			return [.pass]
+			moves.append(contentsOf: unit.availableMoves(in: self))
 		}
 
-		return allMoves
+		guard moves.count > 0 else { return [.pass] }
+		return moves
 	}
 
 	/// Standard notation for a position relative to another Unit.
@@ -409,14 +410,27 @@ public class GameState: Codable {
 
 		let takenPositions = self.stacks.keys
 
-		let allSpaces = Set(includedUnits
-			.filter { $0.key.isTopOfStack(in: self) }
-			.values.flatMap { $0.adjacent() }).subtracting(takenPositions)
+		// Get all open spaces adjacent to another unit
+		var allSpaces: Set<Position> = []
+		for (unit, position) in includedUnits {
+			guard unit.isTopOfStack(in: self) else { continue }
+			for adjacent in position.adjacent() {
+				guard takenPositions.contains(adjacent) == false else { continue }
+				allSpaces.insert(adjacent)
+			}
+		}
+
 		guard let player = player, move > 1 else { return allSpaces }
-		let unavailableSpaces = Set(includedUnits
-			.filter { $0.key.owner != player && $0.key.isTopOfStack(in: self) }
-			.values.flatMap { $0.adjacent() }).subtracting(takenPositions)
-		return allSpaces.subtracting(unavailableSpaces)
+
+		// Remove spaces adjacent to an enemy's unit
+		for (unit, position) in includedUnits {
+			guard unit.owner != player && unit.isTopOfStack(in: self) else { continue }
+			for adjacent in position.adjacent() {
+				allSpaces.remove(adjacent)
+			}
+		}
+
+		return allSpaces
 	}
 
 	// MARK: - Validation
