@@ -400,11 +400,22 @@ public class GameState: Codable {
 		return playablePiecesForPlayer
 	}
 
+	/// Cache all playable spaces
+	private var _playableSpaces: Set<Position>?
+	/// Cache playable spaces for the current player
+	private var _playableSpacesCurrentPlayer: Set<Position>?
+
 	/// Positions which are adjacent to another piece and are not filled.
 	///
 	/// - Parameters:
 	///  - excludedUnit: optionally exclude a unit when determining if the space is playable
 	public func playableSpaces(excluding excludedUnit: Unit? = nil, for player: Player? = nil) -> Set<Position> {
+		if player == nil, excludedUnit == nil, let spaces = _playableSpaces {
+			return spaces
+		} else if player == currentPlayer, excludedUnit == nil, let spaces = _playableSpacesCurrentPlayer {
+			return spaces
+		}
+
 		if move == 0 { return [.origin] }
 		if move == 1 && options.contains(.restrictedOpening) { return [Position(x: 0, y: 1, z: -1)] }
 
@@ -425,7 +436,14 @@ public class GameState: Codable {
 			}
 		}
 
-		guard let player = player, move > 1 else { return allSpaces }
+		guard let player = player else {
+			if excludedUnit == nil {
+				_playableSpaces = allSpaces
+			}
+			return allSpaces
+		}
+
+		guard move > 1 else { return allSpaces }
 
 		// Remove spaces adjacent to an enemy's unit
 		for (unit, position) in includedUnits {
@@ -433,6 +451,10 @@ public class GameState: Codable {
 			for adjacent in position.adjacent() {
 				allSpaces.remove(adjacent)
 			}
+		}
+
+		if player == currentPlayer && excludedUnit == nil {
+			_playableSpacesCurrentPlayer = allSpaces
 		}
 
 		return allSpaces
@@ -469,6 +491,8 @@ public class GameState: Codable {
 
 	private func resetCaches() {
 		_availableMoves = nil
+		_playableSpaces = nil
+		_playableSpacesCurrentPlayer = nil
 	}
 }
 
