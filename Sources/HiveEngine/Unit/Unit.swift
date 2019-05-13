@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Unit: Codable {
+public struct Unit: Codable {
 
 	public enum Class: String, CaseIterable, Codable {
 		case ant = "Ant"
