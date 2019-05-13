@@ -69,7 +69,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	// FIXME: disabled due to long runtime timing out on CI
+	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_BaseGame() {
 		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation])
 		let perftReference = perftTable[""]!
@@ -79,7 +79,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	// FIXME: disabled due to long runtime timing out on CI
+	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_Mosquito() {
 		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito])
 		let perftReference = perftTable["M"]!
@@ -89,7 +89,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	// FIXME: disabled due to long runtime timing out on CI
+	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_LadyBug() {
 		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .ladyBug])
 		let perftReference = perftTable["L"]!
@@ -99,7 +99,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	// FIXME: disabled due to long runtime timing out on CI
+	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_PillBug() {
 		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .pillBug])
 		let perftReference = perftTable["P"]!
@@ -109,7 +109,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	// FIXME: disabled due to long runtime timing out on CI
+	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_Mosquito_LadyBug() {
 		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .ladyBug])
 		let perftReference = perftTable["ML"]!
@@ -119,7 +119,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	// FIXME: disabled due to long runtime timing out on CI
+	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_Mosquito_PillBug() {
 		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .pillBug])
 		let perftReference = perftTable["MP"]!
@@ -129,7 +129,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	// FIXME: disabled due to long runtime timing out on CI
+	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_LadyBug_PillBug() {
 		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .ladyBug, .pillBug])
 		let perftReference = perftTable["LP"]!
@@ -139,7 +139,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	// FIXME: disabled due to long runtime timing out on CI
+	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_Mosquito_LadyBug_PillBug() {
 		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .ladyBug, .pillBug])
 		let perftReference = perftTable["MLP"]!
