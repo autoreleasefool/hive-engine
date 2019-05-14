@@ -48,6 +48,8 @@ public class GameState: Codable {
 		case allowSpecialAbilityAfterYoink = "Allow Special Ability after Yoink"
 		/// Disable validation of movements before applying
 		case disableMovementValidation = "Disable Movement Validation"
+		/// Disable standard notation generation for improved performance
+		case disableNotation = "Disable Standard Notation"
 	}
 
 	/// Optional parameters
@@ -234,6 +236,8 @@ public class GameState: Codable {
 	/// - Parameters:
 	///   - position: the Position for which relative notation should be determined
 	private func adjacentUnitNotation(relativePosition position: Position) -> String {
+		guard options.contains(.disableNotation) == false else { return "" }
+
 		// If the movement is on top of another unit, return the unit moved onto
 		if let stack = stacks[position], stack.count > 1 {
 			return stack[stack.count &- 2].notation
@@ -372,10 +376,13 @@ public class GameState: Codable {
 
 	/// List the units which are at the top of a stack adjacent to a position.
 	public func units(adjacentTo position: Position) -> [Unit] {
-		return position.adjacent().compactMap {
-			guard let stack = stacks[$0] else { return nil }
-			return stack.last
+		var adjacentUnits: [Unit] = []
+		for adjacentPosition in position.adjacent() {
+			if let stack = stacks[adjacentPosition], let unit = stack.last {
+				adjacentUnits.append(unit)
+			}
 		}
+		return adjacentUnits
 	}
 
 	/// Units which can currently be played from the Player's hand.
