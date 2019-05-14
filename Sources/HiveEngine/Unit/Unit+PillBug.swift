@@ -19,9 +19,13 @@ extension Unit {
 		}
 
 		// Find empty adjacent spaces which have freedom of movement from top of pill bug to the position
-		let adjacentPlayablePositions = Set(position.adjacent()
-			.filter { position.freedomOfMovement(to: $0, startingHeight: 2, endingHeight: 1, in: state) })
-			.intersection(state.playableSpaces())
+		let playableSpaces = state.playableSpaces()
+		var adjacentPlayablePositions: Set<Position> = []
+		for adjacentPosition in position.adjacent() {
+			if playableSpaces.contains(adjacentPosition) && position.freedomOfMovement(to: adjacentPosition, startingHeight: 2, endingHeight: 1, in: state) {
+				adjacentPlayablePositions.insert(adjacentPosition)
+			}
+		}
 
 		for adjacent in position.adjacent() {
 				// Find adjacent pieces which are in stacks of height 1
