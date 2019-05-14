@@ -38,7 +38,7 @@ class PerftTests: HiveEngineTestCase {
 	/// Count the number of valid states at a certain depth by iterating all possible moves.
 	private func perft(state: GameState, depth: Int) -> Int {
 		guard state.move < depth else {
-			return Set(state.availableMoves.map { $0.simplified }).count
+			return state.availableMoves.count
 		}
 
 		var perftCount = 0

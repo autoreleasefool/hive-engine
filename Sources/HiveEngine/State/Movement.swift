@@ -31,6 +31,37 @@ public enum Movement: Hashable, Equatable {
 		case .pass: return nil
 		}
 	}
+
+	public func hash(into hasher: inout Hasher) {
+		switch self {
+		case .move(let unit, let position), .yoink(_, let unit, let position):
+			hasher.combine(unit)
+			hasher.combine(position)
+			hasher.combine(17)
+		case .place(let unit, let position):
+			hasher.combine(unit)
+			hasher.combine(position)
+			hasher.combine(31)
+		case .pass:
+			hasher.combine(53)
+		}
+	}
+
+	public static func == (lhs: Movement, rhs: Movement) -> Bool {
+		switch (lhs, rhs) {
+		case (.move(let u1, let p1), .move(let u2, let p2)),
+			 (.move(let u1, let p1), .yoink(_, let u2, let p2)),
+			 (.yoink(_, let u1, let p1), .move(let u2, let p2)),
+			 (.yoink(_, let u1, let p1), .yoink(_, let u2, let p2)):
+				return u1 == u2 && p1 == p2
+		case (.place(let u1, let p1), .place(let u2, let p2)):
+			return u1 == u2 && p1 == p2
+		case (.pass, .pass):
+			return true
+		case (.move, _), (_, .move), (.place, _), (_, .place), (.yoink, _), (_, .yoink), (.pass, _), (_, .pass):
+			return false
+		}
+	}
 }
 
 extension Movement: CustomStringConvertible {
