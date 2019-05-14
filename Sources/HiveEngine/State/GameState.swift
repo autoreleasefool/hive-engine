@@ -383,15 +383,18 @@ public class GameState: Codable {
 	/// - Parameters:
 	///   - player: the player to get the playable units for
 	public func playableUnits(for player: Player) -> Set<Unit> {
-		let allAvailablePiecesForPlayer = unitsInHand[player]!.sorted()
+		var playablePiecesForPlayer: Set<Unit> = []
+
+		// Start with all pieces in the player's hand
+		let allAvailablePiecesForPlayer = unitsInHand[player]!
 
 		// Filter down to pieces with either index == 1, or where all units of the same class with lower indices have been played
-		var playablePiecesForPlayer = Set(allAvailablePiecesForPlayer.enumerated().filter { index, unit in
-			guard unit.index > 1 && index > 0 else { return true }
-			let previousUnit = allAvailablePiecesForPlayer[index &- 1]
-			return previousUnit.class != unit.class
-			}.map { $0.element })
+		for unit in allAvailablePiecesForPlayer {
+			guard unit.index == 1 || allAvailablePiecesForPlayer.contains(Unit(class: unit.class, owner: unit.owner, index: unit.index - 1)) == false else { continue }
+			playablePiecesForPlayer.insert(unit)
+		}
 
+		// Remove queen in the case of `noFirstMoveQueen`
 		if (move == 0 || move == 1) && options.contains(.noFirstMoveQueen) {
 			playablePiecesForPlayer.remove(whiteQueen)
 			playablePiecesForPlayer.remove(blackQueen)
@@ -467,7 +470,15 @@ public class GameState: Codable {
 	/// - Parameters:
 	///   - excludedUnit: optionally exclude a unit when determining if the rule is met
 	public func oneHive(excluding excludedUnit: Unit? = nil) -> Bool {
-		let allPositions = Set(allUnitsInPlay.filter { $0.key != excludedUnit }.compactMap { $0.value })
+		var allPositions = Set(stacks.keys)
+
+		if let excludedUnit = excludedUnit,
+			let excludedPosition = unitsInPlay[excludedUnit.owner]?[excludedUnit],
+			let excludedStack = stacks[excludedPosition],
+			excludedStack.count == 1 {
+			allPositions.remove(excludedPosition)
+		}
+
 		guard let startPosition = allPositions.first else { return true }
 
 		var found = Set([startPosition])
