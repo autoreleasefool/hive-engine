@@ -59,7 +59,7 @@ extension Movement: Codable {
 // swiftlint:disable nesting
 // Allow deeper nesting for codable workaround
 
-extension Movement {
+public extension Movement {
 	enum CodingError: Error {
 		case standard(String)
 	}

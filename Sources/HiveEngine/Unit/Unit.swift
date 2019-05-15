@@ -50,7 +50,7 @@ public struct Unit: Codable {
 	/// Owner of the unit
 	public let owner: Player
 
-	init(`class`: Class, owner: Player, index: Int) {
+	public init(`class`: Class, owner: Player, index: Int) {
 		self.class = `class`
 		self.owner = owner
 		self.index = index

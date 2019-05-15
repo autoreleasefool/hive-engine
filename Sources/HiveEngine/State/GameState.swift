@@ -10,16 +10,24 @@ import Foundation
 
 public struct GameStateUpdate: Codable, Equatable {
 	/// Player who made the move
-	let player: Player
+	public let player: Player
 	/// The movement applied to the state
-	let movement: Movement
+	public let movement: Movement
 	/// Previous position of the unit moved in `movement`
-	let previousPosition: Position?
+	public let previousPosition: Position?
 	/// The move number
-	let move: Int
+	public let move: Int
 	/// Standard notation describing the movement in the context of the state it was played
 	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
-	let notation: String
+	public let notation: String
+
+	public init(player: Player, movement: Movement, previousPosition: Position?, move: Int, notation: String) {
+		self.player = player
+		self.movement = movement
+		self.previousPosition = previousPosition
+		self.move = move
+		self.notation = notation
+	}
 }
 
 /// State of a game of hive.
