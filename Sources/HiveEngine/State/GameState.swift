@@ -218,7 +218,6 @@ public class GameState: Codable {
 			return moves
 		}
 
-
 		let playableUnitsForPlayer = playableUnits(for: player)
 
 		// Get placeable pieces
@@ -293,41 +292,15 @@ public class GameState: Codable {
 			// Move a piece from its previous stack to a new position
 			let startPosition = unitsInPlay[unit.owner]![unit]!
 			updatePosition = startPosition
-			_ = stacks[startPosition]?.popLast()
-			if (stacks[startPosition]?.count ?? -1) == 0 {
-				stacks[startPosition] = nil
-			} else {
-				unitIsTopOfStack[stacks[startPosition]!.last!] = true
-			}
-			if stacks[position] == nil {
-				stacks[position] = []
-			} else {
-				unitIsTopOfStack[stacks[position]!.last!] = false
-			}
-			stacks[position]!.append(unit)
-			unitsInPlay[unit.owner]![unit] = position
-			allUnitsInPlay[unit] = position
+			applyMove(unit: unit, position: position)
 		case .yoink(_, let unit, let position):
 			// Move a piece from its previous stack to a new position adjacent to the pill bug
 			updatePosition = unitsInPlay[unit.owner]![unit]!
-			stacks[unitsInPlay[unit.owner]![unit]!] = nil
-			stacks[position] = [unit]
-			unitsInPlay[unit.owner]![unit] = position
-			allUnitsInPlay[unit] = position
+			applyMove(unit: unit, position: position)
 		case .place(let unit, let position):
 			// Place an unplayed piece on the board
 			updatePosition = nil
-			stacks[position] = [unit]
-			unitsInPlay[unit.owner]![unit] = position
-			unitsInHand[unit.owner]!.remove(unit)
-			allUnitsInPlay[unit] = position
-			unitIsTopOfStack[unit] = true
-
-			if unit == whiteQueen {
-				whiteQueenPlayed = true
-			} else if unit == blackQueen {
-				blackQueenPlayed = true
-			}
+			applyPlace(unit: unit, position: position)
 		case .pass:
 			updatePosition = nil
 		}
@@ -337,6 +310,40 @@ public class GameState: Codable {
 		}
 
 		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove, notation: notation))
+	}
+
+	/// Apply a `move` or `yoink` Movement to the state.
+	private func applyMove(unit: Unit, position: Position) {
+		let startPosition = unitsInPlay[unit.owner]![unit]!
+		_ = stacks[startPosition]?.popLast()
+		if (stacks[startPosition]?.count ?? -1) == 0 {
+			stacks[startPosition] = nil
+		} else {
+			unitIsTopOfStack[stacks[startPosition]!.last!] = true
+		}
+		if stacks[position] == nil {
+			stacks[position] = []
+		} else {
+			unitIsTopOfStack[stacks[position]!.last!] = false
+		}
+		stacks[position]!.append(unit)
+		unitsInPlay[unit.owner]![unit] = position
+		allUnitsInPlay[unit] = position
+	}
+
+	/// Apply a `place` Movement to the state.
+	private func applyPlace(unit: Unit, position: Position) {
+		stacks[position] = [unit]
+		unitsInPlay[unit.owner]![unit] = position
+		unitsInHand[unit.owner]!.remove(unit)
+		allUnitsInPlay[unit] = position
+		unitIsTopOfStack[unit] = true
+
+		if unit == whiteQueen {
+			whiteQueenPlayed = true
+		} else if unit == blackQueen {
+			blackQueenPlayed = true
+		}
 	}
 
 	/// Undo the most recent move
@@ -358,7 +365,7 @@ public class GameState: Codable {
 			}
 			if stacks[endPosition] == nil {
 				stacks[endPosition] = []
-			}  else {
+			} else {
 				unitIsTopOfStack[stacks[endPosition]!.last!] = false
 			}
 			stacks[endPosition]!.append(unit)
@@ -441,6 +448,9 @@ public class GameState: Codable {
 	/// Cache playable spaces for the current player
 	private var _playableSpacesCurrentPlayer: Set<Position>?
 
+	// swiftlint:disable cyclomatic_complexity
+	#warning("SwiftLint:cyclomatic_complexity disable for `playableSpaces`")
+
 	/// Positions which are adjacent to another piece and are not filled.
 	///
 	/// - Parameters:
@@ -495,6 +505,8 @@ public class GameState: Codable {
 
 		return allSpaces
 	}
+
+	// swiftlint:enable cyclomatic_complexity
 
 	// MARK: - Validation
 
