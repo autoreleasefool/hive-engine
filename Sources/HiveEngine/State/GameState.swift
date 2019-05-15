@@ -58,6 +58,9 @@ public class GameState: Codable {
 	/// Units and their positions
 	private(set) public var unitsInPlay: [Player: [Unit: Position]]
 
+	/// All units in play and their positions
+	private(set) public var allUnitsInPlay: [Unit: Position] = [:]
+
 	/// Units still in each player's hand
 	private(set) public var unitsInHand: [Player: Set<Unit>]
 
@@ -87,11 +90,6 @@ public class GameState: Codable {
 	private lazy var blackQueen: Unit = {
 		return unitsInPlay[Player.black]!.first { $0.key.class == .queen }?.key ?? unitsInHand[Player.black]!.first { $0.class == .queen }!
 	}()
-
-	/// All units currently in play in the state.
-	public var allUnitsInPlay: [Unit: Position] {
-		return unitsInPlay[Player.white]!.merging(unitsInPlay[Player.black]!, uniquingKeysWith: { p1, _ in p1 })
-	}
 
 	/// The unit most recently moved, locked for the current turn
 	public var lastUnitMoved: Unit? {
@@ -158,6 +156,7 @@ public class GameState: Codable {
 		self.stacks = state.stacks
 		self.previousMoves = state.previousMoves
 		self.move = state.move
+		self.allUnitsInPlay = state.allUnitsInPlay
 	}
 
 	// MARK: - Moves
@@ -292,18 +291,21 @@ public class GameState: Codable {
 			}
 			stacks[position]!.append(unit)
 			unitsInPlay[unit.owner]![unit] = position
+			allUnitsInPlay[unit] = position
 		case .yoink(_, let unit, let position):
 			// Move a piece from its previous stack to a new position adjacent to the pill bug
 			updatePosition = unitsInPlay[unit.owner]![unit]!
 			stacks[unitsInPlay[unit.owner]![unit]!] = nil
 			stacks[position] = [unit]
 			unitsInPlay[unit.owner]![unit] = position
+			allUnitsInPlay[unit] = position
 		case .place(let unit, let position):
 			// Place an unplayed piece on the board
 			updatePosition = nil
 			stacks[position] = [unit]
 			unitsInPlay[unit.owner]![unit] = position
 			unitsInHand[unit.owner]!.remove(unit)
+			allUnitsInPlay[unit] = position
 
 			if unit == whiteQueen {
 				whiteQueenPlayed = true
@@ -341,15 +343,18 @@ public class GameState: Codable {
 			}
 			stacks[endPosition]!.append(unit)
 			unitsInPlay[unit.owner]![unit] = endPosition
+			allUnitsInPlay[unit] = endPosition
 		case .yoink(_, let unit, let position):
 			let previousPosition = lastMove.previousPosition!
 			stacks[position] = nil
 			stacks[previousPosition] = [unit]
 			unitsInPlay[unit.owner]![unit] = previousPosition
+			allUnitsInPlay[unit] = previousPosition
 		case .place(let unit, let position):
 			stacks[position] = nil
 			unitsInPlay[unit.owner]![unit] = nil
 			unitsInHand[unit.owner]!.insert(unit)
+			allUnitsInPlay[unit] = nil
 
 			if unit == whiteQueen {
 				whiteQueenPlayed = false
