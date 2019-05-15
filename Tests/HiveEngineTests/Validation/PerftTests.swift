@@ -8,15 +8,6 @@
 import XCTest
 @testable import HiveEngine
 
-private extension Movement {
-	var simplified: Movement {
-		switch self {
-		case .move, .pass, .place: return self
-		case .yoink(_, let unit, let to): return .move(unit: unit, to: to)
-		}
-	}
-}
-
 class PerftTests: HiveEngineTestCase {
 
 	/// Values from https://github.com/jonthysell/Mzinga/wiki/Perft
@@ -34,6 +25,16 @@ class PerftTests: HiveEngineTestCase {
 		"LP": [6, 216, 4_320, 86_400, 2_730_240, 85_457_136],
 		"MLP": [7, 294, 6_678, 151_686, 5_427_108, 192_353_904]
 	]
+
+	private static var perftGameStateOptions: Set<GameState.Options> {
+		return [.noFirstMoveQueen, .disableMovementValidation, .disableNotation, .treatYoinkAsMove]
+	}
+
+	private func baseOptions(with: [GameState.Options] = []) -> Set<GameState.Options> {
+		var gameStateOptions = PerftTests.perftGameStateOptions
+		with.forEach { gameStateOptions.insert($0) }
+		return gameStateOptions
+	}
 
 	/// Count the number of valid states at a certain depth by iterating all possible moves.
 	private func perft(state: GameState, depth: Int) -> Int {
@@ -71,7 +72,7 @@ class PerftTests: HiveEngineTestCase {
 
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_BaseGame() {
-		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation])
+		let state = GameState(options: baseOptions())
 		let perftReference = perftTable[""]!
 
 		for depth in 0..<perftReference.count {
@@ -81,7 +82,7 @@ class PerftTests: HiveEngineTestCase {
 
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_Mosquito() {
-		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito])
+		let state = GameState(options: baseOptions(with: [.mosquito]))
 		let perftReference = perftTable["M"]!
 
 		for depth in 0..<perftReference.count {
@@ -91,7 +92,7 @@ class PerftTests: HiveEngineTestCase {
 
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_LadyBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .ladyBug])
+		let state = GameState(options: baseOptions(with: [.ladyBug]))
 		let perftReference = perftTable["L"]!
 
 		for depth in 0..<perftReference.count {
@@ -101,7 +102,7 @@ class PerftTests: HiveEngineTestCase {
 
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_PillBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .pillBug])
+		let state = GameState(options: baseOptions(with: [.pillBug]))
 		let perftReference = perftTable["P"]!
 
 		for depth in 0..<perftReference.count {
@@ -111,7 +112,7 @@ class PerftTests: HiveEngineTestCase {
 
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_Mosquito_LadyBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .ladyBug])
+		let state = GameState(options: baseOptions(with: [.mosquito, .ladyBug]))
 		let perftReference = perftTable["ML"]!
 
 		for depth in 0..<perftReference.count {
@@ -121,7 +122,7 @@ class PerftTests: HiveEngineTestCase {
 
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_Mosquito_PillBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .pillBug])
+		let state = GameState(options: baseOptions(with: [.mosquito, .mosquito]))
 		let perftReference = perftTable["MP"]!
 
 		for depth in 0..<perftReference.count {
@@ -131,7 +132,7 @@ class PerftTests: HiveEngineTestCase {
 
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_LadyBug_PillBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .ladyBug, .pillBug])
+		let state = GameState(options: baseOptions(with: [.ladyBug, .pillBug]))
 		let perftReference = perftTable["LP"]!
 
 		for depth in 0..<perftReference.count {
@@ -141,7 +142,7 @@ class PerftTests: HiveEngineTestCase {
 
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_Mosquito_LadyBug_PillBug() {
-		let state = GameState(options: [.noFirstMoveQueen, .disableMovementValidation, .mosquito, .ladyBug, .pillBug])
+		let state = GameState(options: baseOptions(with: [.mosquito, .ladyBug, .pillBug]))
 		let perftReference = perftTable["MLP"]!
 
 		for depth in 0..<perftReference.count {
