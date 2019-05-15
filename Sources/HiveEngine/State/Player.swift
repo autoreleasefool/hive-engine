@@ -9,11 +9,11 @@
 import Foundation
 
 /// Players of the game
-public enum Player: String, Codable {
+public enum Player: Int, Codable {
 	/// The first player, white
-	case white = "White"
+	case white = 0
 	/// The second player, black
-	case black = "Black"
+	case black = 1
 
 	/// Returns the next player
 	public var next: Player {
@@ -28,7 +28,10 @@ public enum Player: String, Codable {
 
 extension Player: CustomStringConvertible {
 	public var description: String {
-		return self.rawValue
+		switch self {
+		case .black: return "Black"
+		case .white: return "White"
+		}
 	}
 }
 
@@ -36,9 +39,6 @@ extension Player: CustomStringConvertible {
 
 extension Player: Comparable {
 	public static func < (lhs: Player, rhs: Player) -> Bool {
-		switch (lhs, rhs) {
-		case (.white, .black): return true
-		default: return false
-		}
+		return lhs.rawValue < rhs.rawValue
 	}
 }
