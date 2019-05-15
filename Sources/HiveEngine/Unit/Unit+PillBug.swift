@@ -41,7 +41,14 @@ extension Unit {
 				else { continue }
 
 			for targetPosition in adjacentPlayablePositions {
-				moveSet.insert(.yoink(pillBug: self, unit: unit, to: targetPosition))
+				let yoink: Movement
+				if state.options.contains(.treatYoinkAsMove) {
+					yoink = .move(unit: unit, to: targetPosition)
+				} else {
+					yoink = .yoink(pillBug: self, unit: unit, to: targetPosition)
+				}
+
+				moveSet.insert(yoink)
 			}
 		}
 

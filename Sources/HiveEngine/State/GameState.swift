@@ -50,6 +50,8 @@ public class GameState: Codable {
 		case disableMovementValidation = "Disable Movement Validation"
 		/// Disable standard notation generation for improved performance
 		case disableNotation = "Disable Standard Notation"
+		/// Treat Movement.yoink and Movement.move as equivalents
+		case treatYoinkAsMove = "Treat Yoink as Move"
 	}
 
 	/// Optional parameters
