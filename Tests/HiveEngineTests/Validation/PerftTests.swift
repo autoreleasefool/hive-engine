@@ -44,30 +44,11 @@ class PerftTests: HiveEngineTestCase {
 
 		var perftCount = 0
 		for move in state.availableMoves {
-			heartbeat()
-
 			state.apply(move)
 			perftCount += perft(state: state, depth: depth)
 			state.undoMove()
 		}
 		return perftCount
-	}
-
-	private var lastHeartBeat: DispatchTime!
-
-	override func setUp() {
-		lastHeartBeat = DispatchTime.now()
-	}
-
-	/// CI times out after 10 minutes with no output, so this heartbeat function
-	/// prints to STDOUT on a regular interval to prevent timeout.
-	private func heartbeat() {
-		let currentTime = DispatchTime.now()
-		let secondsSinceLastHeartBeat = Double(currentTime.uptimeNanoseconds - lastHeartBeat.uptimeNanoseconds) / 1_000_000_000
-		if secondsSinceLastHeartBeat > 30 {
-			print("Heartbeat...")
-			lastHeartBeat = currentTime
-		}
 	}
 
 	#warning("disabled due to long runtime timing out on CI")
