@@ -51,6 +51,13 @@ class PerftTests: HiveEngineTestCase {
 		return perftCount
 	}
 
+	func testPerftBenchmarkPerformance() {
+		measure {
+			let state = GameState(options: baseOptions())
+			_ = perft(state: state, depth: 4)
+		}
+	}
+
 	#warning("disabled due to long runtime timing out on CI")
 	func disable_testPerftValidation_BaseGame() {
 		let state = GameState(options: baseOptions())
