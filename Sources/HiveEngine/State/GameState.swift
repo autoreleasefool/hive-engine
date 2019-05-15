@@ -103,6 +103,9 @@ public class GameState: Codable {
 		return lastMove.player
 	}
 
+	/// Check if a unit is at the top of its stack. False when the unit is in hand.
+	private(set) public var unitIsTopOfStack: [Unit: Bool] = [:]
+
 	/// Returns the Player who has won the game, both players if it is a tie,
 	/// or no players if the game has not ended
 	public var winner: [Player] {
@@ -142,10 +145,15 @@ public class GameState: Codable {
 
 		let whiteUnits = Unit.Class.set(with: options).map { Unit(class: $0, owner: .white, index: nextIndex(for: $0, belongingTo: .white)) }
 		let blackUnits = Unit.Class.set(with: options).map { Unit(class: $0, owner: .black, index: nextIndex(for: $0, belongingTo: .black)) }
+		let allUnits = whiteUnits + blackUnits
 		self.unitsInHand = [
 			Player.white: Set(whiteUnits),
 			Player.black: Set(blackUnits)
 		]
+
+		for unit in allUnits {
+			self.unitIsTopOfStack[unit] = false
+		}
 	}
 
 	public init(from state: GameState) {
@@ -156,6 +164,7 @@ public class GameState: Codable {
 		self.stacks = state.stacks
 		self.previousMoves = state.previousMoves
 		self.move = state.move
+		self.unitIsTopOfStack = state.unitIsTopOfStack
 		self.allUnitsInPlay = state.allUnitsInPlay
 	}
 
@@ -285,9 +294,13 @@ public class GameState: Codable {
 			_ = stacks[startPosition]?.popLast()
 			if (stacks[startPosition]?.count ?? -1) == 0 {
 				stacks[startPosition] = nil
+			} else {
+				unitIsTopOfStack[stacks[startPosition]!.last!] = true
 			}
 			if stacks[position] == nil {
 				stacks[position] = []
+			} else {
+				unitIsTopOfStack[stacks[position]!.last!] = false
 			}
 			stacks[position]!.append(unit)
 			unitsInPlay[unit.owner]![unit] = position
@@ -306,6 +319,7 @@ public class GameState: Codable {
 			unitsInPlay[unit.owner]![unit] = position
 			unitsInHand[unit.owner]!.remove(unit)
 			allUnitsInPlay[unit] = position
+			unitIsTopOfStack[unit] = true
 
 			if unit == whiteQueen {
 				whiteQueenPlayed = true
@@ -337,9 +351,13 @@ public class GameState: Codable {
 			_ = stacks[startPosition]?.popLast()
 			if (stacks[startPosition]?.count ?? -1) == 0 {
 				stacks[startPosition] = nil
+			} else {
+				unitIsTopOfStack[stacks[startPosition]!.last!] = true
 			}
 			if stacks[endPosition] == nil {
 				stacks[endPosition] = []
+			}  else {
+				unitIsTopOfStack[stacks[endPosition]!.last!] = false
 			}
 			stacks[endPosition]!.append(unit)
 			unitsInPlay[unit.owner]![unit] = endPosition
@@ -354,6 +372,7 @@ public class GameState: Codable {
 			stacks[position] = nil
 			unitsInPlay[unit.owner]![unit] = nil
 			unitsInHand[unit.owner]!.insert(unit)
+			unitIsTopOfStack[unit] = false
 			allUnitsInPlay[unit] = nil
 
 			if unit == whiteQueen {
