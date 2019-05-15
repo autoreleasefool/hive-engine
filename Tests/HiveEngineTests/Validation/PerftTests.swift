@@ -58,8 +58,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	#warning("disabled due to long runtime timing out on CI")
-	func disable_testPerftValidation_BaseGame() {
+	func testPerftValidation_BaseGame() {
 		let state = GameState(options: baseOptions())
 		let perftReference = perftTable[""]!
 
@@ -68,8 +67,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	#warning("disabled due to long runtime timing out on CI")
-	func disable_testPerftValidation_Mosquito() {
+	func testPerftValidation_Mosquito() {
 		let state = GameState(options: baseOptions(with: [.mosquito]))
 		let perftReference = perftTable["M"]!
 
@@ -78,8 +76,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	#warning("disabled due to long runtime timing out on CI")
-	func disable_testPerftValidation_LadyBug() {
+	func testPerftValidation_LadyBug() {
 		let state = GameState(options: baseOptions(with: [.ladyBug]))
 		let perftReference = perftTable["L"]!
 
@@ -88,8 +85,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	#warning("disabled due to long runtime timing out on CI")
-	func disable_testPerftValidation_PillBug() {
+	func testPerftValidation_PillBug() {
 		let state = GameState(options: baseOptions(with: [.pillBug]))
 		let perftReference = perftTable["P"]!
 
@@ -98,8 +94,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	#warning("disabled due to long runtime timing out on CI")
-	func disable_testPerftValidation_Mosquito_LadyBug() {
+	func testPerftValidation_Mosquito_LadyBug() {
 		let state = GameState(options: baseOptions(with: [.mosquito, .ladyBug]))
 		let perftReference = perftTable["ML"]!
 
@@ -108,8 +103,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	#warning("disabled due to long runtime timing out on CI")
-	func disable_testPerftValidation_Mosquito_PillBug() {
+	func testPerftValidation_Mosquito_PillBug() {
 		let state = GameState(options: baseOptions(with: [.mosquito, .mosquito]))
 		let perftReference = perftTable["MP"]!
 
@@ -118,8 +112,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	#warning("disabled due to long runtime timing out on CI")
-	func disable_testPerftValidation_LadyBug_PillBug() {
+	func testPerftValidation_LadyBug_PillBug() {
 		let state = GameState(options: baseOptions(with: [.ladyBug, .pillBug]))
 		let perftReference = perftTable["LP"]!
 
@@ -128,8 +121,7 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	#warning("disabled due to long runtime timing out on CI")
-	func disable_testPerftValidation_Mosquito_LadyBug_PillBug() {
+	func testPerftValidation_Mosquito_LadyBug_PillBug() {
 		let state = GameState(options: baseOptions(with: [.mosquito, .ladyBug, .pillBug]))
 		let perftReference = perftTable["MLP"]!
 
@@ -138,14 +130,15 @@ class PerftTests: HiveEngineTestCase {
 		}
 	}
 
-	static var allTests: [(String, (XCTestCase) -> () -> Void)] = [
-//		("testPerftValidation_BaseGame", testPerftValidation_BaseGame),
-//		("testPerftValidation_Mosquito", testPerftValidation_Mosquito),
-//		("testPerftValidation_LadyBug", testPerftValidation_LadyBug),
-//		("testPerftValidation_PillBug", testPerftValidation_PillBug),
-//		("testPerftValidation_Mosquito_LadyBug", testPerftValidation_Mosquito_LadyBug),
-//		("testPerftValidation_Mosquito_PillBug", testPerftValidation_Mosquito_PillBug),
-//		("testPerftValidation_LadyBug_PillBug", testPerftValidation_LadyBug_PillBug),
-//		("testPerftValidation_Mosquito_LadyBug_PillBug", testPerftValidation_Mosquito_LadyBug_PillBug)
+	static var allTests = [
+		("testPerftBenchmarkPerformance", testPerftBenchmarkPerformance),
+		("testPerftValidation_BaseGame", testPerftValidation_BaseGame),
+		("testPerftValidation_Mosquito", testPerftValidation_Mosquito),
+		("testPerftValidation_LadyBug", testPerftValidation_LadyBug),
+		("testPerftValidation_PillBug", testPerftValidation_PillBug),
+		("testPerftValidation_Mosquito_LadyBug", testPerftValidation_Mosquito_LadyBug),
+		("testPerftValidation_Mosquito_PillBug", testPerftValidation_Mosquito_PillBug),
+		("testPerftValidation_LadyBug_PillBug", testPerftValidation_LadyBug_PillBug),
+		("testPerftValidation_Mosquito_LadyBug_PillBug", testPerftValidation_Mosquito_LadyBug_PillBug)
 	]
 }
