@@ -24,7 +24,7 @@ extension Unit {
 		var distance: [Position: Int] = [:]
 		distance[startPosition] = 0
 
-		while toVisit.isNotEmpty {
+		while toVisit.isEmpty == false {
 			let currentPosition = toVisit.popLast()!
 			visited.insert(currentPosition)
 

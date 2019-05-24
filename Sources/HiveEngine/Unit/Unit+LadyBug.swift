@@ -24,7 +24,7 @@ extension Unit {
 		let distanceOnHive = 2
 		let playableSpaces = state.playableSpaces()
 
-		while toVisit.isNotEmpty {
+		while toVisit.isEmpty == false {
 			let currentPosition = toVisit.popLast()!
 			visited.insert(currentPosition)
 

@@ -21,7 +21,7 @@ extension Unit {
 		var visited: Set<Position> = []
 		var toVisit = [position]
 
-		while toVisit.isNotEmpty {
+		while toVisit.isEmpty == false {
 			let currentPosition = toVisit.popLast()!
 			visited.insert(currentPosition)
 

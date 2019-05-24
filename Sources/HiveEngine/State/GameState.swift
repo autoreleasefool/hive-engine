@@ -88,7 +88,7 @@ public class GameState: Codable {
 
 	/// True if the game has ended
 	public var isEndGame: Bool {
-		return winner.isNotEmpty
+		return winner.isEmpty == false
 	}
 
 	/// The white player's queen
@@ -538,7 +538,7 @@ public class GameState: Codable {
 		var stack = [startPosition]
 
 		// DFS through pieces and their adjacent positions to determine graph connectivity
-		while stack.isNotEmpty {
+		while stack.isEmpty == false {
 			let position = stack.popLast()!
 			for adjacent in position.adjacent() {
 				if allPositions.contains(adjacent) && found.contains(adjacent) == false {
