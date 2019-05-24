@@ -135,14 +135,38 @@ public struct Position: Hashable, Equatable, Codable {
 	}
 }
 
-public enum Direction {
-	case onTop
-	case northWest
-	case northEast
-	case north
-	case southWest
-	case southEast
-	case south
+// MARK: - CustomStringConvertible
+
+extension Position: CustomStringConvertible {
+	public var description: String {
+		return "(\(x), \(y), \(z))"
+	}
+}
+
+// MARK: - Comparable
+
+extension Position: Comparable {
+	public static func < (lhs: Position, rhs: Position) -> Bool {
+		if lhs.x == rhs.x {
+			if lhs.y == rhs.y {
+				return lhs.z < rhs.z
+			}
+			return lhs.y < rhs.y
+		}
+		return lhs.x < rhs.x
+	}
+}
+
+// MARK: - Direction
+
+public enum Direction: String, CustomStringConvertible {
+	case onTop = "On Top"
+	case northWest = "North West"
+	case northEast = "North East"
+	case north = "North"
+	case southWest = "South West"
+	case southEast = "South East"
+	case south = "South"
 
 	/// The direction presented in standard notation.
 	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
@@ -154,26 +178,8 @@ public enum Direction {
 		case .south, .north: return "\\"
 		}
 	}
-}
 
-// MARK: - CustomStringConvertible
-
-extension Position: CustomStringConvertible {
 	public var description: String {
-		return "(\(x), \(y), \(z))"
-	}
-}
-
-// MARK: - Position
-
-extension Position: Comparable {
-	public static func < (lhs: Position, rhs: Position) -> Bool {
-		if lhs.x == rhs.x {
-			if lhs.y == rhs.y {
-				return lhs.z < rhs.z
-			}
-			return lhs.y < rhs.y
-		}
-		return lhs.x < rhs.x
+		return self.rawValue
 	}
 }

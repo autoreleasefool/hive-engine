@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		CA1FCBB7229830700027428D /* RelativeMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1FCBB62298306F0027428D /* RelativeMovement.swift */; };
+		CA1FCBB9229830900027428D /* RelativeMovementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA1FCBB8229830900027428D /* RelativeMovementTests.swift */; };
 		CA35C26B227B27EB00C75DE2 /* PerftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA35C26A227B27EB00C75DE2 /* PerftTests.swift */; };
 		CA598DB62224252400761E47 /* Unit+AntTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DB4222424EB00761E47 /* Unit+AntTests.swift */; };
 		CA598DB82224254C00761E47 /* Unit+BeetleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DB72224254C00761E47 /* Unit+BeetleTests.swift */; };
@@ -31,7 +33,6 @@
 		CA598DC2222425B100761E47 /* Unit+QueenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DC1222425B100761E47 /* Unit+QueenTests.swift */; };
 		CA598DC4222425BA00761E47 /* Unit+SpiderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA598DC3222425BA00761E47 /* Unit+SpiderTests.swift */; };
 		CAAE1C152236997500E191FA /* GameStatePerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAE1C132236994A00E191FA /* GameStatePerformanceTests.swift */; };
-		OBJ_49 /* Collection+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* Collection+Extensions.swift */; };
 		OBJ_50 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* GameState.swift */; };
 		OBJ_51 /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Movement.swift */; };
 		OBJ_52 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Player.swift */; };
@@ -46,7 +47,6 @@
 		OBJ_61 /* Unit+Spider.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Unit+Spider.swift */; };
 		OBJ_62 /* Unit.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* Unit.swift */; };
 		OBJ_69 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
-		OBJ_80 /* Collection+ExtensionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* Collection+ExtensionsTests.swift */; };
 		OBJ_81 /* HiveEngineTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* HiveEngineTestCase.swift */; };
 		OBJ_82 /* GameStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* GameStateTests.swift */; };
 		OBJ_83 /* MovementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* MovementTests.swift */; };
@@ -76,6 +76,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CA1FCBB62298306F0027428D /* RelativeMovement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelativeMovement.swift; sourceTree = "<group>"; };
+		CA1FCBB8229830900027428D /* RelativeMovementTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelativeMovementTests.swift; sourceTree = "<group>"; };
 		CA35C26A227B27EB00C75DE2 /* PerftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerftTests.swift; sourceTree = "<group>"; };
 		CA598DB4222424EB00761E47 /* Unit+AntTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+AntTests.swift"; sourceTree = "<group>"; };
 		CA598DB72224254C00761E47 /* Unit+BeetleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+BeetleTests.swift"; sourceTree = "<group>"; };
@@ -88,7 +90,6 @@
 		CAAE1C132236994A00E191FA /* GameStatePerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStatePerformanceTests.swift; sourceTree = "<group>"; };
 		"HiveEngine::HiveEngine::Product" /* HiveEngine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HiveEngine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"HiveEngine::HiveEngineTests::Product" /* HiveEngineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = HiveEngineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_10 /* Collection+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Extensions.swift"; sourceTree = "<group>"; };
 		OBJ_12 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		OBJ_13 /* Movement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
 		OBJ_14 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -102,7 +103,6 @@
 		OBJ_23 /* Unit+Queen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+Queen.swift"; sourceTree = "<group>"; };
 		OBJ_24 /* Unit+Spider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Unit+Spider.swift"; sourceTree = "<group>"; };
 		OBJ_25 /* Unit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unit.swift; sourceTree = "<group>"; };
-		OBJ_29 /* Collection+ExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+ExtensionsTests.swift"; sourceTree = "<group>"; };
 		OBJ_30 /* HiveEngineTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiveEngineTestCase.swift; sourceTree = "<group>"; };
 		OBJ_32 /* GameStateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateTests.swift; sourceTree = "<group>"; };
 		OBJ_33 /* MovementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementTests.swift; sourceTree = "<group>"; };
@@ -148,6 +148,7 @@
 				OBJ_13 /* Movement.swift */,
 				OBJ_14 /* Player.swift */,
 				OBJ_15 /* Position.swift */,
+				CA1FCBB62298306F0027428D /* RelativeMovement.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -179,7 +180,6 @@
 		OBJ_27 /* HiveEngineTests */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_28 /* Extensions */,
 				OBJ_31 /* State */,
 				OBJ_38 /* Unit */,
 				CA35C269227B27C600C75DE2 /* Validation */,
@@ -190,14 +190,6 @@
 			path = Tests/HiveEngineTests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_28 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_29 /* Collection+ExtensionsTests.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		OBJ_31 /* State */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +199,7 @@
 				OBJ_33 /* MovementTests.swift */,
 				OBJ_34 /* PlayerTests.swift */,
 				OBJ_35 /* PositionTests.swift */,
+				CA1FCBB8229830900027428D /* RelativeMovementTests.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -265,21 +258,12 @@
 		OBJ_8 /* HiveEngine */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_9 /* Extensions */,
 				OBJ_11 /* State */,
 				OBJ_16 /* Unit */,
 			);
 			name = HiveEngine;
 			path = Sources/HiveEngine;
 			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_9 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_10 /* Collection+Extensions.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -373,7 +357,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_49 /* Collection+Extensions.swift in Sources */,
 				OBJ_50 /* GameState.swift in Sources */,
 				OBJ_51 /* Movement.swift in Sources */,
 				OBJ_52 /* Player.swift in Sources */,
@@ -387,6 +370,7 @@
 				OBJ_60 /* Unit+Queen.swift in Sources */,
 				OBJ_61 /* Unit+Spider.swift in Sources */,
 				OBJ_62 /* Unit.swift in Sources */,
+				CA1FCBB7229830700027428D /* RelativeMovement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,7 +386,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_80 /* Collection+ExtensionsTests.swift in Sources */,
 				CA598DB62224252400761E47 /* Unit+AntTests.swift in Sources */,
 				CA598DB82224254C00761E47 /* Unit+BeetleTests.swift in Sources */,
 				OBJ_81 /* HiveEngineTestCase.swift in Sources */,
@@ -419,6 +402,7 @@
 				OBJ_85 /* PositionTests.swift in Sources */,
 				CA598DC2222425B100761E47 /* Unit+QueenTests.swift in Sources */,
 				OBJ_86 /* GameStateProvider.swift in Sources */,
+				CA1FCBB9229830900027428D /* RelativeMovementTests.swift in Sources */,
 				OBJ_87 /* UnitTests.swift in Sources */,
 				OBJ_88 /* XCTestManifests.swift in Sources */,
 			);

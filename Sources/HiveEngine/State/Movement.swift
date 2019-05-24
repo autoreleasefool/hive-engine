@@ -59,40 +59,18 @@ public enum Movement: Hashable, Equatable {
 				direction = nil
 			}
 
-			return RelativeMovement(movedUnit: unit, position: position, adjacentUnit: adjacentUnit, direction: direction)
+			if let adjacent = adjacentUnit, let direction = direction {
+				return RelativeMovement(unit: unit, adjacentTo: (adjacent, direction))
+			} else {
+				return RelativeMovement(unit: unit, adjacentTo: nil)
+			}
 		case .pass:
 			return nil
 		}
 	}
 }
 
-public struct RelativeMovement {
-	/// The unit that was moved in the Movement
-	public let movedUnit: Unit
-	/// The position that `movedUnit` is moved to
-	public let position: Position
-	/// A `Unit` that `movedUnit` is adjacent to, or nil if there are no adjacent pieces
-	public let adjacentUnit: Unit?
-	/// Where `movedUnit` is being placed relative to `adjacentUnit`, or nil for the first move
-	public let direction: Direction?
-
-	/// Standard notation for the movement.
-	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
-	public var notation: String {
-		var notation = movedUnit.notation
-		if let adjacentUnit = adjacentUnit, let direction = direction {
-			switch direction {
-			case .onTop:
-				notation += " \(adjacentUnit.notation)"
-			case .north, .northWest, .southWest:
-				notation += " \(direction.notation)\(adjacentUnit.notation)"
-			case .northEast, .southEast, .south:
-				notation += " \(adjacentUnit.notation)\(direction.notation)"
-			}
-		}
-		return notation
-	}
-}
+// MARK: CustomStringConvertible
 
 extension Movement: CustomStringConvertible {
 	public var description: String {
