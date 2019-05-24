@@ -248,36 +248,6 @@ public class GameState: Codable {
 		return moves
 	}
 
-	/// Standard notation for a position relative to another Unit.
-	///
-	/// - Parameters:
-	///   - position: the Position for which relative notation should be determined
-	private func adjacentUnitNotation(relativePosition position: Position) -> String {
-		guard options.contains(.disableNotation) == false else { return "" }
-
-		// If the movement is on top of another unit, return the unit moved onto
-		if let stack = stacks[position], stack.count > 1 {
-			return stack[stack.count &- 2].notation
-		}
-
-		guard let adjacentUnit = units(adjacentTo: position).first,
-			let adjacentUnitPosition = unitsInPlay[adjacentUnit.owner]?[adjacentUnit] else { return "" }
-
-		// For this notation, since positions are defined with horizontal hexagons (see the top of the file),
-		// but standard notation uses vertical hexagons, all relative positions are defined by rotating the map
-		// 60 degrees clockwise, such that (1, 0, -1) is to the north east of (0, 0, 0)
-		let difference = position.subtracting(adjacentUnitPosition)
-		switch (difference.x, difference.y, difference.z) {
-		case (1, 0, -1): return "\(adjacentUnit.notation)/"
-		case (1, -1, 0): return "\(adjacentUnit.notation)-"
-		case (0, -1, 1): return "\(adjacentUnit.notation)\\"
-		case (-1, 0, 1): return "/\(adjacentUnit.notation)"
-		case (-1, 1, 0): return "-\(adjacentUnit.notation)"
-		case (0, 1, -1): return "\\\(adjacentUnit.notation)"
-		default: return ""
-		}
-	}
-
 	/// Applies the movement to this game state (if it is valid)
 	public func apply(_ movement: Movement) {
 		// Ensure only valid moves are played
@@ -285,7 +255,11 @@ public class GameState: Codable {
 			guard validate(movement: movement) else { return }
 		}
 
-		var notation = (movement == .pass) ? "pass" : "\(movement.movedUnit!.notation)"
+		var notation = ""
+		if options.contains(.disableNotation) == false {
+			notation = movement.notation(in: self)
+		}
+
 		let updatePlayer = currentPlayer
 		let updateMovement = movement
 		let updateMove = move
@@ -311,10 +285,6 @@ public class GameState: Codable {
 			applyPlace(unit: unit, position: position)
 		case .pass:
 			updatePosition = nil
-		}
-
-		if updateMove > 0 && movement != .pass {
-			notation = "\(notation) \(adjacentUnitNotation(relativePosition: movement.targetPosition!))"
 		}
 
 		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove, notation: notation))

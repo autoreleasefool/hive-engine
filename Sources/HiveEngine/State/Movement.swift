@@ -14,22 +14,83 @@ public enum Movement: Hashable, Equatable {
 	case place(unit: Unit, at: Position)
 	case pass
 
+	/// Primary unit that was moved in the Movement
 	public var movedUnit: Unit? {
 		switch self {
-		case .move(let unit, _): return unit
-		case .yoink(_, let unit, _): return unit
-		case .place(let unit, _): return unit
+		case .move(let unit, _), .yoink(_, let unit, _), .place(let unit, _): return unit
 		case .pass: return nil
 		}
 	}
 
+	/// Position that `movedUnit` was moved to in the Movement
 	public var targetPosition: Position? {
 		switch self {
-		case .move(_, let position): return position
-		case .yoink(_, _, let position): return position
-		case .place(_, let position): return position
+		case .move(_, let position), .yoink(_, _, let position), .place(_, let position): return position
 		case .pass: return nil
 		}
+	}
+
+	/// Standard notation for the movement.
+	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
+	public func notation(in state: GameState) -> String {
+		return self.relative(in: state)?.notation ?? "pass"
+	}
+
+	/// Translate the Movement into a RelativeMovement, providing an adjacent unit and the position
+	/// relative to that unit that it will move to.
+	public func relative(in state: GameState) -> RelativeMovement? {
+		switch self {
+		case .move(let unit, let position), .yoink(_, let unit, let position), .place(let unit, let position):
+			let adjacentUnit: Unit?
+			let direction: Direction?
+
+			if let stack = state.stacks[position], stack.count > 0 {
+				// If the movement is on top of another unit, then the unit moved onto is the adjacent unit.
+				adjacentUnit = stack.last
+				direction = .onTop
+			} else if let firstAdjacent = state.units(adjacentTo: position).filter({ $0 != unit }).first,
+				let firstAdjacentPosition = state.unitsInPlay[firstAdjacent.owner]?[firstAdjacent] {
+				// If there is an adjacent unit, get the unit and its position
+				adjacentUnit = firstAdjacent
+				direction = firstAdjacentPosition.direction(to: position)
+			} else {
+				// If there are no adjacent units, this must be the first movement
+				adjacentUnit = nil
+				direction = nil
+			}
+
+			return RelativeMovement(movedUnit: unit, position: position, adjacentUnit: adjacentUnit, direction: direction)
+		case .pass:
+			return nil
+		}
+	}
+}
+
+public struct RelativeMovement {
+	/// The unit that was moved in the Movement
+	public let movedUnit: Unit
+	/// The position that `movedUnit` is moved to
+	public let position: Position
+	/// A `Unit` that `movedUnit` is adjacent to, or nil if there are no adjacent pieces
+	public let adjacentUnit: Unit?
+	/// Where `movedUnit` is being placed relative to `adjacentUnit`, or nil for the first move
+	public let direction: Direction?
+
+	/// Standard notation for the movement.
+	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
+	public var notation: String {
+		var notation = movedUnit.notation
+		if let adjacentUnit = adjacentUnit, let direction = direction {
+			switch direction {
+			case .onTop:
+				notation += " \(adjacentUnit.notation)"
+			case .north, .northWest, .southWest:
+				notation += " \(direction.notation)\(adjacentUnit.notation)"
+			case .northEast, .southEast, .south:
+				notation += " \(adjacentUnit.notation)\(direction.notation)"
+			}
+		}
+		return notation
 	}
 }
 

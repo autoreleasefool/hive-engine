@@ -103,16 +103,56 @@ public struct Position: Hashable, Equatable, Codable {
 			endingHeight &- 1 < secondStack.endIndex) == false
 	}
 
+	/// Subtract the given Position from this Position and return a new Position
 	public func subtracting(_ other: Position) -> Position {
 		return Position(x: self.x &- other.x, y: self.y &- other.y, z: self.z &- other.z)
 	}
 
+	/// Add the given Position to this Position and return a new Position
 	public func adding(_ other: Position) -> Position {
 		return Position(x: self.x &+ other.x, y: self.y &+ other.y, z: self.z &+ other.z)
 	}
 
+	/// Add the given values to this Position and return a new Position
 	public func adding(x: Int, y: Int, z: Int) -> Position {
 		return Position(x: self.x &+ x, y: self.y &+ y, z: self.z &+ z)
+	}
+
+	/// Get the Direction which must be travelled from this Position to reach the given Position.
+	/// For non-adjacent positions, this method returns nil.
+	public func direction(to other: Position) -> Direction? {
+		let difference = other.subtracting(self)
+		switch (difference.x, difference.y, difference.z) {
+		case (1, 0, -1): return .northEast
+		case (1, -1, 0): return .southEast
+		case (0, -1, 1): return .south
+		case (-1, 0, 1): return .southWest
+		case (-1, 1, 0): return .northWest
+		case (0, 1, -1): return .north
+		case (0, 0, 0): return .onTop
+		default: return nil
+		}
+	}
+}
+
+public enum Direction {
+	case onTop
+	case northWest
+	case northEast
+	case north
+	case southWest
+	case southEast
+	case south
+
+	/// The direction presented in standard notation.
+	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
+	public var notation: String {
+		switch self {
+		case .onTop: return ""
+		case .northEast, .southWest: return "/"
+		case .southEast, .northWest: return "-"
+		case .south, .north: return "\\"
+		}
 	}
 }
 
