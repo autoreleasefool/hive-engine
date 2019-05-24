@@ -104,7 +104,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	func testPerftValidation_Mosquito_PillBug() {
-		let state = GameState(options: baseOptions(with: [.mosquito, .mosquito]))
+		let state = GameState(options: baseOptions(with: [.mosquito, .pillBug]))
 		let perftReference = perftTable["MP"]!
 
 		for depth in 0..<perftReference.count {
