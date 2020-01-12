@@ -249,6 +249,20 @@ public class GameState: Codable {
 	}
 
 	/// Applies the movement to this game state (if it is valid)
+	public func apply(relativeMovement movement: RelativeMovement) {
+		if let adjacent = movement.adjacent,
+			let adjacentPosition = position(of: adjacent.unit)?.offset(by: adjacent.direction) {
+			if unitsInHand[movement.movedUnit.owner]?.contains(movement.movedUnit) == true {
+				apply(.place(unit: movement.movedUnit, at: adjacentPosition))
+			} else {
+				apply(.move(unit: movement.movedUnit, to: adjacentPosition))
+			}
+		} else {
+			apply(.place(unit: movement.movedUnit, at: .origin))
+		}
+	}
+
+	/// Applies the movement to this game state (if it is valid)
 	public func apply(_ movement: Movement) {
 		// Ensure only valid moves are played
 		if options.contains(.disableMovementValidation) == false {
@@ -374,10 +388,26 @@ public class GameState: Codable {
 
 	/// Validate that a given move is valid in the current state.
 	private func validate(movement: Movement) -> Bool {
-		return availableMoves.contains(movement)
+		if availableMoves.contains(movement) {
+			return true
+		}
+
+		return availableMoves.contains {
+			if case let .yoink(_, unit, position) = $0,
+				unit == movement.movedUnit && position == movement.targetPosition {
+				return true
+			}
+
+			return false
+		}
 	}
 
-	// MARK: Units
+	// MARK: - Units
+
+	/// Returns the position of a unit on the board, if it's on the board.
+	public func position(of unit: Unit) -> Position? {
+		return unitsInPlay[unit.owner]?[unit]
+	}
 
 	/// List the units which are at the top of a stack adjacent to the position of a unit.
 	public func units(adjacentTo unit: Unit) -> [Unit] {

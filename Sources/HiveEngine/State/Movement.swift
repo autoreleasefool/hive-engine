@@ -70,7 +70,7 @@ public enum Movement: Hashable, Equatable {
 	}
 }
 
-// MARK: CustomStringConvertible
+// MARK: - CustomStringConvertible
 
 extension Movement: CustomStringConvertible {
 	public var description: String {

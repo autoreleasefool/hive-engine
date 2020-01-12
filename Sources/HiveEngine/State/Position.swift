@@ -53,6 +53,19 @@ public struct Position: Hashable, Equatable, Codable {
 		]
 	}
 
+	/// Get the adjacent position in the given direction
+	public func offset(by direction: Direction) -> Position {
+		switch direction {
+		case .north: return self.adding(x: 0, y: 1, z: -1)
+		case .northEast: return self.adding(x: 1, y: 0, z: -1)
+		case .southEast: return self.adding(x: 1, y: -1, z: 0)
+		case .south: return self.adding(x: 0, y: -1, z: 1)
+		case .southWest: return self.adding(x: -1, y: 0, z: 1)
+		case .northWest: return self.adding(x: -1, y: 1, z: 0)
+		case .onTop: return self
+		}
+	}
+
 	/// Find the common position between this and an adjacent position. If the positions are not adjacent, nil is returned
 	///
 	/// - Parameters:
