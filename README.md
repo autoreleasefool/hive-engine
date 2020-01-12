@@ -2,8 +2,6 @@
 
 # Hive Engine
 
-[![Build status](https://travis-ci.org/josephroquedev/hive-engine.svg?branch=master)](https://travis-ci.org/josephroquedev/hive-engine) [![codecov](https://codecov.io/gh/josephroquedev/hive-engine/branch/master/graph/badge.svg)](https://codecov.io/gh/josephroquedev/hive-engine)
-
 Manages the game state of a game of hive and determines valid playable moves.
 
 Additionally, produces new game states from the application of valid moves.
@@ -95,7 +93,7 @@ To install manually, simply drag and drop `HiveEngine.xcodeproj` into your Xcode
 
 ### Requirements
 
-* Swift 5.0+
+* Swift 5.1+
 
 ---
 
@@ -106,6 +104,6 @@ To install manually, simply drag and drop `HiveEngine.xcodeproj` into your Xcode
 2. Install SwiftLint for styling conformance:
     * `brew install swiftlint`
     * Run `swiftlint` from the root of the repository.
-    * There should be no errors or violations. If there are, please fix them before opening a PR. 
+    * There should be no errors or violations. If there are, please fix them before opening a PR.
 3. Open a PR with your changes 👍
 4. CI will run your changes and ensure they build and pass all tests on Linux and macOS
