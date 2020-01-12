@@ -8,9 +8,11 @@ let package = Package(
 	products: [
 		.library(name: "HiveEngine", targets: ["HiveEngine"]),
 	],
-	dependencies: [],
+	dependencies: [
+		.package(url: "https://github.com/sharplet/Regex.git", from: "2.1.0"),
+	],
 	targets: [
-		.target(name: "HiveEngine", dependencies: []),
+		.target(name: "HiveEngine", dependencies: ["Regex"]),
 		.testTarget(name: "HiveEngineTests", dependencies: ["HiveEngine"]),
 	]
 )
