@@ -39,7 +39,7 @@ final class UnitQueenTests: HiveEngineTestCase {
 
 		let expectedMoves: Set<Movement> = [
 			.move(unit: state.whiteQueen, to: Position(x: 1, y: 0, z: -1)),
-			.move(unit: state.whiteQueen, to: Position(x: 1, y: -2, z: 1))
+			.move(unit: state.whiteQueen, to: Position(x: 1, y: -2, z: 1)),
 		]
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
@@ -65,7 +65,7 @@ final class UnitQueenTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteQueen, at: Position(x: 3, y: -1, z: -2)),
 			Movement.move(unit: state.blackSpider, to: Position(x: -1, y: 1, z: 0)),
 			Movement.move(unit: state.whiteQueen, to: Position(x: 2, y: 0, z: -2)),
-			Movement.move(unit: state.blackSpider, to: Position(x: 1, y: 2, z: -3))
+			Movement.move(unit: state.blackSpider, to: Position(x: 1, y: 2, z: -3)),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -82,6 +82,6 @@ final class UnitQueenTests: HiveEngineTestCase {
 		("testQueen_CanMoveAsQueenOnly", testQueen_CanMoveAsQueenOnly),
 		("testQueenMoves_AreCorrect", testQueenMoves_AreCorrect),
 		("testQueenNotInPlay_CannotMove", testQueenNotInPlay_CannotMove),
-		("testQueen_FreedomOfMovement_IsCorrect", testQueen_FreedomOfMovement_IsCorrect)
+		("testQueen_FreedomOfMovement_IsCorrect", testQueen_FreedomOfMovement_IsCorrect),
 	]
 }

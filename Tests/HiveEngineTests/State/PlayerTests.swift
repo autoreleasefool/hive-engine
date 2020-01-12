@@ -40,6 +40,6 @@ final class PlayerTests: HiveEngineTestCase {
 	static var allTests = [
 		("testPlayer_NextPlayer_IsCorrect", testPlayer_NextPlayer_IsCorrect),
 		("testPlayerComparable_IsCorrect", testPlayerComparable_IsCorrect),
-		("testPlayerDescription_IsCorrect", testPlayerDescription_IsCorrect)
+		("testPlayerDescription_IsCorrect", testPlayerDescription_IsCorrect),
 	]
 }

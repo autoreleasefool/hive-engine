@@ -38,7 +38,7 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		XCTAssertEqual(1, availableMoves.count)
 
 		let expectedMoves: Set<Movement> = [
-			.move(unit: state.whiteSpider, to: Position(x: 0, y: 2, z: -2))
+			.move(unit: state.whiteSpider, to: Position(x: 0, y: 2, z: -2)),
 		]
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
@@ -61,7 +61,7 @@ final class UnitSpiderTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 2, y: -1, z: -1)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 2, z: -3)),
-			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1))
+			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -78,6 +78,6 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		("testSpider_CanMoveAsSpiderOnly", testSpider_CanMoveAsSpiderOnly),
 		("testSpiderMoves_AreCorrect", testSpiderMoves_AreCorrect),
 		("testSpiderNotInPlay_CannotMove", testSpiderNotInPlay_CannotMove),
-		("testSpider_FreedomOfMovement_IsCorrect", testSpider_FreedomOfMovement_IsCorrect)
+		("testSpider_FreedomOfMovement_IsCorrect", testSpider_FreedomOfMovement_IsCorrect),
 	]
 }

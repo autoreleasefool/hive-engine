@@ -118,6 +118,6 @@ final class MovementTests: HiveEngineTestCase {
 		("testPlaceDescription_IsCorrect", testPlaceDescription_IsCorrect),
 		("testMoveDescription_IsCorrect", testMoveDescription_IsCorrect),
 		("testYoinkDescription_IsCorrect", testYoinkDescription_IsCorrect),
-		("testPassDescription_IsCorrect", testPassDescription_IsCorrect)
+		("testPassDescription_IsCorrect", testPassDescription_IsCorrect),
 	]
 }

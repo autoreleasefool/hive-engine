@@ -32,7 +32,7 @@ final class UnitTests: HiveEngineTestCase {
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .origin)
+			.move(unit: state.whiteBeetle, to: .origin),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -46,7 +46,7 @@ final class UnitTests: HiveEngineTestCase {
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .origin)
+			.move(unit: state.whiteBeetle, to: .origin),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -60,7 +60,7 @@ final class UnitTests: HiveEngineTestCase {
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .origin)
+			.move(unit: state.whiteBeetle, to: .origin),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -79,7 +79,7 @@ final class UnitTests: HiveEngineTestCase {
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .origin)
+			.move(unit: state.whiteBeetle, to: .origin),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -99,7 +99,7 @@ final class UnitTests: HiveEngineTestCase {
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .origin)
+			.move(unit: state.whiteBeetle, to: .origin),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -115,7 +115,7 @@ final class UnitTests: HiveEngineTestCase {
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .origin)
+			.move(unit: state.whiteBeetle, to: .origin),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -131,7 +131,7 @@ final class UnitTests: HiveEngineTestCase {
 			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteBeetle, to: .origin)
+			.move(unit: state.whiteBeetle, to: .origin),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -178,6 +178,6 @@ final class UnitTests: HiveEngineTestCase {
 
 		("testUnitDescription_IsCorrect", testUnitDescription_IsCorrect),
 		("testUnitNotation_IsCorrect", testUnitNotation_IsCorrect),
-		("testUnitComparable_IsCorrect", testUnitComparable_IsCorrect)
+		("testUnitComparable_IsCorrect", testUnitComparable_IsCorrect),
 	]
 }

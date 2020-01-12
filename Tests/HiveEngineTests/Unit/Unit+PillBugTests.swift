@@ -56,7 +56,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			.move(unit: state.whitePillBug, to: Position(x: 1, y: -2, z: 1)),
 			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: Position(x: -1, y: -1, z: 2)),
 			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: Position(x: 0, y: -2, z: 2)),
-			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: Position(x: 1, y: -2, z: 1))
+			.yoink(pillBug: state.whitePillBug, unit: state.whiteMosquito, to: Position(x: 1, y: -2, z: 1)),
 		]
 
 		var availableMoves: Set<Movement> = []
@@ -78,7 +78,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		stateProvider.apply(moves: 18, to: state)
 		let expectedAvailableMoves: Set<Movement> = [
 			.move(unit: state.whitePillBug, to: Position(x: -1, y: -1, z: 2)),
-			.move(unit: state.whitePillBug, to: Position(x: 1, y: -2, z: 1))
+			.move(unit: state.whitePillBug, to: Position(x: 1, y: -2, z: 1)),
 		]
 
 		var availableMoves: Set<Movement> = []
@@ -105,7 +105,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackPillBug, at: Position(x: 1, y: 1, z: -2)),
 			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.blackAnt, at: Position(x: -1, y: 2, z: -1)),
-			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0))
+			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -125,7 +125,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackPillBug, at: Position(x: 1, y: 1, z: -2)),
 			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.blackAnt, at: Position(x: -1, y: 2, z: -1)),
-			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0))
+			Movement.yoink(pillBug: state.whitePillBug, unit: state.blackPillBug, to: Position(x: 1, y: -1, z: 0)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -154,7 +154,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			Movement.move(unit: state.whiteQueen, to: Position(x: -1, y: 0, z: 1)),
 			Movement.move(unit: state.blackQueen, to: Position(x: 2, y: 0, z: -2)),
 			Movement.move(unit: state.whiteQueen, to: Position(x: -1, y: -1, z: 2)),
-			Movement.move(unit: state.blackQueen, to: Position(x: 2, y: -1, z: -1))
+			Movement.move(unit: state.blackQueen, to: Position(x: 2, y: -1, z: -1)),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -183,7 +183,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: 0, z: -2)),
 			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: -1, z: 1)),
 			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 1, z: -2))
+			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 1, z: -2)),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -208,7 +208,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			Movement.place(unit: state.whitePillBug, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
 			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
-			Movement.place(unit: state.blackPillBug, at: Position(x: 0, y: 2, z: -2))
+			Movement.place(unit: state.blackPillBug, at: Position(x: 0, y: 2, z: -2)),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -235,7 +235,7 @@ final class UnitPillBugTests: HiveEngineTestCase {
 			Movement.move(unit: state.whitePillBug, to: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.blackPillBug, at: Position(x: 0, y: 2, z: -2)),
 			Movement.move(unit: state.whiteQueen, to: Position(x: -1, y: 1, z: 0)),
-			Movement.yoink(pillBug: state.blackPillBug, unit: state.blackSpider, to: Position(x: 1, y: 1, z: -2))
+			Movement.yoink(pillBug: state.blackPillBug, unit: state.blackSpider, to: Position(x: 1, y: 1, z: -2)),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -267,6 +267,6 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		("testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition", testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition),
 		("testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition", testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition),
 		("testPillBug_YoinkCannotBreakHive", testPillBug_YoinkCannotBreakHive),
-		("testPillBug_CannotYoinkPieceJustYoinked", testPillBug_CannotYoinkPieceJustYoinked)
+		("testPillBug_CannotYoinkPieceJustYoinked", testPillBug_CannotYoinkPieceJustYoinked),
 	]
 }

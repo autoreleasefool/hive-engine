@@ -35,7 +35,7 @@ final class UnitHopperTests: HiveEngineTestCase {
 		stateProvider.apply(moves: 9, to: state)
 		let expectedMoves: Set<Movement> = [
 			.move(unit: state.blackHopper, to: Position(x: 1, y: 2, z: -3)),
-			.move(unit: state.blackHopper, to: Position(x: 1, y: 0, z: -1))
+			.move(unit: state.blackHopper, to: Position(x: 1, y: 0, z: -1)),
 		]
 
 		var availableMoves: Set<Movement> = []
@@ -64,12 +64,12 @@ final class UnitHopperTests: HiveEngineTestCase {
 			.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
 			.place(unit: state.whiteMosquito, at: Position(x: 0, y: -1, z: 1)),
 			.place(unit: state.blackHopper, at: Position(x: 0, y: 2, z: -2)),
-			.move(unit: state.whiteMosquito, to: .origin)
+			.move(unit: state.whiteMosquito, to: .origin),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMoves: Set<Movement> = [
-			.move(unit: state.blackHopper, to: Position(x: 0, y: -1, z: 1))
+			.move(unit: state.blackHopper, to: Position(x: 0, y: -1, z: 1)),
 		]
 
 		var availableMoves: Set<Movement> = []
@@ -81,6 +81,6 @@ final class UnitHopperTests: HiveEngineTestCase {
 		("testHopper_CanMoveAsHopperOnly", testHopper_CanMoveAsHopperOnly),
 		("testHopperMoves_AreCorrect", testHopperMoves_AreCorrect),
 		("testHopperNotInPlay_CannotMove", testHopperNotInPlay_CannotMove),
-		("testHopper_CanJumpAnyHeight", testHopper_CanJumpAnyHeight)
+		("testHopper_CanJumpAnyHeight", testHopper_CanJumpAnyHeight),
 	]
 }

@@ -154,7 +154,7 @@ final class GameStateTests: HiveEngineTestCase {
 
 		let moves: [Movement] = [
 			.place(unit: state.whiteAnt, at: .origin),
-			.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0))
+			.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0)),
 		]
 		stateProvider.apply(moves: moves, to: state)
 		unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit!.index > 1 ? $0.movedUnit : nil })
@@ -236,7 +236,7 @@ final class GameStateTests: HiveEngineTestCase {
 			Position(x: 0, y: -2, z: 2), Position(x: -1, y: -1, z: 2),
 			Position(x: -2, y: 0, z: 2), Position(x: -2, y: 1, z: 1),
 			Position(x: -1, y: 1, z: 0), Position(x: -2, y: 2, z: 0),
-			Position(x: -2, y: 3, z: -1), Position(x: -1, y: 3, z: -2)
+			Position(x: -2, y: 3, z: -1), Position(x: -1, y: 3, z: -2),
 			])
 
 		XCTAssertEqual(playableSpaces, state.playableSpaces())
@@ -272,13 +272,13 @@ final class GameStateTests: HiveEngineTestCase {
 
 		let whitePieces: Set<HiveEngine.Unit> = Set([
 			state.whiteSpider, state.whiteAnt,
-			state.whiteQueen, state.whitePillBug
+			state.whiteQueen, state.whitePillBug,
 			])
 		XCTAssertEqual(0, state.unitsInHand[Player.white]!.intersection(whitePieces).count)
 
 		let blackPieces: Set<HiveEngine.Unit> = Set([
 			state.blackHopper, state.blackSpider,
-			state.blackLadyBug, state.blackQueen
+			state.blackLadyBug, state.blackQueen,
 			])
 		XCTAssertEqual(0, state.unitsInHand[Player.black]!.intersection(blackPieces).count)
 	}
@@ -316,7 +316,7 @@ final class GameStateTests: HiveEngineTestCase {
 		let expectedPositions: Set<Position> = [
 			Position(x: -1, y: 2, z: -1),
 			Position(x: 0, y: 2, z: -2),
-			Position(x: 1, y: 1, z: -2)
+			Position(x: 1, y: 1, z: -2),
 		]
 
 		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
@@ -331,7 +331,7 @@ final class GameStateTests: HiveEngineTestCase {
 			Position(x: 1, y: -1, z: 0),
 			Position(x: 0, y: -1, z: 1),
 			Position(x: -1, y: 0, z: 1),
-			Position(x: -1, y: 1, z: 0)
+			Position(x: -1, y: 1, z: 0),
 		]
 
 		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
@@ -344,7 +344,7 @@ final class GameStateTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
 			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2))
+			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -359,7 +359,7 @@ final class GameStateTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
 			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2))
+			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -655,6 +655,6 @@ final class GameStateTests: HiveEngineTestCase {
 		("testGameStateUpdate_Notation_IsCorrect", testGameStateUpdate_Notation_IsCorrect),
 
 		("testGameStateOptions_RestrictedOpenings_IsCorrect", testGameStateOptions_RestrictedOpenings_IsCorrect),
-		("testGameStateOptions_NoFirstQueenMove_IsCorrect", testGameStateOptions_NoFirstQueenMove_IsCorrect)
+		("testGameStateOptions_NoFirstQueenMove_IsCorrect", testGameStateOptions_NoFirstQueenMove_IsCorrect),
 	]
 }

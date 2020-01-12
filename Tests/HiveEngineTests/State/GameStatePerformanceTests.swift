@@ -55,6 +55,6 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 	static var allTests = [
 		("testFinishedGameState_Performance", testFinishedGameState_Performance),
 		("testAvailableMoves_Performance", testAvailableMoves_Performance),
-		("testExploration_Performance", testExploration_Performance)
+		("testExploration_Performance", testExploration_Performance),
 	]
 }

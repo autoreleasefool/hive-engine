@@ -27,7 +27,7 @@ public struct Unit: Codable {
 				.beetle, .beetle,
 				.hopper, .hopper, .hopper,
 				.queen,
-				.spider, .spider
+				.spider, .spider,
 			]
 		}
 

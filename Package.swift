@@ -6,11 +6,11 @@ import PackageDescription
 let package = Package(
 	name: "HiveEngine",
 	products: [
-		.library(name: "HiveEngine", targets: ["HiveEngine"])
+		.library(name: "HiveEngine", targets: ["HiveEngine"]),
 	],
 	dependencies: [],
 	targets: [
 		.target(name: "HiveEngine", dependencies: []),
-		.testTarget(name: "HiveEngineTests", dependencies: ["HiveEngine"])
+		.testTarget(name: "HiveEngineTests", dependencies: ["HiveEngine"]),
 	]
 )

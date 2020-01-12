@@ -59,7 +59,7 @@ class GameStateProvider {
 			/* 31 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 1, z: -1)),
 			/* 32 */ Movement.place(unit: state.blackAnt, at: Position(x: 2, y: -1, z: -1)),
 			/* 33 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 2, z: -2)),
-			/* 34 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: -1, z: 0))
+			/* 34 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: -1, z: 0)),
 			// Game won by black
 		]
 	}
@@ -85,7 +85,7 @@ class GameStateProvider {
 			/* 37 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: 2, z: -3)),
 			/* 38 */ Movement.move(unit: state.blackAnt, to: Position(x: 2, y: -1, z: -1)),
 			/* 39 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position(x: -1, y: -1, z: 2)),
-			/* 40 */ Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2))
+			/* 40 */ Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2)),
 			// Game ends in a tie
 		]
 	}

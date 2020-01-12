@@ -11,7 +11,7 @@ import XCTest
 
 final class UHPCommandTests: HiveEngineTestCase {
 	func testInfoCommand() {
-		var state: GameState? = nil
+		var state: GameState?
 
 		let result = InfoCommand().invoke("", state: &state)
 		XCTAssertEqual(.output("id Hive Engine v2.0.0\nMosquito;Ladybug;Pillbug"), result)

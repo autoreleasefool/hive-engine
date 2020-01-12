@@ -137,14 +137,14 @@ public class GameState: Codable {
 		self.currentPlayer = .white
 		self.unitsInPlay = [
 			Player.white: [:],
-			Player.black: [:]
+			Player.black: [:],
 		]
 		self.stacks = [:]
 		self.move = 0
 
 		var classIndices: [Player: [Unit.Class: Int]] = [
 			Player.white: [:],
-			Player.black: [:]
+			Player.black: [:],
 		]
 
 		func nextIndex(for `class`: Unit.Class, belongingTo owner: Player) -> Int {
@@ -158,7 +158,7 @@ public class GameState: Codable {
 		let allUnits = whiteUnits + blackUnits
 		self.unitsInHand = [
 			Player.white: Set(whiteUnits),
-			Player.black: Set(blackUnits)
+			Player.black: Set(blackUnits),
 		]
 
 		for unit in allUnits {

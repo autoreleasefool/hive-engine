@@ -41,7 +41,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			.move(unit: state.whiteBeetle, to: Position(x: -1, y: 1, z: 0)),
 			.move(unit: state.whiteBeetle, to: Position(x: -1, y: -1, z: 2)),
 			.move(unit: state.whiteBeetle, to: .origin),
-			.move(unit: state.whiteBeetle, to: Position(x: 0, y: -1, z: 1))
+			.move(unit: state.whiteBeetle, to: Position(x: 0, y: -1, z: 1)),
 		]
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
@@ -61,7 +61,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
-			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2))
+			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -78,7 +78,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
 			Movement.move(unit: state.whiteAnt, to: Position(x: 1, y: -1, z: 0)),
 			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
-			Movement.move(unit: state.whiteAnt, to: Position(x: 0, y: -1, z: 1))
+			Movement.move(unit: state.whiteAnt, to: Position(x: 0, y: -1, z: 1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -98,7 +98,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 3, y: -1, z: -2)),
 			Movement.move(unit: state.blackSpider, to: Position(x: -1, y: 1, z: 0)),
 			Movement.move(unit: state.whiteBeetle, to: Position(x: 2, y: 0, z: -2)),
-			Movement.move(unit: state.blackSpider, to: Position(x: 1, y: 2, z: -3))
+			Movement.move(unit: state.blackSpider, to: Position(x: 1, y: 2, z: -3)),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -118,7 +118,7 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			.place(unit: state.blackPillBug, at: Position(x: 2, y: 0, z: -2)),
 			.place(unit: state.blackPillBug, at: Position(x: 2, y: -1, z: -1)),
 			.place(unit: state.blackAnt, at: Position(x: 2, y: -1, z: -1)),
-			.place(unit: state.blackAnt, at: Position(x: 2, y: 0, z: -2))
+			.place(unit: state.blackAnt, at: Position(x: 2, y: 0, z: -2)),
 		]
 
 		let availablePlacements = Set(state.availableMoves.filter { if case .place = $0 { return true } else { return false } })
@@ -168,6 +168,6 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		("testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced", testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced),
 		("testWithBeetleOnTopOfStack_PiecesBeneathCannotMove", testWithBeetleOnTopOfStack_PiecesBeneathCannotMove),
 		("testBeetle_CanMoveToTallerStack", testBeetle_CanMoveToTallerStack),
-		("testBeetle_CanMoveDownFromStack", testBeetle_CanMoveDownFromStack)
+		("testBeetle_CanMoveDownFromStack", testBeetle_CanMoveDownFromStack),
 	]
 }

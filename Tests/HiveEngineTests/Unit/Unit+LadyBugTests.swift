@@ -43,7 +43,7 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 			.move(unit: state.blackLadyBug, to: Position(x: 1, y: 2, z: -3)),
 			.move(unit: state.blackLadyBug, to: Position(x: -1, y: 0, z: 1)),
 			.move(unit: state.blackLadyBug, to: Position(x: -2, y: 3, z: -1)),
-			.move(unit: state.blackLadyBug, to: Position(x: -2, y: 2, z: 0))
+			.move(unit: state.blackLadyBug, to: Position(x: -2, y: 2, z: 0)),
 		]
 
 		var availableMoves: Set<Movement> = []
@@ -73,14 +73,14 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 			.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
 			.move(unit: state.whiteBeetle, to: .origin),
 			.move(unit: state.blackLadyBug, to: Position(x: 1, y: 0, z: -1)),
-			.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0))
+			.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
 		let expectedMoves: Set<Movement> = [
 			.move(unit: state.blackLadyBug, to: Position(x: -1, y: 1, z: 0)),
 			.move(unit: state.blackLadyBug, to: Position(x: -1, y: 0, z: 1)),
-			.move(unit: state.blackLadyBug, to: Position(x: 0, y: -1, z: 1))
+			.move(unit: state.blackLadyBug, to: Position(x: 0, y: -1, z: 1)),
 		]
 
 		var availableMoves: Set<Movement> = []
@@ -99,7 +99,7 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 			.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
 			.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0)),
 			.place(unit: state.blackLadyBug, at: Position(x: 1, y: 1, z: -2)),
-			.move(unit: state.whiteBeetle, to: .origin)
+			.move(unit: state.whiteBeetle, to: .origin),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -113,6 +113,6 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 		("testLadyBugMoves_AreCorrect", testLadyBugMoves_AreCorrect),
 		("testLadyBugNotInPlay_CannotMove", testLadyBugNotInPlay_CannotMove),
 		("testLadyBug_WithoutFreedomOfMovement_CannotMove", testLadyBug_WithoutFreedomOfMovement_CannotMove),
-		("testLadyBug_CanMoveAcrossAnyHeight", testLadyBug_CanMoveAcrossAnyHeight)
+		("testLadyBug_CanMoveAcrossAnyHeight", testLadyBug_CanMoveAcrossAnyHeight),
 	]
 }

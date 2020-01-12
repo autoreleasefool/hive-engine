@@ -25,6 +25,6 @@ final class RelativeMovementTests: HiveEngineTestCase {
 	}
 
 	static var allTests = [
-		("testRelativeMovementDescription_IsCorrect", testRelativeMovementDescription_IsCorrect)
+		("testRelativeMovementDescription_IsCorrect", testRelativeMovementDescription_IsCorrect),
 	]
 }

@@ -46,7 +46,7 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
 			.place(unit: state.whiteMosquito, at: .origin),
-			.place(unit: state.blackBeetle, at: Position(x: 0, y: 1, z: -1))
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 1, z: -1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -57,7 +57,7 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
 			.place(unit: state.whiteMosquito, at: .origin),
-			.place(unit: state.blackPillBug, at: Position(x: 0, y: 1, z: -1))
+			.place(unit: state.blackPillBug, at: Position(x: 0, y: 1, z: -1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -85,7 +85,7 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 			.place(unit: state.blackMosquito, at: Position(x: 0, y: 2, z: -2)),
 			.place(unit: state.whiteBeetle, at: Position(x: 1, y: -1, z: 0)),
 			.place(unit: state.blackBeetle, at: Position(x: -1, y: 2, z: -1)),
-			.move(unit: state.whiteMosquito, to: .origin)
+			.move(unit: state.whiteMosquito, to: .origin),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -109,6 +109,6 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		("testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue", testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue),
 		("testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse", testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse),
 
-		("testMosquito_OnTopOfHive_IsBeetle", testMosquito_OnTopOfHive_IsBeetle)
+		("testMosquito_OnTopOfHive_IsBeetle", testMosquito_OnTopOfHive_IsBeetle),
 	]
 }

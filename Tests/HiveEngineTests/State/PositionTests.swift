@@ -28,7 +28,7 @@ final class PositionTests: HiveEngineTestCase {
 			Position(x: 23, y: 10, z: -13),
 			Position(x: 22, y: 10, z: -12),
 			Position(x: 21, y: 11, z: -12),
-			Position(x: 21, y: 12, z: -13)
+			Position(x: 21, y: 12, z: -13),
 		]
 
 		XCTAssertEqual(expectedAdjacent, position.adjacent())
@@ -82,7 +82,7 @@ final class PositionTests: HiveEngineTestCase {
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whiteSpider, at: Position(x: 0, y: -1, z: 1))
+			Movement.place(unit: state.whiteSpider, at: Position(x: 0, y: -1, z: 1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -95,7 +95,7 @@ final class PositionTests: HiveEngineTestCase {
 	func testFreedomOfMovement_BetweenIdenticalPositions_IsFalse() {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .origin)
+			Movement.place(unit: state.whiteQueen, at: .origin),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -114,7 +114,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
-			Movement.place(unit: state.whiteAnt, at: Position(x: 2, y: -1, z: -1))
+			Movement.place(unit: state.whiteAnt, at: Position(x: 2, y: -1, z: -1)),
 			]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -130,7 +130,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
-			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2))
+			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -147,7 +147,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
-			Movement.place(unit: state.whiteAnt, at: Position(x: -2, y: 1, z: 1))
+			Movement.place(unit: state.whiteAnt, at: Position(x: -2, y: 1, z: 1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -163,7 +163,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: -1, y: 0, z: 1)),
-			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1))
+			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: 2, z: -1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -180,7 +180,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: -1, z: 2)),
-			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: -2, z: 1))
+			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: -2, z: 1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -196,7 +196,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
 			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
-			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: -1, z: 2))
+			Movement.place(unit: state.blackSpider, at: Position(x: -1, y: -1, z: 2)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -220,7 +220,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.move(unit: state.whiteBeetle, to: .origin),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 2, y: 1, z: -3)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2))
+			Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -240,7 +240,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
-			Movement.move(unit: state.whiteBeetle, to: .origin)
+			Movement.move(unit: state.whiteBeetle, to: .origin),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -263,7 +263,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.move(unit: state.whiteBeetle, to: .origin),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 2, y: 1, z: -3)),
 			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2))
+			Movement.move(unit: state.blackBeetle, to: Position(x: 1, y: 1, z: -2)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -283,7 +283,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackQueen, at: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: -1, y: 1, z: 0)),
 			Movement.place(unit: state.blackSpider, at: Position(x: 1, y: 1, z: -2)),
-			Movement.move(unit: state.whiteBeetle, to: .origin)
+			Movement.move(unit: state.whiteBeetle, to: .origin),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -307,7 +307,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackBeetle, at: Position(x: 1, y: 1, z: -2)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: -2, z: 0)),
 			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
-			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0))
+			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -328,7 +328,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: 1, y: 1, z: -2)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: -2, z: 0)),
-			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1))
+			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: 1, z: -1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -350,7 +350,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackBeetle, at: Position(x: -1, y: -1, z: 2)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: -2, y: 2, z: 0)),
 			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.whiteBeetle, to: Position(x: -1, y: 1, z: 0))
+			Movement.move(unit: state.whiteBeetle, to: Position(x: -1, y: 1, z: 0)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -371,7 +371,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteAnt, at: Position(x: -1, y: 1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -1, y: -1, z: 2)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: -2, y: 2, z: 0)),
-			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: -1, z: 1))
+			Movement.move(unit: state.blackBeetle, to: Position(x: 0, y: -1, z: 1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -395,7 +395,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackBeetle, at: Position(x: -2, y: 2, z: 0)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: 0, z: -2)),
 			Movement.move(unit: state.blackBeetle, to: Position(x: -1, y: 1, z: 0)),
-			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: 0, z: -1))
+			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: 0, z: -1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -416,7 +416,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: 0, z: -1)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -2, y: 2, z: 0)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: 0, z: -2)),
-			Movement.move(unit: state.blackBeetle, to: Position(x: -1, y: 1, z: 0))
+			Movement.move(unit: state.blackBeetle, to: Position(x: -1, y: 1, z: 0)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -438,7 +438,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.blackBeetle, at: Position(x: -2, y: 0, z: 2)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: -2, z: 0)),
 			Movement.move(unit: state.blackBeetle, to: Position(x: -1, y: 0, z: 1)),
-			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0))
+			Movement.move(unit: state.whiteBeetle, to: Position(x: 1, y: -1, z: 0)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -459,7 +459,7 @@ final class PositionTests: HiveEngineTestCase {
 			Movement.place(unit: state.whiteAnt, at: Position(x: 1, y: -1, z: 0)),
 			Movement.place(unit: state.blackBeetle, at: Position(x: -2, y: 0, z: 2)),
 			Movement.place(unit: state.whiteBeetle, at: Position(x: 2, y: -2, z: 0)),
-			Movement.move(unit: state.blackBeetle, to: Position(x: -1, y: 0, z: 1))
+			Movement.move(unit: state.blackBeetle, to: Position(x: -1, y: 0, z: 1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
@@ -519,6 +519,6 @@ final class PositionTests: HiveEngineTestCase {
 		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement),
 
 		("testPositionComparable_IsCorrect", testPositionComparable_IsCorrect),
-		("testPositionDescription_IsCorrect", testPositionDescription_IsCorrect)
+		("testPositionDescription_IsCorrect", testPositionDescription_IsCorrect),
 	]
 }

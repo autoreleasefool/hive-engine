@@ -49,7 +49,7 @@ public struct Position: Hashable, Equatable, Codable {
 			Position(x: x &+ 1, y: y &- 1, z: z),
 			Position(x: x, y: y &- 1, z: z &+ 1),
 			Position(x: x &- 1, y: y, z: z &+ 1),
-			Position(x: x &- 1, y: y &+ 1, z: z)
+			Position(x: x &- 1, y: y &+ 1, z: z),
 		]
 	}
 
