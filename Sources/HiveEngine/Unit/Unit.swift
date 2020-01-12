@@ -20,6 +20,33 @@ public struct Unit: Codable {
 		case queen = 6
 		case spider = 7
 
+		init?(notation: String) {
+			switch notation {
+			case "A": self = .ant
+			case "B": self = .beetle
+			case "G": self = .hopper
+			case "L": self = .ladyBug
+			case "M": self = .mosquito
+			case "P": self = .pillBug
+			case "Q": self = .queen
+			case "S": self = .spider
+			default: return nil
+			}
+		}
+
+		var notation: String {
+			switch self {
+			case .ant: return "A"
+			case .beetle: return "B"
+			case .hopper: return "G"
+			case .ladyBug: return "L"
+			case .mosquito: return "M"
+			case .pillBug: return "P"
+			case .queen: return "Q"
+			case .spider: return "S"
+			}
+		}
+
 		/// A single player's full set of units
 		public static var basicSet: [Class] {
 			return [
@@ -56,21 +83,21 @@ public struct Unit: Codable {
 		self.index = index
 	}
 
+	init?(notation: String) {
+		guard notation.count == 3,
+			let owner = Player(notation: String(notation[notation.startIndex])),
+			let `class` = Unit.Class(notation: String(notation[notation.index(after: notation.startIndex)])),
+			let index = Int(String(notation[notation.index(notation.startIndex, offsetBy: 2)])) else { return nil }
+		self.owner = owner
+		self.class = `class`
+		self.index = index
+	}
+
 	/// Standard unit notation
 	public var notation: String {
 		let colorNotation: String = owner == .white ? "w" : "b"
 		let indexNotation: String = "\(index)"
-		let classNotation: String
-		switch self.class {
-		case .ant: classNotation = "A"
-		case .beetle: classNotation = "B"
-		case .hopper: classNotation = "G"
-		case .ladyBug: classNotation = "L"
-		case .mosquito: classNotation = "M"
-		case .pillBug: classNotation = "P"
-		case .queen: classNotation = "Q"
-		case .spider: classNotation = "S"
-		}
+		let classNotation: String = self.class.notation
 
 		return "\(colorNotation)\(classNotation)\(indexNotation)"
 	}

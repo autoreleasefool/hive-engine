@@ -192,6 +192,15 @@ public enum Direction: String, CustomStringConvertible {
 		}
 	}
 
+	init?(notation: String, onLeft: Bool) {
+		switch notation {
+		case "-": self = onLeft ? .northWest : .southEast
+		case "\\": self = onLeft ? .north : .south
+		case "/": self = onLeft ? .southWest : .northEast
+		default: return nil
+		}
+	}
+
 	public var description: String {
 		return self.rawValue
 	}

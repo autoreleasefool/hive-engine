@@ -22,6 +22,14 @@ public enum Player: Int, Codable {
 		case .white: return .black
 		}
 	}
+
+	init?(notation: String) {
+		switch notation {
+		case "w": self = .white
+		case "b": self = .black
+		default: return nil
+		}
+	}
 }
 
 // MARK: - CustomStringConvertible
@@ -31,6 +39,14 @@ extension Player: CustomStringConvertible {
 		switch self {
 		case .black: return "Black"
 		case .white: return "White"
+		}
+	}
+
+	init?(from: String) {
+		switch from {
+		case "Black": self = .black
+		case "White": self = .white
+		default: return nil
 		}
 	}
 }

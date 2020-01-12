@@ -206,7 +206,7 @@ final class PositionTests: HiveEngineTestCase {
 		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, in: state))
 	}
 
-	// MARK: - Moving up 1 to 2 or down 2 to 1
+	// MARK: Moving up 1 to 2 or down 2 to 1
 
 	// MARK: Z Axis
 

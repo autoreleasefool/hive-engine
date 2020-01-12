@@ -24,6 +24,12 @@ public class Engine {
 			commandInput = ""
 		}
 
-		return command?.invoke(commandInput, state: &state)
+		let result = command?.invoke(commandInput, state: state)
+
+		if case .state(let state) = result {
+			self.state = state
+		}
+
+		return result
 	}
 }
