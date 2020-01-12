@@ -10,7 +10,27 @@ class NewGameCommand: UHPCommand {
 
 	required init() {}
 
-	func invoke(_ command: String, state: inout GameState?) -> UHPResult {
-		return .output("ok")
+	func invoke(_ command: String, state: GameState?) -> UHPResult {
+		if command.contains(";") {
+			return parseGameString(command)
+		} else {
+			return parseGameTypeString(command)
+		}
+	}
+
+	private func parseGameTypeString(_ command: String) -> UHPResult {
+		guard let gameTypeString = GameTypeString(from: command) else {
+			return .invalidCommand(command)
+		}
+
+		return .state(gameTypeString.state)
+	}
+
+	private func parseGameString(_ command: String) -> UHPResult {
+		guard let gameString = GameString(from: command) else {
+			return .invalidCommand(command)
+		}
+
+		return .state(gameString.state)
 	}
 }

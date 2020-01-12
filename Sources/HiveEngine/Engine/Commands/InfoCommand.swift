@@ -13,7 +13,7 @@ class InfoCommand: UHPCommand {
 
 	required init() {}
 
-	func invoke(_ command: String, state: inout GameState?) -> UHPResult {
+	func invoke(_ command: String, state: GameState?) -> UHPResult {
 		return .output([
 			"id \(InfoCommand.engineName) v\(InfoCommand.engineVersion)",
 			InfoCommand.supportedExpansions.joined(separator: ";"),

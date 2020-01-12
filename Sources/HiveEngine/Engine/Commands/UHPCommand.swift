@@ -8,7 +8,7 @@
 
 protocol UHPCommand: AnyObject {
 	init()
-	func invoke(_ command: String, state: inout GameState?) -> UHPResult
+	func invoke(_ command: String, state: GameState?) -> UHPResult
 }
 
 struct UHPCommandParser {
