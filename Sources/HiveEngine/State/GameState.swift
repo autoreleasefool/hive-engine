@@ -41,7 +41,7 @@ public class GameState: Codable {
 		case move
 	}
 
-	public enum Options: String, Codable {
+	public enum Options: String, Codable, CaseIterable {
 		/// Include the Lady Bug unit
 		case ladyBug = "Lady Bug"
 		/// Include the Mosquito unit
@@ -60,6 +60,13 @@ public class GameState: Codable {
 		case disableNotation = "Disable Standard Notation"
 		/// Treat Movement.yoink and Movement.move as equivalents
 		case treatYoinkAsMove = "Treat Yoink as Move"
+
+		var isModifiable: Bool {
+			switch self {
+			case .ladyBug, .mosquito, .pillBug: return false
+			case .restrictedOpening, .noFirstMoveQueen, .allowSpecialAbilityAfterYoink, .disableMovementValidation, .disableNotation, .treatYoinkAsMove: return true
+			}
+		}
 	}
 
 	/// Optional parameters
@@ -166,8 +173,8 @@ public class GameState: Codable {
 		}
 	}
 
-	public init(from state: GameState) {
-		self.options = state.options
+	public init(from state: GameState, withOptions: Set<Options>? = nil) {
+		self.options = withOptions ?? state.options
 		self.currentPlayer = state.currentPlayer
 		self.unitsInHand = state.unitsInHand
 		self.unitsInPlay = state.unitsInPlay
