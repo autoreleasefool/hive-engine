@@ -1,3 +1,10 @@
+## 2.1.0
+
+* Swift 5.1+
+* [Universal Hive Protocol](https://github.com/jonthysell/Mzinga/wiki/UniversalHiveProtocol) compliance
+* Unit notation for unique insects (queen, ladyBug) is now correctly produced without index
+
+
 ## 2.0.0
 
 * Added a new `.pass` Movement for players who become shut out and unable to make any other moves
