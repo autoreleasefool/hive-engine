@@ -15,12 +15,12 @@ struct UHPCommandParser {
 	private static let commands: [String: UHPCommand.Type] = [
 		"info": InfoCommand.self,
 		"newgame": NewGameCommand.self,
-		// "play": PlayCommand.self,
-		// "pass": PlayCommand.self,
-		// "options": OptionsCommand.self,
-		// "undo": UndoCommand.self,
-		// "validmoves": ValidMovesCommand.self,
-		// "bestmove": BestMoveCommand.self,
+		 "play": PlayCommand.self,
+		 "pass": PlayCommand.self,
+		 "options": OptionsCommand.self,
+		 "undo": UndoCommand.self,
+		 "validmoves": ValidMovesCommand.self,
+		 "bestmove": BestMoveCommand.self,
 	]
 
 	static func parse(_ input: String) -> UHPCommand? {

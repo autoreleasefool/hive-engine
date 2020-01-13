@@ -8,6 +8,6 @@
 
 public enum UHPResult: Equatable {
 	case output(String)
-	case state(GameState)
+	case state(GameState?)
 	case invalidCommand(String)
 }
