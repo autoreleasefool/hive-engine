@@ -194,7 +194,7 @@ final class GameStateTests: HiveEngineTestCase {
 			movement: .move(unit: state.whiteAnt, to: Position(x: 0, y: 3, z: -3)),
 			previousPosition: Position(x: -1, y: 0, z: 1),
 			move: 8,
-			notation: "wA1 \\bQ1"
+			notation: "wA1 \\bQ"
 		)
 		XCTAssertEqual(expectedUpdate, state.previousMoves.last)
 	}
@@ -517,35 +517,35 @@ final class GameStateTests: HiveEngineTestCase {
 		let state = GameState(options: [.ladyBug, .pillBug, .mosquito, .disableMovementValidation])
 
 		state.apply(.place(unit: state.whiteQueen, at: .origin))
-		XCTAssertEqual("wQ1", state.previousMoves.last!.notation)
+		XCTAssertEqual("wQ", state.previousMoves.last!.notation)
 
 		state.apply(.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)))
-		XCTAssertEqual("bQ1 \\wQ1", state.previousMoves.last!.notation)
+		XCTAssertEqual("bQ \\wQ", state.previousMoves.last!.notation)
 
 		state.undoMove()
 		state.apply(.place(unit: state.whiteBeetle, at: Position(x: 1, y: 0, z: -1)))
-		XCTAssertEqual("wB1 wQ1/", state.previousMoves.last!.notation)
+		XCTAssertEqual("wB1 wQ/", state.previousMoves.last!.notation)
 
 		state.undoMove()
 		state.apply(.place(unit: state.blackHopper, at: Position(x: 1, y: -1, z: 0)))
-		XCTAssertEqual("bG1 wQ1-", state.previousMoves.last!.notation)
+		XCTAssertEqual("bG1 wQ-", state.previousMoves.last!.notation)
 
 		state.undoMove()
 		state.apply(.place(unit: state.whiteLadyBug, at: Position(x: 0, y: -1, z: 1)))
-		XCTAssertEqual("wL1 wQ1\\", state.previousMoves.last!.notation)
+		XCTAssertEqual("wL wQ\\", state.previousMoves.last!.notation)
 
 		state.undoMove()
 		state.apply(.place(unit: state.blackSpider, at: Position(x: -1, y: 0, z: 1)))
-		XCTAssertEqual("bS1 /wQ1", state.previousMoves.last!.notation)
+		XCTAssertEqual("bS1 /wQ", state.previousMoves.last!.notation)
 
 		state.undoMove()
 		state.apply(.place(unit: state.whitePillBug, at: Position(x: -1, y: 1, z: 0)))
-		XCTAssertEqual("wP1 -wQ1", state.previousMoves.last!.notation)
+		XCTAssertEqual("wP -wQ", state.previousMoves.last!.notation)
 
 		state.undoMove()
 		state.apply(.place(unit: state.whiteBeetle, at: Position(x: 1, y: 0, z: -1)))
 		state.apply(.move(unit: state.whiteBeetle, to: .origin))
-		XCTAssertEqual("wB1 wQ1", state.previousMoves.last!.notation)
+		XCTAssertEqual("wB1 wQ", state.previousMoves.last!.notation)
 
 		state.undoMove()
 		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: -2)))

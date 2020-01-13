@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import HiveEngine
+@testable import HiveEngine
 
 final class UnitTests: HiveEngineTestCase {
 
@@ -150,6 +150,13 @@ final class UnitTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		XCTAssertEqual("bA1", state.blackAnt.notation)
 		XCTAssertEqual("wS2", HiveEngine.Unit(class: .spider, owner: .white, index: 2).notation)
+		XCTAssertEqual("wP", HiveEngine.Unit(class: .pillBug, owner: .white, index: 1).notation)
+	}
+
+	func testUnitFromNotation() {
+		let state = stateProvider.initialGameState
+		XCTAssertEqual(state.blackAnt, HiveEngine.Unit(notation: "bA1"))
+		XCTAssertEqual(state.whiteQueen, HiveEngine.Unit(notation: "wQ"))
 	}
 
 	func testUnitComparable_IsCorrect() {

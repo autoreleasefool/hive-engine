@@ -47,6 +47,13 @@ public struct Unit: Codable {
 			}
 		}
 
+		var isUnique: Bool {
+			switch self {
+			case .ant, .beetle, .hopper, .spider: return false
+			case .ladyBug, .mosquito, .pillBug, .queen: return true
+			}
+		}
+
 		/// A single player's full set of units
 		public static var basicSet: [Class] {
 			return [
@@ -84,19 +91,26 @@ public struct Unit: Codable {
 	}
 
 	init?(notation: String) {
-		guard notation.count == 3,
+		guard (2...3).contains(notation.count),
 			let owner = Player(notation: String(notation[notation.startIndex])),
-			let `class` = Unit.Class(notation: String(notation[notation.index(after: notation.startIndex)])),
-			let index = Int(String(notation[notation.index(notation.startIndex, offsetBy: 2)])) else { return nil }
+			let `class` = Unit.Class(notation: String(notation[notation.index(after: notation.startIndex)])) else { return nil }
+
 		self.owner = owner
 		self.class = `class`
+
+		guard !`class`.isUnique else {
+			self.index = 1
+			return
+		}
+
+		guard let index = Int(String(notation[notation.index(notation.startIndex, offsetBy: 2)])) else { return nil }
 		self.index = index
 	}
 
 	/// Standard unit notation
 	public var notation: String {
 		let colorNotation: String = owner == .white ? "w" : "b"
-		let indexNotation: String = "\(index)"
+		let indexNotation: String = self.class.isUnique ? "" : "\(index)"
 		let classNotation: String = self.class.notation
 
 		return "\(colorNotation)\(classNotation)\(indexNotation)"
