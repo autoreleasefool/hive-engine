@@ -24,7 +24,7 @@ public struct RelativeMovement {
 	private static let directionRegex = Regex(#"[-\/]"#)
 	private static let regex = Regex(#"([wb][ABGLMPQS][1-3]) ?([-\/]?[wb][ABGLMPQS][1-3][-\/]?)?"#)
 
-	init?(notation: String) {
+	public init?(notation: String) {
 		guard let match = RelativeMovement.regex.firstMatch(in: notation),
 			let movedUnit = Unit(notation: match.captures[0]!) else { return nil }
 		self.movedUnit = movedUnit

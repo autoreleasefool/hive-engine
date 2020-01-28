@@ -20,7 +20,7 @@ public struct Unit: Codable {
 		case queen = 6
 		case spider = 7
 
-		init?(notation: String) {
+		public init?(notation: String) {
 			switch notation {
 			case "A": self = .ant
 			case "B": self = .beetle
@@ -34,7 +34,7 @@ public struct Unit: Codable {
 			}
 		}
 
-		var notation: String {
+		public var notation: String {
 			switch self {
 			case .ant: return "A"
 			case .beetle: return "B"
@@ -47,7 +47,7 @@ public struct Unit: Codable {
 			}
 		}
 
-		var isUnique: Bool {
+		public var isUnique: Bool {
 			switch self {
 			case .ant, .beetle, .hopper, .spider: return false
 			case .ladyBug, .mosquito, .pillBug, .queen: return true
@@ -90,7 +90,7 @@ public struct Unit: Codable {
 		self.index = index
 	}
 
-	init?(notation: String) {
+	public init?(notation: String) {
 		guard (2...3).contains(notation.count),
 			let owner = Player(notation: String(notation[notation.startIndex])),
 			let `class` = Unit.Class(notation: String(notation[notation.index(after: notation.startIndex)])) else { return nil }

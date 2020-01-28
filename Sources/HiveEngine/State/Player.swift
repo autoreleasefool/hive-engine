@@ -23,7 +23,7 @@ public enum Player: Int, Codable {
 		}
 	}
 
-	init?(notation: String) {
+	public init?(notation: String) {
 		switch notation {
 		case "w": self = .white
 		case "b": self = .black
@@ -42,7 +42,7 @@ extension Player: CustomStringConvertible {
 		}
 	}
 
-	init?(from: String) {
+	public init?(from: String) {
 		switch from {
 		case "Black": self = .black
 		case "White": self = .white
