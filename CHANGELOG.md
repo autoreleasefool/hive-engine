@@ -1,3 +1,8 @@
+## 2.2.0
+
+* Make notation initializers public
+* Add method to convert `RelativeMovement` to a `Movement`
+
 ## 2.1.0
 
 * Swift 5.1+
