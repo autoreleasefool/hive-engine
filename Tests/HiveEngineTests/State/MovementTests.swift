@@ -12,6 +12,13 @@ import HiveEngine
 
 final class MovementTests: HiveEngineTestCase {
 
+	var stateProvider: GameStateProvider!
+
+	override func setUp() {
+		super.setUp()
+		stateProvider = GameStateProvider()
+	}
+
 	func testCodingMoveMovement() {
 		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)
@@ -107,6 +114,43 @@ final class MovementTests: HiveEngineTestCase {
 		XCTAssertEqual("Pass", movement.description)
 	}
 
+	func testMovementToRelativeMovement_WhenPlaced_IsCorrect() {
+		let state = stateProvider.initialGameState
+		let setupMoves: [Movement] = [
+			Movement.place(unit: state.whiteQueen, at: .origin),
+		]
+
+		stateProvider.apply(moves: setupMoves, to: state)
+
+		let movement: Movement = .place(unit: state.blackAnt, at: Position(x: -1, y: 1, z: 0))
+
+		let unit = Unit(class: .ant, owner: .black, index: 1)
+		let adjacentUnit = Unit(class: .queen, owner: .white, index: 1)
+		let direction: Direction = .northWest
+
+		let relativeMovement = movement.relative(in: state)
+		XCTAssertEqual(RelativeMovement(unit: unit, adjacentTo: (adjacentUnit, direction)), relativeMovement)
+	}
+
+	func testMovementToRelativeMovement_WhenMoved_IsCorrect() {
+		let state = stateProvider.initialGameState
+		let setupMoves: [Movement] = [
+			Movement.place(unit: state.whiteQueen, at: .origin),
+			Movement.place(unit: state.blackAnt, at: Position(x: -1, y: 1, z: 0)),
+		]
+
+		stateProvider.apply(moves: setupMoves, to: state)
+
+		let movement: Movement = .move(unit: state.whiteQueen, to: Position(x: -1, y: 0, z: 1))
+
+		let unit = Unit(class: .queen, owner: .white, index: 1)
+		let adjacentUnit = Unit(class: .ant, owner: .black, index: 1)
+		let direction: Direction = .south
+
+		let relativeMovement = movement.relative(in: state)
+		XCTAssertEqual(RelativeMovement(unit: unit, adjacentTo: (adjacentUnit, direction)), relativeMovement)
+	}
+
 	static var allTests = [
 		("testCodingMoveMovement", testCodingMoveMovement),
 		("testCodingYoinkMovement", testCodingYoinkMovement),
@@ -119,5 +163,8 @@ final class MovementTests: HiveEngineTestCase {
 		("testMoveDescription_IsCorrect", testMoveDescription_IsCorrect),
 		("testYoinkDescription_IsCorrect", testYoinkDescription_IsCorrect),
 		("testPassDescription_IsCorrect", testPassDescription_IsCorrect),
+
+		("testMovementToRelativeMovement_WhenPlaced_IsCorrect", testMovementToRelativeMovement_WhenPlaced_IsCorrect),
+		("testMovementToRelativeMovement_WhenMoved_IsCorrect", testMovementToRelativeMovement_WhenMoved_IsCorrect),
 	]
 }

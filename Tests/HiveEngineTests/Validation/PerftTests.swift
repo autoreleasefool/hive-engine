@@ -139,6 +139,6 @@ class PerftTests: HiveEngineTestCase {
 		("testPerftValidation_Mosquito_LadyBug", testPerftValidation_Mosquito_LadyBug),
 		("testPerftValidation_Mosquito_PillBug", testPerftValidation_Mosquito_PillBug),
 		("testPerftValidation_LadyBug_PillBug", testPerftValidation_LadyBug_PillBug),
-		("testPerftValidation_Mosquito_LadyBug_PillBug", testPerftValidation_Mosquito_LadyBug_PillBug)
+		("testPerftValidation_Mosquito_LadyBug_PillBug", testPerftValidation_Mosquito_LadyBug_PillBug),
 	]
 }

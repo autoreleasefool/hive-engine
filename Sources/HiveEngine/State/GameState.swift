@@ -256,17 +256,8 @@ public class GameState: Codable {
 	}
 
 	/// Applies the movement to this game state (if it is valid)
-	public func apply(relativeMovement movement: RelativeMovement) {
-		if let adjacent = movement.adjacent,
-			let adjacentPosition = position(of: adjacent.unit)?.offset(by: adjacent.direction) {
-			if unitsInHand[movement.movedUnit.owner]?.contains(movement.movedUnit) == true {
-				apply(.place(unit: movement.movedUnit, at: adjacentPosition))
-			} else {
-				apply(.move(unit: movement.movedUnit, to: adjacentPosition))
-			}
-		} else {
-			apply(.place(unit: movement.movedUnit, at: .origin))
-		}
+	public func apply(relativeMovement: RelativeMovement) {
+		apply(relativeMovement.movement(in: self))
 	}
 
 	/// Applies the movement to this game state (if it is valid)

@@ -61,6 +61,45 @@ public struct RelativeMovement {
 		}
 		return notation
 	}
+
+	/// Translate the RelativeMovement in to a Movement, in the given GameState.
+	public func movement(in state: GameState) -> Movement {
+		if let adjacent = adjacent,
+			let adjacentPosition = state.position(of: adjacent.unit)?.offset(by: adjacent.direction) {
+			if state.unitsInHand[movedUnit.owner]?.contains(movedUnit) == true {
+				return .place(unit: movedUnit, at: adjacentPosition)
+			} else {
+				return .move(unit: movedUnit, to: adjacentPosition)
+			}
+		} else {
+			return .place(unit: movedUnit, at: .origin)
+		}
+	}
+}
+
+// MARK: - Equatable
+
+extension RelativeMovement: Equatable {
+	public static func == (lhs: RelativeMovement, rhs: RelativeMovement) -> Bool {
+		guard lhs.movedUnit == rhs.movedUnit else { return false }
+		switch (lhs.adjacent, rhs.adjacent) {
+		case (.some(let u1, let p1), .some(let u2, let p2)): return u1 == u2 && p1 == p2
+		case (.none, .none): return true
+		case (.none, _), (_, .none): return false
+		}
+	}
+}
+
+// MARK: - Hashable
+
+extension RelativeMovement: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(movedUnit)
+		if case let .some(unit, position) = adjacent {
+			hasher.combine(unit)
+			hasher.combine(position)
+		}
+	}
 }
 
 // MARK: - CustomStringConvertible

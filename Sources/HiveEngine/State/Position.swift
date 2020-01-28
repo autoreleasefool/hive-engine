@@ -172,7 +172,7 @@ extension Position: Comparable {
 
 // MARK: - Direction
 
-public enum Direction: String, CustomStringConvertible {
+public enum Direction: String, CustomStringConvertible, Hashable, Equatable {
 	case onTop = "On Top"
 	case northWest = "North West"
 	case northEast = "North East"
