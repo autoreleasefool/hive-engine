@@ -43,7 +43,7 @@ class OptionsCommand: UHPCommand {
 	}
 
 	private func optionsList(state: GameState) -> UHPResult {
-		let output = GameState.Options.allCases
+		let output = GameState.Option.allCases
 			.filter { $0.isModifiable }
 			.map { "\($0.rawValue);bool;\(state.options.contains($0));false" }
 			.joined(separator: "\n")
@@ -51,20 +51,20 @@ class OptionsCommand: UHPCommand {
 		return .output(output)
 	}
 
-	private func extractOption(from command: String, hasValue: Bool) -> (option: GameState.Options, value: Bool?)? {
+	private func extractOption(from command: String, hasValue: Bool) -> (option: GameState.Option, value: Bool?)? {
 		guard let firstSpace = command.firstIndex(of: " "),
 			let lastSpace = command.lastIndex(of: " ") else { return nil }
 
 		let optionNameBegin = command.index(after: firstSpace)
 
 		if !hasValue {
-			guard let option = GameState.Options(rawValue: String(command[optionNameBegin..<command.endIndex])) else { return nil }
+			guard let option = GameState.Option(rawValue: String(command[optionNameBegin..<command.endIndex])) else { return nil }
 			return (option: option, value: nil)
 		}
 
 		let valueBegin = command.index(after: lastSpace)
 
-		guard let option = GameState.Options(rawValue: String(command[optionNameBegin..<lastSpace])),
+		guard let option = GameState.Option(rawValue: String(command[optionNameBegin..<lastSpace])),
 			let value = Bool(String(command.suffix(from: valueBegin))) else { return nil }
 		return (option: option, value: value)
 	}

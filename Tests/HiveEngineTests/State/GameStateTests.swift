@@ -555,7 +555,7 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual("bG1 wB1\\", state.previousMoves.last!.notation)
 	}
 
-	// MARK: - GameState.Options
+	// MARK: - GameState.Option
 
 	func testGameStateOptions_RestrictedOpenings_IsCorrect() {
 		let openState = GameState(options: [])

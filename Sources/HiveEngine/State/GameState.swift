@@ -41,7 +41,7 @@ public class GameState: Codable {
 		case move
 	}
 
-	public enum Options: String, Codable, CaseIterable {
+	public enum Option: String, Codable, CaseIterable {
 		/// Include the Lady Bug unit
 		case ladyBug = "LadyBug"
 		/// Include the Mosquito unit
@@ -69,8 +69,11 @@ public class GameState: Codable {
 		}
 	}
 
+	@available(*, deprecated, message: "Use Option instead.")
+	public typealias Options = Option
+
 	/// Optional parameters
-	private(set) public var options: Set<Options>
+	private(set) public var options: Set<Option>
 
 	/// Units and their positions
 	private(set) public var unitsInPlay: [Player: [Unit: Position]]
@@ -139,7 +142,7 @@ public class GameState: Codable {
 
 	// MARK: - Constructors
 
-	public init(options: Set<Options> = []) {
+	public init(options: Set<Option> = []) {
 		self.options = options
 		self.currentPlayer = .white
 		self.unitsInPlay = [
@@ -173,7 +176,7 @@ public class GameState: Codable {
 		}
 	}
 
-	public init(from state: GameState, withOptions: Set<Options>? = nil) {
+	public init(from state: GameState, withOptions: Set<Option>? = nil) {
 		self.options = withOptions ?? state.options
 		self.currentPlayer = state.currentPlayer
 		self.unitsInHand = state.unitsInHand

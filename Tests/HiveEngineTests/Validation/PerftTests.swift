@@ -26,11 +26,11 @@ class PerftTests: HiveEngineTestCase {
 		"MLP": [7, 294, 6_678, 151_686, 5_427_108, 192_353_904],
 	]
 
-	private static var perftGameStateOptions: Set<GameState.Options> {
+	private static var perftGameStateOptions: Set<GameState.Option> {
 		return [.noFirstMoveQueen, .disableMovementValidation, .disableNotation, .treatYoinkAsMove]
 	}
 
-	private func baseOptions(with: [GameState.Options] = []) -> Set<GameState.Options> {
+	private func baseOptions(with: [GameState.Option] = []) -> Set<GameState.Option> {
 		var gameStateOptions = PerftTests.perftGameStateOptions
 		with.forEach { gameStateOptions.insert($0) }
 		return gameStateOptions

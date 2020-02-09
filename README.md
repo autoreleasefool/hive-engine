@@ -51,9 +51,9 @@ Get started by creating an instance: `let state = GameState()`
 
 #### Options
 
-By default, a `GameState` will create a basic game with no additional options. You can enable expansion pieces and common unofficial rules through `GameState.Options`, as well as performance enhancements.
+By default, a `GameState` will create a basic game with no additional options. You can enable expansion pieces and common unofficial rules through `GameState.Option`, as well as performance enhancements.
 
-Provide a set of `GameState.Options` to the `GameState(options:)` constructor to change which options you have enabled.
+Provide a set of `GameState.Option` to the `GameState(options:)` constructor to change which options you have enabled.
 
 #### API
 
@@ -61,7 +61,7 @@ You can enumerate all the current moves available with `availableMoves`.
 
 To update the `GameState` with a given move, call `apply(_:)` which will mutate the state in place. If you want to explore various `Movement`s, you can undo a move with `undoMove()`
 
-For better performance, you can disable move validation with `GameState.Options.disableMovementValidation`.
+For better performance, you can disable move validation with `GameState.Option.disableMovementValidation`.
 
 ---
 

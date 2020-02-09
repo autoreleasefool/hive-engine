@@ -16,7 +16,7 @@ struct GameTypeString {
 	init?(from: String) {
 		guard let match = regex.firstMatch(in: from) else { return nil }
 
-		var options: Set<GameState.Options> = []
+		var options: Set<GameState.Option> = []
 
 		if match.captures[1]?.contains("M") == true {
 			options.insert(.mosquito)

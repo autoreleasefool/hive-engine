@@ -65,8 +65,8 @@ public struct Unit: Codable {
 			]
 		}
 
-		/// Get a set of Units for a game based on the Options provided.
-		public static func set(with options: Set<GameState.Options>) -> [Class] {
+		/// Get a set of Units for a game based on the options provided.
+		public static func set(with options: Set<GameState.Option>) -> [Class] {
 			var basicSet = Class.basicSet
 			if options.contains(.ladyBug) { basicSet.append(.ladyBug) }
 			if options.contains(.mosquito) { basicSet.append(.mosquito) }
