@@ -1,3 +1,8 @@
+## 2.3.0
+
+* Renamed `GameState.Options` to `GameState.Option` and deprecated `GameState.Options`
+* Remove spaces from GameState.Option raw values
+
 ## 2.2.0
 
 * Make notation initializers public
