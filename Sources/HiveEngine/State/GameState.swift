@@ -43,23 +43,23 @@ public class GameState: Codable {
 
 	public enum Options: String, Codable, CaseIterable {
 		/// Include the Lady Bug unit
-		case ladyBug = "Lady Bug"
+		case ladyBug = "LadyBug"
 		/// Include the Mosquito unit
 		case mosquito = "Mosquito"
 		/// Include the Pill Bug unit
-		case pillBug = "Pill Bug"
+		case pillBug = "PillBug"
 		/// Restrict the black player's opening move to only one position
-		case restrictedOpening = "Restricted Opening"
+		case restrictedOpening = "RestrictedOpening"
 		/// Disallow playing the Queen on either player's first move
-		case noFirstMoveQueen = "No First Move Queen"
+		case noFirstMoveQueen = "NoFirstMoveQueen"
 		/// Allow players to use their Pill Bug's special ability, immediately after that Pill Bug was yoinked
-		case allowSpecialAbilityAfterYoink = "Allow Special Ability after Yoink"
+		case allowSpecialAbilityAfterYoink = "AllowSpecialAbilityAfterYoink"
 		/// Disable validation of movements before applying
-		case disableMovementValidation = "Disable Movement Validation"
+		case disableMovementValidation = "DisableMovementValidation"
 		/// Disable standard notation generation for improved performance
-		case disableNotation = "Disable Standard Notation"
+		case disableNotation = "DisableStandardNotation"
 		/// Treat Movement.yoink and Movement.move as equivalents
-		case treatYoinkAsMove = "Treat Yoink as Move"
+		case treatYoinkAsMove = "TreatYoinkAsMove"
 
 		var isModifiable: Bool {
 			switch self {

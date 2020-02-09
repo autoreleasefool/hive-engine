@@ -67,27 +67,27 @@ final class UHPCommandTests: HiveEngineTestCase {
 	func testOptionsCommand_List() {
 		let result = OptionsCommand().invoke("", state: nil)
 		XCTAssertEqual(.output([
-				"Restricted Opening;bool;false;false",
-				"No First Move Queen;bool;false;false",
-				"Allow Special Ability after Yoink;bool;false;false",
-				"Disable Movement Validation;bool;false;false",
-				"Disable Standard Notation;bool;false;false",
-				"Treat Yoink as Move;bool;false;false",
+				"RestrictedOpening;bool;false;false",
+				"NoFirstMoveQueen;bool;false;false",
+				"AllowSpecialAbilityAfterYoink;bool;false;false",
+				"DisableMovementValidation;bool;false;false",
+				"DisableStandardNotation;bool;false;false",
+				"TreatYoinkAsMove;bool;false;false",
 			].joined(separator: "\n")), result)
 	}
 
 	func testOptionsCommand_SetValue() {
 		let state = GameState(options: [.restrictedOpening, .noFirstMoveQueen])
-		let result = OptionsCommand().invoke("set Restricted Opening false", state: state)
+		let result = OptionsCommand().invoke("set RestrictedOpening false", state: state)
 		XCTAssertEqual(.state(GameState(options: [.noFirstMoveQueen])), result)
 	}
 
 	func testOptionsCommand_GetValue() {
 		let state = GameState(options: [.disableMovementValidation])
-		let firstResult = OptionsCommand().invoke("get Disable Movement Validation", state: state)
-		XCTAssertEqual(.output("Disable Movement Validation;bool;true;false"), firstResult)
-		let secondResult = OptionsCommand().invoke("get Treat Yoink as Move", state: state)
-		XCTAssertEqual(.output("Treat Yoink as Move;bool;false;false"), secondResult)
+		let firstResult = OptionsCommand().invoke("get DisableMovementValidation", state: state)
+		XCTAssertEqual(.output("DisableMovementValidation;bool;true;false"), firstResult)
+		let secondResult = OptionsCommand().invoke("get TreatYoinkAsMove", state: state)
+		XCTAssertEqual(.output("TreatYoinkAsMove;bool;false;false"), secondResult)
 	}
 
 	static var allTests = [
