@@ -60,7 +60,7 @@ class GameStateProvider {
 			/* 32 */ Movement.place(unit: state.blackAnt, at: Position(x: 2, y: -1, z: -1)),
 			/* 33 */ Movement.move(unit: state.whiteBeetle, to: Position(x: 0, y: 2, z: -2)),
 			/* 34 */ Movement.move(unit: state.blackMosquito, to: Position(x: 1, y: -1, z: 0)),
-			// Game won by black
+			// Game won by white
 		]
 	}
 
