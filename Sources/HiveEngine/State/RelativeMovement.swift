@@ -83,7 +83,7 @@ extension RelativeMovement: Equatable {
 	public static func == (lhs: RelativeMovement, rhs: RelativeMovement) -> Bool {
 		guard lhs.movedUnit == rhs.movedUnit else { return false }
 		switch (lhs.adjacent, rhs.adjacent) {
-		case (.some(let u1, let p1), .some(let u2, let p2)): return u1 == u2 && p1 == p2
+		case (.some((let u1, let p1)), .some((let u2, let p2))): return u1 == u2 && p1 == p2
 		case (.none, .none): return true
 		case (.none, _), (_, .none): return false
 		}
@@ -95,7 +95,7 @@ extension RelativeMovement: Equatable {
 extension RelativeMovement: Hashable {
 	public func hash(into hasher: inout Hasher) {
 		hasher.combine(movedUnit)
-		if case let .some(unit, position) = adjacent {
+		if case let .some((unit, position)) = adjacent {
 			hasher.combine(unit)
 			hasher.combine(position)
 		}
