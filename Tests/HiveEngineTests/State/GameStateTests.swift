@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import HiveEngine
+@testable import HiveEngine
 
 final class GameStateTests: HiveEngineTestCase {
 
@@ -595,6 +595,40 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(1, restrictedState.move)
 	}
 
+	func testGameStateOptions_CanSetModifiableOptions() {
+		let state = GameState(options: [])
+
+		for option in GameState.Option.allCases where option.isModifiable {
+			XCTAssertTrue(state.set(option: option, to: true))
+		}
+
+		let expectedState = GameState(options: Set(GameState.Option.allCases.filter { $0.isModifiable }))
+		XCTAssertEqual(expectedState, state)
+	}
+
+	func testGameStateOptions_CannotSetNonModifiableOptions() {
+		let state = GameState(options: [])
+
+		for option in GameState.Option.allCases where !option.isModifiable {
+			XCTAssertFalse(state.set(option: option, to: true))
+		}
+
+		let expectedState = GameState(options: [])
+		XCTAssertEqual(expectedState, state)
+	}
+
+	func testGameStateOptions_CannotSetOptions_AfterGameStarts() {
+		let state = GameState(options: [])
+		state.apply(.place(unit: state.whiteQueen, at: .origin))
+		let expectedState = GameState(from: state)
+
+		for option in GameState.Option.allCases {
+			XCTAssertFalse(state.set(option: option, to: true))
+		}
+
+		XCTAssertEqual(expectedState, state)
+	}
+
 	// MARK: - Linux Tests
 
 	static var allTests = [
@@ -656,5 +690,8 @@ final class GameStateTests: HiveEngineTestCase {
 
 		("testGameStateOptions_RestrictedOpenings_IsCorrect", testGameStateOptions_RestrictedOpenings_IsCorrect),
 		("testGameStateOptions_NoFirstQueenMove_IsCorrect", testGameStateOptions_NoFirstQueenMove_IsCorrect),
+		("testGameStateOptions_CanSetModifiableOptions", testGameStateOptions_CanSetModifiableOptions),
+		("testGameStateOptions_CannotSetNonModifiableOptions", testGameStateOptions_CannotSetNonModifiableOptions),
+		("testGameStateOptions_CannotSetOptions_AfterGameStarts", testGameStateOptions_CannotSetOptions_AfterGameStarts),
 	]
 }

@@ -76,6 +76,15 @@ public class GameState: Codable {
 		}
 	}
 
+	/// Set an option for the game, before the game has begun.
+	public func set(option: GameState.Option, to value: Bool) -> Bool {
+		guard move == 0, option.isModifiable else { return false }
+		if value {
+			self.options.insert(option)
+		} else {
+			self.options.remove(option)
+		}
+		return true
 	}
 
 	@available(*, deprecated, message: "Use Option instead.")
