@@ -600,3 +600,9 @@ extension GameState: Hashable {
 		hasher.combine(options)
 	}
 }
+
+extension GameState: CustomStringConvertible {
+	public var description: String {
+		return self.gameString
+	}
+}
