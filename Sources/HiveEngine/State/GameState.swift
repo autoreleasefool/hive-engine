@@ -67,6 +67,15 @@ public class GameState: Codable {
 			case .restrictedOpening, .noFirstMoveQueen, .allowSpecialAbilityAfterYoink, .disableMovementValidation, .disableNotation, .treatYoinkAsMove: return true
 			}
 		}
+
+		public var isExpansion: Bool {
+			switch self {
+			case .ladyBug, .mosquito, .pillBug: return true
+			case .restrictedOpening, .noFirstMoveQueen, .allowSpecialAbilityAfterYoink, .disableMovementValidation, .disableNotation, .treatYoinkAsMove: return false
+			}
+		}
+	}
+
 	}
 
 	@available(*, deprecated, message: "Use Option instead.")
