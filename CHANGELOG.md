@@ -1,3 +1,9 @@
+## 2.4.0
+
+* Added properties to generate [Universal Hive Protocol](https://github.com/jonthysell/Mzinga/wiki/UniversalHiveProtocol) strings (GameString, GameStateString, GameTypeString, TurnString, MoveStrings)
+* Added `isExpansion` property to `GameState.Option`
+* `GameState.set(option:to:)` to update modifiable options in a game before the game begins
+
 ## 2.3.0
 
 * Renamed `GameState.Options` to `GameState.Option` and deprecated `GameState.Options`
@@ -13,7 +19,6 @@
 * Swift 5.1+
 * [Universal Hive Protocol](https://github.com/jonthysell/Mzinga/wiki/UniversalHiveProtocol) compliance
 * Unit notation for unique insects (queen, ladyBug) is now correctly produced without index
-
 
 ## 2.0.0
 
