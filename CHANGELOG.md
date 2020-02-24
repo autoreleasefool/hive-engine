@@ -1,3 +1,7 @@
+## 2.4.1
+
+* Return `Bool` result when `GameState.apply(relativeMovement:)` or `GameState.apply(move:)` is invoked
+
 ## 2.4.0
 
 * Added properties to generate [Universal Hive Protocol](https://github.com/jonthysell/Mzinga/wiki/UniversalHiveProtocol) strings (GameString, GameStateString, GameTypeString, TurnString, MoveStrings)
