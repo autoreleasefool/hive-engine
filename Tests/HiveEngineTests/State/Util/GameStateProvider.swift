@@ -71,9 +71,7 @@ class GameStateProvider {
 		precondition(moves <= partialStateMoves.count, "Must provide a value less than or equal to \(partialStateMoves.count)")
 
 		for (index, element) in partialStateMoves.prefix(moves).enumerated() {
-			let previousMove = state.move
-			state.apply(element)
-			assert(previousMove != state.move, "Move #\(index) [\(element)] was not a valid move.")
+			assert(state.apply(element), "Move #\(index) [\(element)] was not a valid move.")
 		}
 	}
 
@@ -96,9 +94,7 @@ class GameStateProvider {
 		apply(moves: 33, to: state)
 
 		for (index, element) in tiedStateMoves(for: state).enumerated() {
-			let previousMove = state.move
-			state.apply(element)
-			assert(previousMove != state.move, "Move #\(index) [\(element)] was not a valid move.")
+			assert(state.apply(element), "Move #\(index) [\(element)] was not a valid move.")
 		}
 		return state
 	}
@@ -106,9 +102,7 @@ class GameStateProvider {
 	/// Build a GameState with the given moves.
 	func apply(moves: [Movement], to state: GameState) {
 		for (index, element) in moves.enumerated() {
-			let previousMove = state.move
-			state.apply(element)
-			assert(previousMove != state.move, "Move #\(index) [\(element)] was not a valid move.")
+			assert(state.apply(element), "Move #\(index) [\(element)] was not a valid move.")
 		}
 	}
 }

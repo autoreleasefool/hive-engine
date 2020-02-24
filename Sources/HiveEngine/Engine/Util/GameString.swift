@@ -29,9 +29,7 @@ struct GameString {
 				return nil
 			}
 
-			let oldMove = state.move
-			state.apply(relativeMovement: moveString.movement)
-			guard state.move > oldMove else {
+			guard state.apply(relativeMovement: moveString.movement) else {
 				return nil
 			}
 		}

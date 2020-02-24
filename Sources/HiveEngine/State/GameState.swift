@@ -277,15 +277,19 @@ public class GameState: Codable {
 	}
 
 	/// Applies the movement to this game state (if it is valid)
-	public func apply(relativeMovement: RelativeMovement) {
+	@discardableResult
+	public func apply(relativeMovement: RelativeMovement) -> Bool {
 		apply(relativeMovement.movement(in: self))
 	}
 
 	/// Applies the movement to this game state (if it is valid)
-	public func apply(_ movement: Movement) {
+	@discardableResult
+	public func apply(_ movement: Movement) -> Bool {
 		// Ensure only valid moves are played
 		if options.contains(.disableMovementValidation) == false {
-			guard validate(movement: movement) else { return }
+			guard validate(movement: movement) else {
+				return false
+			}
 		}
 
 		var notation = ""
@@ -321,6 +325,7 @@ public class GameState: Codable {
 		}
 
 		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove, notation: notation))
+		return true
 	}
 
 	/// Apply a `move` or `yoink` Movement to the state.

@@ -169,15 +169,12 @@ final class GameStateTests: HiveEngineTestCase {
 	func testInitialGameState_ValidatesMoves() {
 		let state = stateProvider.initialGameState
 		XCTAssertFalse(state.options.contains(.disableMovementValidation))
-
-		let move = state.move
-		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1)))
-		XCTAssertEqual(move, state.move)
+		XCTAssertFalse(state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1))))
 	}
 
 	func testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves() {
 		let state = GameState(options: [.disableMovementValidation])
-		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1)))
+		XCTAssertTrue(state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1))))
 
 		let expectedUnits = Set([state.whiteAnt])
 		XCTAssertEqual(expectedUnits, Set(state.allUnitsInPlay.keys))

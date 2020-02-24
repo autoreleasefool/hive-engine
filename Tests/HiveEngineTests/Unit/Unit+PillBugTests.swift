@@ -109,11 +109,9 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		XCTAssertEqual(7, state.move)
 		let invalidMove = Movement.yoink(pillBug: state.blackPillBug, unit: state.whitePillBug, to: Position(x: 0, y: -1, z: 1))
 		XCTAssertFalse(state.availableMoves.contains(invalidMove))
-		state.apply(invalidMove)
-		XCTAssertEqual(7, state.move)
+		XCTAssertFalse(state.apply(invalidMove))
 	}
 
 	func testPillBug_CanYoinkAfterBeingYoinked_WithOption() {
@@ -129,11 +127,9 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		XCTAssertEqual(7, state.move)
 		let validMove = Movement.yoink(pillBug: state.blackPillBug, unit: state.whitePillBug, to: Position(x: 0, y: -1, z: 1))
 		XCTAssertTrue(state.availableMoves.contains(validMove))
-		state.apply(validMove)
-		XCTAssertEqual(8, state.move)
+		XCTAssertTrue(state.apply(validMove))
 	}
 
 	func testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition() {
