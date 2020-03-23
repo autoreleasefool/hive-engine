@@ -488,15 +488,30 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(firstHasher.finalize(), secondHasher.finalize())
 	}
 
-	func testCopyingGameState_IsCorrect() {
+	func testCopyingGameState_ProducesIdenticalState() {
 		let state = stateProvider.initialGameState
-		stateProvider.apply(moves: 4, to: state)
+		stateProvider.apply(moves: 8, to: state)
 
 		let copiedState = GameState(from: state)
 
-		state.apply(state.availableMoves.first!)
-		state.apply(state.availableMoves.first!)
-		state.apply(state.availableMoves.first!)
+		XCTAssertEqual(state, copiedState)
+		XCTAssertEqual(state.availableMoves, copiedState.availableMoves)
+		XCTAssertEqual(state.lastUnitMoved, copiedState.lastUnitMoved)
+		XCTAssertEqual(state.lastPlayer, copiedState.lastPlayer)
+		XCTAssertEqual(state.previousMoves, copiedState.previousMoves)
+	}
+
+	func testCopyingGameState_DoesNotShareProperties() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 8, to: state)
+
+		let copiedState = GameState(from: state)
+
+		XCTAssertEqual(state, copiedState)
+
+		XCTAssertTrue(state.apply(state.availableMoves.first!))
+		XCTAssertTrue(state.apply(state.availableMoves.first!))
+		XCTAssertTrue(state.apply(state.availableMoves.first!))
 
 		XCTAssertNotEqual(copiedState.unitsInHand[Player.white], state.unitsInHand[Player.white])
 		XCTAssertNotEqual(copiedState.unitsInPlay[Player.white], state.unitsInPlay[Player.white])
@@ -508,6 +523,8 @@ final class GameStateTests: HiveEngineTestCase {
 
 		XCTAssertNotEqual(copiedState.move, state.move)
 		XCTAssertNotEqual(copiedState.currentPlayer, state.currentPlayer)
+
+		XCTAssertNotEqual(state, copiedState)
 	}
 
 	func testGameStateUpdate_Notation_IsCorrect() {
@@ -682,7 +699,8 @@ final class GameStateTests: HiveEngineTestCase {
 		("testTiedGameState_HasTwoWinners", testTiedGameState_HasTwoWinners),
 
 		("testIdenticalGameStateHashesAreIdentical", testIdenticalGameStateHashesAreIdentical),
-		("testCopyingGameState_IsCorrect", testCopyingGameState_IsCorrect),
+		("testCopyingGameState_ProducesIdenticalState", testCopyingGameState_ProducesIdenticalState),
+		("testCopyingGameState_DoesNotShareProperties", testCopyingGameState_DoesNotShareProperties),
 		("testGameStateUpdate_Notation_IsCorrect", testGameStateUpdate_Notation_IsCorrect),
 
 		("testGameStateOptions_RestrictedOpenings_IsCorrect", testGameStateOptions_RestrictedOpenings_IsCorrect),
