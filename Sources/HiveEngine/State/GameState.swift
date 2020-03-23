@@ -204,6 +204,10 @@ public class GameState: Codable {
 		self.move = state.move
 		self.unitIsTopOfStack = state.unitIsTopOfStack
 		self.allUnitsInPlay = state.allUnitsInPlay
+		self.unitIsTopOfStack = state.unitIsTopOfStack
+		self._availableMoves = state._availableMoves
+		self._playableSpaces = state._playableSpaces
+		self._playableSpacesCurrentPlayer = state._playableSpacesCurrentPlayer
 	}
 
 	// MARK: - Moves
