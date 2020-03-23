@@ -212,19 +212,10 @@ public class GameState: Codable {
 
 	// MARK: - Moves
 
-	/// Track whether the White player's queen has been played yet
-	private var whiteQueenPlayed: Bool = false
-	/// Track whether the Black player's queen has been played yet
-	private var blackQueenPlayed: Bool = false
-
 	/// Returns true if the player has played their queen, otherwise returns false.
 	public func queenPlayed(for player: Player) -> Bool {
-		switch player {
-		case .white:
-			return whiteQueenPlayed
-		case .black:
-			return blackQueenPlayed
-		}
+		let queen = player == .white ? whiteQueen : blackQueen
+		return unitsInPlay[player]?[queen] != nil
 	}
 
 	/// Cache available moves
@@ -358,12 +349,6 @@ public class GameState: Codable {
 		unitsInHand[unit.owner]!.remove(unit)
 		allUnitsInPlay[unit] = position
 		unitIsTopOfStack[unit] = true
-
-		if unit == whiteQueen {
-			whiteQueenPlayed = true
-		} else if unit == blackQueen {
-			blackQueenPlayed = true
-		}
 	}
 
 	/// Undo the most recent move
@@ -403,12 +388,6 @@ public class GameState: Codable {
 			unitsInHand[unit.owner]!.insert(unit)
 			unitIsTopOfStack[unit] = false
 			allUnitsInPlay[unit] = nil
-
-			if unit == whiteQueen {
-				whiteQueenPlayed = false
-			} else if unit == blackQueen {
-				blackQueenPlayed = false
-			}
 		case .pass:
 			break
 		}
