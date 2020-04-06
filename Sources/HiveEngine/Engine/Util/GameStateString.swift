@@ -6,7 +6,7 @@
 //  Copyright © 2020 Joseph Roque. All rights reserved.
 //
 
-enum GameStateString: String {
+public enum GameStateString: String {
 	case notStarted = "NotStarted"
 	case inProgress = "InProgress"
 	case draw = "Draw"

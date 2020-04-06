@@ -8,11 +8,11 @@
 
 import Regex
 
-struct TurnString: CustomStringConvertible {
+public struct TurnString: CustomStringConvertible {
 	let player: Player
 	let turn: Int
 
-	var description: String {
+	public var description: String {
 		return "\(player)[\(turn)]"
 	}
 

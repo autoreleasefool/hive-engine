@@ -8,7 +8,7 @@
 
 import Regex
 
-struct GameString {
+public struct GameString {
 	let state: GameState
 
 	init?(from: String) {

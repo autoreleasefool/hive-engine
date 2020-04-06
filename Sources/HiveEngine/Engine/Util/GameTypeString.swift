@@ -8,12 +8,12 @@
 
 import Regex
 
-struct GameTypeString {
+public struct GameTypeString {
 	let state: GameState
 
 	private let regex = Regex("^Base(\\+([MLP]{1,3}))?$")
 
-	init?(from: String) {
+	public init?(from: String) {
 		guard let match = regex.firstMatch(in: from) else { return nil }
 
 		var options: Set<GameState.Option> = []

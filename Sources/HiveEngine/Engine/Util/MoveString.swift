@@ -6,7 +6,7 @@
 //  Copyright © 2020 Joseph Roque. All rights reserved.
 //
 
-struct MoveString {
+public struct MoveString {
 	let movement: RelativeMovement
 
 	init?(from: String) {
