@@ -9,7 +9,7 @@
 import Regex
 
 public struct GameTypeString {
-	let state: GameState
+	public let state: GameState
 
 	private let regex = Regex("^Base(\\+([MLP]{1,3}))?$")
 

@@ -9,9 +9,9 @@
 import Regex
 
 public struct GameString {
-	let state: GameState
+	public let state: GameState
 
-	init?(from: String) {
+	public init?(from: String) {
 		let components = from.split(separator: ";")
 
 		guard let state = GameTypeString(from: String(components[0]))?.state,

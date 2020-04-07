@@ -9,8 +9,8 @@
 import Regex
 
 public struct TurnString: CustomStringConvertible {
-	let player: Player
-	let turn: Int
+	public let player: Player
+	public let turn: Int
 
 	public var description: String {
 		return "\(player)[\(turn)]"
@@ -18,7 +18,7 @@ public struct TurnString: CustomStringConvertible {
 
 	private static let regex = Regex(#"^(Black|White)\[(\d+)\]$"#)
 
-	init?(from: String) {
+	public init?(from: String) {
 		guard let match = TurnString.regex.firstMatch(in: from),
 			let player = Player(from: match.captures[0]!),
 			let turn = Int(match.captures[1]!) else { return nil }

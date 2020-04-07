@@ -7,9 +7,9 @@
 //
 
 public struct MoveString {
-	let movement: RelativeMovement
+	public let movement: RelativeMovement
 
-	init?(from: String) {
+	public init?(from: String) {
 		guard let movement = RelativeMovement(notation: from) else { return nil }
 		self.movement = movement
 	}
