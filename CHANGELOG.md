@@ -1,3 +1,7 @@
+## 2.4.3
+
+* Make GameString and relevant utils public
+
 ## 2.4.2
 
 * Fix a bug where moves were not possible in a newly cloned state -- a stored property that the queen had been played was not being copied
