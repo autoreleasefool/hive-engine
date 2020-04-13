@@ -1,3 +1,9 @@
+## 2.5.0
+
+* Swift 5.2+
+* iOS 13.4+
+* macOS 10.15+
+
 ## 2.4.3
 
 * Make GameString and relevant utils public
