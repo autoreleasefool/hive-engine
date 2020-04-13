@@ -73,27 +73,16 @@ This package is built with Swift Package Manager, so you can require it as a dep
 
 ```
     dependencies: [
-        .package(url: "git@github.com:josephroquedev/hive-engine.git", .branch("master"))
-    ],
-```
-
-Optionally, you can lock the engine to a specific version with:
-
-```
-    dependencies: [
-        .package(url: "git@github.com:josephroquedev/hive-engine.git", from: "2.0.0")
+        .package(url: "https://github.com/josephroquedev/hive-engine.git", from: "2.5.0")
     ],
 ```
 
 See the [Releases](https://github.com/josephroquedev/hive-engine/releases) for the most recent release.
 
-### Manual
-
-To install manually, simply drag and drop `HiveEngine.xcodeproj` into your Xcode project.
-
 ### Requirements
 
-* Swift 5.1+
+* Swift 5.2+
+* [SwiftLint](https://github.com/realm/SwiftLint)
 
 ---
 
@@ -102,7 +91,6 @@ To install manually, simply drag and drop `HiveEngine.xcodeproj` into your Xcode
 1. Write your changes and make sure you test them! This engine boasts nearly 100% code coverage and expects precise conformance to the rules of the game.
     * `swift test`
 2. Install SwiftLint for styling conformance:
-    * `brew install swiftlint`
     * Run `swiftlint` from the root of the repository.
     * There should be no errors or violations. If there are, please fix them before opening a PR.
 3. Open a PR with your changes 👍
