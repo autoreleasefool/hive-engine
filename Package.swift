@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-	name: "hive-engine",
+	name: "HiveEngine",
 	platforms: [
 		.macOS(.v10_15),
 		.iOS("13.4"),

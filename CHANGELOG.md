@@ -1,3 +1,7 @@
+## 2.5.1
+
+* Rename package to `HiveEngine`
+
 ## 2.5.0
 
 * Swift 5.2+
