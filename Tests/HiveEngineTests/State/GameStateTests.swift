@@ -154,7 +154,7 @@ final class GameStateTests: HiveEngineTestCase {
 
 		let moves: [Movement] = [
 			.place(unit: state.whiteAnt, at: .origin),
-			.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0)),
+			.place(unit: state.blackAnt, at: Position(x: 0, y: 1, z: -1)),
 		]
 		stateProvider.apply(moves: moves, to: state)
 		unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit!.index > 1 ? $0.movedUnit : nil })
@@ -168,17 +168,32 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testInitialGameState_ValidatesMoves() {
 		let state = stateProvider.initialGameState
-		XCTAssertFalse(state.options.contains(.disableMovementValidation))
+		XCTAssertFalse(state.internalOptions.contains(.disableMovementValidation))
 		XCTAssertFalse(state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1))))
 	}
 
 	func testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves() {
-		let state = GameState(options: [.disableMovementValidation])
+		let state = GameState()
+		state.internalOptions.insert(.disableMovementValidation)
 		XCTAssertTrue(state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1))))
 
 		let expectedUnits = Set([state.whiteAnt])
 		XCTAssertEqual(expectedUnits, Set(state.allUnitsInPlay.keys))
 		XCTAssertEqual(Position(x: 1, y: 1, z: 1), state.unitsInPlay[Player.white]?[state.whiteAnt])
+	}
+
+	func testInitialGameState_RestrictsOpening() {
+		let state = stateProvider.initialGameState
+		XCTAssertFalse(state.internalOptions.contains(.unrestrictOpening))
+		XCTAssertTrue(state.apply(.place(unit: state.whiteAnt, at: Position(x: 0, y: 0, z: 0))))
+		XCTAssertFalse(state.apply(.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0))))
+	}
+
+	func testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves() {
+		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
+		XCTAssertTrue(state.apply(.place(unit: state.whiteAnt, at: Position(x: 0, y: 0, z: 0))))
+		XCTAssertTrue(state.apply(.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0))))
 	}
 
 	// MARK: - Partial Game State
@@ -324,11 +339,6 @@ final class GameStateTests: HiveEngineTestCase {
 		stateProvider.apply(moves: 1, to: state)
 		let expectedPositions: Set<Position> = [
 			Position(x: 0, y: 1, z: -1),
-			Position(x: 1, y: 0, z: -1),
-			Position(x: 1, y: -1, z: 0),
-			Position(x: 0, y: -1, z: 1),
-			Position(x: -1, y: 0, z: 1),
-			Position(x: -1, y: 1, z: 0),
 		]
 
 		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
@@ -528,7 +538,8 @@ final class GameStateTests: HiveEngineTestCase {
 	}
 
 	func testGameStateUpdate_Notation_IsCorrect() {
-		let state = GameState(options: [.ladyBug, .pillBug, .mosquito, .disableMovementValidation])
+		let state = GameState(options: [.ladyBug, .pillBug, .mosquito])
+		state.internalOptions.insert(.disableMovementValidation)
 
 		state.apply(.place(unit: state.whiteQueen, at: .origin))
 		XCTAssertEqual("wQ", state.previousMoves.last!.notation)
@@ -572,15 +583,10 @@ final class GameStateTests: HiveEngineTestCase {
 	// MARK: - GameState.Option
 
 	func testGameStateOptions_RestrictedOpenings_IsCorrect() {
-		let openState = GameState(options: [])
-		openState.apply(.place(unit: openState.whiteQueen, at: .origin))
-		// Can place 5 pieces in 6 positions each
-		XCTAssertEqual(30, openState.availableMoves.count)
-
-		let restrictedState = GameState(options: [.restrictedOpening])
-		restrictedState.apply(.place(unit: restrictedState.whiteQueen, at: .origin))
+		let state = GameState()
+		state.apply(.place(unit: state.whiteQueen, at: .origin))
 		// Can only place 5 pieces in 1 possible position
-		XCTAssertEqual(5, restrictedState.availableMoves.count)
+		XCTAssertEqual(5, state.availableMoves.count)
 	}
 
 	func testGameStateOptions_NoFirstQueenMove_IsCorrect() {
@@ -601,8 +607,8 @@ final class GameStateTests: HiveEngineTestCase {
 		// Move was not valid, move count not incremented
 		XCTAssertEqual(0, restrictedState.move)
 		restrictedState.apply(.place(unit: restrictedState.whiteAnt, at: .origin))
-		// Black can play 4 pieces, in 6 possible places
-		XCTAssertEqual(24, restrictedState.availableMoves.count)
+		// Black can play 4 pieces, in 1 possible places
+		XCTAssertEqual(4, restrictedState.availableMoves.count)
 		XCTAssertEqual(1, restrictedState.move)
 		restrictedState.apply(.place(unit: restrictedState.blackQueen, at: .origin))
 		// Move was not valid, move count not incremented
@@ -662,6 +668,8 @@ final class GameStateTests: HiveEngineTestCase {
 		("testInitialGameState_HasNoPreviousMoves", testInitialGameState_HasNoPreviousMoves),
 		("testInitialGameState_ValidatesMoves", testInitialGameState_ValidatesMoves),
 		("testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves", testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves),
+		("testInitialGameState_RestrictsOpening", testInitialGameState_RestrictsOpening),
+		("testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves", testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves),
 		("testInitialGameState_UnitIndicesAreCorrect", testInitialGameState_UnitIndicesAreCorrect),
 
 		("testPartialGameState_PreviousMove_IsCorrect", testPartialGameState_PreviousMove_IsCorrect),

@@ -136,16 +136,16 @@ final class MovementTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
-			Movement.place(unit: state.blackAnt, at: Position(x: -1, y: 1, z: 0)),
+			Movement.place(unit: state.blackAnt, at: Position(x: 0, y: 1, z: -1)),
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
 
-		let movement: Movement = .move(unit: state.whiteQueen, to: Position(x: -1, y: 0, z: 1))
+		let movement: Movement = .move(unit: state.whiteQueen, to: Position(x: 1, y: 0, z: -1))
 
 		let unit = Unit(class: .queen, owner: .white, index: 1)
 		let adjacentUnit = Unit(class: .ant, owner: .black, index: 1)
-		let direction: Direction = .south
+		let direction: Direction = .southEast
 
 		let relativeMovement = movement.relative(in: state)
 		XCTAssertEqual(RelativeMovement(unit: unit, adjacentTo: (adjacentUnit, direction)), relativeMovement)

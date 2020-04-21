@@ -27,6 +27,7 @@ final class UHPCommandTests: HiveEngineTestCase {
 
 	func testNewGameCommand_GameString() {
 		let state = GameState()
+		state.internalOptions.insert(.unrestrictOpening)
 		state.apply(.place(unit: state.whiteSpider, at: .origin))
 		state.apply(.place(unit: state.blackHopper, at: Position(x: -1, y: 1, z: 0)))
 		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 0, z: -1)))
@@ -45,6 +46,7 @@ final class UHPCommandTests: HiveEngineTestCase {
 
 	func testUndoCommand() {
 		let state = GameState()
+		state.internalOptions.insert(.unrestrictOpening)
 		state.apply(.place(unit: state.whiteSpider, at: .origin))
 		state.apply(.place(unit: state.blackHopper, at: Position(x: -1, y: 1, z: 0)))
 		state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 0, z: -1)))
@@ -67,27 +69,23 @@ final class UHPCommandTests: HiveEngineTestCase {
 	func testOptionsCommand_List() {
 		let result = OptionsCommand().invoke("", state: nil)
 		XCTAssertEqual(.output([
-				"RestrictedOpening;bool;false;false",
 				"NoFirstMoveQueen;bool;false;false",
 				"AllowSpecialAbilityAfterYoink;bool;false;false",
-				"DisableMovementValidation;bool;false;false",
-				"DisableStandardNotation;bool;false;false",
-				"TreatYoinkAsMove;bool;false;false",
 			].joined(separator: "\n")), result)
 	}
 
 	func testOptionsCommand_SetValue() {
-		let state = GameState(options: [.restrictedOpening, .noFirstMoveQueen])
-		let result = OptionsCommand().invoke("set RestrictedOpening false", state: state)
-		XCTAssertEqual(.state(GameState(options: [.noFirstMoveQueen])), result)
+		let state = GameState(options: [.noFirstMoveQueen])
+		let result = OptionsCommand().invoke("set NoFirstMoveQueen false", state: state)
+		XCTAssertEqual(.state(GameState(options: [])), result)
 	}
 
 	func testOptionsCommand_GetValue() {
-		let state = GameState(options: [.disableMovementValidation])
-		let firstResult = OptionsCommand().invoke("get DisableMovementValidation", state: state)
-		XCTAssertEqual(.output("DisableMovementValidation;bool;true;false"), firstResult)
-		let secondResult = OptionsCommand().invoke("get TreatYoinkAsMove", state: state)
-		XCTAssertEqual(.output("TreatYoinkAsMove;bool;false;false"), secondResult)
+		let state = GameState(options: [.allowSpecialAbilityAfterYoink])
+		let firstResult = OptionsCommand().invoke("get AllowSpecialAbilityAfterYoink", state: state)
+		XCTAssertEqual(.output("AllowSpecialAbilityAfterYoink;bool;true;false"), firstResult)
+		let secondResult = OptionsCommand().invoke("get NoFirstMoveQueen", state: state)
+		XCTAssertEqual(.output("NoFirstMoveQueen;bool;false;false"), secondResult)
 	}
 
 	static var allTests = [

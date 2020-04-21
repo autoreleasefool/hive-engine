@@ -77,24 +77,24 @@ final class GameStateUHPTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		let moves: [Movement] = [
 			.place(unit: state.whiteAnt, at: .origin),
-			.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0)),
-			.place(unit: state.whiteQueen, at: Position(x: -1, y: 1, z: 0)),
+			.place(unit: state.blackAnt, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: -1, z: 1)),
 		]
 		stateProvider.apply(moves: moves, to: state)
 
-		XCTAssertEqual("wA1;bA1 wA1-;wQ -wA1", state.moveString)
+		XCTAssertEqual(#"wA1;bA1 \wA1;wQ wA1\"#, state.moveString)
 	}
 
 	func testPartialGameState_MoveStrings_IsCorrect() {
 		let state = stateProvider.initialGameState
 		let moves: [Movement] = [
 			.place(unit: state.whiteAnt, at: .origin),
-			.place(unit: state.blackAnt, at: Position(x: 1, y: -1, z: 0)),
-			.place(unit: state.whiteQueen, at: Position(x: -1, y: 1, z: 0)),
+			.place(unit: state.blackAnt, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteQueen, at: Position(x: 0, y: -1, z: 1)),
 		]
 		stateProvider.apply(moves: moves, to: state)
 
-		XCTAssertEqual(["wA1", "bA1 wA1-", "wQ -wA1"], state.moveStrings)
+		XCTAssertEqual(["wA1", #"bA1 \wA1"#, #"wQ wA1\"#], state.moveStrings)
 	}
 
 	// MARK: - Completed Game State

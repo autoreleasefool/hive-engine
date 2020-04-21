@@ -48,32 +48,29 @@ public class GameState: Codable {
 		case mosquito = "Mosquito"
 		/// Include the Pill Bug unit
 		case pillBug = "PillBug"
-		/// Restrict the black player's opening move to only one position
-		case restrictedOpening = "RestrictedOpening"
 		/// Disallow playing the Queen on either player's first move
 		case noFirstMoveQueen = "NoFirstMoveQueen"
 		/// Allow players to use their Pill Bug's special ability, immediately after that Pill Bug was yoinked
 		case allowSpecialAbilityAfterYoink = "AllowSpecialAbilityAfterYoink"
-		/// Disable validation of movements before applying
-		case disableMovementValidation = "DisableMovementValidation"
-		/// Disable standard notation generation for improved performance
-		case disableNotation = "DisableStandardNotation"
-		/// Treat Movement.yoink and Movement.move as equivalents
-		case treatYoinkAsMove = "TreatYoinkAsMove"
 
 		var isModifiable: Bool {
 			switch self {
 			case .ladyBug, .mosquito, .pillBug: return false
-			case .restrictedOpening, .noFirstMoveQueen, .allowSpecialAbilityAfterYoink, .disableMovementValidation, .disableNotation, .treatYoinkAsMove: return true
+			case .noFirstMoveQueen, .allowSpecialAbilityAfterYoink: return true
 			}
 		}
 
 		public var isExpansion: Bool {
 			switch self {
 			case .ladyBug, .mosquito, .pillBug: return true
-			case .restrictedOpening, .noFirstMoveQueen, .allowSpecialAbilityAfterYoink, .disableMovementValidation, .disableNotation, .treatYoinkAsMove: return false
+			case .noFirstMoveQueen, .allowSpecialAbilityAfterYoink: return false
 			}
 		}
+	}
+
+	internal enum InternalOption {
+		case unrestrictOpening
+		case disableMovementValidation
 	}
 
 	/// Set an option for the game, before the game has begun.
@@ -89,6 +86,9 @@ public class GameState: Codable {
 
 	/// Optional parameters
 	private(set) public var options: Set<Option>
+
+	/// Optional parameters for internal use only
+	internal var internalOptions: Set<InternalOption> = []
 
 	/// Units and their positions
 	private(set) public var unitsInPlay: [Player: [Unit: Position]]
@@ -278,17 +278,13 @@ public class GameState: Codable {
 	@discardableResult
 	public func apply(_ movement: Movement) -> Bool {
 		// Ensure only valid moves are played
-		if options.contains(.disableMovementValidation) == false {
+		if !internalOptions.contains(.disableMovementValidation) {
 			guard validate(movement: movement) else {
 				return false
 			}
 		}
 
-		var notation = ""
-		if options.contains(.disableNotation) == false {
-			notation = movement.notation(in: self)
-		}
-
+		let notation = movement.notation(in: self)
 		let updatePlayer = currentPlayer
 		let updateMovement = movement
 		let updateMove = move
@@ -475,7 +471,7 @@ public class GameState: Codable {
 		}
 
 		if move == 0 { return [.origin] }
-		if move == 1 && options.contains(.restrictedOpening) { return [Position(x: 0, y: 1, z: -1)] }
+		if move == 1 && !internalOptions.contains(.unrestrictOpening) { return [Position(x: 0, y: 1, z: -1)] }
 
 		var includedUnits = allUnitsInPlay
 		if let excluded = excludedUnit {

@@ -24,7 +24,8 @@ public struct GameString {
 			return
 		}
 
-		for move in components.dropFirst(3) {
+		state.internalOptions.insert(.unrestrictOpening)
+		for (index, move) in components.dropFirst(3).enumerated() {
 			guard let moveString = MoveString(from: String(move)) else {
 				return nil
 			}
@@ -33,6 +34,7 @@ public struct GameString {
 				return nil
 			}
 		}
+		state.internalOptions.remove(.unrestrictOpening)
 
 		guard let turnString = TurnString(from: String(components[2])),
 			turnString.turn == (state.move / 2) + 1  else {

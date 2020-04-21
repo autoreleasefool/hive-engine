@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-import HiveEngine
+@testable import HiveEngine
 
 final class PositionTests: HiveEngineTestCase {
 
@@ -175,6 +175,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
@@ -192,6 +193,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
@@ -255,6 +257,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 1, y: 0, z: -1)),
@@ -278,6 +281,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 1, y: 0, z: -1)),
@@ -343,6 +347,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: -1, z: 1)),
@@ -365,6 +370,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: -1, z: 1)),
@@ -388,6 +394,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 1, z: 0)),
@@ -410,6 +417,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 1, z: 0)),
@@ -431,6 +439,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
@@ -453,6 +462,7 @@ final class PositionTests: HiveEngineTestCase {
 
 	func testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
 		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.unrestrictOpening)
 		let setupMoves: [Movement] = [
 			Movement.place(unit: state.whiteQueen, at: .origin),
 			Movement.place(unit: state.blackQueen, at: Position(x: -1, y: 0, z: 1)),
