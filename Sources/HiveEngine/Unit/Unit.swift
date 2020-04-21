@@ -195,7 +195,7 @@ public struct Unit: Codable {
 		}
 
 		guard let height = stack.firstIndex(of: self) else { return nil }
-		return height &+ 1
+		return height + 1
 	}
 
 	/// Determine if this unit is at the top of its stack.

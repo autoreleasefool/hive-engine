@@ -165,7 +165,7 @@ public class GameState: Codable {
 		]
 
 		func nextIndex(for `class`: Unit.Class, belongingTo owner: Player) -> Int {
-			let next = (classIndices[owner]![`class`] ?? 0) &+ 1
+			let next = (classIndices[owner]![`class`] ?? 0) + 1
 			classIndices[owner]![`class`] = next
 			return next
 		}

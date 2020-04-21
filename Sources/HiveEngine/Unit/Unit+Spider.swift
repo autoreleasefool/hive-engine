@@ -38,7 +38,7 @@ extension Unit {
 					// The piece can freely move to the new position
 					currentPosition.freedomOfMovement(to: adjacentPosition, in: state) else { continue }
 
-				let distanceToRoot = distance[currentPosition]! &+ 1
+				let distanceToRoot = distance[currentPosition]! + 1
 				if distanceToRoot == maxDistance {
 					// Spider moves exactly 3 spaces
 					moveSet.insert(.move(unit: self, to: adjacentPosition))

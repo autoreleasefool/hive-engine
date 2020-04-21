@@ -23,7 +23,7 @@ extension Unit {
 			// Only consider positions on top of the hive
 			if hivePositions.contains(adjacentPosition) {
 				// Filter to positions that the piece can freely move to
-				let endHeight = (state.stacks[adjacentPosition]?.endIndex ?? 0) &+ 1
+				let endHeight = (state.stacks[adjacentPosition]?.endIndex ?? 0) + 1
 				if position.freedomOfMovement(to: adjacentPosition, startingHeight: height, endingHeight: endHeight, in: state) {
 					moveSet.insert(.move(unit: self, to: adjacentPosition))
 				}
