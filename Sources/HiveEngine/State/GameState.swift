@@ -87,9 +87,6 @@ public class GameState: Codable {
 		return true
 	}
 
-	@available(*, deprecated, message: "Use Option instead.")
-	public typealias Options = Option
-
 	/// Optional parameters
 	private(set) public var options: Set<Option>
 
