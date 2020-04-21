@@ -105,7 +105,7 @@ public class GameState: Codable {
 
 	/// True if the game has ended
 	public var isEndGame: Bool {
-		return !winner.isEmpty
+		!winner.isEmpty
 	}
 
 	/// The white player's queen
@@ -407,7 +407,7 @@ public class GameState: Codable {
 
 	/// Returns the position of a unit on the board, if it's on the board.
 	public func position(of unit: Unit) -> Position? {
-		return unitsInPlay[unit.owner]?[unit]
+		unitsInPlay[unit.owner]?[unit]
 	}
 
 	/// List the units which are at the top of a stack adjacent to the position of a unit.
@@ -564,7 +564,7 @@ public class GameState: Codable {
 
 extension GameState: Equatable {
 	public static func == (lhs: GameState, rhs: GameState) -> Bool {
-		return lhs.unitsInPlay == rhs.unitsInPlay &&
+		lhs.unitsInPlay == rhs.unitsInPlay &&
 			lhs.unitsInHand == rhs.unitsInHand &&
 			lhs.stacks == rhs.stacks &&
 			lhs.move == rhs.move &&
@@ -586,6 +586,6 @@ extension GameState: Hashable {
 
 extension GameState: CustomStringConvertible {
 	public var description: String {
-		return self.gameString
+		self.gameString
 	}
 }

@@ -30,11 +30,11 @@ class PerftTests: HiveEngineTestCase {
 	]
 
 	private static var perftGameStateOptions: Set<GameState.Option> {
-		return [.noFirstMoveQueen]
+		[.noFirstMoveQueen]
 	}
 
 	private static var perftGameStateInternalOptions: Set<GameState.InternalOption> {
-		return [.disableMovementValidation, .unrestrictOpening]
+		[.disableMovementValidation, .unrestrictOpening]
 	}
 
 	private func gameState(withAdditionalOptions: [GameState.Option] = []) -> GameState {

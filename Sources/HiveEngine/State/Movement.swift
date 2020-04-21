@@ -33,7 +33,7 @@ public enum Movement: Hashable, Equatable {
 	/// Standard notation for the movement.
 	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
 	public func notation(in state: GameState) -> String {
-		return self.relative(in: state)?.notation ?? "pass"
+		relative(in: state)?.notation ?? "pass"
 	}
 
 	/// Translate the Movement into a RelativeMovement, providing an adjacent unit and the position

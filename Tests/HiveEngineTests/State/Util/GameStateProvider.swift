@@ -12,7 +12,7 @@ class GameStateProvider {
 
 	/// A new game state
 	var initialGameState: GameState {
-		return GameState(options: [.ladyBug, .mosquito, .pillBug])
+		GameState(options: [.ladyBug, .mosquito, .pillBug])
 	}
 
 	/// A game state with a single winner
@@ -25,7 +25,7 @@ class GameStateProvider {
 	// MARK: State Builder
 
 	private func partialStateMoves(for state: GameState) -> [Movement] {
-		return [
+		[
 			/* 1  */ Movement.place(unit: state.whiteSpider, at: .origin),
 			/* 2  */ Movement.place(unit: state.blackSpider, at: Position(x: 0, y: 1, z: -1)),
 			/* 3  */ Movement.place(unit: state.whiteAnt, at: Position(x: -1, y: 0, z: 1)),
@@ -79,7 +79,7 @@ class GameStateProvider {
 	}
 
 	private func tiedStateMoves(for state: GameState) -> [Movement] {
-		return [
+		[
 			/* 34 */ Movement.move(unit: state.blackAnt, to: Position(x: 1, y: 3, z: -4)),
 			/* 35 */ Movement.yoink(pillBug: state.whitePillBug, unit: state.blackHopper, to: Position(x: -1, y: 0, z: 1)),
 			/* 36 */ Movement.move(unit: state.blackLadyBug, to: Position(x: 1, y: -1, z: 0)),
@@ -130,66 +130,66 @@ extension GameState {
 	}
 
 	var whiteAnt: Unit {
-		return find(.ant, belongingTo: .white)
+		find(.ant, belongingTo: .white)
 	}
 
 	var blackAnt: Unit {
-		return find(.ant, belongingTo: .black)
+		find(.ant, belongingTo: .black)
 	}
 
 	var whiteBeetle: Unit {
-		return find(.beetle, belongingTo: .white)
+		find(.beetle, belongingTo: .white)
 	}
 
 	var blackBeetle: Unit {
-		return find(.beetle, belongingTo: .black)
+		find(.beetle, belongingTo: .black)
 	}
 
 	var whiteHopper: Unit {
-		return find(.hopper, belongingTo: .white)
+		find(.hopper, belongingTo: .white)
 	}
 
 	var blackHopper: Unit {
-		return find(.hopper, belongingTo: .black)
+		find(.hopper, belongingTo: .black)
 	}
 
 	var whiteLadyBug: Unit {
-		return find(.ladyBug, belongingTo: .white)
+		find(.ladyBug, belongingTo: .white)
 	}
 
 	var blackLadyBug: Unit {
-		return find(.ladyBug, belongingTo: .black)
+		find(.ladyBug, belongingTo: .black)
 	}
 
 	var whiteMosquito: Unit {
-		return find(.mosquito, belongingTo: .white)
+		find(.mosquito, belongingTo: .white)
 	}
 
 	var blackMosquito: Unit {
-		return find(.mosquito, belongingTo: .black)
+		find(.mosquito, belongingTo: .black)
 	}
 
 	var whitePillBug: Unit {
-		return find(.pillBug, belongingTo: .white)
+		find(.pillBug, belongingTo: .white)
 	}
 
 	var blackPillBug: Unit {
-		return find(.pillBug, belongingTo: .black)
+		find(.pillBug, belongingTo: .black)
 	}
 
 	var whiteQueen: Unit {
-		return find(.queen, belongingTo: .white)
+		find(.queen, belongingTo: .white)
 	}
 
 	var blackQueen: Unit {
-		return find(.queen, belongingTo: .black)
+		find(.queen, belongingTo: .black)
 	}
 
 	var whiteSpider: Unit {
-		return find(.spider, belongingTo: .white)
+		find(.spider, belongingTo: .white)
 	}
 
 	var blackSpider: Unit {
-		return find(.spider, belongingTo: .black)
+		find(.spider, belongingTo: .black)
 	}
 }

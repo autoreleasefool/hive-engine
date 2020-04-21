@@ -56,7 +56,7 @@ public struct Unit: Codable {
 
 		/// A single player's full set of units
 		public static var basicSet: [Class] {
-			return [
+			[
 				.ant, .ant, .ant,
 				.beetle, .beetle,
 				.hopper, .hopper, .hopper,
@@ -139,7 +139,7 @@ public struct Unit: Codable {
 
 	/// Returns false if this piece cannot move due to fundamental rules of the game.
 	public func canMove(in state: GameState) -> Bool {
-		return state.oneHive(excluding: self) && self.isTopOfStack(in: state) && self != state.lastUnitMoved
+		state.oneHive(excluding: self) && self.isTopOfStack(in: state) && self != state.lastUnitMoved
 	}
 
 	/// Returns true if this unit can move as the given class.
@@ -200,12 +200,12 @@ public struct Unit: Codable {
 
 	/// Determine if this unit is at the top of its stack.
 	public func isTopOfStack(in state: GameState) -> Bool {
-		return state.unitIsTopOfStack[self] ?? false
+		state.unitIsTopOfStack[self] ?? false
 	}
 
 	/// Returns true if this unit is surrounded on all 6 sides.
 	public func isSurrounded(in state: GameState) -> Bool {
-		return state.units(adjacentTo: self).count == 6
+		state.units(adjacentTo: self).count == 6
 	}
 }
 
@@ -213,7 +213,7 @@ public struct Unit: Codable {
 
 extension Unit: CustomStringConvertible {
 	public var description: String {
-		return "\(self.owner.description) \(self.class.description) (\(self.index))"
+		"\(self.owner.description) \(self.class.description) (\(self.index))"
 	}
 }
 
@@ -246,7 +246,7 @@ extension Unit: Hashable {
 
 extension Unit: Equatable {
 	public static func == (lhs: Unit, rhs: Unit) -> Bool {
-		return lhs.owner == rhs.owner &&
+		lhs.owner == rhs.owner &&
 			lhs.class == rhs.class &&
 			lhs.index == rhs.index
 	}
@@ -268,6 +268,6 @@ extension Unit: Comparable {
 
 extension Unit.Class: Comparable {
 	public static func < (lhs: Unit.Class, rhs: Unit.Class) -> Bool {
-		return lhs.rawValue < rhs.rawValue
+		lhs.rawValue < rhs.rawValue
 	}
 }

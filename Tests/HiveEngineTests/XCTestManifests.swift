@@ -10,7 +10,7 @@ import XCTest
 
 #if !os(macOS) && !os(iOS)
 public func allTests() -> [XCTestCaseEntry] {
-	return [
+	[
 		testCase(CollectionExtensionTests.allTests),
 		testCase(GameStateTests.allTests),
 		testCase(GameStatePerformanceTests.allTests),

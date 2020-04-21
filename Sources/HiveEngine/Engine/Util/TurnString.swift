@@ -13,7 +13,7 @@ public struct TurnString: CustomStringConvertible {
 	public let turn: Int
 
 	public var description: String {
-		return "\(player)[\(turn)]"
+		"\(player)[\(turn)]"
 	}
 
 	private static let regex = Regex(#"^(Black|White)\[(\d+)\]$"#)

@@ -43,7 +43,7 @@ public struct Position: Hashable, Equatable, Codable {
 
 	/// All adjacent positions
 	public func adjacent() -> [Position] {
-		return [
+		[
 			Position(x: x, y: y + 1, z: z - 1),
 			Position(x: x + 1, y: y, z: z - 1),
 			Position(x: x + 1, y: y - 1, z: z),
@@ -152,7 +152,7 @@ public struct Position: Hashable, Equatable, Codable {
 
 extension Position: CustomStringConvertible {
 	public var description: String {
-		return "(\(x), \(y), \(z))"
+		"(\(x), \(y), \(z))"
 	}
 }
 
@@ -202,6 +202,6 @@ public enum Direction: String, CustomStringConvertible, Hashable, Equatable {
 	}
 
 	public var description: String {
-		return self.rawValue
+		self.rawValue
 	}
 }

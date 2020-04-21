@@ -55,6 +55,6 @@ extension Player: CustomStringConvertible {
 
 extension Player: Comparable {
 	public static func < (lhs: Player, rhs: Player) -> Bool {
-		return lhs.rawValue < rhs.rawValue
+		lhs.rawValue < rhs.rawValue
 	}
 }

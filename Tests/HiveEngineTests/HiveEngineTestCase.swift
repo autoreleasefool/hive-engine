@@ -37,7 +37,7 @@ class HiveEngineTestCase: XCTestCase {
 
 	/// Location of fixtures
 	private var fixtureDestination: URL {
-		return baseURL.appendingPathComponent("Fixtures", isDirectory: true)
+		baseURL.appendingPathComponent("Fixtures", isDirectory: true)
 	}
 
 	/// Destination for an Encodable fixture.
