@@ -58,6 +58,6 @@ extension GameState {
 	}
 
 	public var moveStrings: [String] {
-		self.previousMoves.map { $0.notation }
+		self.updates.map { $0.notation }
 	}
 }

@@ -8,28 +8,6 @@
 
 import Foundation
 
-public struct GameStateUpdate: Codable, Equatable {
-	/// Player who made the move
-	public let player: Player
-	/// The movement applied to the state
-	public let movement: Movement
-	/// Previous position of the unit moved in `movement`
-	public let previousPosition: Position?
-	/// The move number
-	public let move: Int
-	/// Standard notation describing the movement in the context of the state it was played
-	/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
-	public let notation: String
-
-	public init(player: Player, movement: Movement, previousPosition: Position?, move: Int, notation: String) {
-		self.player = player
-		self.movement = movement
-		self.previousPosition = previousPosition
-		self.move = move
-		self.notation = notation
-	}
-}
-
 /// State of a game of hive.
 public class GameState: Codable {
 	private enum CodingKeys: String, CodingKey {
@@ -39,6 +17,20 @@ public class GameState: Codable {
 		case stacks
 		case currentPlayer
 		case move
+	}
+
+	public struct Update: Codable, Equatable {
+		/// Player who made the move
+		public let player: Player
+		/// The movement applied to the state
+		public let movement: Movement
+		/// Previous position of the unit moved in `movement`
+		public let previousPosition: Position?
+		/// The move number
+		public let move: Int
+		/// Standard notation describing the movement in the context of the state it was played
+		/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
+		public let notation: String
 	}
 
 	public enum Option: String, Codable, CaseIterable {
@@ -108,8 +100,8 @@ public class GameState: Codable {
 	/// The current move number
 	private(set) public var move: Int
 
-	/// The most recently moved unit
-	private(set) public var previousMoves: [GameStateUpdate] = []
+	/// List of updates made to the state
+	private(set) public var updates: [Update] = []
 
 	/// True if the game has ended
 	public var isEndGame: Bool {
@@ -128,14 +120,12 @@ public class GameState: Codable {
 
 	/// The unit most recently moved, locked for the current turn
 	public var lastUnitMoved: Unit? {
-		guard let lastMove = previousMoves.last else { return nil }
-		return lastMove.movement.movedUnit
+		updates.last?.movement.movedUnit
 	}
 
 	/// The player to most recently make a move.
 	public var lastPlayer: Player? {
-		guard let lastMove = previousMoves.last else { return nil }
-		return lastMove.player
+		updates.last?.player
 	}
 
 	/// Check if a unit is at the top of its stack. False when the unit is in hand.
@@ -197,7 +187,7 @@ public class GameState: Codable {
 		self.unitsInHand = state.unitsInHand
 		self.unitsInPlay = state.unitsInPlay
 		self.stacks = state.stacks
-		self.previousMoves = state.previousMoves
+		self.updates = state.updates
 		self.move = state.move
 		self.unitIsTopOfStack = state.unitIsTopOfStack
 		self.allUnitsInPlay = state.allUnitsInPlay
@@ -312,7 +302,7 @@ public class GameState: Codable {
 			updatePosition = nil
 		}
 
-		previousMoves.append(GameStateUpdate(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove, notation: notation))
+		updates.append(Update(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove, notation: notation))
 		return true
 	}
 
@@ -346,7 +336,7 @@ public class GameState: Codable {
 
 	/// Undo the most recent move
 	public func undoMove() {
-		guard let lastMove = previousMoves.popLast() else { return }
+		guard let lastMove = updates.popLast() else { return }
 		resetCaches()
 		currentPlayer = lastMove.player
 		move = lastMove.move
