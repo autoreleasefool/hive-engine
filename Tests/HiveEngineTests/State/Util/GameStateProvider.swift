@@ -68,7 +68,10 @@ class GameStateProvider {
 	func apply(moves: Int, to state: GameState) {
 		let partialStateMoves = self.partialStateMoves(for: state)
 		precondition(moves >= 0, "Cannot provide a negative number of moves.")
-		precondition(moves <= partialStateMoves.count, "Must provide a value less than or equal to \(partialStateMoves.count)")
+		precondition(
+			moves <= partialStateMoves.count,
+			"Must provide a value less than or equal to \(partialStateMoves.count)"
+		)
 
 		for (index, element) in partialStateMoves.prefix(moves).enumerated() {
 			assert(state.apply(element), "Move #\(index) [\(element)] was not a valid move.")

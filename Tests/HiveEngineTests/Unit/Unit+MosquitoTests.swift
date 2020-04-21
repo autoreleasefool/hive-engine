@@ -107,7 +107,8 @@ final class UnitMosquitoTests: HiveEngineTestCase {
 		("testMosquito_BesidePillBug_CanMoveAsQueen", testMosquito_BesidePillBug_CanMoveAsQueen),
 
 		("testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue", testMosquitoBesidePillBug_CanUseSpecialAbility_IsTrue),
-		("testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse", testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse),
+		("testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse",
+			testMosquitoNotBesidePillBug_CanUseSpecialAbility_IsFalse),
 
 		("testMosquito_OnTopOfHive_IsBeetle", testMosquito_OnTopOfHive_IsBeetle),
 	]

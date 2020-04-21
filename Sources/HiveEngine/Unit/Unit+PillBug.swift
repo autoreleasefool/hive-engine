@@ -22,7 +22,8 @@ extension Unit {
 		let playableSpaces = state.playableSpaces()
 		var adjacentPlayablePositions: Set<Position> = []
 		for adjacentPosition in position.adjacent() {
-			if playableSpaces.contains(adjacentPosition) && position.freedomOfMovement(to: adjacentPosition, startingHeight: 2, endingHeight: 1, in: state) {
+			if playableSpaces.contains(adjacentPosition) &&
+				position.freedomOfMovement(to: adjacentPosition, startingHeight: 2, endingHeight: 1, in: state) {
 				adjacentPlayablePositions.insert(adjacentPosition)
 			}
 		}

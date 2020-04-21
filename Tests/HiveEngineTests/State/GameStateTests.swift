@@ -149,7 +149,9 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testInitialGameState_OnlyLowestIndexUnitCanBePlayed() {
 		let state = stateProvider.initialGameState
-		var unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit!.index > 1 ? $0.movedUnit : nil })
+		var unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap {
+			$0.movedUnit!.index > 1 ? $0.movedUnit : nil
+		})
 		XCTAssertEqual(0, unitsWithIndexGreaterThanOne.count)
 
 		let moves: [Movement] = [
@@ -157,7 +159,9 @@ final class GameStateTests: HiveEngineTestCase {
 			.place(unit: state.blackAnt, at: Position(x: 0, y: 1, z: -1)),
 		]
 		stateProvider.apply(moves: moves, to: state)
-		unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap { $0.movedUnit!.index > 1 ? $0.movedUnit : nil })
+		unitsWithIndexGreaterThanOne = Set(state.availableMoves.compactMap {
+			$0.movedUnit!.index > 1 ? $0.movedUnit : nil
+		})
 		XCTAssertEqual(1, unitsWithIndexGreaterThanOne.count)
 	}
 
@@ -305,7 +309,13 @@ final class GameStateTests: HiveEngineTestCase {
 	func testPartialGameState_AdjacentUnits_ToPosition_IsCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 13, to: state)
-		let adjacentUnits: [HiveEngine.Unit] = [state.blackQueen, state.blackLadyBug, state.blackMosquito, state.whiteBeetle, state.blackHopper]
+		let adjacentUnits: [HiveEngine.Unit] = [
+			state.blackQueen,
+			state.blackLadyBug,
+			state.blackMosquito,
+			state.whiteBeetle,
+			state.blackHopper,
+		]
 		XCTAssertEqual(adjacentUnits, state.units(adjacentTo: Position(x: 0, y: 1, z: -1)))
 	}
 
@@ -376,7 +386,13 @@ final class GameStateTests: HiveEngineTestCase {
 		state.apply(.pass)
 		XCTAssertEqual(6, state.move)
 
-		let expectedUpdate = GameState.Update(player: .black, movement: .pass, previousPosition: nil, move: 5, notation: "pass")
+		let expectedUpdate = GameState.Update(
+			player: .black,
+			movement: .pass,
+			previousPosition: nil,
+			move: 5,
+			notation: "pass"
+		)
 		XCTAssertEqual(expectedUpdate, state.updates.last)
 
 		state.undoMove()
@@ -667,9 +683,11 @@ final class GameStateTests: HiveEngineTestCase {
 		("testInitialGameState_OnlyLowestIndexUnitCanBePlayed", testInitialGameState_OnlyLowestIndexUnitCanBePlayed),
 		("testInitialGameState_HasNoPreviousMoves", testInitialGameState_HasNoPreviousMoves),
 		("testInitialGameState_ValidatesMoves", testInitialGameState_ValidatesMoves),
-		("testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves", testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves),
+		("testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves",
+			testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves),
 		("testInitialGameState_RestrictsOpening", testInitialGameState_RestrictsOpening),
-		("testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves", testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves),
+		("testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves",
+			testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves),
 		("testInitialGameState_UnitIndicesAreCorrect", testInitialGameState_UnitIndicesAreCorrect),
 
 		("testPartialGameState_PreviousMove_IsCorrect", testPartialGameState_PreviousMove_IsCorrect),
@@ -678,15 +696,20 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_MustPlayQueenInFirstFourMoves", testPartialGameState_MustPlayQueenInFirstFourMoves),
 		("testPartialGameState_PlayableSpaces_AreCorrect", testPartialGameState_PlayableSpaces_AreCorrect),
 		("testPartialGameState_IsNotEndGame", testPartialGameState_IsNotEndGame),
-		("testPartialGameState_ApplyMovement_ValidMoveUpdatesState", testPartialGameState_ApplyMovement_ValidMoveUpdatesState),
-		("testPartialGameState_ApplyMovement_InvalidMoveDoesNotModify", testPartialGameState_ApplyMovement_InvalidMoveDoesNotModify),
-		("testPartialGameState_AvailablePieces_ExcludesPlayedPieces", testPartialGameState_AvailablePieces_ExcludesPlayedPieces),
+		("testPartialGameState_ApplyMovement_ValidMoveUpdatesState",
+			testPartialGameState_ApplyMovement_ValidMoveUpdatesState),
+		("testPartialGameState_ApplyMovement_InvalidMoveDoesNotModify",
+			testPartialGameState_ApplyMovement_InvalidMoveDoesNotModify),
+		("testPartialGameState_AvailablePieces_ExcludesPlayedPieces",
+			testPartialGameState_AvailablePieces_ExcludesPlayedPieces),
 		("testPartialGameState_AdjacentUnits_ToUnit_IsCorrect", testPartialGameState_AdjacentUnits_ToUnit_IsCorrect),
 		("testPartialGameState_AdjacentUnits_ToPosition_IsCorrect", testPartialGameState_AdjacentUnits_ToPosition_IsCorrect),
 		("testPartialGameState_OneHive_IsCorrect", testPartialGameState_OneHive_IsCorrect),
 		("testPartialGameState_OneHive_ExcludingUnit_IsCorrect", testPartialGameState_OneHive_ExcludingUnit_IsCorrect),
-		("testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits", testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits),
-		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits", testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
+		("testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits",
+			testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits),
+		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits",
+			testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
 		("testPartialGameState_ShutOutPlayer_HasOnlyPassMove", testPartialGameState_ShutOutPlayer_HasOnlyPassMove),
 		("testPartialGameState_ApplyAndUndoPassMove", testPartialGameState_ApplyAndUndoPassMove),
 		("testPartialGameState_PlayerHasAvailableMoves", testPartialGameState_PlayerHasAvailableMoves),

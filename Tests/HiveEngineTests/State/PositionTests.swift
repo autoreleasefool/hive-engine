@@ -231,8 +231,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 1, y: 0, z: -1)
 		let secondPositionHeight = 1
 
-		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertFalse(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertFalse(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
@@ -251,8 +261,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 1, y: 0, z: -1)
 		let secondPositionHeight = 1
 
-		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertTrue(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertTrue(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
@@ -275,8 +295,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 1, y: 0, z: -1)
 		let secondPositionHeight = 2
 
-		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertFalse(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertFalse(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
@@ -296,8 +326,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 1, y: 0, z: -1)
 		let secondPositionHeight = 2
 
-		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertTrue(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertTrue(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	// MARK: Y Axis
@@ -320,8 +360,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 1, y: 0, z: -1)
 		let secondPositionHeight = 1
 
-		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertFalse(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertFalse(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement() {
@@ -341,8 +391,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 1, y: 0, z: -1)
 		let secondPositionHeight = 1
 
-		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertTrue(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertTrue(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
@@ -364,8 +424,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: -1, y: 0, z: 1)
 		let secondPositionHeight = 1
 
-		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertFalse(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertFalse(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement() {
@@ -386,8 +456,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: -1, y: 0, z: 1)
 		let secondPositionHeight = 1
 
-		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertTrue(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertTrue(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	// MARK: X Axis
@@ -411,8 +491,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 0, y: 1, z: -1)
 		let secondPositionHeight = 1
 
-		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertFalse(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertFalse(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
@@ -433,8 +523,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 0, y: 1, z: -1)
 		let secondPositionHeight = 1
 
-		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertTrue(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertTrue(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement() {
@@ -456,8 +556,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 0, y: -1, z: 1)
 		let secondPositionHeight = 1
 
-		XCTAssertFalse(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertFalse(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertFalse(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertFalse(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	func testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement() {
@@ -478,8 +588,18 @@ final class PositionTests: HiveEngineTestCase {
 		let secondPosition: Position = Position(x: 0, y: -1, z: 1)
 		let secondPositionHeight = 1
 
-		XCTAssertTrue(firstPosition.freedomOfMovement(to: secondPosition, startingHeight: firstPositionHeight, endingHeight: secondPositionHeight, in: state))
-		XCTAssertTrue(secondPosition.freedomOfMovement(to: firstPosition, startingHeight: secondPositionHeight, endingHeight: firstPositionHeight, in: state))
+		XCTAssertTrue(firstPosition.freedomOfMovement(
+			to: secondPosition,
+			startingHeight: firstPositionHeight,
+			endingHeight: secondPositionHeight,
+			in: state
+		))
+		XCTAssertTrue(secondPosition.freedomOfMovement(
+			to: firstPosition,
+			startingHeight: secondPositionHeight,
+			endingHeight: firstPositionHeight,
+			in: state
+		))
 	}
 
 	// MARK: - Extensions
@@ -506,27 +626,45 @@ final class PositionTests: HiveEngineTestCase {
 		("testNonAdjacentFreedomOfMovement_IsFalse", testNonAdjacentFreedomOfMovement_IsFalse),
 		("testFreedomOfMovement_BetweenIdenticalPositions_IsFalse", testFreedomOfMovement_BetweenIdenticalPositions_IsFalse),
 
-		("testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement", testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement),
-		("testWhenMovingAcrossZAxis_EqualOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossZAxis_EqualOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossZAxis_FreeOnOneSide_FreedomOfMovement", testWhenMovingAcrossZAxis_FreeOnOneSide_FreedomOfMovement),
-		("testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement", testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossYAxis_EqualOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossYAxis_FreeOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossZAxis_EqualOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossZAxis_EqualOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossZAxis_FreeOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossZAxis_FreeOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossXAxis_EqualOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossXAxis_FreeOnOneSide_FreedomOfMovement),
 
-		("testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement),
-		("testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossZAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossZAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement),
 
-		("testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement),
-		("testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossYAxis_LowerXHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossYAxis_HigherXHigherHeight_HigherOnOneSide_FreedomOfMovement),
 
-		("testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement),
-		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement", testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
-		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement", testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossXAxis_LowerYHigherHeight_HigherOnOneSide_FreedomOfMovement),
+		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement",
+			testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnBothSides_NoFreedomOfMovement),
+		("testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement",
+			testWhenMovingAcrossXAxis_HigherYHigherHeight_HigherOnOneSide_FreedomOfMovement),
 
 		("testPositionComparable_IsCorrect", testPositionComparable_IsCorrect),
 		("testPositionDescription_IsCorrect", testPositionDescription_IsCorrect),

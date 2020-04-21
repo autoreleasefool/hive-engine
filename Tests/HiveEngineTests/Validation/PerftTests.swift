@@ -13,8 +13,11 @@ class PerftTests: HiveEngineTestCase {
 	/// Values from https://github.com/jonthysell/Mzinga/wiki/Perft
 	/// Notes:
 	/// 1. The Queen Bee cannot be played on a player's first turn
-	/// 2. If a player has multiple bugs of the same type in their hand, then only one is used to calculate the number of valid placements. Ie. if you have two ants in your hand, and five open positions to place a bug, you have five valid moves, not ten.
-	/// 3. A player can only Pass if there are no other legal moves, and then that Pass counts as one move for the purposes of calculating perft.
+	/// 2. If a player has multiple bugs of the same type in their hand, then only one is used to calculate the number
+	///    of valid placements. Ie. if you have two ants in your hand, and five open positions to place a bug, you
+	///    have five valid moves, not ten.
+	/// 3. A player can only Pass if there are no other legal moves, and then that Pass counts as one move for the
+	///    purposes of calculating perft.
 	private let perftTable: [String: [Int]] = [
 		"": [4, 96], // [4, 96, 1_440, 21_600, 516_240, 12_219_480, 181_641_900], // 2_657_392_800
 		"M": [5, 150], // [5, 150, 2_610, 45_414, 1_252_800, 34_233_432],

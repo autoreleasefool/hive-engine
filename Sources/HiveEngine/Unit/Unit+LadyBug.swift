@@ -24,15 +24,16 @@ extension Unit {
 		let distanceOnHive = 2
 		let playableSpaces = state.playableSpaces()
 
-		while toVisit.isEmpty == false {
+		while !toVisit.isEmpty {
 			let currentPosition = toVisit.popLast()!
 			visited.insert(currentPosition)
 
 			for adjacentPosition in currentPosition.adjacent() {
 				// Unit cannot backtrack
-				guard visited.contains(adjacentPosition) == false,
+				guard !visited.contains(adjacentPosition),
 					// Only consider positions on top of the hive
-					let currentStack = state.stacks[currentPosition], let targetStack = state.stacks[adjacentPosition] else { continue }
+					let currentStack = state.stacks[currentPosition],
+					let targetStack = state.stacks[adjacentPosition] else { continue }
 
 				// Unit can freely move to the target position
 				// When at the start position, it moves from its current height, but when on top of the stack,
@@ -48,7 +49,13 @@ extension Unit {
 					if distanceToRoot == distanceOnHive {
 						// Lady Bug moves exactly 2 spaces on top of hive, then must come down
 						for downPosition in adjacentPosition.adjacent() {
-							if playableSpaces.contains(downPosition) && adjacentPosition.freedomOfMovement(to: downPosition, startingHeight: targetStack.endIndex &+ 1, endingHeight: 1, in: state) {
+							if playableSpaces.contains(downPosition) &&
+								adjacentPosition.freedomOfMovement(
+									to: downPosition,
+									startingHeight: targetStack.endIndex &+ 1,
+									endingHeight: 1,
+									in: state
+								) {
 								moveSet.insert(.move(unit: self, to: downPosition))
 							}
 						}

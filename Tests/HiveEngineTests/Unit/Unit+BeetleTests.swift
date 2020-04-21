@@ -121,7 +121,13 @@ final class UnitBeetleTests: HiveEngineTestCase {
 			.place(unit: state.blackAnt, at: Position(x: 2, y: 0, z: -2)),
 		]
 
-		let availablePlacements = Set(state.availableMoves.filter { if case .place = $0 { return true } else { return false } })
+		let availablePlacements = Set(state.availableMoves.filter {
+			if case .place = $0 {
+				return true
+			} else {
+				return false
+			}
+		})
 
 		XCTAssertTrue(expectedPlacements.isSubset(of: availablePlacements))
 	}

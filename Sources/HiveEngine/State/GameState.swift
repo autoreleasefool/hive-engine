@@ -105,17 +105,19 @@ public class GameState: Codable {
 
 	/// True if the game has ended
 	public var isEndGame: Bool {
-		return winner.isEmpty == false
+		return !winner.isEmpty
 	}
 
 	/// The white player's queen
 	private lazy var whiteQueen: Unit = {
-		return unitsInPlay[Player.white]!.first { $0.key.class == .queen }?.key ?? unitsInHand[Player.white]!.first { $0.class == .queen }!
+		unitsInPlay[Player.white]!.first { $0.key.class == .queen }?.key ??
+			unitsInHand[Player.white]!.first { $0.class == .queen }!
 	}()
 
 	/// The black player's queen
 	private lazy var blackQueen: Unit = {
-		return unitsInPlay[Player.black]!.first { $0.key.class == .queen }?.key ?? unitsInHand[Player.black]!.first { $0.class == .queen }!
+		unitsInPlay[Player.black]!.first { $0.key.class == .queen }?.key ??
+			unitsInHand[Player.black]!.first { $0.class == .queen }!
 	}()
 
 	/// The unit most recently moved, locked for the current turn
@@ -168,8 +170,10 @@ public class GameState: Codable {
 			return next
 		}
 
-		let whiteUnits = Unit.Class.set(with: options).map { Unit(class: $0, owner: .white, index: nextIndex(for: $0, belongingTo: .white)) }
-		let blackUnits = Unit.Class.set(with: options).map { Unit(class: $0, owner: .black, index: nextIndex(for: $0, belongingTo: .black)) }
+		let whiteUnits = Unit.Class.set(with: options)
+			.map { Unit(class: $0, owner: .white, index: nextIndex(for: $0, belongingTo: .white)) }
+		let blackUnits = Unit.Class.set(with: options)
+			.map { Unit(class: $0, owner: .black, index: nextIndex(for: $0, belongingTo: .black)) }
 		let allUnits = whiteUnits + blackUnits
 		self.unitsInHand = [
 			Player.white: Set(whiteUnits),
@@ -227,7 +231,8 @@ public class GameState: Codable {
 		let playableSpacesForPlayer = playableSpaces(for: player)
 
 		// Queen must be played in player's first 4 moves
-		if (player == .white && move == 6 && queenPlayed(for: .white) == false) || (player == .black && move == 7 && queenPlayed(for: .black) == false) {
+		if (player == .white && move == 6 && !queenPlayed(for: .white)) ||
+			(player == .black && move == 7 && !queenPlayed(for: .black)) {
 			let queen = player == .white ? whiteQueen : blackQueen
 			for playableSpace in playableSpacesForPlayer {
 				moves.insert(.place(unit: queen, at: playableSpace))
@@ -302,7 +307,13 @@ public class GameState: Codable {
 			updatePosition = nil
 		}
 
-		updates.append(Update(player: updatePlayer, movement: updateMovement, previousPosition: updatePosition, move: updateMove, notation: notation))
+		updates.append(Update(
+			player: updatePlayer,
+			movement: updateMovement,
+			previousPosition: updatePosition,
+			move: updateMove,
+			notation: notation
+		))
 		return true
 	}
 
@@ -426,9 +437,15 @@ public class GameState: Codable {
 		// Start with all pieces in the player's hand
 		let allAvailablePiecesForPlayer = unitsInHand[player]!
 
-		// Filter down to pieces with either index == 1, or where all units of the same class with lower indices have been played
+		// Filter down to pieces with either index == 1, or where all units of the same class with lower
+		// indices have been played
 		for unit in allAvailablePiecesForPlayer {
-			guard unit.index == 1 || allAvailablePiecesForPlayer.contains(Unit(class: unit.class, owner: unit.owner, index: unit.index - 1)) == false else { continue }
+			guard unit.index == 1 ||
+				!allAvailablePiecesForPlayer.contains(Unit(
+					class: unit.class,
+					owner: unit.owner,
+					index: unit.index - 1
+				)) else { continue }
 			playablePiecesForPlayer.insert(unit)
 		}
 
@@ -445,9 +462,6 @@ public class GameState: Codable {
 	private var _playableSpaces: Set<Position>?
 	/// Cache playable spaces for the current player
 	private var _playableSpacesCurrentPlayer: Set<Position>?
-
-	// swiftlint:disable cyclomatic_complexity
-	#warning("SwiftLint:cyclomatic_complexity disable for `playableSpaces`")
 
 	/// Positions which are adjacent to another piece and are not filled.
 	///
@@ -475,7 +489,7 @@ public class GameState: Codable {
 		for (unit, position) in includedUnits {
 			guard unit.isTopOfStack(in: self) else { continue }
 			for adjacent in position.adjacent() {
-				guard takenPositions.contains(adjacent) == false else { continue }
+				guard !takenPositions.contains(adjacent) else { continue }
 				allSpaces.insert(adjacent)
 			}
 		}
@@ -504,8 +518,6 @@ public class GameState: Codable {
 		return allSpaces
 	}
 
-	// swiftlint:enable cyclomatic_complexity
-
 	// MARK: - Validation
 
 	/// Determine if this game state meets the "One Hive" rule.
@@ -528,10 +540,10 @@ public class GameState: Codable {
 		var stack = [startPosition]
 
 		// DFS through pieces and their adjacent positions to determine graph connectivity
-		while stack.isEmpty == false {
+		while !stack.isEmpty {
 			let position = stack.popLast()!
 			for adjacent in position.adjacent() {
-				if allPositions.contains(adjacent) && found.contains(adjacent) == false {
+				if allPositions.contains(adjacent) && !found.contains(adjacent) {
 					found.insert(adjacent)
 					stack.append(adjacent)
 				}

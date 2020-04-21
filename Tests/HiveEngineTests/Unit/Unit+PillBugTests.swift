@@ -109,7 +109,11 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		]
 
 		stateProvider.apply(moves: setupMoves, to: state)
-		let invalidMove = Movement.yoink(pillBug: state.blackPillBug, unit: state.whitePillBug, to: Position(x: 0, y: -1, z: 1))
+		let invalidMove = Movement.yoink(
+			pillBug: state.blackPillBug,
+			unit: state.whitePillBug,
+			to: Position(x: 0, y: -1, z: 1)
+		)
 		XCTAssertFalse(state.availableMoves.contains(invalidMove))
 		XCTAssertFalse(state.apply(invalidMove))
 	}
@@ -260,8 +264,10 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		("testPillBug_CannotYoinkAfterBeingYoinked_WithoutOption", testPillBug_CannotYoinkAfterBeingYoinked_WithoutOption),
 		("testPillBug_CanYoinkAfterBeingYoinked_WithOption", testPillBug_CanYoinkAfterBeingYoinked_WithOption),
 
-		("testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition", testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition),
-		("testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition", testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition),
+		("testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition",
+			testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition),
+		("testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition",
+			testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition),
 		("testPillBug_YoinkCannotBreakHive", testPillBug_YoinkCannotBreakHive),
 		("testPillBug_CannotYoinkPieceJustYoinked", testPillBug_CannotYoinkPieceJustYoinked),
 	]

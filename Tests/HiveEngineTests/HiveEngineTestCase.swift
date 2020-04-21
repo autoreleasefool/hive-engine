@@ -101,7 +101,10 @@ class HiveEngineTestCase: XCTestCase {
 
 	private func recordEncodable(_ encodableString: String, at destination: URL) {
 		do {
-			try FileManager.default.createDirectory(at: destination.deletingLastPathComponent(), withIntermediateDirectories: true)
+			try FileManager.default.createDirectory(
+				at: destination.deletingLastPathComponent(),
+				withIntermediateDirectories: true
+			)
 			try encodableString.write(to: destination, atomically: false, encoding: .utf8)
 		} catch {
 			XCTFail("Failed to record test: \(error)")

@@ -27,7 +27,8 @@ extension Unit {
 				if position.freedomOfMovement(to: adjacentPosition, startingHeight: height, endingHeight: endHeight, in: state) {
 					moveSet.insert(.move(unit: self, to: adjacentPosition))
 				}
-			} else if height > 1 && position.freedomOfMovement(to: adjacentPosition, startingHeight: height, endingHeight: 1, in: state) {
+			} else if height > 1 &&
+				position.freedomOfMovement(to: adjacentPosition, startingHeight: height, endingHeight: 1, in: state) {
 				// Filter to positions that contain no other units that the beetle can drop down to
 				moveSet.insert(.move(unit: self, to: adjacentPosition))
 			}

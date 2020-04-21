@@ -58,7 +58,9 @@ class OptionsCommand: UHPCommand {
 		let optionNameBegin = command.index(after: firstSpace)
 
 		if !hasValue {
-			guard let option = GameState.Option(rawValue: String(command[optionNameBegin..<command.endIndex])) else { return nil }
+			guard let option = GameState.Option(
+				rawValue: String(command[optionNameBegin..<command.endIndex])
+			) else { return nil }
 			return (option: option, value: nil)
 		}
 

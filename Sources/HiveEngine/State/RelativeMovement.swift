@@ -38,7 +38,10 @@ public struct RelativeMovement {
 			let adjacentUnit = Unit(notation: adjacentMatch.matchedString) else { return nil }
 
 		if let directionMatch = RelativeMovement.directionRegex.firstMatch(in: match.captures[1]!),
-			let direction = Direction(notation: directionMatch.matchedString, onLeft: match.captures[1]!.firstIndex(of: directionMatch.matchedString.first!) == match.captures[1]!.startIndex) {
+			let direction = Direction(
+				notation: directionMatch.matchedString,
+				onLeft: match.captures[1]!.firstIndex(of: directionMatch.matchedString.first!) == match.captures[1]!.startIndex
+			) {
 			self.adjacent = (unit: adjacentUnit, direction: direction)
 		} else {
 			self.adjacent = (unit: adjacentUnit, direction: .onTop)

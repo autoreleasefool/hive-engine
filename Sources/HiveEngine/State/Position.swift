@@ -110,10 +110,10 @@ public struct Position: Hashable, Equatable, Codable {
 			let secondStack = state.stacks[secondPosition] else { return true }
 
 		/// See https://boardgamegeek.com/wiki/page/Hive_FAQ#toc9
-		return (startingHeight &- 1 < firstStack.endIndex &&
+		return !(startingHeight &- 1 < firstStack.endIndex &&
 			startingHeight &- 1 < secondStack.endIndex &&
 			endingHeight &- 1 < firstStack.endIndex &&
-			endingHeight &- 1 < secondStack.endIndex) == false
+			endingHeight &- 1 < secondStack.endIndex)
 	}
 
 	/// Subtract the given Position from this Position and return a new Position

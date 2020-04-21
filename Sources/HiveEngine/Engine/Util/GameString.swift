@@ -25,7 +25,7 @@ public struct GameString {
 		}
 
 		state.internalOptions.insert(.unrestrictOpening)
-		for (index, move) in components.dropFirst(3).enumerated() {
+		for move in components.dropFirst(3) {
 			guard let moveString = MoveString(from: String(move)) else {
 				return nil
 			}

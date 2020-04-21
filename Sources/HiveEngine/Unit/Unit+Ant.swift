@@ -21,14 +21,14 @@ extension Unit {
 		var visited: Set<Position> = []
 		var toVisit = [position]
 
-		while toVisit.isEmpty == false {
+		while !toVisit.isEmpty {
 			let currentPosition = toVisit.popLast()!
 			visited.insert(currentPosition)
 
 			// Only consider valid playable positions that can be reached
 			for adjacentPosition in currentPosition.adjacent() {
 					// Is adjacent to another piece and the position has not already been explored
-				guard playableSpaces.contains(adjacentPosition) && visited.contains(adjacentPosition) == false,
+				guard playableSpaces.contains(adjacentPosition) && !visited.contains(adjacentPosition),
 					// The new position shares at least 1 adjacent unit with a previous space
 					let commonPositions = currentPosition.commonPositions(to: adjacentPosition),
 					state.stacks[commonPositions.0] != nil || state.stacks[commonPositions.1] != nil,
