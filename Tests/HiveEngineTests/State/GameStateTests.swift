@@ -529,7 +529,7 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testCopyingGameState_DoesNotShareProperties() {
 		let state = stateProvider.initialGameState
-		stateProvider.apply(moves: 8, to: state)
+		stateProvider.apply(moves: 6, to: state)
 
 		let copiedState = GameState(from: state)
 
