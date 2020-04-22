@@ -1,3 +1,15 @@
+## 3.0.0
+
+* Fixed a bug with spider and ant movement that was causing them to gate themselves
+
+### Breaking changes
+
+* Removed deprecated field `GameState.Options`, now renamed to `GameState.Option`
+* Removed various options from the `GameState` that were not useful, or did not need to be exposed publicly
+* Replaced `GameStateUpdate` with `GameState.Update`
+* Renamed `GameState.previousMoves` to `GameState.updates`
+* Removed `playableSpaces` and broke it into `placeablePositions` and `playablePositions`
+
 ## 2.5.1
 
 * Rename package to `HiveEngine`
