@@ -24,6 +24,8 @@ extension Unit {
 		var distance: [Position: Int] = [:]
 		distance[startPosition] = 0
 
+		state.temporarilyRemove(unit: self)
+
 		while !toVisit.isEmpty {
 			let currentPosition = toVisit.popLast()!
 			visited.insert(currentPosition)
@@ -48,5 +50,7 @@ extension Unit {
 				}
 			}
 		}
+
+		state.replaceRemovedUnit()
 	}
 }

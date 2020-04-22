@@ -17,6 +17,7 @@ extension Unit {
 		}
 
 		let playableSpaces = state.playableSpaces(excluding: self)
+		state.temporarilyRemove(unit: self)
 
 		var visited: Set<Position> = []
 		var toVisit = [position]
@@ -39,5 +40,7 @@ extension Unit {
 				moveSet.insert(.move(unit: self, to: adjacentPosition))
 			}
 		}
+
+		state.replaceRemovedUnit()
 	}
 }

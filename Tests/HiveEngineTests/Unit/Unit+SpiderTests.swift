@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import HiveEngine
+@testable import HiveEngine
 
 final class UnitSpiderTests: HiveEngineTestCase {
 
@@ -41,6 +41,32 @@ final class UnitSpiderTests: HiveEngineTestCase {
 			.move(unit: state.whiteSpider, to: Position(x: 0, y: 2, z: -2)),
 		]
 		XCTAssertEqual(expectedMoves, availableMoves)
+	}
+
+	func testSpider_EntersGapsCorrectly() {
+		let state = stateProvider.initialGameState
+		state.internalOptions.insert(.disableMovementValidation)
+		let setupMoves: [Movement] = [
+			Movement.place(unit: state.blackQueen, at: .origin),
+			Movement.place(unit: state.blackAnt, at: Position(x: 0, y: 1, z: -1)),
+			Movement.place(unit: state.blackBeetle, at: Position(x: 1, y: 1, z: -2)),
+			Movement.place(unit: state.blackHopper, at: Position(x: 2, y: 0, z: -2)),
+			Movement.place(unit: state.whiteSpider, at: Position(x: 1, y: -1, z: 0)),
+			Movement.place(unit: state.whiteQueen, at: Position(x: -1, y: 0, z: 1)),
+		]
+
+		stateProvider.apply(moves: setupMoves, to: state)
+		state.internalOptions.remove(.disableMovementValidation)
+
+		var availableMoves: Set<Movement> = []
+		state.whiteSpider.availableMoves(in: state, moveSet: &availableMoves)
+
+		let expectedMoves: Set<Movement> = [
+			.move(unit: state.whiteSpider, to: Position(x: -2, y: 0, z: 2)),
+			.move(unit: state.whiteSpider, to: Position(x: 3, y: -1, z: -2)),
+		]
+
+		XCTAssertEqual(availableMoves, expectedMoves)
 	}
 
 	func testSpiderNotInPlay_CannotMove() {
@@ -79,5 +105,6 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		("testSpiderMoves_AreCorrect", testSpiderMoves_AreCorrect),
 		("testSpiderNotInPlay_CannotMove", testSpiderNotInPlay_CannotMove),
 		("testSpider_FreedomOfMovement_IsCorrect", testSpider_FreedomOfMovement_IsCorrect),
+		("testSpider_EntersGapsCorrectly", testSpider_EntersGapsCorrectly),
 	]
 }
