@@ -665,6 +665,96 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(expectedState, state)
 	}
 
+	// MARK: - Remove Units
+
+	func testGameState_RemovesUnitCorrectly() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 3, to: state)
+
+		guard let position = state.position(of: state.whiteAnt) else {
+			XCTFail("White Ant not found")
+			return
+		}
+
+		state.temporarilyRemove(unit: state.whiteAnt)
+
+		XCTAssertNil(state.position(of: state.whiteAnt))
+		XCTAssertEqual([], state.stacks[position])
+	}
+
+	func testGameState_ReplacesUnitCorrectly() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 3, to: state)
+
+		guard let position = state.position(of: state.whiteAnt) else {
+			XCTFail("White Ant not found")
+			return
+		}
+
+		state.temporarilyRemove(unit: state.whiteAnt)
+		state.replaceRemovedUnit()
+
+		XCTAssertNotNil(state.position(of: state.whiteAnt))
+		XCTAssertEqual([state.whiteAnt], state.stacks[position])
+	}
+
+	func testGameState_CannotMove_WhileUnitRemoved() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 3, to: state)
+		state.temporarilyRemove(unit: state.whiteAnt)
+
+		XCTAssertFatalError(expectedMessage: "Cannot alter state while a unit is removed") {
+			state.apply(.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)))
+		}
+	}
+
+	func testGameState_CannotMakeRelativeMove_WhileUnitRemoved() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 3, to: state)
+		state.temporarilyRemove(unit: state.whiteAnt)
+
+		XCTAssertFatalError(expectedMessage: "Cannot alter state while a unit is removed") {
+			state.apply(relativeMovement: RelativeMovement(unit: state.whiteBeetle, adjacentTo: (state.whiteAnt, .south)))
+		}
+	}
+
+	func testGameState_CannotUndoMove_WhileUnitRemoved() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 3, to: state)
+		state.temporarilyRemove(unit: state.whiteAnt)
+
+		XCTAssertFatalError(expectedMessage: "Cannot alter state while a unit is removed") {
+			state.undoMove()
+		}
+	}
+
+	func testGameState_CanOnlyRemoveTopOfStack() {
+		let state = stateProvider.initialGameState
+		let setupMoves: [Movement] = [
+			.place(unit: state.whiteQueen, at: .origin),
+			.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+			.place(unit: state.whiteBeetle, at: Position(x: 0, y: -1, z: 1)),
+			.place(unit: state.blackBeetle, at: Position(x: 0, y: 2, z: -2)),
+			.move(unit: state.whiteBeetle, to: .origin),
+		]
+		stateProvider.apply(moves: setupMoves, to: state)
+
+		XCTAssertFatalError(expectedMessage: "Cannot remove a unit which is not the top of its stack") {
+			state.temporarilyRemove(unit: state.whiteQueen)
+		}
+	}
+
+	func testGameState_CannotRemoveMoreThanOneUnit() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 3, to: state)
+
+		state.temporarilyRemove(unit: state.whiteAnt)
+
+		XCTAssertFatalError(expectedMessage: "Cannot manage more than one removed unit at a time") {
+			state.temporarilyRemove(unit: state.whiteSpider)
+		}
+	}
+
 	// MARK: - Linux Tests
 
 	static var allTests = [
@@ -739,5 +829,13 @@ final class GameStateTests: HiveEngineTestCase {
 		("testGameStateOptions_CanSetModifiableOptions", testGameStateOptions_CanSetModifiableOptions),
 		("testGameStateOptions_CannotSetNonModifiableOptions", testGameStateOptions_CannotSetNonModifiableOptions),
 		("testGameStateOptions_CannotSetOptions_AfterGameStarts", testGameStateOptions_CannotSetOptions_AfterGameStarts),
+
+		("testGameState_RemovesUnitCorrectly", testGameState_RemovesUnitCorrectly),
+		("testGameState_ReplacesUnitCorrectly", testGameState_ReplacesUnitCorrectly),
+		("testGameState_CannotMove_WhileUnitRemoved", testGameState_CannotMove_WhileUnitRemoved),
+		("testGameState_CannotMakeRelativeMove_WhileUnitRemoved", testGameState_CannotMakeRelativeMove_WhileUnitRemoved),
+		("testGameState_CannotUndoMove_WhileUnitRemoved", testGameState_CannotUndoMove_WhileUnitRemoved),
+		("testGameState_CanOnlyRemoveTopOfStack", testGameState_CanOnlyRemoveTopOfStack),
+		("testGameState_CannotRemoveMoreThanOneUnit", testGameState_CannotRemoveMoreThanOneUnit),
 	]
 }

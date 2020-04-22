@@ -199,6 +199,7 @@ public class GameState: Codable {
 		self._availableMoves = state._availableMoves
 		self._playableSpaces = state._playableSpaces
 		self._playableSpacesCurrentPlayer = state._playableSpacesCurrentPlayer
+		self.removedUnit = state.removedUnit
 	}
 
 	// MARK: - Moves
@@ -214,6 +215,8 @@ public class GameState: Codable {
 
 	/// List the available movements from a GameState. Benefits from caching
 	public var availableMoves: Set<Movement> {
+		guard removedUnit == nil else { fatalError("Cannot determine available moves with a removed unit") }
+
 		if let cachedMoves = _availableMoves {
 			return cachedMoves
 		}
@@ -266,12 +269,15 @@ public class GameState: Codable {
 	/// Applies the movement to this game state (if it is valid)
 	@discardableResult
 	public func apply(relativeMovement: RelativeMovement) -> Bool {
-		apply(relativeMovement.movement(in: self))
+		guard removedUnit == nil else { fatalError("Cannot alter state while a unit is removed") }
+		return apply(relativeMovement.movement(in: self))
 	}
 
 	/// Applies the movement to this game state (if it is valid)
 	@discardableResult
 	public func apply(_ movement: Movement) -> Bool {
+		guard removedUnit == nil else { fatalError("Cannot alter state while a unit is removed") }
+
 		// Ensure only valid moves are played
 		if !internalOptions.contains(.disableMovementValidation) {
 			guard validate(movement: movement) else {
@@ -347,6 +353,8 @@ public class GameState: Codable {
 
 	/// Undo the most recent move
 	public func undoMove() {
+		guard removedUnit == nil else { fatalError("Cannot alter state while a unit is removed") }
+
 		guard let lastMove = updates.popLast() else { return }
 		resetCaches()
 		currentPlayer = lastMove.player
@@ -404,6 +412,24 @@ public class GameState: Codable {
 	}
 
 	// MARK: - Units
+
+	private var removedUnit: (Unit, Position)?
+
+	internal func temporarilyRemove(unit: Unit) {
+		guard removedUnit == nil else { fatalError("Cannot manage more than one removed unit at a time") }
+		guard unit.isTopOfStack(in: self) else { fatalError("Cannot remove a unit which is not the top of its stack") }
+		guard let position = self.position(of: unit) else { return }
+		self.unitsInPlay[unit.owner]?[unit] = nil
+		_ = self.stacks[position]?.popLast()
+		removedUnit = (unit, position)
+	}
+
+	internal func replaceRemovedUnit() {
+		guard let (unit, position) = removedUnit else { return }
+		self.unitsInPlay[unit.owner]?[unit] = position
+		self.stacks[position]?.append(unit)
+		removedUnit = nil
+	}
 
 	/// Returns the position of a unit on the board, if it's on the board.
 	public func position(of unit: Unit) -> Position? {
