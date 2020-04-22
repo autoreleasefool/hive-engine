@@ -22,7 +22,6 @@ extension Unit {
 		distance[startPosition] = 0
 
 		let distanceOnHive = 2
-		let playableSpaces = state.playableSpaces()
 
 		while !toVisit.isEmpty {
 			let currentPosition = toVisit.popLast()!
@@ -49,7 +48,7 @@ extension Unit {
 					if distanceToRoot == distanceOnHive {
 						// Lady Bug moves exactly 2 spaces on top of hive, then must come down
 						for downPosition in adjacentPosition.adjacent() {
-							if playableSpaces.contains(downPosition) &&
+							if downPosition.isPlayable(in: state) &&
 								adjacentPosition.freedomOfMovement(
 									to: downPosition,
 									startingHeight: targetStack.endIndex + 1,

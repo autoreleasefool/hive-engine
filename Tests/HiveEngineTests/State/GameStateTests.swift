@@ -241,10 +241,10 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(9, state.move)
 	}
 
-	func testPartialGameState_PlayableSpaces_AreCorrect() {
+	func testPartialGameState_PlayablePositions_AreCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 8, to: state)
-		let playableSpaces: Set<Position> = Set([
+		let playablePositions: Set<Position> = Set([
 			Position(x: 0, y: 3, z: -3), Position(x: 1, y: 2, z: -3),
 			Position(x: 2, y: 1, z: -3), Position(x: 2, y: 0, z: -2),
 			Position(x: 1, y: 0, z: -1), Position(x: 2, y: -1, z: -1),
@@ -255,7 +255,7 @@ final class GameStateTests: HiveEngineTestCase {
 			Position(x: -2, y: 3, z: -1), Position(x: -1, y: 3, z: -2),
 			])
 
-		XCTAssertEqual(playableSpaces, state.playableSpaces())
+		XCTAssertEqual(playablePositions, state.playablePositions)
 	}
 
 	func testPartialGameState_IsNotEndGame() {
@@ -332,7 +332,7 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertTrue(state.oneHive(excluding: state.whiteQueen))
 	}
 
-	func testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits() {
+	func testPartialGameState_PlaceablePositionsForBlackPlayer_OnlyBesideBlackUnits() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 3, to: state)
 		let expectedPositions: Set<Position> = [
@@ -341,17 +341,17 @@ final class GameStateTests: HiveEngineTestCase {
 			Position(x: 1, y: 1, z: -2),
 		]
 
-		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
+		XCTAssertEqual(expectedPositions, state.placeablePositions(for: .black))
 	}
 
-	func testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits() {
+	func testPartialGameState_PlaceablePositionsForBlackPlayerOnFirstMove_BesideWhiteUnits() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 1, to: state)
 		let expectedPositions: Set<Position> = [
 			Position(x: 0, y: 1, z: -1),
 		]
 
-		XCTAssertEqual(expectedPositions, state.playableSpaces(for: .black))
+		XCTAssertEqual(expectedPositions, state.placeablePositions(for: .black))
 	}
 
 	func testPartialGameState_ShutOutPlayer_HasOnlyPassMove() {
@@ -679,7 +679,7 @@ final class GameStateTests: HiveEngineTestCase {
 		state.temporarilyRemove(unit: state.whiteAnt)
 
 		XCTAssertNil(state.position(of: state.whiteAnt))
-		XCTAssertEqual([], state.stacks[position])
+		XCTAssertNil(state.stacks[position])
 	}
 
 	func testGameState_ReplacesUnitCorrectly() {
@@ -784,7 +784,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_LastPlayer_IsCorrect", testPartialGameState_LastPlayer_IsCorrect),
 		("testPartialGameState_Move_IncrementsCorrectly", testPartialGameState_Move_IncrementsCorrectly),
 		("testPartialGameState_MustPlayQueenInFirstFourMoves", testPartialGameState_MustPlayQueenInFirstFourMoves),
-		("testPartialGameState_PlayableSpaces_AreCorrect", testPartialGameState_PlayableSpaces_AreCorrect),
+		("testPartialGameState_PlayablePositions_AreCorrect", testPartialGameState_PlayablePositions_AreCorrect),
 		("testPartialGameState_IsNotEndGame", testPartialGameState_IsNotEndGame),
 		("testPartialGameState_ApplyMovement_ValidMoveUpdatesState",
 			testPartialGameState_ApplyMovement_ValidMoveUpdatesState),
@@ -796,10 +796,10 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_AdjacentUnits_ToPosition_IsCorrect", testPartialGameState_AdjacentUnits_ToPosition_IsCorrect),
 		("testPartialGameState_OneHive_IsCorrect", testPartialGameState_OneHive_IsCorrect),
 		("testPartialGameState_OneHive_ExcludingUnit_IsCorrect", testPartialGameState_OneHive_ExcludingUnit_IsCorrect),
-		("testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits",
-			testPartialGameState_PlayableSpacesForBlackPlayer_OnlyBesideBlackUnits),
-		("testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits",
-			testPartialGameState_PlayableSpacesForBlackPlayerOnFirstMove_BesideWhiteUnits),
+		("testPartialGameState_PlaceablePositionsForBlackPlayer_OnlyBesideBlackUnits",
+			testPartialGameState_PlaceablePositionsForBlackPlayer_OnlyBesideBlackUnits),
+		("testPartialGameState_PlaceablePositionsForBlackPlayerOnFirstMove_BesideWhiteUnits",
+			testPartialGameState_PlaceablePositionsForBlackPlayerOnFirstMove_BesideWhiteUnits),
 		("testPartialGameState_ShutOutPlayer_HasOnlyPassMove", testPartialGameState_ShutOutPlayer_HasOnlyPassMove),
 		("testPartialGameState_ApplyAndUndoPassMove", testPartialGameState_ApplyAndUndoPassMove),
 		("testPartialGameState_PlayerHasAvailableMoves", testPartialGameState_PlayerHasAvailableMoves),

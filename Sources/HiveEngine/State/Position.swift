@@ -116,6 +116,11 @@ public struct Position: Hashable, Equatable, Codable {
 			endingHeight - 1 < secondStack.endIndex)
 	}
 
+	/// Returns true if there is at least 1 stack of pieces adjacent to this position in the given state.
+	public func isPlayable(in state: GameState) -> Bool {
+		state.playablePositions.contains(self)
+	}
+
 	/// Subtract the given Position from this Position and return a new Position
 	public func subtracting(_ other: Position) -> Position {
 		return Position(x: self.x - other.x, y: self.y - other.y, z: self.z - other.z)

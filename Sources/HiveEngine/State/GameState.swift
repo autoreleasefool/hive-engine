@@ -197,8 +197,8 @@ public class GameState: Codable {
 		self.allUnitsInPlay = state.allUnitsInPlay
 		self.unitIsTopOfStack = state.unitIsTopOfStack
 		self._availableMoves = state._availableMoves
-		self._playableSpaces = state._playableSpaces
-		self._playableSpacesCurrentPlayer = state._playableSpacesCurrentPlayer
+		self._placeablePositions = state._placeablePositions
+		self._playablePositions = state._playablePositions
 		self.removedUnit = state.removedUnit
 	}
 
@@ -231,14 +231,14 @@ public class GameState: Codable {
 		guard isEndGame == false else { return [] }
 
 		var moves: Set<Movement> = []
-		let playableSpacesForPlayer = playableSpaces(for: player)
+		let placeablePositionsForPlayer = placeablePositions(for: player)
 
 		// Queen must be played in player's first 4 moves
 		if (player == .white && move == 6 && !queenPlayed(for: .white)) ||
 			(player == .black && move == 7 && !queenPlayed(for: .black)) {
 			let queen = player == .white ? whiteQueen : blackQueen
-			for playableSpace in playableSpacesForPlayer {
-				moves.insert(.place(unit: queen, at: playableSpace))
+			for placeablePosition in placeablePositionsForPlayer {
+				moves.insert(.place(unit: queen, at: placeablePosition))
 			}
 
 			return moves
@@ -248,7 +248,7 @@ public class GameState: Codable {
 
 		// Get placeable pieces
 		for unit in playableUnitsForPlayer {
-			for space in playableSpacesForPlayer {
+			for space in placeablePositionsForPlayer {
 				moves.insert(.place(unit: unit, at: space))
 			}
 		}
@@ -327,7 +327,7 @@ public class GameState: Codable {
 	private func applyMove(unit: Unit, position: Position) {
 		let startPosition = unitsInPlay[unit.owner]![unit]!
 		_ = stacks[startPosition]?.popLast()
-		if (stacks[startPosition]?.count ?? -1) == 0 {
+		if stacks[startPosition]?.isEmpty ?? false {
 			stacks[startPosition] = nil
 		} else {
 			unitIsTopOfStack[stacks[startPosition]!.last!] = true
@@ -365,7 +365,7 @@ public class GameState: Codable {
 			let startPosition = position
 			let endPosition = lastMove.previousPosition!
 			_ = stacks[startPosition]?.popLast()
-			if (stacks[startPosition]?.count ?? -1) == 0 {
+			if stacks[startPosition]?.isEmpty ?? false {
 				stacks[startPosition] = nil
 			} else {
 				unitIsTopOfStack[stacks[startPosition]!.last!] = true
@@ -421,13 +421,20 @@ public class GameState: Codable {
 		guard let position = self.position(of: unit) else { return }
 		self.unitsInPlay[unit.owner]?[unit] = nil
 		_ = self.stacks[position]?.popLast()
+		if self.stacks[position]?.isEmpty ?? false {
+			self.stacks[position] = nil
+		}
 		removedUnit = (unit, position)
 	}
 
 	internal func replaceRemovedUnit() {
 		guard let (unit, position) = removedUnit else { return }
 		self.unitsInPlay[unit.owner]?[unit] = position
-		self.stacks[position]?.append(unit)
+		if self.stacks[position] == nil {
+			self.stacks[position] = [unit]
+		} else {
+			self.stacks[position]?.append(unit)
+		}
 		removedUnit = nil
 	}
 
@@ -484,64 +491,48 @@ public class GameState: Codable {
 		return playablePiecesForPlayer
 	}
 
-	/// Cache all playable spaces
-	private var _playableSpaces: Set<Position>?
-	/// Cache playable spaces for the current player
-	private var _playableSpacesCurrentPlayer: Set<Position>?
+	internal var allPlayablePositions: Set<Position> {
+		Set(stacks.keys.flatMap { $0.adjacent().filter { stacks[$0] == nil } })
+	}
 
-	/// Positions which are adjacent to another piece and are not filled.
-	///
-	/// - Parameters:
-	///  - excludedUnit: optionally exclude a unit when determining if the space is playable
-	public func playableSpaces(excluding excludedUnit: Unit? = nil, for player: Player? = nil) -> Set<Position> {
-		if player == nil, excludedUnit == nil, let spaces = _playableSpaces {
-			return spaces
-		} else if player == currentPlayer, excludedUnit == nil, let spaces = _playableSpacesCurrentPlayer {
-			return spaces
+	/// Cache playablePositions
+	private var _playablePositions: Set<Position>?
+
+	/// List of positions to which pieces can be moved
+	var playablePositions: Set<Position> {
+		if let cache = _playablePositions {
+			return cache
 		}
 
-		if move == 0 { return [.origin] }
-		if move == 1 && !internalOptions.contains(.unrestrictOpening) { return [Position(x: 0, y: 1, z: -1)] }
+		_playablePositions = allPlayablePositions
+		return _playablePositions!
+	}
 
-		var includedUnits = allUnitsInPlay
-		if let excluded = excludedUnit {
-			includedUnits[excluded] = nil
+	/// Cache placeablePosiitons for each player
+	private var _placeablePositions: [Player: Set<Position>] = [:]
+
+	/// List of positions at which a player can place a piece.
+	public func placeablePositions(for player: Player) -> Set<Position> {
+		if let cache = _placeablePositions[player] {
+			return cache
 		}
 
-		let takenPositions = self.stacks.keys
+		if move == 0 {
+			return [.origin]
+		} else if move == 1 {
+			return internalOptions.contains(.unrestrictOpening)
+				? Set(Position.origin.adjacent())
+				: [Position(x: 0, y: 1, z: -1)]
+		}
 
-		// Get all open spaces adjacent to another unit
-		var allSpaces: Set<Position> = []
-		for (unit, position) in includedUnits {
-			guard unit.isTopOfStack(in: self) else { continue }
-			for adjacent in position.adjacent() {
-				guard !takenPositions.contains(adjacent) else { continue }
-				allSpaces.insert(adjacent)
+		var placeable = playablePositions
+		self.unitsInPlay[player.next]?
+			.filter { $0.key.isTopOfStack(in: self) }
+			.forEach {
+				$0.value.adjacent().forEach { placeable.remove($0) }
 			}
-		}
-
-		guard let player = player else {
-			if excludedUnit == nil {
-				_playableSpaces = allSpaces
-			}
-			return allSpaces
-		}
-
-		guard move > 1 else { return allSpaces }
-
-		// Remove spaces adjacent to an enemy's unit
-		for (unit, position) in includedUnits {
-			guard unit.owner != player && unit.isTopOfStack(in: self) else { continue }
-			for adjacent in position.adjacent() {
-				allSpaces.remove(adjacent)
-			}
-		}
-
-		if player == currentPlayer && excludedUnit == nil {
-			_playableSpacesCurrentPlayer = allSpaces
-		}
-
-		return allSpaces
+		_placeablePositions[player] = placeable
+		return placeable
 	}
 
 	// MARK: - Validation
@@ -583,8 +574,8 @@ public class GameState: Codable {
 
 	private func resetCaches() {
 		_availableMoves = nil
-		_playableSpaces = nil
-		_playableSpacesCurrentPlayer = nil
+		_playablePositions = nil
+		_placeablePositions.removeAll()
 	}
 }
 

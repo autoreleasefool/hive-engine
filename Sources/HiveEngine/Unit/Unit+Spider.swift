@@ -18,13 +18,13 @@ extension Unit {
 
 		let maxDistance = 3
 
-		let playableSpaces = state.playableSpaces(excluding: self)
 		var visited: Set<Position> = []
 		var toVisit = [startPosition]
 		var distance: [Position: Int] = [:]
 		distance[startPosition] = 0
 
 		state.temporarilyRemove(unit: self)
+		let playablePositions = state.allPlayablePositions
 
 		while !toVisit.isEmpty {
 			let currentPosition = toVisit.popLast()!
@@ -33,7 +33,7 @@ extension Unit {
 			// Only consider valid playable positions that can be reached
 			for adjacentPosition in currentPosition.adjacent() {
 					// Is adjacent to another piece and the position has not already been explored
-				guard playableSpaces.contains(adjacentPosition) && !visited.contains(adjacentPosition),
+				guard playablePositions.contains(adjacentPosition) && !visited.contains(adjacentPosition),
 					// The new position shares at least 1 adjacent unit with a previous space
 					let commonPositions = currentPosition.commonPositions(to: adjacentPosition),
 					state.stacks[commonPositions.0] != nil || state.stacks[commonPositions.1] != nil,
