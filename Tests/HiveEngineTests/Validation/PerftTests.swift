@@ -60,6 +60,10 @@ class PerftTests: HiveEngineTestCase {
 		return perftCount
 	}
 
+	func testNothing() {
+		XCTAssertTrue(true)
+	}
+
 	func testPerftBenchmarkPerformance() {
 		measure {
 			let state = gameState()
@@ -140,6 +144,7 @@ class PerftTests: HiveEngineTestCase {
 	}
 
 	static var allTests = [
+		("testNothing", testNothing),
 		("testPerftBenchmarkPerformance", testPerftBenchmarkPerformance),
 		("testPerftValidation_BaseGame", testPerftValidation_BaseGame),
 		("testPerftValidation_Mosquito", testPerftValidation_Mosquito),
