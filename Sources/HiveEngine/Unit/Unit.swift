@@ -209,6 +209,42 @@ public struct Unit: Codable {
 	}
 }
 
+// MARK: - Relative moves
+
+extension Unit {
+	public func onTop(of other: Unit) -> RelativeMovement {
+		RelativeMovement(unit: self, adjacentTo: (other, .onTop))
+	}
+
+	public func northWest(of other: Unit) -> RelativeMovement {
+		RelativeMovement(unit: self, adjacentTo: (other, .northWest))
+	}
+
+	public func northEast(of other: Unit) -> RelativeMovement {
+		RelativeMovement(unit: self, adjacentTo: (other, .northEast))
+	}
+
+	public func north(of other: Unit) -> RelativeMovement {
+		RelativeMovement(unit: self, adjacentTo: (other, .north))
+	}
+
+	public func southWest(of other: Unit) -> RelativeMovement {
+		RelativeMovement(unit: self, adjacentTo: (other, .southWest))
+	}
+
+	public func southEast(of other: Unit) -> RelativeMovement {
+		RelativeMovement(unit: self, adjacentTo: (other, .southEast))
+	}
+
+	public func south(of other: Unit) -> RelativeMovement {
+		RelativeMovement(unit: self, adjacentTo: (other, .south))
+	}
+
+	public func atOrigin() -> RelativeMovement {
+		RelativeMovement(unit: self, adjacentTo: nil)
+	}
+}
+
 // MARK: - CustomStringConvertible
 
 extension Unit: CustomStringConvertible {
