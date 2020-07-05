@@ -1,3 +1,11 @@
+## 3.1.0
+
+* Introduced convenience functions `north(of:)`, `south(of:)`, etc. on `Unit` for creating `RelativeMovement`
+* Introduce `hasGameEnded` property to check if game is over
+* Introduce `endState` property for more easily parseable game result
+* Deprecated `isGameEnd` property in favour of `hasGameEnded`
+* Deprecated `winner` property in favour of `endState`
+
 ## 3.0.0
 
 * Fixed a bug with spider and ant movement that was causing them to gate themselves

@@ -73,7 +73,7 @@ This package is built with Swift Package Manager, so you can require it as a dep
 
 ```
     dependencies: [
-        .package(url: "https://github.com/josephroquedev/hive-engine.git", from: "2.5.0")
+        .package(url: "https://github.com/josephroquedev/hive-engine.git", from: "3.1.0")
     ],
 ```
 
