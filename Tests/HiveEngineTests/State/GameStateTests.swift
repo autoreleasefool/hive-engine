@@ -125,6 +125,11 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(0, state.winner.count)
 	}
 
+	func testInitialGameState_HasNoEndState() {
+		let state = stateProvider.initialGameState
+		XCTAssertNil(state.endState)
+	}
+
 	func testInitialGameState_HasNoStacks() {
 		let state = stateProvider.initialGameState
 		XCTAssertEqual(0, state.stacks.keys.count)
@@ -262,6 +267,12 @@ final class GameStateTests: HiveEngineTestCase {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 8, to: state)
 		XCTAssertFalse(state.isEndGame)
+	}
+
+	func testPartialGameState_HasNotEnded() {
+		let state = stateProvider.initialGameState
+		stateProvider.apply(moves: 8, to: state)
+		XCTAssertFalse(state.hasGameEnded)
 	}
 
 	func testPartialGameState_ApplyMovement_ValidMoveUpdatesState() {
@@ -473,7 +484,12 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testFinishedGameState_HasOneWinner() {
 		let state = stateProvider.wonGameState
-		XCTAssertEqual(1, state.winner.count)
+		XCTAssertEqual([.black], state.winner)
+	}
+
+	func testFinishedGameState_HasWinnerEndState() {
+		let state = stateProvider.wonGameState
+		XCTAssertEqual(.playerWins(.black), state.endState)
 	}
 
 	func testFinishedGameState_HasNoMoves() {
@@ -484,6 +500,11 @@ final class GameStateTests: HiveEngineTestCase {
 	func testFinishedGameState_IsEndGame() {
 		let state = stateProvider.wonGameState
 		XCTAssertTrue(state.isEndGame)
+	}
+
+	func testFinishedGameState_HasEnded() {
+		let state = stateProvider.wonGameState
+		XCTAssertTrue(state.hasGameEnded)
 	}
 
 	func testFinishedGameState_ApplyMovement_DoesNotModifyState() {
@@ -497,7 +518,12 @@ final class GameStateTests: HiveEngineTestCase {
 
 	func testTiedGameState_HasTwoWinners() {
 		let state = stateProvider.tiedGameState
-		XCTAssertEqual(2, state.winner.count)
+		XCTAssertEqual([.black, .white], state.winner)
+	}
+
+	func testTiedGameState_HasTiedEndState() {
+		let state = stateProvider.tiedGameState
+		XCTAssertEqual(.draw, state.endState)
 	}
 
 	// MARK: - Other tests
@@ -767,6 +793,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testInitialGameState_PlayerHasAllUnitsAvailable", testInitialGameState_PlayerHasAllUnitsAvailable),
 		("testInitialGameState_WhitePlayerIsFirst", testInitialGameState_WhitePlayerIsFirst),
 		("testInitialGameState_HasNoWinner", testInitialGameState_HasNoWinner),
+		("testInitialGameState_HasNoEndState", testInitialGameState_HasNoEndState),
 		("testInitialGameState_HasNoStacks", testInitialGameState_HasNoStacks),
 		("testInitialGameState_HasNoLastPlayer", testInitialGameState_HasNoLastPlayer),
 		("testInitialGameState_OnlyHasPlaceMovesAvailable", testInitialGameState_OnlyHasPlaceMovesAvailable),
@@ -786,6 +813,7 @@ final class GameStateTests: HiveEngineTestCase {
 		("testPartialGameState_MustPlayQueenInFirstFourMoves", testPartialGameState_MustPlayQueenInFirstFourMoves),
 		("testPartialGameState_PlayablePositions_AreCorrect", testPartialGameState_PlayablePositions_AreCorrect),
 		("testPartialGameState_IsNotEndGame", testPartialGameState_IsNotEndGame),
+		("testPartialGameState_HasNotEnded", testPartialGameState_HasNotEnded),
 		("testPartialGameState_ApplyMovement_ValidMoveUpdatesState",
 			testPartialGameState_ApplyMovement_ValidMoveUpdatesState),
 		("testPartialGameState_ApplyMovement_InvalidMoveDoesNotModify",
@@ -813,11 +841,14 @@ final class GameStateTests: HiveEngineTestCase {
 
 		("testFinishedGameState_PlayerHasNoAvailableMoves", testFinishedGameState_PlayerHasNoAvailableMoves),
 		("testFinishedGameState_HasOneWinner", testFinishedGameState_HasOneWinner),
+		("testFinishedGameState_HasWinnerEndState", testFinishedGameState_HasWinnerEndState),
 		("testFinishedGameState_HasNoMoves", testFinishedGameState_HasNoMoves),
 		("testFinishedGameState_IsEndGame", testFinishedGameState_IsEndGame),
+		("testFinishedGameState_HasEnded", testFinishedGameState_HasEnded),
 		("testFinishedGameState_ApplyMovement_DoesNotModifyState", testFinishedGameState_ApplyMovement_DoesNotModifyState),
 
 		("testTiedGameState_HasTwoWinners", testTiedGameState_HasTwoWinners),
+		("testTiedGameState_HasTiedEndState", testTiedGameState_HasTiedEndState),
 
 		("testIdenticalGameStateHashesAreIdentical", testIdenticalGameStateHashesAreIdentical),
 		("testCopyingGameState_ProducesIdenticalState", testCopyingGameState_ProducesIdenticalState),

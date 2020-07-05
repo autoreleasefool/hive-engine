@@ -104,8 +104,14 @@ public class GameState: Codable {
 	private(set) public var updates: [Update] = []
 
 	/// True if the game has ended
+	@available(*, deprecated, message: "Replaced by hasGameEnded")
 	public var isEndGame: Bool {
-		!winner.isEmpty
+		endState != nil
+	}
+
+	/// True if the game has ended
+	public var hasGameEnded: Bool {
+		endState != nil
 	}
 
 	/// The white player's queen
@@ -133,15 +139,19 @@ public class GameState: Codable {
 	/// Check if a unit is at the top of its stack. False when the unit is in hand.
 	private(set) public var unitIsTopOfStack: [Unit: Bool] = [:]
 
+	// Possible states for the end of the game. If nil, the game has not ended
+	public var endState: EndState?
+
 	/// Returns the Player who has won the game, both players if it is a tie,
 	/// or no players if the game has not ended
+	@available(*, deprecated, message: "Please check endState for winners")
 	public var winner: [Player] {
 		var winners: [Player] = []
 		if whiteQueen.isSurrounded(in: self) {
-			winners.append(Player.white)
+			winners.append(Player.black)
 		}
 		if blackQueen.isSurrounded(in: self) {
-			winners.append(Player.black)
+			winners.append(Player.white)
 		}
 
 		return winners
@@ -228,7 +238,7 @@ public class GameState: Codable {
 
 	/// Available moves for the given player
 	private func moves(for player: Player) -> Set<Movement> {
-		guard isEndGame == false else { return [] }
+		guard !hasGameEnded else { return [] }
 
 		var moves: Set<Movement> = []
 		let placeablePositionsForPlayer = placeablePositions(for: player)
@@ -320,6 +330,7 @@ public class GameState: Codable {
 			move: updateMove,
 			notation: notation
 		))
+		updateEndState()
 		return true
 	}
 
@@ -393,6 +404,7 @@ public class GameState: Codable {
 		case .pass:
 			break
 		}
+		updateEndState()
 	}
 
 	/// Validate that a given move is valid in the current state.
@@ -570,12 +582,36 @@ public class GameState: Codable {
 		return found == allPositions
 	}
 
+	private func updateEndState() {
+		let whiteSurrounded = whiteQueen.isSurrounded(in: self)
+		let blackSurrounded = blackQueen.isSurrounded(in: self)
+
+		if whiteSurrounded && !blackSurrounded {
+			endState = .playerWins(.black)
+		} else if blackSurrounded && !whiteSurrounded {
+			endState = .playerWins(.white)
+		} else if blackSurrounded && whiteSurrounded {
+			endState = .draw
+		} else {
+			endState = nil
+		}
+	}
+
 	// MARK: - Private
 
 	private func resetCaches() {
 		_availableMoves = nil
 		_playablePositions = nil
 		_placeablePositions.removeAll()
+	}
+}
+
+// MARK: - EndState
+
+extension GameState {
+	public enum EndState: Equatable {
+		case playerWins(Player)
+		case draw
 	}
 }
 

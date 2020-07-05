@@ -36,17 +36,12 @@ extension GameState {
 			return "NotStarted"
 		}
 
-		let winner = self.winner
-
-		if winner.count == 2 {
-			return "Draw"
-		} else if winner.first == .white {
-			return "WhiteWins"
-		} else if winner.first == .black {
-			return "BlackWins"
+		switch self.endState {
+		case .draw: return "Draw"
+		case .playerWins(.black): return "BlackWins"
+		case .playerWins(.white): return "WhiteWins"
+		case .none: return "InProgress"
 		}
-
-		return "InProgress"
 	}
 
 	public var turnString: String {

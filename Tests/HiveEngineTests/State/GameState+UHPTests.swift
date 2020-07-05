@@ -102,7 +102,7 @@ final class GameStateUHPTests: HiveEngineTestCase {
 	func testCompletedGameState_GameStateString_IsCorrect() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 34, to: state)
-		XCTAssertEqual("WhiteWins", state.gameStateString)
+		XCTAssertEqual("BlackWins", state.gameStateString)
 	}
 
 	// MARK: - Linux Tests
