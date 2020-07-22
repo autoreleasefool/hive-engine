@@ -116,14 +116,14 @@ public class GameState: Codable {
 
 	/// The white player's queen
 	private lazy var whiteQueen: Unit = {
-		unitsInPlay[Player.white]!.first { $0.key.class == .queen }?.key ??
-			unitsInHand[Player.white]!.first { $0.class == .queen }!
+		unitsInPlay[.white]!.first { $0.key.class == .queen }?.key ??
+			unitsInHand[.white]!.first { $0.class == .queen }!
 	}()
 
 	/// The black player's queen
 	private lazy var blackQueen: Unit = {
-		unitsInPlay[Player.black]!.first { $0.key.class == .queen }?.key ??
-			unitsInHand[Player.black]!.first { $0.class == .queen }!
+		unitsInPlay[.black]!.first { $0.key.class == .queen }?.key ??
+			unitsInHand[.black]!.first { $0.class == .queen }!
 	}()
 
 	/// The unit most recently moved, locked for the current turn
@@ -148,10 +148,10 @@ public class GameState: Codable {
 	public var winner: [Player] {
 		var winners: [Player] = []
 		if whiteQueen.isSurrounded(in: self) {
-			winners.append(Player.black)
+			winners.append(.black)
 		}
 		if blackQueen.isSurrounded(in: self) {
-			winners.append(Player.white)
+			winners.append(.white)
 		}
 
 		return winners
