@@ -185,9 +185,6 @@ final class GameStateTests: HiveEngineTestCase {
 		let state = GameState()
 		state.internalOptions.insert(.disableMovementValidation)
 		XCTAssertTrue(state.apply(.place(unit: state.whiteAnt, at: Position(x: 1, y: 1, z: 1))))
-
-		let expectedUnits = Set([state.whiteAnt])
-		XCTAssertEqual(expectedUnits, Set(state.allUnitsInPlay.keys))
 		XCTAssertEqual(Position(x: 1, y: 1, z: 1), state.unitsInPlay[Player.white]?[state.whiteAnt])
 	}
 
