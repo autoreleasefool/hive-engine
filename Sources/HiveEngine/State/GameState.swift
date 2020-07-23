@@ -14,12 +14,15 @@ public class GameState: Codable {
 		case options
 		case unitsInPlay
 		case unitsInHand
+		case unitIsTopOfStack
 		case stacks
 		case currentPlayer
 		case move
+		case updates
+		case endState
 	}
 
-	public struct Update: Codable, Equatable {
+	public struct Update: Codable, Equatable, Hashable {
 		/// Player who made the move
 		public let player: Player
 		/// The movement applied to the state
@@ -88,6 +91,9 @@ public class GameState: Codable {
 	/// Units still in each player's hand
 	private(set) public var unitsInHand: [Player: Set<Unit>]
 
+	/// Check if a unit is at the top of its stack. False when the unit is in hand.
+	private(set) public var unitIsTopOfStack: [Unit: Bool] = [:]
+
 	/// Stacks of units at a certain position
 	private(set) public var stacks: [Position: [Unit]]
 
@@ -99,6 +105,9 @@ public class GameState: Codable {
 
 	/// List of updates made to the state
 	private(set) public var updates: [Update] = []
+
+	// Possible states for the end of the game. If nil, the game has not ended
+	private(set) public var endState: EndState?
 
 	/// True if the game has ended
 	@available(*, deprecated, message: "Replaced by hasGameEnded")
@@ -132,12 +141,6 @@ public class GameState: Codable {
 	public var lastPlayer: Player? {
 		updates.last?.player
 	}
-
-	/// Check if a unit is at the top of its stack. False when the unit is in hand.
-	private(set) public var unitIsTopOfStack: [Unit: Bool] = [:]
-
-	// Possible states for the end of the game. If nil, the game has not ended
-	public var endState: EndState?
 
 	/// Returns the Player who has won the game, both players if it is a tie,
 	/// or no players if the game has not ended
@@ -194,14 +197,15 @@ public class GameState: Codable {
 
 	public init(from state: GameState, withOptions: Set<Option>? = nil) {
 		self.options = withOptions ?? state.options
-		self.currentPlayer = state.currentPlayer
-		self.unitsInHand = state.unitsInHand
+		self.internalOptions = state.internalOptions
 		self.unitsInPlay = state.unitsInPlay
+		self.unitsInHand = state.unitsInHand
+		self.unitIsTopOfStack = state.unitIsTopOfStack
 		self.stacks = state.stacks
-		self.updates = state.updates
+		self.currentPlayer = state.currentPlayer
 		self.move = state.move
-		self.unitIsTopOfStack = state.unitIsTopOfStack
-		self.unitIsTopOfStack = state.unitIsTopOfStack
+		self.updates = state.updates
+		self.endState = state.endState
 		self._availableMoves = state._availableMoves
 		self._placeablePositions = state._placeablePositions
 		self._playablePositions = state._playablePositions
@@ -600,33 +604,80 @@ public class GameState: Codable {
 // MARK: - EndState
 
 extension GameState {
-	public enum EndState: Equatable {
+	public enum EndState: Equatable, Hashable {
 		case playerWins(Player)
 		case draw
 	}
 }
 
-extension GameState: Equatable {
-	public static func == (lhs: GameState, rhs: GameState) -> Bool {
-		lhs.unitsInPlay == rhs.unitsInPlay &&
-			lhs.unitsInHand == rhs.unitsInHand &&
-			lhs.stacks == rhs.stacks &&
-			lhs.move == rhs.move &&
-			lhs.currentPlayer == rhs.currentPlayer &&
-			lhs.options == rhs.options
+extension GameState.EndState: Codable {
+	private enum CodingKeys: String, CodingKey {
+		case player
+		case status
+	}
+
+	private enum Status: String, Codable {
+		case playerWins
+		case draw
+	}
+
+	public func encode(to encoder: Encoder) throws {
+		var container = encoder.container(keyedBy: CodingKeys.self)
+		switch self {
+		case .draw:
+			try container.encode(Status.draw, forKey: .status)
+		case .playerWins(let player):
+			try container.encode(Status.playerWins, forKey: .status)
+			try container.encode(player, forKey: .player)
+		}
+	}
+
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		let status = try container.decode(Status.self, forKey: .status)
+		switch status {
+		case .draw:
+			self = .draw
+		case .playerWins:
+			let player = try container.decode(Player.self, forKey: .player)
+			self = .playerWins(player)
+		}
 	}
 }
 
-extension GameState: Hashable {
-	public func hash(into hasher: inout Hasher) {
-		hasher.combine(unitsInPlay)
-		hasher.combine(unitsInHand)
-		hasher.combine(stacks)
-		hasher.combine(move)
-		hasher.combine(currentPlayer)
-		hasher.combine(options)
+// MARK: - Equatable
+
+extension GameState: Equatable {
+	public static func == (lhs: GameState, rhs: GameState) -> Bool {
+		lhs.options == rhs.options &&
+			lhs.unitsInPlay == rhs.unitsInPlay &&
+			lhs.unitsInHand == rhs.unitsInHand &&
+			lhs.unitIsTopOfStack == rhs.unitIsTopOfStack &&
+			lhs.stacks == rhs.stacks &&
+			lhs.currentPlayer == rhs.currentPlayer &&
+			lhs.move == rhs.move &&
+			lhs.updates == rhs.updates &&
+			lhs.endState == rhs.endState
 	}
 }
+
+// MARK: - Hashable
+
+extension GameState: Hashable {
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(options)
+		hasher.combine(unitsInPlay)
+		hasher.combine(unitsInHand)
+		hasher.combine(unitIsTopOfStack)
+		hasher.combine(stacks)
+		hasher.combine(currentPlayer)
+		hasher.combine(move)
+		hasher.combine(updates)
+		hasher.combine(endState)
+	}
+}
+
+// MARK: - CustomStringConvertible
 
 extension GameState: CustomStringConvertible {
 	public var description: String {

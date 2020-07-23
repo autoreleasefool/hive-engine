@@ -547,7 +547,20 @@ final class GameStateTests: HiveEngineTestCase {
 		XCTAssertEqual(state.availableMoves, copiedState.availableMoves)
 		XCTAssertEqual(state.lastUnitMoved, copiedState.lastUnitMoved)
 		XCTAssertEqual(state.lastPlayer, copiedState.lastPlayer)
-		XCTAssertEqual(state.updates, copiedState.updates)
+		XCTAssertEqual(state.lastUnitMoved, copiedState.lastUnitMoved)
+		XCTAssertEqual(state.hasGameEnded, copiedState.hasGameEnded)
+	}
+
+	func testCopyingGameState_WhenFinished_ProducesIdenticalState() {
+		let state = stateProvider.wonGameState
+		let copiedState = GameState(from: state)
+
+		XCTAssertEqual(state, copiedState)
+		XCTAssertEqual(state.availableMoves, copiedState.availableMoves)
+		XCTAssertEqual(state.lastUnitMoved, copiedState.lastUnitMoved)
+		XCTAssertEqual(state.lastPlayer, copiedState.lastPlayer)
+		XCTAssertEqual(state.lastUnitMoved, copiedState.lastUnitMoved)
+		XCTAssertEqual(state.hasGameEnded, copiedState.hasGameEnded)
 	}
 
 	func testCopyingGameState_DoesNotShareProperties() {
@@ -849,6 +862,8 @@ final class GameStateTests: HiveEngineTestCase {
 
 		("testIdenticalGameStateHashesAreIdentical", testIdenticalGameStateHashesAreIdentical),
 		("testCopyingGameState_ProducesIdenticalState", testCopyingGameState_ProducesIdenticalState),
+		("testCopyingGameState_WhenFinished_ProducesIdenticalState",
+			testCopyingGameState_WhenFinished_ProducesIdenticalState),
 		("testCopyingGameState_DoesNotShareProperties", testCopyingGameState_DoesNotShareProperties),
 		("testGameStateUpdate_Notation_IsCorrect", testGameStateUpdate_Notation_IsCorrect),
 

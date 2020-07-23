@@ -152,7 +152,7 @@ class GameStateProvider {
 
 	func apply(moves: [RelativeMovement], to state: GameState) {
 		for (index, element) in moves.enumerated() {
-			assert(relativeMovement: state.apply(element), "Move #\(index + 1) [\(element)] was not a valid move.")
+			assert(state.apply(relativeMovement: element), "Move #\(index + 1) [\(element)] was not a valid move.")
 		}
 	}
 }
