@@ -1,3 +1,8 @@
+## 3.1.1
+
+* Bugfix: `gameEnd` not being copied when creating a new `GameState` from another
+* Removed `allUnitsInPlay` since it can be derived from `unitsInPlay`
+
 ## 3.1.0
 
 * Introduced convenience functions `north(of:)`, `south(of:)`, etc. on `Unit` for creating `RelativeMovement`
