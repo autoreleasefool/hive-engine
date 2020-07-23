@@ -22,47 +22,6 @@ public class GameState: Codable {
 		case endState
 	}
 
-	public struct Update: Codable, Equatable, Hashable {
-		/// Player who made the move
-		public let player: Player
-		/// The movement applied to the state
-		public let movement: Movement
-		/// Previous position of the unit moved in `movement`
-		public let previousPosition: Position?
-		/// The move number
-		public let move: Int
-		/// Standard notation describing the movement in the context of the state it was played
-		/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
-		public let notation: String
-	}
-
-	public enum Option: String, Codable, CaseIterable {
-		/// Include the Lady Bug unit
-		case ladyBug = "LadyBug"
-		/// Include the Mosquito unit
-		case mosquito = "Mosquito"
-		/// Include the Pill Bug unit
-		case pillBug = "PillBug"
-		/// Disallow playing the Queen on either player's first move
-		case noFirstMoveQueen = "NoFirstMoveQueen"
-		/// Allow players to use their Pill Bug's special ability, immediately after that Pill Bug was yoinked
-		case allowSpecialAbilityAfterYoink = "AllowSpecialAbilityAfterYoink"
-
-		var isModifiable: Bool {
-			switch self {
-			case .ladyBug, .mosquito, .pillBug: return false
-			case .noFirstMoveQueen, .allowSpecialAbilityAfterYoink: return true
-			}
-		}
-
-		public var isExpansion: Bool {
-			switch self {
-			case .ladyBug, .mosquito, .pillBug: return true
-			case .noFirstMoveQueen, .allowSpecialAbilityAfterYoink: return false
-			}
-		}
-	}
-
 	internal enum InternalOption {
 		case unrestrictOpening
 		case disableMovementValidation
@@ -598,6 +557,55 @@ public class GameState: Codable {
 		_availableMoves = nil
 		_playablePositions = nil
 		_placeablePositions.removeAll()
+	}
+}
+
+// MARK: - Option
+
+extension GameState {
+	public enum Option: String, Codable, CaseIterable {
+		/// Include the Lady Bug unit
+		case ladyBug = "LadyBug"
+		/// Include the Mosquito unit
+		case mosquito = "Mosquito"
+		/// Include the Pill Bug unit
+		case pillBug = "PillBug"
+		/// Disallow playing the Queen on either player's first move
+		case noFirstMoveQueen = "NoFirstMoveQueen"
+		/// Allow players to use their Pill Bug's special ability, immediately after that Pill Bug was yoinked
+		case allowSpecialAbilityAfterYoink = "AllowSpecialAbilityAfterYoink"
+
+		var isModifiable: Bool {
+			switch self {
+			case .ladyBug, .mosquito, .pillBug: return false
+			case .noFirstMoveQueen, .allowSpecialAbilityAfterYoink: return true
+			}
+		}
+
+		public var isExpansion: Bool {
+			switch self {
+			case .ladyBug, .mosquito, .pillBug: return true
+			case .noFirstMoveQueen, .allowSpecialAbilityAfterYoink: return false
+			}
+		}
+	}
+}
+
+// MARK: - Update
+
+extension GameState {
+	public struct Update: Codable, Equatable, Hashable {
+		/// Player who made the move
+		public let player: Player
+		/// The movement applied to the state
+		public let movement: Movement
+		/// Previous position of the unit moved in `movement`
+		public let previousPosition: Position?
+		/// The move number
+		public let move: Int
+		/// Standard notation describing the movement in the context of the state it was played
+		/// See http://www.boardspace.net/english/about_hive_notation.html for a description of the notation
+		public let notation: String
 	}
 }
 
