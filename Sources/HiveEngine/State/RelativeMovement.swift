@@ -20,27 +20,37 @@ public struct RelativeMovement {
 		self.adjacent = adjacent
 	}
 
-	private static let unitRegex = Regex("[wb][ABGLMPQS][1-3]")
-	private static let directionRegex = Regex(#"[-\/]"#)
-	private static let regex = Regex(#"([wb][ABGLMPQS][1-3]) ?([-\/]?[wb][ABGLMPQS][1-3][-\/]?)?"#)
+	private static let unitRegex = Regex("[wb]([AG][1-3]|[BS][1-2]|[LMPQ]1?)")
+	private static let directionRegex = Regex(#"[-\\/]"#)
+	private static let regex: Regex = {
+		// swiftlint:disable:next force_try
+		try! Regex(
+			string: "(\(unitRegex))" +
+				"( (\(directionRegex)?\(unitRegex)\(directionRegex)?))?",
+			options: []
+		)
+	}()
 
 	public init?(notation: String) {
-		guard let match = RelativeMovement.regex.firstMatch(in: notation),
+		let adjacentCaptureIndex = 3
+
+		guard let match = Self.regex.firstMatch(in: notation),
 			let movedUnit = Unit(notation: match.captures[0]!) else { return nil }
 		self.movedUnit = movedUnit
 
-		guard match.captures.filter({ $0 != nil }).count == 2 else {
+		guard match.captures.filter({ $0 != nil }).count == 5 else {
 			self.adjacent = nil
 			return
 		}
 
-		guard let adjacentMatch = RelativeMovement.unitRegex.firstMatch(in: match.captures[1]!),
+		guard let adjacentMatch = Self.unitRegex.firstMatch(in: match.captures[adjacentCaptureIndex]!),
 			let adjacentUnit = Unit(notation: adjacentMatch.matchedString) else { return nil }
 
-		if let directionMatch = RelativeMovement.directionRegex.firstMatch(in: match.captures[1]!),
+		if let directionMatch = Self.directionRegex.firstMatch(in: match.captures[adjacentCaptureIndex]!),
 			let direction = Direction(
 				notation: directionMatch.matchedString,
-				onLeft: match.captures[1]!.firstIndex(of: directionMatch.matchedString.first!) == match.captures[1]!.startIndex
+				onLeft: match.captures[adjacentCaptureIndex]!.firstIndex(of: directionMatch.matchedString.first!) ==
+					match.captures[adjacentCaptureIndex]!.startIndex
 			) {
 			self.adjacent = (unit: adjacentUnit, direction: direction)
 		} else {

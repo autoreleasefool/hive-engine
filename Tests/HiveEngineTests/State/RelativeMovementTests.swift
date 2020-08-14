@@ -66,9 +66,54 @@ final class RelativeMovementTests: HiveEngineTestCase {
 		XCTAssertEqual(.move(unit: state.whiteQueen, to: Position(x: 1, y: 0, z: -1)), movement)
 	}
 
+	func testRelativeMovementNotation_ParsesOriginPlacementCorrectly() {
+		let expected = RelativeMovement(unit: Unit(class: .ant, owner: .white, index: 1), adjacentTo: nil)
+		XCTAssertEqual(expected, RelativeMovement(notation: "wA1"))
+	}
+
+	func testRelativeMovementNotation_ParsingRequiresIndex() {
+		XCTAssertEqual(nil, RelativeMovement(notation: "wA"))
+	}
+
+	func testRelativeMovementNotation_ParsingQueenDoesntRequireIndex() {
+		let expected = RelativeMovement(unit: Unit(class: .queen, owner: .black, index: 1), adjacentTo: nil)
+		XCTAssertEqual(expected, RelativeMovement(notation: "bQ"))
+	}
+
+	func testRelativeMovementNotation_ParsesAdjacentUnit() {
+		let expected = RelativeMovement(
+			unit: Unit(class: .queen, owner: .black, index: 1),
+			adjacentTo: (Unit(class: .ant, owner: .white, index: 2), .southEast)
+		)
+		XCTAssertEqual(expected, RelativeMovement(notation: "bQ1 wA2-"))
+	}
+
+	func testRelativeMovementNotation_ParsesNotationToOriginal() {
+		let state = GameState(options: [.ladyBug, .mosquito, .pillBug])
+
+		let allUnits = state.unitsInHand[.white]!.union( state.unitsInHand[.black]!)
+		allUnits.forEach { unit in
+			let movement = RelativeMovement(unit: unit, adjacentTo: nil)
+			XCTAssertEqual(movement, RelativeMovement(notation: movement.notation))
+		}
+		zip(allUnits, allUnits).forEach { (unit, adjacentUnit) in
+			Direction.allCases.forEach { direction in
+				let movement = RelativeMovement(unit: unit, adjacentTo: (adjacentUnit, direction))
+				XCTAssertEqual(movement, RelativeMovement(notation: movement.notation))
+			}
+		}
+	}
+
 	static var allTests = [
 		("testRelativeMovementDescription_IsCorrect", testRelativeMovementDescription_IsCorrect),
 		("testRelativeMovementToMovement_WhenPlaced_IsCorrect", testRelativeMovementToMovement_WhenPlaced_IsCorrect),
 		("testRelativeMovementToMovement_WhenMoved_IsCorrect", testRelativeMovementToMovement_WhenMoved_IsCorrect),
+		("testRelativeMovementNotation_ParsesOriginPlacementCorrectly",
+			testRelativeMovementNotation_ParsesOriginPlacementCorrectly),
+		("testRelativeMovementNotation_ParsingRequiresIndex", testRelativeMovementNotation_ParsingRequiresIndex),
+		("testRelativeMovementNotation_ParsingQueenDoesntRequireIndex",
+			testRelativeMovementNotation_ParsingQueenDoesntRequireIndex),
+		("testRelativeMovementNotation_ParsesAdjacentUnit", testRelativeMovementNotation_ParsesAdjacentUnit),
+		("testRelativeMovementNotation_ParsesNotationToOriginal", testRelativeMovementNotation_ParsesNotationToOriginal),
 	]
 }
