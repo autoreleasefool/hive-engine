@@ -363,31 +363,13 @@ final class GameStateTests: HiveEngineTestCase {
 	}
 
 	func testPartialGameState_ShutOutPlayer_HasOnlyPassMove() {
-		let state = stateProvider.initialGameState
-		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .origin),
-			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2)),
-		]
-
-		stateProvider.apply(moves: setupMoves, to: state)
+		let state = stateProvider.shutOutState
 		let expectedMoves: Set<Movement> = [.pass]
 		XCTAssertEqual(expectedMoves, state.availableMoves)
 	}
 
 	func testPartialGameState_ApplyAndUndoPassMove() {
-		let state = stateProvider.initialGameState
-		let setupMoves: [Movement] = [
-			Movement.place(unit: state.whiteQueen, at: .origin),
-			Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
-			Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
-			Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
-			Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2)),
-		]
-
-		stateProvider.apply(moves: setupMoves, to: state)
+		let state = stateProvider.shutOutState
 		let expectedMoves: Set<Movement> = [.pass]
 		XCTAssertEqual(expectedMoves, state.availableMoves)
 		XCTAssertEqual(5, state.move)

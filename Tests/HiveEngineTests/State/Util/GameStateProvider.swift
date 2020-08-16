@@ -22,6 +22,22 @@ class GameStateProvider {
 		return state
 	}
 
+	// A game state where the black player has no moves
+	var shutOutState: GameState {
+		let state = initialGameState
+		apply(
+			moves: [
+				Movement.place(unit: state.whiteQueen, at: .origin),
+				Movement.place(unit: state.blackQueen, at: Position(x: 0, y: 1, z: -1)),
+				Movement.place(unit: state.whiteAnt, at: Position(x: 0, y: -1, z: 1)),
+				Movement.move(unit: state.blackQueen, to: Position(x: 1, y: 0, z: -1)),
+				Movement.move(unit: state.whiteAnt, to: Position(x: 2, y: 0, z: -2)),
+			],
+			to: state
+		)
+		return state
+	}
+
 	// MARK: State Builder
 
 	private func partialStateMoves(for state: GameState) -> [RelativeMovement] {
