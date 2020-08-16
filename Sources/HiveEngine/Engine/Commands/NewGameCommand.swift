@@ -11,11 +11,10 @@ class NewGameCommand: UHPCommand {
 	required init() {}
 
 	func invoke(_ command: String, state: GameState?) -> UHPResult {
-		if command.contains(";") {
-			return parseGameString(command)
-		} else {
+		guard command.contains(";") else {
 			return parseGameTypeString(command)
 		}
+		return parseGameString(command)
 	}
 
 	private func parseGameTypeString(_ command: String) -> UHPResult {
