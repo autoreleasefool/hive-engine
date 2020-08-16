@@ -50,7 +50,6 @@ final class UHPCommandParserTests: HiveEngineTestCase {
 		XCTAssertNotNil(command as? BestMoveCommand)
 	}
 
-
 	static var allTests = [
 		("testParsesInfoCommand", testParsesInfoCommand),
 		("testParsesNewGameCommand", testParsesNewGameCommand),
