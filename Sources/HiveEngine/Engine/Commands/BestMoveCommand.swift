@@ -14,10 +14,10 @@ class BestMoveCommand: UHPCommand {
 			return .invalidCommand(command)
 		}
 
-		if let state = state {
-			return .output(state.availableMoves.first?.notation(in: state) ?? "")
-		} else {
+		guard let state = state else {
 			return .invalidCommand("No state provided")
 		}
+
+		return .output(state.availableMoves.first?.notation(in: state) ?? "")
 	}
 }
