@@ -33,3 +33,12 @@ public class Engine {
 		return result
 	}
 }
+
+// MARK: Info
+
+extension Engine {
+	enum Info {
+		public static let name = "Hive Engine"
+		public static let version = "3.1.1"
+	}
+}

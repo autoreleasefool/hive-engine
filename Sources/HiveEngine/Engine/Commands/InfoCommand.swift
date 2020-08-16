@@ -7,15 +7,13 @@
 //
 
 class InfoCommand: UHPCommand {
-	private static let engineName = "Hive Engine"
-	private static let engineVersion = "2.0.0"
 	private static let supportedExpansions = ["Mosquito", "Ladybug", "Pillbug"]
 
 	required init() {}
 
 	func invoke(_ command: String, state: GameState?) -> UHPResult {
 		return .output([
-			"id \(InfoCommand.engineName) v\(InfoCommand.engineVersion)",
+			"id \(Engine.Info.name) v\(Engine.Info.version)",
 			InfoCommand.supportedExpansions.joined(separator: ";"),
 		].joined(separator: "\n"))
 	}
