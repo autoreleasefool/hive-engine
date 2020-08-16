@@ -31,6 +31,7 @@ public func allTests() -> [XCTestCaseEntry] {
 		testCase(UHPCommandParserTests.allTests),
 		testCase(PlayCommandTests.allTests),
 		testCase(NewGameCommandTests.allTests),
+		testCase(InfoCommandTests.allTests),
 		testCase(EngineTests.allTests),
 		testCase(GameStateUHPTests.allTests),
 	]
