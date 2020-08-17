@@ -21,11 +21,11 @@ class UndoCommand: UHPCommand {
 			undoCount = 1
 		}
 
-		if let state = state {
-			(0..<undoCount).forEach { _ in state.undoMove() }
-			return .state(state)
-		} else {
+		guard let state = state else {
 			return .invalidCommand("No state provided")
 		}
+
+		(0..<undoCount).forEach { _ in state.undoMove() }
+		return .state(state)
 	}
 }
