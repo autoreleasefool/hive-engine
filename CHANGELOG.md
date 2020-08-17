@@ -1,3 +1,8 @@
+## 3.1.2
+
+* Bugfix: `RelativeMovement` now parses adjacent unit and direction from movement
+* Chore: Additional test coverage for `RelativeMovement` and `UHPCommand`s
+
 ## 3.1.1
 
 * Bugfix: `gameEnd` not being copied when creating a new `GameState` from another

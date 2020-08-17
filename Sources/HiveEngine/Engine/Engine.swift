@@ -39,6 +39,6 @@ public class Engine {
 extension Engine {
 	enum Info {
 		public static let name = "Hive Engine"
-		public static let version = "3.1.1"
+		public static let version = "3.1.2"
 	}
 }
