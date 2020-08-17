@@ -77,16 +77,16 @@ public struct RelativeMovement {
 
 	/// Translate the RelativeMovement in to a Movement, in the given GameState.
 	public func movement(in state: GameState) -> Movement {
-		if let adjacent = adjacent,
-			let adjacentPosition = state.position(of: adjacent.unit)?.offset(by: adjacent.direction) {
-			if state.unitsInHand[movedUnit.owner]?.contains(movedUnit) == true {
-				return .place(unit: movedUnit, at: adjacentPosition)
-			} else {
-				return .move(unit: movedUnit, to: adjacentPosition)
-			}
-		} else {
+		guard let adjacent = adjacent,
+			let adjacentPosition = state.position(of: adjacent.unit)?.offset(by: adjacent.direction) else {
 			return .place(unit: movedUnit, at: .origin)
 		}
+
+		guard state.unitsInHand[movedUnit.owner]?.contains(movedUnit) == true else {
+			return .move(unit: movedUnit, to: adjacentPosition)
+		}
+
+		return .place(unit: movedUnit, at: adjacentPosition)
 	}
 }
 
@@ -119,10 +119,9 @@ extension RelativeMovement: Hashable {
 
 extension RelativeMovement: CustomStringConvertible {
 	public var description: String {
-		if let adjacent = adjacent {
-			return "Move \(movedUnit) \(adjacent.direction) of \(adjacent.unit)"
-		} else {
+		guard let adjacent = adjacent else {
 			return "Place \(movedUnit) at origin"
 		}
+		return "Move \(movedUnit) \(adjacent.direction) of \(adjacent.unit)"
 	}
 }

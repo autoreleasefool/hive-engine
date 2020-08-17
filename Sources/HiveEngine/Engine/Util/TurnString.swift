@@ -8,12 +8,17 @@
 
 import Regex
 
-public struct TurnString: CustomStringConvertible {
+public struct TurnString: Equatable, CustomStringConvertible {
 	public let player: Player
 	public let turn: Int
 
 	public var description: String {
 		"\(player)[\(turn)]"
+	}
+
+	internal init(player: Player, turn: Int) {
+		self.player = player
+		self.turn = turn
 	}
 
 	private static let regex = Regex(#"^(Black|White)\[(\d+)\]$"#)
