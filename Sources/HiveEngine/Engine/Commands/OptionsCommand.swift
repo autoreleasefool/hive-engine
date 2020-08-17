@@ -10,7 +10,7 @@ class OptionsCommand: UHPCommand {
 	required init() {}
 
 	func invoke(_ command: String, state: GameState?) -> UHPResult {
-		if command.isEmpty {
+		guard !command.isEmpty else {
 			return optionsList(state: state ?? GameState())
 		}
 
@@ -18,9 +18,9 @@ class OptionsCommand: UHPCommand {
 			return set(command, in: state ?? GameState())
 		} else if command.hasPrefix("get") {
 			return get(command, in: state ?? GameState())
-		} else {
-			return .invalidCommand(command)
 		}
+
+		return .invalidCommand(command)
 	}
 
 	private func set(_ command: String, in state: GameState) -> UHPResult {
@@ -66,7 +66,8 @@ class OptionsCommand: UHPCommand {
 
 		let valueBegin = command.index(after: lastSpace)
 
-		guard let option = GameState.Option(rawValue: String(command[optionNameBegin..<lastSpace])),
+		guard optionNameBegin < lastSpace,
+			let option = GameState.Option(rawValue: String(command[optionNameBegin..<lastSpace])),
 			let value = Bool(String(command.suffix(from: valueBegin))) else { return nil }
 		return (option: option, value: value)
 	}
