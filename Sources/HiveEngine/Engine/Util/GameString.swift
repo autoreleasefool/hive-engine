@@ -14,6 +14,10 @@ public struct GameString {
 	public init?(from: String) {
 		let components = from.split(separator: ";")
 
+		guard components.count >= 3 else {
+			return nil
+		}
+
 		guard let state = GameTypeString(from: String(components[0]))?.state,
 			let stateString = GameStateString(rawValue: String(components[1])) else {
 			return nil
