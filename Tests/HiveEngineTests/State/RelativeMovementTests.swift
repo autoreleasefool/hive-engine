@@ -104,6 +104,21 @@ final class RelativeMovementTests: HiveEngineTestCase {
 		}
 	}
 
+	func testRelativeMovement_HashesIdenticalMovesSame() {
+		XCTAssertEqual(
+			RelativeMovement(notation: "wQ")!.hashValue,
+			RelativeMovement(unit: Unit(class: .queen, owner: .white, index: 1), adjacentTo: nil).hashValue
+		)
+
+		XCTAssertEqual(
+			RelativeMovement(notation: "bA2 \\wB2")!.hashValue,
+			RelativeMovement(
+				unit: Unit(class: .ant, owner: .black, index: 2),
+				adjacentTo: (Unit(class: .beetle, owner: .white, index: 2), .north)
+			).hashValue
+		)
+	}
+
 	static var allTests = [
 		("testRelativeMovementDescription_IsCorrect", testRelativeMovementDescription_IsCorrect),
 		("testRelativeMovementToMovement_WhenPlaced_IsCorrect", testRelativeMovementToMovement_WhenPlaced_IsCorrect),
