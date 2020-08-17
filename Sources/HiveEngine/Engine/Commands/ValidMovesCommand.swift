@@ -14,10 +14,14 @@ class ValidMovesCommand: UHPCommand {
 			return .invalidCommand(command)
 		}
 
-		if let state = state {
-			return .output(state.availableMoves.map({ $0.notation(in: state) }).sorted().joined(separator: ";"))
-		} else {
+		guard let state = state else {
 			return .invalidCommand("No state provided")
 		}
+
+		return .output(state.availableMoves
+			.map({ $0.notation(in: state) })
+			.sorted()
+			.joined(separator: ";")
+		)
 	}
 }
