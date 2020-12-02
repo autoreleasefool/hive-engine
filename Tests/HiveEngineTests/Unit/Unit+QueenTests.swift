@@ -10,13 +10,6 @@ import HiveEngine
 
 final class UnitQueenTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testQueen_CanMoveAsQueenOnly() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 8, to: state)

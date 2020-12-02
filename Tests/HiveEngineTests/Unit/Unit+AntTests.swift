@@ -10,13 +10,6 @@ import HiveEngine
 
 final class UnitAntTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testAnt_CanMoveAsAntOnly() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 14, to: state)

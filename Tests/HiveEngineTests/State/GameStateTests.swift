@@ -11,13 +11,6 @@ import XCTest
 
 final class GameStateTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	// MARK: - Initial Game State
 
 	func testInitialGameState_IsFirstMove() {

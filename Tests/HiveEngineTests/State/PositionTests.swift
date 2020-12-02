@@ -12,13 +12,6 @@ import XCTest
 
 final class PositionTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testAdjacentPositions_IsCorrect() {
 		let position: Position = Position(x: 22, y: 11, z: -13)
 

@@ -12,13 +12,6 @@ import HiveEngine
 
 final class MovementTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testCodingMoveMovement() {
 		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let position: Position = Position(x: 1, y: -1, z: 0)

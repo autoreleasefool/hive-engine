@@ -10,13 +10,6 @@ import XCTest
 
 final class UnitSpiderTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testSpider_CanMoveAsSpiderOnly() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 2, to: state)

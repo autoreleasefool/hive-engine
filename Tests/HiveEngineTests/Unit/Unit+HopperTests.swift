@@ -10,13 +10,6 @@ import HiveEngine
 
 final class UnitHopperTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testHopper_CanMoveAsHopperOnly() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 9, to: state)

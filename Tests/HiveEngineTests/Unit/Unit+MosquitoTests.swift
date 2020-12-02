@@ -10,13 +10,6 @@ import HiveEngine
 
 final class UnitMosquitoTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testMosquitoNotInPlay_CannotMove() {
 		let state = stateProvider.initialGameState
 

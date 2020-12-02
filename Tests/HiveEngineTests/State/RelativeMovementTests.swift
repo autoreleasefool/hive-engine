@@ -12,13 +12,6 @@ import HiveEngine
 
 final class RelativeMovementTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testRelativeMovementDescription_IsCorrect() {
 		let unit = Unit(class: .ant, owner: .white, index: 0)
 		let adjacentUnit = Unit(class: .queen, owner: .black, index: 0)

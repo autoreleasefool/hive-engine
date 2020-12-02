@@ -11,13 +11,6 @@ import XCTest
 
 final class UnitTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	// MARK: - Unit
 
 	func testWhenSurrounded_IsSurrounded_IsTrue() {

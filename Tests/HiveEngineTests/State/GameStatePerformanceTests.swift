@@ -10,13 +10,6 @@ import HiveEngine
 
 final class GameStatePerformanceTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testFinishedGameState_Performance() {
 		measure {
 			let state = GameState(options: [.ladyBug, .mosquito, .pillBug])

@@ -10,13 +10,6 @@ import XCTest
 
 final class PlayCommandTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testPlayCommand_ReturnsNewState() {
 		let engine = Engine()
 		_ = engine.send(input: "newgame Base;NotStarted;White[1]")

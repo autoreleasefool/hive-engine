@@ -10,13 +10,6 @@ import XCTest
 
 final class UndoCommandTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testUndoCommand_UpdatesEngineState() {
 		let initialState = stateProvider.initialGameState
 		stateProvider.apply(moves: 1, to: initialState)

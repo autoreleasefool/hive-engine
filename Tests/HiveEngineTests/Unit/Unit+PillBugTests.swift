@@ -10,13 +10,6 @@ import HiveEngine
 
 final class UnitPillBugTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testPillBug_CanMoveAsPillBugOrQueen() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 16, to: state)

@@ -10,13 +10,6 @@ import HiveEngine
 
 final class UnitBeetleTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testBeetle_CanMoveAsBeetleOrQueen() {
 		let state = stateProvider.initialGameState
 		stateProvider.apply(moves: 12, to: state)

@@ -11,13 +11,6 @@ import HiveEngine
 
 final class GameStateUHPTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	// MARK: - Initial Game State
 
 	func testInitialGameState_GameString_IsCorrect() {

@@ -10,13 +10,6 @@ import XCTest
 
 final class BestMoveCommandTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testBestMoveCommand_ReturnsValidMoveNotation() {
 		let state = stateProvider.initialGameState
 		guard case let .output(notation) = BestMoveCommand().invoke("", state: state) else {

@@ -24,6 +24,15 @@ class HiveEngineTestCase: XCTestCase {
 
 		return false
 	}
+	
+	// MARK: - State Provider
+	
+	private(set) var stateProvider: GameStateProvider!
+	
+	override func setUp() {
+		super.setUp()
+		stateProvider = GameStateProvider()
+	}
 
 	// MARK: - URLs
 

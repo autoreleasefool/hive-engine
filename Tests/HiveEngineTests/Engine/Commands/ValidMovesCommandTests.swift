@@ -10,13 +10,6 @@ import XCTest
 
 final class ValidMovesCommandTests: HiveEngineTestCase {
 
-	var stateProvider: GameStateProvider!
-
-	override func setUp() {
-		super.setUp()
-		stateProvider = GameStateProvider()
-	}
-
 	func testValidMovesCommand_RequiresState() {
 		guard case let .invalidCommand(message) = ValidMovesCommand().invoke("", state: nil) else {
 			XCTFail("Command result was not valid")
