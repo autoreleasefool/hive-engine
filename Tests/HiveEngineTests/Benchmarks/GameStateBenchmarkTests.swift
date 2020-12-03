@@ -1,23 +1,23 @@
 //
-//  GameStatePerformanceTests.swift
-//  HiveEngine
+//  GameStateBenchmarkTests.swift
+//  HiveEngineTests
 //
-//  Created by Joseph Roque on 2019-03-11.
+//  Created by Joseph Roque on 2020-12-02.
 //
 
 import XCTest
-import HiveEngine
+@testable import HiveEngine
 
-final class GameStatePerformanceTests: HiveEngineTestCase {
+final class GameStateBenchmarkTests: HiveEngineTestCase {
 
-	func testFinishedGameState_Performance() {
+	func testFinishedGameStateBenchmark() {
 		measure {
 			let state = GameState(options: [.ladyBug, .mosquito, .pillBug])
 			stateProvider.apply(moves: 34, to: state)
 		}
 	}
 
-	func testAvailableMoves_Performance() {
+	func testAvailableMovesBenchmark() {
 		measure {
 			for i in 0..<34 {
 				let state = GameState(options: [.ladyBug, .mosquito, .pillBug])
@@ -27,7 +27,7 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 		}
 	}
 
-	func testExploration_Performance() {
+	func testExplorationBenchmark() {
 		func explore(state: GameState, depth: Int) {
 			guard depth > 0 else { return }
 			for move in state.availableMoves {
@@ -43,11 +43,9 @@ final class GameStatePerformanceTests: HiveEngineTestCase {
 		}
 	}
 
-	// MARK: - Linux Tests
-
 	static var allTests = [
-		("testFinishedGameState_Performance", testFinishedGameState_Performance),
-		("testAvailableMoves_Performance", testAvailableMoves_Performance),
-		("testExploration_Performance", testExploration_Performance),
+		("testFinishedGameState_Performance", testFinishedGameStateBenchmark),
+		("testAvailableMoves_Performance", testAvailableMovesBenchmark),
+		("testExploration_Performance", testExplorationBenchmark),
 	]
 }
