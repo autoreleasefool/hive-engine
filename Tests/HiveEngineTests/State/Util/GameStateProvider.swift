@@ -6,7 +6,7 @@
 //  Copyright © 2019 Joseph Roque. All rights reserved.
 //
 
-import HiveEngine
+@testable import HiveEngine
 
 class GameStateProvider {
 

@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import HiveEngine
+@testable import HiveEngine
 
 final class UnitLadyBugTests: HiveEngineTestCase {
 

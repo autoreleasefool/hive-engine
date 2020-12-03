@@ -8,7 +8,7 @@
 
 import Foundation
 import XCTest
-import HiveEngine
+@testable import HiveEngine
 
 final class MovementTests: HiveEngineTestCase {
 

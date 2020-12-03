@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import HiveEngine
+@testable import HiveEngine
 
 final class GameStateUHPTests: HiveEngineTestCase {
 
