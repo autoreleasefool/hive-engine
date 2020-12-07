@@ -43,6 +43,8 @@ final class GameStateBenchmarkTests: HiveEngineTestCase {
 		}
 	}
 
+	func test
+
 	static var allTests = [
 		("testFinishedGameState_Performance", testFinishedGameStateBenchmark),
 		("testAvailableMoves_Performance", testAvailableMovesBenchmark),

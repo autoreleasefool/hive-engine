@@ -177,7 +177,7 @@ extension GameState {
 
 	// MARK: - GameState units
 
-	private static func unitSort(u1: Unit, u2: Unit) -> Bool {
+	static func unitSort(u1: Unit, u2: Unit) -> Bool {
 		if u1.owner != u2.owner {
 			return u1.owner < u2.owner
 		} else if u1.class != u2.class {
@@ -187,72 +187,8 @@ extension GameState {
 		}
 	}
 
-	private func find(_ class: Unit.Class, belongingTo owner: Player) -> Unit {
+	func find(_ class: Unit.Class, belongingTo owner: Player) -> Unit {
 		return unitsInPlay[owner]!.keys.sorted(by: GameState.unitSort).first { $0.class == `class` }
 			?? unitsInHand[owner]!.sorted(by: GameState.unitSort).first { $0.class == `class` }!
-	}
-
-	var whiteAnt: Unit {
-		find(.ant, belongingTo: .white)
-	}
-
-	var blackAnt: Unit {
-		find(.ant, belongingTo: .black)
-	}
-
-	var whiteBeetle: Unit {
-		find(.beetle, belongingTo: .white)
-	}
-
-	var blackBeetle: Unit {
-		find(.beetle, belongingTo: .black)
-	}
-
-	var whiteHopper: Unit {
-		find(.hopper, belongingTo: .white)
-	}
-
-	var blackHopper: Unit {
-		find(.hopper, belongingTo: .black)
-	}
-
-	var whiteLadyBug: Unit {
-		find(.ladyBug, belongingTo: .white)
-	}
-
-	var blackLadyBug: Unit {
-		find(.ladyBug, belongingTo: .black)
-	}
-
-	var whiteMosquito: Unit {
-		find(.mosquito, belongingTo: .white)
-	}
-
-	var blackMosquito: Unit {
-		find(.mosquito, belongingTo: .black)
-	}
-
-	var whitePillBug: Unit {
-		find(.pillBug, belongingTo: .white)
-	}
-
-	var blackPillBug: Unit {
-		find(.pillBug, belongingTo: .black)
-	}
-
-	var whiteQueen: Unit {
-		find(.queen, belongingTo: .white)
-	}
-
-	var blackQueen: Unit {
-		find(.queen, belongingTo: .black)
-	}
-
-	var whiteSpider: Unit {
-		find(.spider, belongingTo: .white)
-	}
-
-	var blackSpider: Unit {
-		find(.spider, belongingTo: .black)
 	}
 }
