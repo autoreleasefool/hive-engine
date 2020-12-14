@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joseph Roque. All rights reserved.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 

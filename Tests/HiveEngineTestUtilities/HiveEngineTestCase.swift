@@ -10,26 +10,26 @@ import XCTest
 import Foundation
 @testable import HiveEngine
 
-class HiveEngineTestCase: XCTestCase {
+open class HiveEngineTestCase: XCTestCase {
 
 	// MARK: - Properties
 
 	private static let RECORD_MODE = "RecordMode"
 
 	/// Indicates if tests are being recorded
-	var recordMode: Bool {
+	public var recordMode: Bool {
 		if let envRecordMode = ProcessInfo.processInfo.environment["RECORD_MODE"], let recordMode = Bool(envRecordMode) {
 			return recordMode
 		}
 
 		return false
 	}
-	
+
 	// MARK: - State Provider
-	
-	private(set) var stateProvider: GameStateProvider!
-	
-	override func setUp() {
+
+	private(set) public var stateProvider: GameStateProvider!
+
+	override public func setUp() {
 		super.setUp()
 		stateProvider = GameStateProvider()
 	}
@@ -63,7 +63,7 @@ class HiveEngineTestCase: XCTestCase {
 	///
 	/// Parameters:
 	///   - decodable: the decodable object
-	func XCTAssertDecodable<T: Decodable & Equatable>(_ decodable: T) {
+	public func XCTAssertDecodable<T: Decodable & Equatable>(_ decodable: T) {
 		let destination = self.destination(for: decodable)
 		do {
 			let encodedString = try String(contentsOf: destination, encoding: .utf8)
@@ -84,7 +84,7 @@ class HiveEngineTestCase: XCTestCase {
 	///
 	/// Parameters:
 	///   - encodable: the object which will be asserted against a file locally.
-	func XCTAssertEncodable<T: Encodable>(_ encodable: T) {
+	public func XCTAssertEncodable<T: Encodable>(_ encodable: T) {
 		let destination = self.destination(for: encodable)
 
 		let encoder = JSONEncoder()
@@ -109,7 +109,7 @@ class HiveEngineTestCase: XCTestCase {
 		}
 	}
 
-	func XCTAssertFatalError(expectedMessage: String, testcase: @escaping () -> Void) {
+	public func XCTAssertFatalError(expectedMessage: String, testcase: @escaping () -> Void) {
 		let expectation = self.expectation(description: "expectingFatalError")
 		var assertionMessage: String?
 

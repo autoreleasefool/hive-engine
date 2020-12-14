@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2019-05-02.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 

@@ -8,18 +8,18 @@
 @testable import HiveEngine
 
 extension GameState {
-	var whiteLadyBug: Unit {
+	public var whiteLadyBug: Unit {
 		find(.ladyBug, belongingTo: .white)
 	}
 
-	var blackLadyBug: Unit {
+	public var blackLadyBug: Unit {
 		find(.ladyBug, belongingTo: .black)
 	}
 }
 
 extension GameStateProvider {
 	/// Produces a GameState in which the White Lady Bug has a number of interesting moves available
-	var whiteLadyBugGameState: GameState {
+	public var whiteLadyBugGameState: GameState {
 		let state = GameState()
 		self.apply(
 			moves: [

@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-08-14.
 //
 
+import HiveEngineTestUtilities
 import Regex
 import XCTest
 @testable import HiveEngine

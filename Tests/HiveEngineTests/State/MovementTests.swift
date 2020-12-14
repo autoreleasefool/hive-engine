@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 

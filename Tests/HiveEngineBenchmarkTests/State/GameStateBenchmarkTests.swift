@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-12-02.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -42,12 +43,4 @@ final class GameStateBenchmarkTests: HiveEngineTestCase {
 			explore(state: state, depth: 3)
 		}
 	}
-
-	func test
-
-	static var allTests = [
-		("testFinishedGameState_Performance", testFinishedGameStateBenchmark),
-		("testAvailableMoves_Performance", testAvailableMovesBenchmark),
-		("testExploration_Performance", testExplorationBenchmark),
-	]
 }
