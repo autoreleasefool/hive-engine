@@ -100,12 +100,4 @@ final class UnitLadyBugTests: HiveEngineTestCase {
 		state.blackLadyBug.availableMoves(in: state, moveSet: &availableMoves)
 		XCTAssertTrue(availableMoves.count > 0)
 	}
-
-	static var allTests = [
-		("testLadyBug_CanMoveAsLadyBugOnly", testLadyBug_CanMoveAsLadyBugOnly),
-		("testLadyBugMoves_AreCorrect", testLadyBugMoves_AreCorrect),
-		("testLadyBugNotInPlay_CannotMove", testLadyBugNotInPlay_CannotMove),
-		("testLadyBug_WithoutFreedomOfMovement_CannotMove", testLadyBug_WithoutFreedomOfMovement_CannotMove),
-		("testLadyBug_CanMoveAcrossAnyHeight", testLadyBug_CanMoveAcrossAnyHeight),
-	]
 }

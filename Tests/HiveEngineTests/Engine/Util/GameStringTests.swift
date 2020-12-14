@@ -47,13 +47,4 @@ final class GameStringTests: HiveEngineTestCase {
 		XCTAssertNil(GameString(from: "Base;InProgress"))
 		XCTAssertNotNil(GameString(from: "Base;InProgress;White[1]"))
 	}
-
-	static var allTests = [
-		("testGameString_ParsesCorrectly", testGameString_ParsesCorrectly),
-		("testGameString_DiscardsStateWithInvalidGameTypeString", testGameString_DiscardsStateWithInvalidGameTypeString),
-		("testGameString_DiscardsStateWithInvalidMoveString", testGameString_DiscardsStateWithInvalidMoveString),
-		("testGameString_DiscardsStateWithInvalidMove", testGameString_DiscardsStateWithInvalidMove),
-		("testGameString_TurnStringMustBeCorrect", testGameString_TurnStringMustBeCorrect),
-		("testGameString_MustHaveCorrectNumberOfComponents", testGameString_MustHaveCorrectNumberOfComponents),
-	]
 }

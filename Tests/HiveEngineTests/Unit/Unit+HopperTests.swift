@@ -69,11 +69,4 @@ final class UnitHopperTests: HiveEngineTestCase {
 		state.blackHopper.availableMoves(in: state, moveSet: &availableMoves)
 		XCTAssertEqual(expectedMoves, availableMoves)
 	}
-
-	static var allTests = [
-		("testHopper_CanMoveAsHopperOnly", testHopper_CanMoveAsHopperOnly),
-		("testHopperMoves_AreCorrect", testHopperMoves_AreCorrect),
-		("testHopperNotInPlay_CannotMove", testHopperNotInPlay_CannotMove),
-		("testHopper_CanJumpAnyHeight", testHopper_CanJumpAnyHeight),
-	]
 }

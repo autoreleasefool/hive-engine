@@ -37,11 +37,4 @@ final class EngineTests: HiveEngineTestCase {
 		let engine = Engine()
 		XCTAssertEqual(.state(GameState()), engine.send(input: "newgame Base;NotStarted;White[1]"))
 	}
-
-	static var allTests = [
-		("testEngineHasNoInitialState", testEngineHasNoInitialState),
-		("testEngineIgnoresInvalidCommand", testEngineIgnoresInvalidCommand),
-		("testEngineParsesCommand", testEngineParsesCommand),
-		("testEngineParsesCommandAndInput", testEngineParsesCommandAndInput),
-	]
 }

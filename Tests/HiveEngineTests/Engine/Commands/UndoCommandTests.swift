@@ -97,13 +97,4 @@ final class UndoCommandTests: HiveEngineTestCase {
 
 		XCTAssertEqual(command, message)
 	}
-
-	static var allTests = [
-		("testUndoCommand_UpdatesEngineState", testUndoCommand_UpdatesEngineState),
-		("testUndoCommand_RequiresState", testUndoCommand_RequiresState),
-		("testUndoCommand_DefaultsToOneMove", testUndoCommand_DefaultsToOneMove),
-		("testUndoCommand_UndoesMultipleMoves", testUndoCommand_UndoesMultipleMoves),
-		("testUndoCommand_UndoesMovesToGameStart", testUndoCommand_UndoesMovesToGameStart),
-		("testUndoCommand_RequiresIntegerInput", testUndoCommand_RequiresIntegerInput),
-	]
 }

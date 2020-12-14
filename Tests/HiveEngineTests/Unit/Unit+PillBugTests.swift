@@ -244,24 +244,4 @@ final class UnitPillBugTests: HiveEngineTestCase {
 		XCTAssertNotEqual(0, pillBugAvailableMoves.count)
 		XCTAssertEqual(0, yoinkSpiderMoves.count)
 	}
-
-	static var allTests = [
-		("testPillBug_CanMoveAsPillBugOrQueen", testPillBug_CanMoveAsPillBugOrQueen),
-		("testPillBug_CanUseSpecialAbility_IsTrue", testPillBug_CanUseSpecialAbility_IsTrue),
-		("testNotPillBug_CanUseSpecialAbility_IsFalse", testNotPillBug_CanUseSpecialAbility_IsFalse),
-		("testPillBugMoves_AreCorrect", testPillBugMoves_AreCorrect),
-		("testPillBugNotInPlay_CannotMove", testPillBugNotInPlay_CannotMove),
-
-		("testPillBug_CannotMovePieceJustMoved_IsTrue", testPillBug_CannotMovePieceJustMoved_IsTrue),
-		("testPillBug_PieceJustYoinkedCannotMove_IsTrue", testPillBug_PieceJustYoinkedCannotMove_IsTrue),
-		("testPillBug_CannotYoinkAfterBeingYoinked_WithoutOption", testPillBug_CannotYoinkAfterBeingYoinked_WithoutOption),
-		("testPillBug_CanYoinkAfterBeingYoinked_WithOption", testPillBug_CanYoinkAfterBeingYoinked_WithOption),
-
-		("testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition",
-			testPillBug_WithoutFreedomOfMovementToPosition_CannotYoinkToPosition),
-		("testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition",
-			testPillBug_WithoutFreedomOfMovementFromPosition_CannotYoinkFromPosition),
-		("testPillBug_YoinkCannotBreakHive", testPillBug_YoinkCannotBreakHive),
-		("testPillBug_CannotYoinkPieceJustYoinked", testPillBug_CannotYoinkPieceJustYoinked),
-	]
 }

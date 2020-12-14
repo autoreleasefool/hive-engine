@@ -41,11 +41,4 @@ final class PlayerTests: HiveEngineTestCase {
 		XCTAssertNil(Player(from: "Red"))
 		XCTAssertNil(Player(notation: "g"))
 	}
-
-	static var allTests = [
-		("testPlayer_NextPlayer_IsCorrect", testPlayer_NextPlayer_IsCorrect),
-		("testPlayerComparable_IsCorrect", testPlayerComparable_IsCorrect),
-		("testPlayerDescription_IsCorrect", testPlayerDescription_IsCorrect),
-		("testPlayerInit_IgnoresInvalidInput", testPlayerInit_IgnoresInvalidInput),
-	]
 }

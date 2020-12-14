@@ -92,12 +92,4 @@ final class UnitSpiderTests: HiveEngineTestCase {
 		let unexpectedMove: Movement = .move(unit: state.blackSpider, to: Position(x: 1, y: 0, z: -1))
 		XCTAssertFalse(availableMoves.contains(unexpectedMove))
 	}
-
-	static var allTests = [
-		("testSpider_CanMoveAsSpiderOnly", testSpider_CanMoveAsSpiderOnly),
-		("testSpiderMoves_AreCorrect", testSpiderMoves_AreCorrect),
-		("testSpiderNotInPlay_CannotMove", testSpiderNotInPlay_CannotMove),
-		("testSpider_FreedomOfMovement_IsCorrect", testSpider_FreedomOfMovement_IsCorrect),
-		("testSpider_EntersGapsCorrectly", testSpider_EntersGapsCorrectly),
-	]
 }

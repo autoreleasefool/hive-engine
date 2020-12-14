@@ -49,15 +49,4 @@ final class UHPCommandParserTests: HiveEngineTestCase {
 		let command = UHPCommandParser.parse("bestmove")
 		XCTAssertNotNil(command as? BestMoveCommand)
 	}
-
-	static var allTests = [
-		("testParsesInfoCommand", testParsesInfoCommand),
-		("testParsesNewGameCommand", testParsesNewGameCommand),
-		("testParsesPlayCommand", testParsesPlayCommand),
-		("testParsesPassCommand", testParsesPassCommand),
-		("testParsesOptionsCommand", testParsesOptionsCommand),
-		("testParsesUndoCommand", testParsesUndoCommand),
-		("testParsesValidMovesCommand", testParsesValidMovesCommand),
-		("testParsesBestMoveCommand", testParsesBestMoveCommand),
-	]
 }

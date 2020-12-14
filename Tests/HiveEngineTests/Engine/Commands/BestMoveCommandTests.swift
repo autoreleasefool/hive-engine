@@ -63,12 +63,4 @@ final class BestMoveCommandTests: HiveEngineTestCase {
 
 		XCTAssertEqual("No state provided", message)
 	}
-
-	static var allTests = [
-		("testBestMoveCommand_ReturnsValidMoveNotation", testBestMoveCommand_ReturnsValidMoveNotation),
-		("testBestMoveCommand_ReturnsPassIfOnlyValidMove", testBestMoveCommand_ReturnsPassIfOnlyValidMove),
-		("testBestMoveCommand_ReturnsNothingIfGameIsOver", testBestMoveCommand_ReturnsNothingIfGameIsOver),
-		("testBestMoveCommand_RequiresNoInput", testBestMoveCommand_RequiresNoInput),
-		("testBestMoveCommand_RequiresState", testBestMoveCommand_RequiresState),
-	]
 }

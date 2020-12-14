@@ -154,19 +154,4 @@ final class UnitBeetleTests: HiveEngineTestCase {
 		state.whiteBeetle.availableMoves(in: state, moveSet: &availableMoves)
 		XCTAssertTrue(availableMoves.contains(expectedMove))
 	}
-
-	static var allTests = [
-		("testBeetle_CanMoveAsBeetleOrQueen", testBeetle_CanMoveAsBeetleOrQueen),
-		("testBeetleMoves_AreCorrect", testBeetleMoves_AreCorrect),
-		("testBeetle_WithoutFreedomOfMovement_CannotMove", testBeetle_WithoutFreedomOfMovement_CannotMove),
-		("testBeetleNotInPlay_CannotMove", testBeetleNotInPlay_CannotMove),
-
-		("testBeetle_CanMoveUpToHive", testBeetle_CanMoveUpToHive),
-		("testBeetle_CanMoveDownFromHive", testBeetle_CanMoveDownFromHive),
-
-		("testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced", testWithBeetleOnTopOfStack_AvailableUnitsCanBePlaced),
-		("testWithBeetleOnTopOfStack_PiecesBeneathCannotMove", testWithBeetleOnTopOfStack_PiecesBeneathCannotMove),
-		("testBeetle_CanMoveToTallerStack", testBeetle_CanMoveToTallerStack),
-		("testBeetle_CanMoveDownFromStack", testBeetle_CanMoveDownFromStack),
-	]
 }

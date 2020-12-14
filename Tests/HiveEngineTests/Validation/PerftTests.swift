@@ -142,17 +142,4 @@ class PerftTests: HiveEngineTestCase {
 			XCTAssertEqual(perftReference[depth], perft(state: state, depth: depth))
 		}
 	}
-
-	static var allTests = [
-		("testNothing", testNothing),
-		("testPerftBenchmarkPerformance", testPerftBenchmarkPerformance),
-		("testPerftValidation_BaseGame", testPerftValidation_BaseGame),
-		("testPerftValidation_Mosquito", testPerftValidation_Mosquito),
-		("testPerftValidation_LadyBug", testPerftValidation_LadyBug),
-		("testPerftValidation_PillBug", testPerftValidation_PillBug),
-		("testPerftValidation_Mosquito_LadyBug", testPerftValidation_Mosquito_LadyBug),
-		("testPerftValidation_Mosquito_PillBug", testPerftValidation_Mosquito_PillBug),
-		("testPerftValidation_LadyBug_PillBug", testPerftValidation_LadyBug_PillBug),
-		("testPerftValidation_Mosquito_LadyBug_PillBug", testPerftValidation_Mosquito_LadyBug_PillBug),
-	]
 }

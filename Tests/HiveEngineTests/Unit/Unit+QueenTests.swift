@@ -70,11 +70,4 @@ final class UnitQueenTests: HiveEngineTestCase {
 		let unexpectedMove: Movement = .move(unit: state.whiteQueen, to: Position(x: 1, y: 0, z: -1))
 		XCTAssertFalse(availableMoves.contains(unexpectedMove))
 	}
-
-	static var allTests = [
-		("testQueen_CanMoveAsQueenOnly", testQueen_CanMoveAsQueenOnly),
-		("testQueenMoves_AreCorrect", testQueenMoves_AreCorrect),
-		("testQueenNotInPlay_CannotMove", testQueenNotInPlay_CannotMove),
-		("testQueen_FreedomOfMovement_IsCorrect", testQueen_FreedomOfMovement_IsCorrect),
-	]
 }

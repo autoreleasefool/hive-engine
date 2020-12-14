@@ -143,21 +143,4 @@ final class MovementTests: HiveEngineTestCase {
 		let relativeMovement = movement.relative(in: state)
 		XCTAssertEqual(RelativeMovement(unit: unit, adjacentTo: (adjacentUnit, direction)), relativeMovement)
 	}
-
-	static var allTests = [
-		("testCodingMoveMovement", testCodingMoveMovement),
-		("testCodingYoinkMovement", testCodingYoinkMovement),
-		("testCodingPlaceMovement", testCodingPlaceMovement),
-		("testCodingPassMovement", testCodingPassMovement),
-		("testMovedUnit_IsCorrect", testMovedUnit_IsCorrect),
-		("testTargetPosition_IsCorrect", testTargetPosition_IsCorrect),
-
-		("testPlaceDescription_IsCorrect", testPlaceDescription_IsCorrect),
-		("testMoveDescription_IsCorrect", testMoveDescription_IsCorrect),
-		("testYoinkDescription_IsCorrect", testYoinkDescription_IsCorrect),
-		("testPassDescription_IsCorrect", testPassDescription_IsCorrect),
-
-		("testMovementToRelativeMovement_WhenPlaced_IsCorrect", testMovementToRelativeMovement_WhenPlaced_IsCorrect),
-		("testMovementToRelativeMovement_WhenMoved_IsCorrect", testMovementToRelativeMovement_WhenMoved_IsCorrect),
-	]
 }
