@@ -8,22 +8,22 @@
 
 @testable import HiveEngine
 
-class GameStateProvider {
+public class GameStateProvider {
 
 	/// A new game state
-	var initialGameState: GameState {
+	public var initialGameState: GameState {
 		GameState(options: [.ladyBug, .mosquito, .pillBug])
 	}
 
 	/// A game state with a single winner
-	var wonGameState: GameState {
+	public var wonGameState: GameState {
 		let state = initialGameState
 		apply(moves: 34, to: state)
 		return state
 	}
 
 	// A game state where the black player has no moves
-	var shutOutState: GameState {
+	public var shutOutState: GameState {
 		let state = initialGameState
 		apply(
 			moves: [
@@ -115,7 +115,7 @@ class GameStateProvider {
 	}
 
 	/// Build a GameState for the given number of moves.
-	func apply(moves: Int, to state: GameState) {
+	public func apply(moves: Int, to state: GameState) {
 		let partialStateMoves = self.partialStateMoves(for: state)
 		precondition(moves >= 0, "Cannot provide a negative number of moves.")
 		precondition(
@@ -149,7 +149,7 @@ class GameStateProvider {
 	}
 
 	/// A game state with two winners
-	var tiedGameState: GameState {
+	public var tiedGameState: GameState {
 		let state = initialGameState
 		apply(moves: 33, to: state)
 
@@ -160,13 +160,13 @@ class GameStateProvider {
 	}
 
 	/// Build a GameState with the given moves.
-	func apply(moves: [Movement], to state: GameState) {
+	public func apply(moves: [Movement], to state: GameState) {
 		for (index, element) in moves.enumerated() {
 			assert(state.apply(element), "Move #\(index + 1) [\(element)] was not a valid move.")
 		}
 	}
 
-	func apply(moves: [RelativeMovement], to state: GameState) {
+	public func apply(moves: [RelativeMovement], to state: GameState) {
 		for (index, element) in moves.enumerated() {
 			assert(state.apply(relativeMovement: element), "Move #\(index + 1) [\(element)] was not a valid move.")
 		}
@@ -177,7 +177,7 @@ extension GameState {
 
 	// MARK: - GameState units
 
-	private static func unitSort(u1: Unit, u2: Unit) -> Bool {
+	public static func unitSort(u1: Unit, u2: Unit) -> Bool {
 		if u1.owner != u2.owner {
 			return u1.owner < u2.owner
 		} else if u1.class != u2.class {
@@ -187,72 +187,8 @@ extension GameState {
 		}
 	}
 
-	private func find(_ class: Unit.Class, belongingTo owner: Player) -> Unit {
+	public func find(_ class: Unit.Class, belongingTo owner: Player) -> Unit {
 		return unitsInPlay[owner]!.keys.sorted(by: GameState.unitSort).first { $0.class == `class` }
 			?? unitsInHand[owner]!.sorted(by: GameState.unitSort).first { $0.class == `class` }!
-	}
-
-	var whiteAnt: Unit {
-		find(.ant, belongingTo: .white)
-	}
-
-	var blackAnt: Unit {
-		find(.ant, belongingTo: .black)
-	}
-
-	var whiteBeetle: Unit {
-		find(.beetle, belongingTo: .white)
-	}
-
-	var blackBeetle: Unit {
-		find(.beetle, belongingTo: .black)
-	}
-
-	var whiteHopper: Unit {
-		find(.hopper, belongingTo: .white)
-	}
-
-	var blackHopper: Unit {
-		find(.hopper, belongingTo: .black)
-	}
-
-	var whiteLadyBug: Unit {
-		find(.ladyBug, belongingTo: .white)
-	}
-
-	var blackLadyBug: Unit {
-		find(.ladyBug, belongingTo: .black)
-	}
-
-	var whiteMosquito: Unit {
-		find(.mosquito, belongingTo: .white)
-	}
-
-	var blackMosquito: Unit {
-		find(.mosquito, belongingTo: .black)
-	}
-
-	var whitePillBug: Unit {
-		find(.pillBug, belongingTo: .white)
-	}
-
-	var blackPillBug: Unit {
-		find(.pillBug, belongingTo: .black)
-	}
-
-	var whiteQueen: Unit {
-		find(.queen, belongingTo: .white)
-	}
-
-	var blackQueen: Unit {
-		find(.queen, belongingTo: .black)
-	}
-
-	var whiteSpider: Unit {
-		find(.spider, belongingTo: .white)
-	}
-
-	var blackSpider: Unit {
-		find(.spider, belongingTo: .black)
 	}
 }

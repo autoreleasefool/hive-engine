@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2019-02-25.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -81,11 +82,4 @@ final class UnitAntTests: HiveEngineTestCase {
 
 		XCTAssertEqual(0, availableMoves.count)
 	}
-
-	static var allTests = [
-		("testAnt_CanMoveAsAntOnly", testAnt_CanMoveAsAntOnly),
-		("testAntMoves_AreCorrect", testAntMoves_AreCorrect),
-		("testAnt_FreedomOfMovement_IsCorrect", testAnt_FreedomOfMovement_IsCorrect),
-		("testAntNotInPlay_CannotMove", testAntNotInPlay_CannotMove),
-	]
 }

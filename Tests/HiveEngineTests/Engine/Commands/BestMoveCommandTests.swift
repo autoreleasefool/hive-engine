@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-08-16.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -63,12 +64,4 @@ final class BestMoveCommandTests: HiveEngineTestCase {
 
 		XCTAssertEqual("No state provided", message)
 	}
-
-	static var allTests = [
-		("testBestMoveCommand_ReturnsValidMoveNotation", testBestMoveCommand_ReturnsValidMoveNotation),
-		("testBestMoveCommand_ReturnsPassIfOnlyValidMove", testBestMoveCommand_ReturnsPassIfOnlyValidMove),
-		("testBestMoveCommand_ReturnsNothingIfGameIsOver", testBestMoveCommand_ReturnsNothingIfGameIsOver),
-		("testBestMoveCommand_RequiresNoInput", testBestMoveCommand_RequiresNoInput),
-		("testBestMoveCommand_RequiresState", testBestMoveCommand_RequiresState),
-	]
 }

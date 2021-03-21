@@ -6,6 +6,7 @@
 //  Copyright © 2019 Joseph Roque. All rights reserved.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -160,24 +161,4 @@ final class UnitTests: HiveEngineTestCase {
 		// White before black
 		XCTAssertTrue(Unit(class: .ant, owner: .white, index: 1) < Unit(class: .ant, owner: .black, index: 1))
 	}
-
-	static var allTests = [
-		("testWhenSurrounded_IsSurrounded_IsTrue", testWhenSurrounded_IsSurrounded_IsTrue),
-		("testWhenNotSurrounded_IsSurrounded_IsFalse", testWhenNotSurrounded_IsSurrounded_IsFalse),
-
-		("testWhenTopOfStack_IsTopOfStack_IsTrue", testWhenTopOfStack_IsTopOfStack_IsTrue),
-		("testWhenBottomOfStack_IsTopOfStack_IsFalse", testWhenBottomOfStack_IsTopOfStack_IsFalse),
-		("testWhenNotInPlay_IsTopOfStack_IsFalse", testWhenNotInPlay_IsTopOfStack_IsFalse),
-
-		("testStackPosition_IsCorrect", testStackPosition_IsCorrect),
-		("testWhenNotInPlay_StackPosition_IsNil", testWhenNotInPlay_StackPosition_IsNil),
-
-		("testWhenTopOfStackNotOneHive_CanMove_IsFalse", testWhenTopOfStackNotOneHive_CanMove_IsFalse),
-		("testWhenBottomOfStackOneHive_CanMove_IsFalse", testWhenBottomOfStackOneHive_CanMove_IsFalse),
-		("testWhenTopOfStackOneHive_CanMove_IsTrue", testWhenTopOfStackOneHive_CanMove_IsTrue),
-
-		("testUnitDescription_IsCorrect", testUnitDescription_IsCorrect),
-		("testUnitNotation_IsCorrect", testUnitNotation_IsCorrect),
-		("testUnitComparable_IsCorrect", testUnitComparable_IsCorrect),
-	]
 }

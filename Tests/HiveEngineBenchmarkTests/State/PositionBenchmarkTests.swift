@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-12-02.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -71,5 +72,4 @@ final class PositionBenchmarkTests: HiveEngineTestCase {
 			}
 		}
 	}
-
 }

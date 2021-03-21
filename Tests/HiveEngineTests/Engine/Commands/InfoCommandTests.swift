@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-08-15.
 //
 
+import HiveEngineTestUtilities
 import Regex
 import XCTest
 @testable import HiveEngine
@@ -71,13 +72,6 @@ final class InfoCommandTests: HiveEngineTestCase {
 
 		XCTAssertTrue(format.matches(message))
 	}
-
-	static var allTests = [
-		("testInfoCommand_ReturnsEngineName", testInfoCommand_ReturnsEngineName),
-		("testInfoCommand_ReturnsCurrentEngineVersion", testInfoCommand_ReturnsCurrentEngineVersion),
-		("testInfoCommand_ReturnsAllExpansions", testInfoCommand_ReturnsAllExpansions),
-		("testInfoCommand_MatchesExpectedFormat", testInfoCommand_MatchesExpectedFormat),
-	]
 }
 
 private struct GitHubApiTagResponse: Codable {

@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-08-16.
 //
 
+import HiveEngineTestUtilities
 import Regex
 import XCTest
 @testable import HiveEngine
@@ -148,19 +149,4 @@ final class OptionsCommandTests: HiveEngineTestCase {
 
 		XCTAssertEqual(command, message)
 	}
-
-	static var allTests = [
-		("testOptionsCommand_UpdatesEngineState", testOptionsCommand_UpdatesEngineState),
-		("testOptionsCommand_ReturnsAvailableOptionsForDefaultState",
-			testOptionsCommand_ReturnsAvailableOptionsForDefaultState),
-		("testOptionsCommand_ReturnsAvailableOptionsForGivenState", testOptionsCommand_ReturnsAvailableOptionsForGivenState),
-		("testOptionsCommand_SetsOption_ToTrue", testOptionsCommand_SetsOption_ToTrue),
-		("testOptionsCommand_SetsOption_ToFalse", testOptionsCommand_SetsOption_ToFalse),
-		("testOptionsCommand_GetsOption", testOptionsCommand_GetsOption),
-		("testOptionsCommand_IgnoresInvalidCommand", testOptionsCommand_IgnoresInvalidCommand),
-		("testOptionsCommand_Set_IgnoresInvalidOption", testOptionsCommand_Set_IgnoresInvalidOption),
-		("testOptionsCommand_Set_RequiresValidBoolean", testOptionsCommand_Set_RequiresValidBoolean),
-		("testOptionsCommand_Get_IgnoresInvalidOption", testOptionsCommand_Get_IgnoresInvalidOption),
-		("testOptionsCommand_RequiresOptionName", testOptionsCommand_RequiresOptionName),
-	]
 }

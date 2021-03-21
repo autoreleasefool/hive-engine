@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-08-15.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -62,14 +63,4 @@ final class NewGameCommandTests: HiveEngineTestCase {
 		let result = NewGameCommand().invoke("Base;InProgress;White[3];wS1;bG1 -wS1;wA1 wS1/;bS1 /bG1", state: nil)
 		XCTAssertEqual(.state(state), result)
 	}
-
-	static var allTests = [
-		("testNewGameCommand_ReturnsInitialState", testNewGameCommand_ReturnsInitialState),
-		("testNewGameCommand_UpdatesEngineState", testNewGameCommand_UpdatesEngineState),
-		("testNewGameCommand_InvalidGameStringFails", testNewGameCommand_InvalidGameStringFails),
-		("testNewGameCommand_InvalidGameTypeStringFails", testNewGameCommand_InvalidGameTypeStringFails),
-		("testNewGameCommand_Base", testNewGameCommand_Base),
-		("testNewGameCommand_BaseMLP", testNewGameCommand_BaseMLP),
-		("testNewGameCommand_GameString", testNewGameCommand_GameString),
-	]
 }

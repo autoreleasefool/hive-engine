@@ -6,6 +6,7 @@
 //  Copyright © 2020 Joseph Roque. All rights reserved.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -97,23 +98,4 @@ final class GameStateUHPTests: HiveEngineTestCase {
 		stateProvider.apply(moves: 34, to: state)
 		XCTAssertEqual("BlackWins", state.gameStateString)
 	}
-
-	// MARK: - Linux Tests
-
-	static var allTests = [
-		("testInitialGameState_GameString_IsCorrect", testInitialGameState_GameString_IsCorrect),
-		("testInitialGameState_GameTypeString_IsCorrect", testInitialGameState_GameTypeString_IsCorrect),
-		("testInitialGameState_GameStateString_IsCorrect", testInitialGameState_GameStateString_IsCorrect),
-		("testInitialGameState_TurnString_IsCorrect", testInitialGameState_TurnString_IsCorrect),
-		("testInitialGameState_MoveString_IsCorrect", testInitialGameState_MoveString_IsCorrect),
-		("testInitialGameState_MoveStrings_IsCorrect", testInitialGameState_MoveStrings_IsCorrect),
-
-		("testPartialGameState_GameString_IsCorrect", testPartialGameState_GameString_IsCorrect),
-		("testPartialGameState_GameStateString_IsCorrect", testPartialGameState_GameStateString_IsCorrect),
-		("testPartialGameState_TurnString_IsCorrect", testPartialGameState_TurnString_IsCorrect),
-		("testPartialGameState_MoveString_IsCorrect", testPartialGameState_MoveString_IsCorrect),
-		("testPartialGameState_MoveStrings_IsCorrect", testPartialGameState_MoveStrings_IsCorrect),
-
-		("testCompletedGameState_GameStateString_IsCorrect", testCompletedGameState_GameStateString_IsCorrect),
-	]
 }

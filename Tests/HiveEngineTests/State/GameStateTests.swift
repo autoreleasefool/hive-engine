@@ -6,6 +6,7 @@
 //  Copyright © 2019 Joseph Roque. All rights reserved.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -765,95 +766,4 @@ final class GameStateTests: HiveEngineTestCase {
 			state.temporarilyRemove(unit: state.whiteSpider)
 		}
 	}
-
-	// MARK: - Linux Tests
-
-	static var allTests = [
-		("testInitialGameState_IsFirstMove", testInitialGameState_IsFirstMove),
-		("testInitialGameState_NoOptionsHasNoExtensionUnits", testInitialGameState_NoOptionsHasNoExtensionUnits),
-		("testInitialGameState_LadyBugOptionAddsLadyBugUnit", testInitialGameState_LadyBugOptionAddsLadyBugUnit),
-		("testInitialGameState_MosquitoOptionAddsMosquitoUnit", testInitialGameState_MosquitoOptionAddsMosquitoUnit),
-		("testInitialGameState_PillBugOptionAddsPillBugUnit", testInitialGameState_PillBugOptionAddsPillBugUnit),
-		("testInitialGameState_UnitsAreNotInPlay", testInitialGameState_UnitsAreNotInPlay),
-		("testInitialGameState_PlayerHasAllUnitsAvailable", testInitialGameState_PlayerHasAllUnitsAvailable),
-		("testInitialGameState_WhitePlayerIsFirst", testInitialGameState_WhitePlayerIsFirst),
-		("testInitialGameState_HasNoWinner", testInitialGameState_HasNoWinner),
-		("testInitialGameState_HasNoEndState", testInitialGameState_HasNoEndState),
-		("testInitialGameState_HasNoStacks", testInitialGameState_HasNoStacks),
-		("testInitialGameState_HasNoLastPlayer", testInitialGameState_HasNoLastPlayer),
-		("testInitialGameState_OnlyHasPlaceMovesAvailable", testInitialGameState_OnlyHasPlaceMovesAvailable),
-		("testInitialGameState_OnlyLowestIndexUnitCanBePlayed", testInitialGameState_OnlyLowestIndexUnitCanBePlayed),
-		("testInitialGameState_HasNoPreviousMoves", testInitialGameState_HasNoPreviousMoves),
-		("testInitialGameState_ValidatesMoves", testInitialGameState_ValidatesMoves),
-		("testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves",
-			testInitialGameState_WithoutMoveValidation_AcceptsInvalidMoves),
-		("testInitialGameState_RestrictsOpening", testInitialGameState_RestrictsOpening),
-		("testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves",
-			testInitialGameState_WithUnrestrictedOpening_AcceptsInvalidMoves),
-		("testInitialGameState_UnitIndicesAreCorrect", testInitialGameState_UnitIndicesAreCorrect),
-
-		("testPartialGameState_PreviousMove_IsCorrect", testPartialGameState_PreviousMove_IsCorrect),
-		("testPartialGameState_LastPlayer_IsCorrect", testPartialGameState_LastPlayer_IsCorrect),
-		("testPartialGameState_Move_IncrementsCorrectly", testPartialGameState_Move_IncrementsCorrectly),
-		("testPartialGameState_MustPlayQueenInFirstFourMoves", testPartialGameState_MustPlayQueenInFirstFourMoves),
-		("testPartialGameState_PlayablePositions_AreCorrect", testPartialGameState_PlayablePositions_AreCorrect),
-		("testPartialGameState_IsNotEndGame", testPartialGameState_IsNotEndGame),
-		("testPartialGameState_HasNotEnded", testPartialGameState_HasNotEnded),
-		("testPartialGameState_ApplyMovement_ValidMoveUpdatesState",
-			testPartialGameState_ApplyMovement_ValidMoveUpdatesState),
-		("testPartialGameState_ApplyMovement_InvalidMoveDoesNotModify",
-			testPartialGameState_ApplyMovement_InvalidMoveDoesNotModify),
-		("testPartialGameState_AvailablePieces_ExcludesPlayedPieces",
-			testPartialGameState_AvailablePieces_ExcludesPlayedPieces),
-		("testPartialGameState_AdjacentUnits_ToUnit_IsCorrect", testPartialGameState_AdjacentUnits_ToUnit_IsCorrect),
-		("testPartialGameState_AdjacentUnits_ToPosition_IsCorrect", testPartialGameState_AdjacentUnits_ToPosition_IsCorrect),
-		("testPartialGameState_OneHive_IsCorrect", testPartialGameState_OneHive_IsCorrect),
-		("testPartialGameState_OneHive_ExcludingUnit_IsCorrect", testPartialGameState_OneHive_ExcludingUnit_IsCorrect),
-		("testPartialGameState_PlaceablePositionsForBlackPlayer_OnlyBesideBlackUnits",
-			testPartialGameState_PlaceablePositionsForBlackPlayer_OnlyBesideBlackUnits),
-		("testPartialGameState_PlaceablePositionsForBlackPlayerOnFirstMove_BesideWhiteUnits",
-			testPartialGameState_PlaceablePositionsForBlackPlayerOnFirstMove_BesideWhiteUnits),
-		("testPartialGameState_ShutOutPlayer_HasOnlyPassMove", testPartialGameState_ShutOutPlayer_HasOnlyPassMove),
-		("testPartialGameState_ApplyAndUndoPassMove", testPartialGameState_ApplyAndUndoPassMove),
-		("testPartialGameState_PlayerHasAvailableMoves", testPartialGameState_PlayerHasAvailableMoves),
-
-		("testPartialGameState_UndoPlace_CreatesOldGameState", testPartialGameState_UndoPlace_CreatesOldGameState),
-		("testPartialGameState_UndoMove_CreatesOldGameState", testPartialGameState_UndoMove_CreatesOldGameState),
-		("testPartialGameState_UndoYoink_CreatesOldGameState", testPartialGameState_UndoYoink_CreatesOldGameState),
-
-		("testPartialGameState_CannotMoveUntilQueenPlaced", testPartialGameState_CannotMoveUntilQueenPlaced),
-		("testPartialGameState_QueenPlayed_IsCorrect", testPartialGameState_QueenPlayed_IsCorrect),
-
-		("testFinishedGameState_PlayerHasNoAvailableMoves", testFinishedGameState_PlayerHasNoAvailableMoves),
-		("testFinishedGameState_HasOneWinner", testFinishedGameState_HasOneWinner),
-		("testFinishedGameState_HasWinnerEndState", testFinishedGameState_HasWinnerEndState),
-		("testFinishedGameState_HasNoMoves", testFinishedGameState_HasNoMoves),
-		("testFinishedGameState_IsEndGame", testFinishedGameState_IsEndGame),
-		("testFinishedGameState_HasEnded", testFinishedGameState_HasEnded),
-		("testFinishedGameState_ApplyMovement_DoesNotModifyState", testFinishedGameState_ApplyMovement_DoesNotModifyState),
-
-		("testTiedGameState_HasTwoWinners", testTiedGameState_HasTwoWinners),
-		("testTiedGameState_HasTiedEndState", testTiedGameState_HasTiedEndState),
-
-		("testIdenticalGameStateHashesAreIdentical", testIdenticalGameStateHashesAreIdentical),
-		("testCopyingGameState_ProducesIdenticalState", testCopyingGameState_ProducesIdenticalState),
-		("testCopyingGameState_WhenFinished_ProducesIdenticalState",
-			testCopyingGameState_WhenFinished_ProducesIdenticalState),
-		("testCopyingGameState_DoesNotShareProperties", testCopyingGameState_DoesNotShareProperties),
-		("testGameStateUpdate_Notation_IsCorrect", testGameStateUpdate_Notation_IsCorrect),
-
-		("testGameStateOptions_RestrictedOpenings_IsCorrect", testGameStateOptions_RestrictedOpenings_IsCorrect),
-		("testGameStateOptions_NoFirstQueenMove_IsCorrect", testGameStateOptions_NoFirstQueenMove_IsCorrect),
-		("testGameStateOptions_CanSetModifiableOptions", testGameStateOptions_CanSetModifiableOptions),
-		("testGameStateOptions_CannotSetNonModifiableOptions", testGameStateOptions_CannotSetNonModifiableOptions),
-		("testGameStateOptions_CannotSetOptions_AfterGameStarts", testGameStateOptions_CannotSetOptions_AfterGameStarts),
-
-		("testGameState_RemovesUnitCorrectly", testGameState_RemovesUnitCorrectly),
-		("testGameState_ReplacesUnitCorrectly", testGameState_ReplacesUnitCorrectly),
-		("testGameState_CannotMove_WhileUnitRemoved", testGameState_CannotMove_WhileUnitRemoved),
-		("testGameState_CannotMakeRelativeMove_WhileUnitRemoved", testGameState_CannotMakeRelativeMove_WhileUnitRemoved),
-		("testGameState_CannotUndoMove_WhileUnitRemoved", testGameState_CannotUndoMove_WhileUnitRemoved),
-		("testGameState_CanOnlyRemoveTopOfStack", testGameState_CanOnlyRemoveTopOfStack),
-		("testGameState_CannotRemoveMoreThanOneUnit", testGameState_CannotRemoveMoreThanOneUnit),
-	]
 }

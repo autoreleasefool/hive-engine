@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-08-16.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -27,10 +28,4 @@ final class TurnStringTests: HiveEngineTestCase {
 	func testTurnString_RequiresIntTurns() {
 		XCTAssertNil(TurnString(from: "White[a]"))
 	}
-
-	static var allTests = [
-		("testTurnString_ParsesCorrectly", testTurnString_ParsesCorrectly),
-		("testTurnString_Description_IsCorrect", testTurnString_Description_IsCorrect),
-		("testTurnString_RequiresIntTurns", testTurnString_RequiresIntTurns),
-	]
 }

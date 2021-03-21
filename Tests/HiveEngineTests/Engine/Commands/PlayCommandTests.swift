@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-08-15.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -58,12 +59,4 @@ final class PlayCommandTests: HiveEngineTestCase {
 		}
 		XCTAssertNotEqual(stateProvider.shutOutState, newState)
 	}
-
-	static var allTests = [
-		("testPlayCommand_ReturnsNewState", testPlayCommand_ReturnsNewState),
-		("testPlayCommand_UpdatesEngineState", testPlayCommand_UpdatesEngineState),
-		("testPlayCommand_InvalidMoveFails", testPlayCommand_InvalidMoveFails),
-		("testPlayCommand_NoInputPasses", testPlayCommand_NoInputPasses),
-		("testPlayCommand_Passes", testPlayCommand_Passes),
-	]
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -111,17 +112,4 @@ final class RelativeMovementTests: HiveEngineTestCase {
 			).hashValue
 		)
 	}
-
-	static var allTests = [
-		("testRelativeMovementDescription_IsCorrect", testRelativeMovementDescription_IsCorrect),
-		("testRelativeMovementToMovement_WhenPlaced_IsCorrect", testRelativeMovementToMovement_WhenPlaced_IsCorrect),
-		("testRelativeMovementToMovement_WhenMoved_IsCorrect", testRelativeMovementToMovement_WhenMoved_IsCorrect),
-		("testRelativeMovementNotation_ParsesOriginPlacementCorrectly",
-			testRelativeMovementNotation_ParsesOriginPlacementCorrectly),
-		("testRelativeMovementNotation_ParsingRequiresIndex", testRelativeMovementNotation_ParsingRequiresIndex),
-		("testRelativeMovementNotation_ParsingQueenDoesntRequireIndex",
-			testRelativeMovementNotation_ParsingQueenDoesntRequireIndex),
-		("testRelativeMovementNotation_ParsesAdjacentUnit", testRelativeMovementNotation_ParsesAdjacentUnit),
-		("testRelativeMovementNotation_ParsesNotationToOriginal", testRelativeMovementNotation_ParsesNotationToOriginal),
-	]
 }

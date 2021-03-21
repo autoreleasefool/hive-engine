@@ -5,6 +5,7 @@
 //  Created by Joseph Roque on 2020-08-16.
 //
 
+import HiveEngineTestUtilities
 import XCTest
 @testable import HiveEngine
 
@@ -58,12 +59,4 @@ final class ValidMovesCommandTests: HiveEngineTestCase {
 
 		XCTAssertEqual("wA1;wB1;wG1;wL;wM;wP;wQ;wS1", message)
 	}
-
-	static var allTests = [
-		("testValidMovesCommand_RequiresState", testValidMovesCommand_RequiresState),
-		("testValidMovesCommand_RequiresNoInput", testValidMovesCommand_RequiresNoInput),
-		("testValidMovesCommand_OutputsPass", testValidMovesCommand_OutputsPass),
-		("testValidMovesCommand_HasNoMovesForFinishedGame", testValidMovesCommand_HasNoMovesForFinishedGame),
-		("testValidMovesCommand_OutputsAllValidMoves", testValidMovesCommand_OutputsAllValidMoves),
-	]
 }
