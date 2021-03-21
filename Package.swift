@@ -11,6 +11,7 @@ let package = Package(
 	],
 	products: [
 		.library(name: "HiveEngine", targets: ["HiveEngine"]),
+		.library(name: "HiveEngineTestUtilities", targets: ["HiveEngineTestUtilities"]),
 	],
 	dependencies: [
 		.package(url: "https://github.com/sharplet/Regex.git", from: "2.1.0"),
