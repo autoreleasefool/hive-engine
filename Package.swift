@@ -23,7 +23,7 @@ let package = Package(
 				.product(name: "Regex", package: "Regex"),
 			]
 		),
-		.testTarget(
+		.target(
 			name: "HiveEngineTestUtilities",
 			dependencies: [
 				.target(name: "HiveEngine"),
