@@ -8,7 +8,6 @@ let package = Package(
 	platforms: [
 		.macOS(.v10_15),
 		.iOS("13.4"),
-		.tvOS("14.2"),
 	],
 	products: [
 		.library(name: "HiveEngine", targets: ["HiveEngine"]),
