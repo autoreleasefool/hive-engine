@@ -32,7 +32,7 @@ final class InfoCommandTests: HiveEngineTestCase {
 		let tagExpectation = expectation(description: "Expected GitHub API call to return tag")
 
 		URLSession.shared.dataTask(
-			with: URL(string: "https://api.github.com/repos/josephroquedev/hive-engine/tags?per_page=1")!
+			with: URL(string: "https://api.github.com/repos/autoreleasefool/hive-engine/tags?per_page=1")!
 		) { data, _, _ in
 			let decoder = JSONDecoder()
 			guard let data = data,

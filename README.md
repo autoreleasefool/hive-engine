@@ -38,10 +38,10 @@ The `Position` class also provides functions for determining if a `Unit` can mov
 
 A `Movement` provides details on moving a `Unit` around the board, or introducing a new `Unit` to the board.
 
-* `.move(unit:to:)` specifies instructions for moving a `Unit` to a `Position`
-* `.place(unit:at:)` specifies instructions for placing a `Unit` at a `Position`
-* `.yoink(pillBug:unit:to:)` specifies instructions for moving a `Unit` through the use of a Pill Bug to a `Position`
-* `.pass` specifies a non-movement, only available when a player has **no other moves**.
+- `.move(unit:to:)` specifies instructions for moving a `Unit` to a `Position`
+- `.place(unit:at:)` specifies instructions for placing a `Unit` at a `Position`
+- `.yoink(pillBug:unit:to:)` specifies instructions for moving a `Unit` through the use of a Pill Bug to a `Position`
+- `.pass` specifies a non-movement, only available when a player has **no other moves**.
 
 ### GameState
 
@@ -73,25 +73,25 @@ This package is built with Swift Package Manager, so you can require it as a dep
 
 ```
     dependencies: [
-        .package(url: "https://github.com/josephroquedev/hive-engine.git", from: "3.1.2")
+        .package(url: "https://github.com/autoreleasefool/hive-engine.git", from: "3.1.2")
     ],
 ```
 
-See the [Releases](https://github.com/josephroquedev/hive-engine/releases) for the most recent release.
+See the [Releases](https://github.com/autoreleasefool/hive-engine/releases) for the most recent release.
 
 ### Requirements
 
-* Swift 5.2+
-* [SwiftLint](https://github.com/realm/SwiftLint)
+- Swift 5.2+
+- [SwiftLint](https://github.com/realm/SwiftLint)
 
 ---
 
 ## Contributing
 
 1. Write your changes and make sure you test them! This engine boasts nearly 100% code coverage and expects precise conformance to the rules of the game.
-    * `swift test`
+   - `swift test`
 2. Install SwiftLint for styling conformance:
-    * Run `swiftlint` from the root of the repository.
-    * There should be no errors or violations. If there are, please fix them before opening a PR.
+   - Run `swiftlint` from the root of the repository.
+   - There should be no errors or violations. If there are, please fix them before opening a PR.
 3. Open a PR with your changes 👍
 4. CI will run your changes and ensure they build and pass all tests on Linux and macOS
