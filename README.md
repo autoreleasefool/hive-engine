@@ -95,3 +95,7 @@ See the [Releases](https://github.com/autoreleasefool/hive-engine/releases) for 
    - There should be no errors or violations. If there are, please fix them before opening a PR.
 3. Open a PR with your changes 👍
 4. CI will run your changes and ensure they build and pass all tests on Linux and macOS
+
+## Notice
+
+Hive Engine is not affiliated with Gen42 Games in any way.
